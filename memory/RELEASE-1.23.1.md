@@ -1,4 +1,4 @@
-# Drive Original 1.23.1 — prepared
+# Drive Original 1.23.1 — published
 
 Observed 2026-10-04: D083 authorizes the eleven listed functional/UI requirements, the five screenshot filename directives, actual PC/connected Android verification, merge/push and same-origin production deployment. iOS is user validation only. Emil is advisory; direct visual review governs the UI.
 
@@ -6,4 +6,6 @@ Public source `4fbbb5f`: speed state synchronization, correct image navigation l
 
 905/905 product checks pass. Six native Chrome fixture layouts pass. Actual local-source Android trusted progress tap/drag, controls/overlay, swipe and short EOF/replay pass; long/short discovery completed in7.57/2.06seconds. This is a finite matched observation, not a general performance claim. Direct screenshot review caught an unknown-default audio field rendered blank;4fbbb5f preserves a visible unknown-default option. The final operating replay will verify it.
 
-[QA scope and results](../qa/uiux-polish/README.md) owns verification and limitations. The existing1.23.0 ZIP and Worker assets remain available for rollback. Publication and normal PC/Android operating readback are pending; no Notion/automation/origin/backend/original-media changes.
+[QA scope and results](../qa/uiux-polish/README.md) owns item statuses, changed behavior, actual replay, preserved failures and limitations. Reviewed maina61ae17 pushed, public4fbbb5f deployed as Worker `debe477b-61a9-4732-bf49-e86acb7d85c5` at the existing origin. All eight changed public responses equal Git blobs; four private route probes return404.65-entry ZIP and extracted Worker assets equal the immutable source; SHA256 `babd37bb6a99f47f8cbf46e28c11ba2e91d929533ff06b81d8a3c83c16bde9e2`. Workspace `releases/Drive-Original-v1.23.1-4fbbb5f.zip` and corresponding `-worker-assets` directory. Existing1.23.0 ZIP and assets remain rollback points.
+
+Normal operating PC Chrome154.0.8037.93/Windows11Pro and physical SM-F711N/Android15/Chrome154.0.8037.126 retain login and use1.23.1 without local source overrides. Actual UI scenarios and physical progress taps/drags/gesture/swipe/EOF pass. Final Android short/long discovery2.469/11.613seconds; audio1/subtitle0 metadata in each. Long-file switching remains unsupported at the existing expanded sample-index limit; no alternative/subtitle omission claim. First Android operating long startup45s timeout remains causeUNKNOWN; final whole replay passes on the same runtime after exact liveSW admission. No whole-format/sustained/iOS acceptance claim. No Notion/automation/origin/backend/original-media changes.

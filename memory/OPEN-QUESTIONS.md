@@ -1,5 +1,9 @@
 # OPEN QUESTIONS — registered, not remembered
 
+## 2026-10-04 — D083 finite extra startup observation
+
+UNKNOWN: first1.23.1 normal Android replay timed out45s when opening the long MP4 after short EOF/tracks. No failure-time media/transport trace was captured, so SW replacement, transient Drive/network and native startup cannot be distinguished. After exact activated liveSW1.23.1 admission and diagnostic capture were added to QA only, the entire actual operating replay passed without product change/redeployment. Preserve prior JSON; if repeated, inspect the newly captured failedState before choosing a fix. This is not the diagnosed track-discovery delay, which now completes with known metadata and unsupported-switch status. Owner: qa/uiux-polish/README.md and private maintenance/tools/uiux-polish.
+
 | ID | Question | Opened | Status |
 |---|---|---|---|
 | A-001 | Does the exact candidate pass actual iPhone Safari and standalone edge-back acceptance? | 2026-09-17 | OPEN; no physical iPhone session. Procedure and evidence owner: ACCEPTANCE-20260917.md. |

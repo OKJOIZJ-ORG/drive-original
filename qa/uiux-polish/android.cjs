@@ -16,8 +16,8 @@ const step=(name,data={})=>{report.steps.push({name,...data});save();console.log
 const requireThat=(condition,code)=>{if(!condition)throw Error(code);};
 function cmd(args){const r=spawnSync(adb,args,{encoding:'utf8',windowsHide:true,timeout:15000});if(r.status!==0||r.error)throw Error('ADB_OPERATION_FAILED');return r.stdout.trim();}
 function pkg(name){const base=path.join(process.env.LOCALAPPDATA,'npm-cache/_npx');const p=fs.readdirSync(base).map(d=>path.join(base,d,'node_modules',name)).find(p=>fs.existsSync(path.join(p,'package.json')));if(!p)throw Error('CACHED_DEPENDENCY_MISSING');return p;}
-async function claimExistingWorker(){
-  requireThat(!production,'PRODUCTION_MUST_NOT_CLAIM_WORKER');
+async function inspectExistingWorker({claim=false}={}){
+  if(claim)requireThat(!production,'PRODUCTION_MUST_NOT_CLAIM_WORKER');
   const info=await(await fetch(`http://127.0.0.1:${port}/json/version`)).json(),ws=new WebSocket(info.webSocketDebuggerUrl);
   await new Promise((resolve,reject)=>{ws.addEventListener('open',resolve,{once:true});ws.addEventListener('error',reject,{once:true});});
   let id=0,attached;const waiting=new Map();ws.addEventListener('message',e=>{const m=JSON.parse(e.data),resolve=waiting.get(m.id);if(resolve){waiting.delete(m.id);resolve(m);}});
@@ -25,9 +25,10 @@ async function claimExistingWorker(){
     waiting.set(requestId,m=>{clearTimeout(timer);m.error?reject(Error('WORKER_COMMAND_FAILED')):resolve(m.result);});ws.send(JSON.stringify({id:requestId,method,params,...(sessionId?{sessionId}:{})}));});
   try{const targets=await send('Target.getTargets'),matches=targets.targetInfos.filter(t=>t.type==='service_worker'&&t.url===origin+'/sw.js');requireThat(matches.length===1,'EXACT_ACTIVE_WORKER_TARGET_AMBIGUOUS');
     attached=await send('Target.attachToTarget',{targetId:matches[0].targetId,flatten:true});
-    const active=await send('Runtime.evaluate',{expression:'({active:self.registration.active?.scriptURL===self.location.href,scope:self.registration.scope})',returnByValue:true},attached.sessionId);
+    const active=await send('Runtime.evaluate',{expression:"({active:self.registration.active?.scriptURL===self.location.href,scope:self.registration.scope,version:typeof VERSION==='string'?VERSION:null,installing:Boolean(self.registration.installing),waiting:Boolean(self.registration.waiting),state:self.registration.active?.state})",returnByValue:true},attached.sessionId);
     requireThat(active.result?.value?.active&&active.result.value.scope===origin+'/','EXACT_ACTIVE_WORKER_OWNER_UNCONFIRMED');
-    const result=await send('Runtime.evaluate',{expression:'self.clients.claim()',awaitPromise:true,returnByValue:true},attached.sessionId);requireThat(!result.exceptionDetails,'LOCAL_WORKER_CLAIM_FAILED');
+    if(claim){const result=await send('Runtime.evaluate',{expression:'self.clients.claim()',awaitPromise:true,returnByValue:true},attached.sessionId);requireThat(!result.exceptionDetails,'LOCAL_WORKER_CLAIM_FAILED');}
+    const {version,installing,waiting,state}=active.result.value;return {version,installing,waiting,state,exactActiveOwner:true};
   }finally{if(attached)await send('Target.detachFromTarget',{sessionId:attached.sessionId}).catch(()=>{});ws.close();}
 }
 async function observe(){return page.evaluate(()=>({paused:el.videoPlayer.paused,time:playerTimeline().currentTime,duration:playerTimeline().duration,
@@ -56,7 +57,7 @@ async function discover(){return page.evaluate(async()=>{
   state.filter='all';state.query='';state.deepScan=false;state.nextPageToken=null;state.populationComplete=true;state.sort='name';renderFiles({resetWindow:true});
   return {folderFound:true,availableVideos:files.length,samples:window.__uiuxFiles.map((f,i)=>({sample:i,bytes:Number(f.size),metadataSeconds:Number(f.videoMediaMetadata.durationMillis)/1000}))};
 });}
-async function play(index,label){const started=Date.now();await page.evaluate(i=>openPlayer(window.__uiuxFiles[i]),index);
+async function play(index,label){report.activeOperation=label;save();const started=Date.now();await page.evaluate(i=>openPlayer(window.__uiuxFiles[i]),index);
   await page.waitForFunction(()=>!el.videoPlayer.paused&&el.videoPlayer.classList.contains('is-ready')&&el.mediaLoading.hidden,null,{timeout:45000});
   const a=await observe();await page.waitForTimeout(2000);const b=await observe();
   requireThat(b.frames>a.frames&&b.time>a.time&&!b.error,'PLAYBACK_DID_NOT_ADVANCE');requireThat(Math.abs(b.duration-(index===0?47.8:2513))<(index===0?2:12),'ACTUAL_DURATION_MISMATCH');
@@ -88,7 +89,11 @@ async function tracks(label){await page.evaluate(()=>revealPlayerChrome({touch:t
   await page.waitForFunction(()=>el.playerTracksDialog.open&&el.playerTracksStatus.dataset.phase==='checking',null,{timeout:5000}).catch(()=>{});
   step(label+' checking',{visible:await page.locator('#playerTracksDialog').evaluate(n=>n.open)});
   await page.waitForFunction(()=>!playerTracksOwner?.checking,null,{timeout:35000});const result=await observe();
-  step(label+' outcome',{elapsedMs:Date.now()-start,phase:result.trackPhase,reads:result.reads,duration:result.duration});await screenshot(label+'-tracks');
+  const tracks=await page.evaluate(()=>({audioTrackCount:playerTracksOwner?.inventory?.audioTracks?.length??null,
+    subtitleTrackCount:playerTracksOwner?.subtitles?.tracks?.length??playerTracksOwner?.inventory?.subtitleTracks?.length??0,
+    inventoryReason:playerTracksOwner?.inventory?.reason||null,
+    selectedAudioOptionText:el.playerAudioTrack.selectedOptions?.[0]?.textContent||'',selectedSubtitleOptionText:el.playerSubtitleTrack.selectedOptions?.[0]?.textContent||''}));
+  step(label+' outcome',{elapsedMs:Date.now()-start,phase:result.trackPhase,reads:result.reads,duration:result.duration,...tracks});await screenshot(label+'-tracks');
   requireThat(['ready','unsupported'].includes(result.trackPhase),'TRACK_DISCOVERY_FAILED');await tap('#playerTracksClose');
   requireThat(!(await observe()).trackDialog,'TRACK_BUTTON_CHANGED_CHROME_INSTEAD_OF_DIALOG');}
 async function endedRestart(){await page.evaluate(()=>revealPlayerChrome({touch:true}));const r=await page.locator('#mobileShortsProgressTrack').boundingBox();requireThat(r,'EOF_SEEK_TRACK_MISSING');
@@ -132,7 +137,7 @@ async function swipe(){await page.evaluate(()=>setPlayerChromeVisible(false));co
   await page.reload({waitUntil:'domcontentloaded',timeout:45000});
   if(!production)await page.evaluate(()=>Promise.all([import('./media/general-tracks.mjs'),import('./media/subtitle-track.mjs')]).then(()=>true));
   await cdp.send('Network.setBypassServiceWorker',{bypass:false});
-  if(!production&&!await page.evaluate(()=>Boolean(navigator.serviceWorker.controller))){await claimExistingWorker();
+  if(!production&&!await page.evaluate(()=>Boolean(navigator.serviceWorker.controller))){await inspectExistingWorker({claim:true});
     await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller),null,{timeout:10000});
     const originalChanges=await originalPage.evaluate(()=>window.__uiuxControlChanges);requireThat(originalChanges===0,'ORIGINAL_TAB_CONTROLLER_CHANGED');
     step('local controlled helper setup',{exactExistingWorker:true,nativeClientClaim:true,originalTabControllerChanges:originalChanges,productionProof:false});}
@@ -140,6 +145,10 @@ async function swipe(){await page.evaluate(()=>setPlayerChromeVisible(false));co
   requireThat(await page.evaluate(()=>Boolean(navigator.serviceWorker.controller)),'EXISTING_TAB_NOT_WORKER_CONTROLLED');
   if(!production)requireThat(['index.html','app.js','styles.css'].every(n=>report.overrideRequests[n]>0),'LOCAL_SHELL_OVERRIDE_MISSING');
   const version=await page.evaluate(()=>APP_VERSION);if(production)requireThat(version==='1.23.1','PRODUCTION_VERSION_NOT_ADMITTED');
+  if(production){report.activeOperation='normal active worker version gate';save();
+    await page.waitForFunction(async()=>{const r=await navigator.serviceWorker.getRegistration();return Boolean(r?.active&&!r.installing&&!r.waiting&&navigator.serviceWorker.controller?.state==='activated');},null,{timeout:20000});
+    const worker=await inspectExistingWorker();step('normal active worker admission',worker);
+    requireThat(worker.version==='1.23.1'&&!worker.installing&&!worker.waiting&&worker.state==='activated','PRODUCTION_ACTIVE_WORKER_NOT_ADMITTED');}
   step('source admission',{version,swControlled:true,production});step('authenticated duration samples',await discover());
   await tap('#settingsButton');requireThat(await page.locator('#settingsDialog').evaluate(n=>n.open),'SETTINGS_TOUCH_FAILED');await screenshot('settings');await tap('#settingsDialog button[aria-label="설정 닫기"]');
   await tap('.file-card-name-button');requireThat(await page.locator('#fileNameDialog').evaluate(n=>n.open),'FULL_FILENAME_TOUCH_FAILED');await screenshot('full-filename');await tap('#fileNameDialog button');step('settings/full filename trusted touch',{passed:true});
@@ -151,7 +160,23 @@ async function swipe(){await page.evaluate(()=>setPlayerChromeVisible(false));co
   await gestures('landscape');await seekGesture('landscape seek tap',false);await seekGesture('landscape seek drag',true);await swipe();
   if(!production)requireThat(['media/general-tracks.mjs','media/subtitle-track.mjs'].every(n=>report.overrideRequests[n]>0),'LOCAL_TRACK_MODULE_OVERRIDE_MISSING');
   report.completed=true;
-}catch(e){report.completed=false;report.failure=/^[A-Z_]+$/.test(e.message)?e.message:'ANDROID_QA_OPERATION_FAILED';report.failureDetail=String(e.message).replace(/https?:\/\/\S+/g,'[url]').replace(/([?&](?:fileId|id|resourceKey)=)[^&\s]+/g,'$1[redacted]').slice(0,160);}
+}catch(e){report.completed=false;report.failure=/^[A-Z_]+$/.test(e.message)?e.message:'ANDROID_QA_OPERATION_FAILED';report.failureDetail=String(e.message).replace(/https?:\/\/\S+/g,'[url]').replace(/([?&](?:fileId|id|resourceKey)=)[^&\s]+/g,'$1[redacted]').slice(0,160);
+  if(page){try{report.failedState={...await observe(),...await page.evaluate(()=>{
+      const v=el.videoPlayer,clean=s=>String(s||'').replace(/https?:\/\/\S+/g,'[url]').replace(/(?:Bearer\s+)?[A-Za-z0-9_-]{30,}/g,'[redacted]').slice(0,300);
+      return {readyState:v.readyState,networkState:v.networkState,ended:v.ended,nativeErrorCode:v.error?.code??null,
+        visibleErrorText:el.mediaError.hidden?'':clean(el.mediaErrorMessage?.textContent),mediaSession:state.mediaSession,
+        mediaSourceGeneration,attempt:state.mediaAttempt,playbackMode:state.mediaPlaybackMode,
+        transportVerified:state.mediaTransportVerified,transportStarted:state.mediaTransportStarted,rangeIntegrity:state.mediaRangeIntegrity,
+        decodeVerified:state.mediaDecodeVerified,seeking:state.isSeeking,mediaAborted:state.mediaAbortController?.signal.aborted??null,
+        currentSrcKind:!v.currentSrc?'empty':v.currentSrc.startsWith('blob:')?'blob':v.currentSrc.startsWith(location.origin)?'same-origin':'other-origin',
+        buffered:Array.from({length:Math.min(v.buffered.length,3)},(_,i)=>[v.buffered.start(i),v.buffered.end(i)]),
+        q1Owned:Boolean(q1Playback),q1Aborted:q1Playback?.controller?.signal.aborted??null,
+        q1Retired:q1RetirementResult?.settled??null,tracksRetired:playerTracksRetirementResult?.settled??null,
+        sourcePinned:Boolean(q0PinnedSource),swControlled:Boolean(navigator.serviceWorker.controller)};
+    })};}catch{report.failedStateUnavailable=true;}
+    try{await screenshot('failure');report.failureScreenshotCaptured=true;}catch{report.failureScreenshotCaptured=false;}
+    save();}
+}
 finally{
   if(rotation&&serial){try{cmd(['-s',serial,'shell','settings','put','system','user_rotation',rotation.user]);cmd(['-s',serial,'shell','settings','put','system','accelerometer_rotation',rotation.automatic]);report.cleanup.rotationRestored=true;}catch{report.cleanup.rotationRestored=false;}}
   if(cdp){if(!touchActive){report.cleanup.touchReleased=true;report.touchCleanup='No helper touch remained active.';}

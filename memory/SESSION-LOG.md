@@ -790,3 +790,9 @@ qa/responsive-redesign/README.md owns concise verification/limits. No new produc
 ## 2026-10-04 — D082 operating1.23.0 delivery
 
 User approved the concrete prepared8ee61df main/push/existing-Worker release. Reviewed main563ea70 pushed; deployed once as Workerc31cb961-26af-4621-bbc7-64f435142a64 using the exact65-file package. Changed runtime6 Git-equal, private routes404; unchanged large assets reuse prior bytes. Disabled legacy export workflow and gh-pages source preserved. Normal PC/Android update retained login and reached app/activeSW1.23.0; actual 뷰너 frames/seeks and Android center/exterior checks pass. Both original tabs retained, all owned temporary connections cleaned. Current release/QA owner has limits; iOS user validation and unrelated original acceptance stay separate.
+
+## 2026-10-04 — D083 1.23.1 기능/UIUX 운영 반영
+
+Observed: codex/player-library-polish에서 사용자11요구와5개 이미지 파일명 지시 구현, 공개4fbbb5f/검토된 maina61ae17 push 및 기존 Workerdebe477b 배포.905제품 테스트/6native fixture화면 통과. 정상 PC Chrome154.0.8037.93 Windows11Pro에서 실제 영상/PNG/설정/배속/키보드/카드/폴더 범위·취소/검색필터정렬/history/종료·빠른전환·loading취소·seek경계/feedback/오버레이/icon 회귀 확인. 물리 SM-F711N Android15 Chrome154.0.8037.126에서 실제 touch progress tap/drag/버튼/overlay/swipe/회전/EOF와 long/short tracks 확인. 최종 long11.613초/short2.469초, 음성1/subtitle0. 기존 긴 인덱스 선택 제한과 defaultunknown을 사실대로 표시.
+
+65ZIP/추출assets Git동일, 변경8공개응답 Git동일, private4routes404. 로그인/탭/회전/네트워크bypass/forward 복원. 기존1.23.0 rollback보존. 직접시각검토의SVG크기/defaultaudio빈칸 추가결함과deadlinecleanup/import race수정. 첫Androidlongstart45s timeout원인UNKNOWN/prior보존, 같은runtime최종전체통과. iOS/장시간/전체코퍼스는 미검증. RELEASE-1.23.1.md/qa/uiux-polish/README.md 소유. Notion/automation/origin/backend/original media변경 없음.
