@@ -4,7 +4,7 @@ const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypt
 const {spawnSync}=require('node:child_process'),{pathToFileURL}=require('node:url');
 const {chromium}=require('../node_modules/playwright');
 const root=path.resolve(__dirname,'../..'),owner=path.dirname(root),production=process.argv.includes('--production');
-const out=path.join(owner,'maintenance/tools/uiux-followup'),origin='https://drive-original-v2-candidate.drive-original-cloudflare-candidate.workers.dev';
+const out=path.join(owner,'maintenance/tools/uiux-followup'),origin='https://drive-original.jyw-drive.workers.dev';
 const adb=path.join(owner,'maintenance/tools/scrcpy-v4.1/scrcpy-win64-v4.1/adb.exe');
 fs.mkdirSync(out,{recursive:true});
 const report={oracleCorrection:'Seek settlement requires both native video.seeking and actual isSeekingPointer false; prior raw observations preserved.',at:new Date().toISOString(),mode:production?'production':'local scoped overrides',scope:'trusted CDP touch on physical Android; not human finger acceptance',steps:[],cleanup:{}};

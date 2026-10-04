@@ -1,16 +1,19 @@
-# Checkpoint — D085 운영 주소 변경, 이름 선택 대기 — 2026-10-04 21:40
+# Checkpoint — D086 새 주소 운영 검증 및 Git 마감 진행 — 2026-10-04
 
 ## The story so far
-D084 완료 상태와 운영1.23.3 source8bc5938/Worker9ab1e4ad-477a-4ea3-b985-23578c74e68c는 유지. 사용자가 짧은 주소로 변경을 요청했으나 Cloudflare가 jbs와 jyw 모두 unavailable로 반환했다. 조회만 수행했으며 주소·설정·배포는 바꾸지 않았다. Private receipts: ../maintenance/tools/address-change-20261004/ (workspace root 기준).
+사용자 확정 주소 https://drive-original.jyw-drive.workers.dev 로 운영 Worker와 계정 subdomain 변경, 동일 1.23.3 public assets 배포 완료. Worker ID/인증 namespace/4 secret names 보존. Google OAuth 기존 client의 새 origin/callback 추가 저장 확인. Public 5개 byte equality, private 3개 404, valid anonymous auth 401/no-store 통과. PC와 실기기 Android 새 주소 동일 계정/좋아요 13개 확인; Android 실제 짧은 영상 재생 통과. Private receipts: ../maintenance/tools/address-change-20261004/.
 
 ## Decided
-D085: 최초 drive-original.jbs.workers.dev 요청 후 jyw를 먼저 시도. 기존 동일-origin 제한은 이번 주소 이전에 한해 대체되며 원본·보안·Notion폐기·자동화PAUSED 경계 유지. 아직 대체 이름 확정 없음.
+D086: drive-original.jyw-drive.workers.dev 사용자 승인. 기존 보안·원본 데이터·자동화PAUSED 유지. main 병합/push/기존 Pages 진입 링크 갱신 승인 범위.
 
 ## Waiting on the user
-Cloudflare가 허용하는 중간 이름 선택. 조회 시점 jyw-drive/jbs-drive/jbs-original available, 예약하지 않음. Async question 제출: drive-original.jyw-drive.workers.dev 또는 drive-original.jbs-drive.workers.dev, 자유 입력 가능.
+없음. iOS는 기존 사용자 실사용 검증 예정이며 이번 직접 검증 범위 제외.
 
 ## Next first action
-사용자 답변의 확정된 이름을 maintenance/tools/address-change-20261004/inspect.cjs로 재조회한다. 답변 전 이름 변경은 하지 않는다.
+CUA newPc(275142287) 좋아요 UI 결과 확인 후 실제 짧은 영상 재생과 설정 새 주소 screenshot을 저장한다. 이어 legacy public-only Pages 갱신/문서/main merge/push 완료.
 
 ## Tried
-jbs와 jyw: Cloudflare GET workers/subdomains/{name} HTTP403/code10031. 다른 이름 필요. jbs-drive/jbs-original/jyw-drive는 HTTP404/code10032 가용, 성공 HTTP200과 혼동하지 않는다. 계정의 Worker3개(운영1개, 과거QA2개) 확인. Chrome DevTools MCP는 기존 프로필 사용 중 오류; 소유 프로필을 종료하지 않았고 CUA 문서만 복원, 탭 조작 없음. 이전 UI/PC/Android 증거는 RELEASE-1.23.3.md 및 archive checkpoint에 보존.
+Account subdomain PUT without allow-rename:1 returned409; 이를 gate하지 않고 배포한 실행 실수는 사용자에게 설명했으며 필요한 header로 재시도 성공/현재 새 origin 정상 확인.
+Chrome DevTools 다른 세션 profile conflict는 종료하지 않고 normal Chrome CUA 사용.
+Google 경고 페이지가 빈 DOM이었으나 normal reload 후 기존 권한 로그인 완료; 원인은 미확인.
+PC likedIDs Set JSON serialization과 Android 구view full-library count 비교는 검사 producer 오류로 원본 실패 보존 후 정확한 동일계정/13 likedIDs 판정으로 수정; 전체 library equivalence 통과 주장 없음.

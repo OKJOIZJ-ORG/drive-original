@@ -42,3 +42,7 @@ Android 선택적 트랙 Range 실패 시 실패/재시도 가능 상태, 재시
 ## 배포와 남은 검증
 
 main 병합/push, 동일 Worker 운영1.23.3 배포9ab1e4ad-477a-4ea3-b985-23578c74e68c 및5변경 공개 응답/64package Git blob 일치·private4routes404 통과.1.23.2의915검사와1.23.3의 버전·static20검사, 실제 수정 경계 재검증을 사용하며 전체 중복 테스트를 추가하지 않았다. 과거45초 실패 원인은 미확정, iOS는 사용자 검증 예정. 전체41분53초/모든 코퍼스/사람 손가락 검증은 수행하지 않았다. 기존 자동화PAUSED·Notion폐기·원본/보안 설정 유지.
+
+## Current address note — 2026-10-04
+
+D086 changed the operating origin to https://drive-original.jyw-drive.workers.dev/. `android.cjs` follows that address. The dated replay above was performed before this migration and keeps its original release identities; current address/login/playback evidence is owned by [ADDRESS-MIGRATION-20261004.md](../../memory/ADDRESS-MIGRATION-20261004.md).

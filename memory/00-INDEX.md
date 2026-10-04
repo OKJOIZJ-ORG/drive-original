@@ -30,6 +30,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `ADDRESS-MIGRATION-20261004.md`: D086 새 운영 주소 `drive-original.jyw-drive.workers.dev`, 동일1.23.3 runtime/인증 저장소 보존 및 실제 PC·Android 새 로그인/13좋아요/짧은 재생. 현재 주소 소유 기록; 이전 릴리즈의 주소·배포 증거는 역사로 보존.
+
 - `RELEASE-1.23.3.md`, historical `RELEASE-1.23.2.md` and `../qa/uiux-followup/README.md`: D084 eight remaining UI/verification requests and three image directives. Operating8bc5938/Worker9ab1e4ad;915product checks plus finalstatic20 and actual PC/Android input, pagination retry/fencing, track fault recovery, six starts and15-minute uninterrupted playback. Historical45s causeUNKNOWN; iOS user validation and full-duration limits preserved.
 
 - `RELEASE-1.23.1.md` and `../qa/uiux-polish/README.md`: D083 eleven functional/UI requests and five screenshot directives; published4fbbb5f/Workerdebe477b,905product checks, six fixture layouts and actual normal PC/physicalAndroid UI/touch replay. First transient long startup remains causeUNKNOWN; iOS user validation/sustained playback excluded.
