@@ -6417,7 +6417,13 @@ async function openPlayerTracks() {
       else {
         if (owner.selectedAudioTrackId !== undefined && !owner.inventory.audioTracks.some(track => track.trackId === owner.selectedAudioTrackId))
           throw new Error('GENERAL_AUDIO_SELECTION_MISSING');
-        el.playerAudioTrack.value = String(owner.selectedAudioTrackId ?? owner.inventory.defaultAudioTrackId);
+        const currentTrackId = owner.selectedAudioTrackId ?? owner.inventory.defaultAudioTrackId;
+        if (currentTrackId == null) {
+          // Metadata-only inventory does not identify the native default track.
+          // Keep that distinction visible instead of selecting a guessed track.
+          el.playerAudioTrack.append(new Option('현재 원본 음성 · 기본 트랙 미확인', ''));
+          el.playerAudioTrack.value = '';
+        } else el.playerAudioTrack.value = String(currentTrackId);
       }
       el.playerAudioTrack.disabled = !owner.inventory.audioTracks.some(track => track.route !== 'unqualified');
       if (owner.inventory.kind !== 'iso') {

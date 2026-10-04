@@ -211,10 +211,13 @@ test('confirmed absent subtitles end discovery without a second source or subtit
 test('an empty track inventory differs from an unsupported selectable audio route', async () => {
   const empty = discoveryFixture();run(empty, 'inventory.audioTracks=[];inventory.defaultAudioTrackId=null;');
   await run(empty, 'openPlayerTracks()');assert.equal(run(empty, 'playerTracksOwner.phase'), 'empty');
-  const unsupported = discoveryFixture();run(unsupported, "inventory.audioTracks[0].route='unqualified';inventory.reason='GENERAL_EXPANDED_INDEX_LIMIT';");
+  const unsupported = discoveryFixture();run(unsupported, "inventory.audioTracks[0].route='unqualified';inventory.defaultAudioTrackId=null;inventory.reason='GENERAL_EXPANDED_INDEX_LIMIT';");
   await run(unsupported, 'openPlayerTracks()');assert.equal(run(unsupported, 'playerTracksOwner.phase'), 'unsupported');
   assert.match(run(unsupported, 'el.playerTracksStatus.textContent'), /음성 전환은 지원하지/);
   assert.equal(run(unsupported, 'playerTracksOwner.reason'), 'GENERAL_EXPANDED_INDEX_LIMIT');
+  assert.equal(run(unsupported, 'el.playerAudioTrack.value'), '');
+  assert.match(run(unsupported, 'el.playerAudioTrack.options.find(option => option.value === "").text'), /기본 트랙 미확인/);
+  assert.equal(run(unsupported, 'el.playerAudioTrack.options[0].disabled'), true);
 });
 
 test('failed discovery explains failure and retry waits for settled old ownership', async () => {
