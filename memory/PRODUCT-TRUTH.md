@@ -2,6 +2,13 @@
 
 Evidence class: local source code plus dated automated/browser verification. External claims may be sourced only from entries that are `operational` or `verified`.
 
+## Verified local redesign — 1.23.0 preparation (2026-10-04)
+
+- `verified local`: compact responsive library/player, measured loading percentage, central-square/exterior touch mapping, correct SVG state icons and retained desktop image navigation. Product suite872/872; final visual/DOM QA owned by `qa/responsive-redesign/README.md`.
+- `verified actual local-source playback`: authenticated PC and physical Android used only 뷰너 media, with existing SW control and local source substitution. Android portrait/landscape center and four-corner gestures pass; PC playback and keyboard seek pass. Final icon/version/image-navigation adjustments are covered locally. No deployed1.23.0, iOS or human-finger acceptance claim.
+- `verified scoped optimization`: AAC admission fixture DataView allocations731→1; timeline formatting/DOM writes consolidated and seek thumb no longer reads layout each update. Actual startup comparison does not show an improvement. Existing original byte/source/parser safeguards retained; no framework added.
+
+
 ## Current operating release — 1.22.1 (2026-10-03)
 
 - `operational`: D078 approved main e4c963e integration/push and immutable runtime d0bdde5 delivery to the preserved Worker origin; Worker bf47cfd4-a626-43df-86f4-ab3d4a647ceb, all11bindings preserved. qa/playback-repair/production-deployment.json and production-readback.json own the observed deployment.

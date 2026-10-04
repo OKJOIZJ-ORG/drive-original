@@ -133,9 +133,17 @@ test('gesture reservation leaves native controls and reserved OS edges untouched
   for(const e of [event(190,400,{interactive:true}),event(5,400)]){
     handlers.get('touchstart')(e);assert.equal(e.prevented,false);assert.equal(c.run('isTouchActive'),false);
   }
-  c.run(`let reveals=0;revealPlayerChrome=()=>reveals++;`);const entry=event(190,820);
+  c.run(`let reveals=0;revealPlayerChrome=()=>reveals++;`);const entry=event(190,820,{tagName:'button'});
   handlers.get('touchstart')(entry);assert.equal(entry.prevented,false);
-  assert.equal(c.run('reveals'),1);assert.equal(c.run('isTouchActive'),false);
+  assert.equal(c.run('reveals'),0);assert.equal(c.run('isTouchActive'),false);
+});
+
+test('a media swipe can start near the bottom without an invisible activation strip', () => {
+  const {c,handlers,event}=touchGestureClient();const start=event(190,820);
+  handlers.get('touchstart')(start);assert.equal(start.prevented,true);
+  handlers.get('touchmove')(event(190,730));
+  assert.equal(c.run('lockedAxis'),'y');assert.equal(c.run('isTouchActive'),true);
+  handlers.get('touchcancel')();
 });
 
 test('native More summary stays outside stage tap and swipe ownership', () => {

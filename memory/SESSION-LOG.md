@@ -780,3 +780,9 @@ Repair saved1d3b992; version/cache metadata runtime d0bdde5 and Git-equal65-entr
 ## 2026-10-04 — D080 explicit stop; verification list saved
 
 User rejected current visual UI and first requested keeping iPhone connection, then superseded that with close-work/verification-list-only/until-tomorrow. No new execution after stop. Main789a0e8/production1.22.1 retained; Notion deleted underD079. Owned9234bridge PID1260 validated/terminated, no listener; inspection tab closed. PhysicalUSB/userSafari untouched. Private BMP errors/target disappearance/Runtime.enable timeout retained; no BMP verdict. Helper preserves exception descriptions only in private evidence, syntax only checked. Read-only SW review found rc21 native CDP-provider continuity passed after QA transport change, distinct from six earlier failures and still not actual-account active-chain proof. Queue saved in existing qa/playback-repair/README.md; checkpoint/HANDOFF WAIT; no automation or external thread dispatch.
+
+## 2026-10-04 — D081 responsive redesign and playback refinement
+
+Observed: implemented1.23.0 on codex/responsive-player-redesign. Consolidated toolbar/player CSS, compact controls and menus, center-square/exterior touch regions, measured buffer/save loading percentage, system fonts, SVG state fix, timeline update reuse and single-DataView admission. Independent review caught desktop-image navigation hiding; repaired and covered in DOM QA. Final872/872 tests and eight layouts pass. Actual local-source PC and physical Android playback used only 뷰너; Android trusted portrait/landscape gestures pass. No measured startup gain. All owned temporary browser/device changes cleaned.
+
+qa/responsive-redesign/README.md owns concise verification/limits. No new production or origin change, no Notion or automation action. D080 handoff consumed into historical checkpoints. Same-origin release package is prepared for the final concrete deployment approval; iOS remains user validation.

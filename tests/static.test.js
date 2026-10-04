@@ -42,7 +42,7 @@ test('release version is synchronized across runtime, shell, HTML, and metadata'
   const metadata = JSON.parse(read('version.json'));
   const appVersion = app.match(/const APP_VERSION = '([^']+)'/)?.[1];
   const workerVersion = worker.match(/const VERSION = '([^']+)'/)?.[1];
-  assert.equal(metadata.version, '1.22.1');
+  assert.equal(metadata.version, '1.23.0');
   assert.equal(appVersion, metadata.version);
   assert.equal(workerVersion, metadata.version);
   assert.match(html, new RegExp(`styles\\.css\\?v=${metadata.version.replaceAll('.', '\\.')}`));
@@ -298,18 +298,14 @@ test('mobile overflow actions stack above the trigger and favorite feedback is v
   const html = read('index.html');
   const styles = read('styles.css');
   const shortsExpand = styles.match(/\.shorts-expand-row\s*\{([^}]+)\}/)?.[1] || '';
-  const shortsOwner = styles.match(/\.player-chrome \.mobile-shorts-overlay\s*\{([^}]+)\}/)?.[1] || '';
-  assert.match(shortsOwner, /position:\s*relative;/);
-  assert.match(shortsOwner, /inset:\s*auto;/);
+  assert.match(styles, /\.mobile-shorts-overlay\s*\{[^}]*position:\s*relative/);
   assert.match(shortsExpand, /position:\s*absolute;/);
-  assert.match(shortsExpand, /left:\s*auto;[\s\S]*?right:\s*0;/);
+  assert.match(shortsExpand, /right:\s*0;/);
   const anchor = shortsExpand.match(/bottom:\s*calc\(([\d.]+)%\s*\+\s*([\d.]+)px\);/);
-  assert.ok(anchor && Number(anchor[1]) >= 100 && Number(anchor[2]) >= 44,
-    'overflow menu clears its bottom-owned action row and the 44px header');
+  assert.ok(anchor && Number(anchor[1]) >= 100 && Number(anchor[2]) >= 0,
+    'overflow menu opens above its bottom-owned action row');
   assert.doesNotMatch(shortsExpand, /bottom:[^;]*var\(--safe-bottom\)/,
     'safe-area padding belongs to chrome and must not be counted again by its menu');
-  assert.match(shortsExpand, /flex-direction:\s*column;[\s\S]*?align-items:\s*flex-end;/);
-  assert.match(shortsExpand, /transform-origin:\s*bottom right;/);
   assert.match(html, /class="favorite-feedback-label">좋아요<\/span>/);
   assert.match(styles, /\.favorite-feedback\s*\{[\s\S]*?background:\s*transparent;/);
   assert.match(styles, /\.favorite-feedback-label\s*\{[\s\S]*?clip-path:\s*inset\(50%\);/);
@@ -389,14 +385,14 @@ test('player chrome hides as one mobile layer and high-frequency motion stays tr
   assert.match(styles, /\.player-modal\.controls-idle \.player-chrome[\s\S]*?opacity:\s*0[\s\S]*?pointer-events:\s*none/);
   assert.match(app, /playerChrome\.inert = !visible/);
   assert.match(app, /playerChrome\.appendChild\(node\)/);
-  assert.match(app, /seekBarPlayed\.style\.transform = `scaleX\(\$\{ratio\}\)`/);
-  assert.match(app, /mobileShortsProgressBar\.style\.transform = `scaleX\(\$\{ratio\}\)`/);
+  assert.match(app, /const transform = `scaleX\(\$\{ratio\}\)`/);
+  assert.match(app, /seekBarPlayed\.style\.transform = transform/);
+  assert.match(app, /mobileShortsProgressBar\.style\.transform = transform/);
   assert.doesNotMatch(app, /seekBarPlayed\.style\.width|seekBarThumb\.style\.left|mobileShortsProgressBar\.style\.width/);
   const shortsExpand = styles.match(/\.shorts-expand-row \{[\s\S]*?\n  \}/)?.[0] || '';
   assert.doesNotMatch(shortsExpand, /transition:[^;]*(?:max-height|height)/);
-  const menuBounds = shortsExpand.match(/max-height:\s*min\((\d+)px,\s*calc\(100dvh\s*-\s*var\(--safe-top\)\s*-\s*var\(--safe-bottom\)\s*-\s*(\d+)px\)\);/);
-  assert.ok(menuBounds && Number(menuBounds[1]) >= 44 && Number(menuBounds[2]) >= 3 * 44,
-    'menu height has a content cap and viewport/safe-area bound that reserves player chrome');
+  assert.match(shortsExpand, /max-height:\s*calc\(100dvh\s*-\s*var\(--safe-top\)\s*-\s*var\(--safe-bottom\)\s*-\s*156px\)/,
+    'menu stays inside the viewport and clears player chrome');
   assert.match(shortsExpand, /overflow-y:\s*auto/);
   assert.match(shortsExpand, /touch-action:\s*pan-y/);
   assert.match(app, /requestVideoFrameCallback[\s\S]*?hideSwipeNeighbor/);

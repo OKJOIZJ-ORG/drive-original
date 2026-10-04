@@ -405,6 +405,39 @@ test('callback auth error is consumed once, preserves unrelated URL state, and i
   assert.equal(replacements.at(-1).next, '/drive-original/?keep=3');
 });
 
+test('SVG icon visibility follows playback, volume and fullscreen attributes', () => {
+  const context = loadAppContext();
+  run(context, `
+    const svgIcon = hidden => {
+      const attributes = new Set(hidden ? ['hidden'] : []);
+      return {
+        toggleAttribute(name, force) { if (force) attributes.add(name); else attributes.delete(name); },
+        hasAttribute(name) { return attributes.has(name); }
+      };
+    };
+    for (const name of ['ctrlIconPlay', 'iconCenterPlay', 'ctrlIconVolHigh', 'iconExpand', 'ctrlIconExpand']) el[name] = svgIcon(false);
+    for (const name of ['ctrlIconPause', 'iconCenterPause', 'ctrlIconVolMuted', 'iconCompress', 'ctrlIconCompress']) el[name] = svgIcon(true);
+    el.videoPlayer = { hidden: false, paused: false, muted: false, volume: 1 };
+    updatePlayPauseUI(); updateVolumeUI(); updateFullscreenUI();
+  `);
+  const assertHidden = (name, expected) => assert.equal(run(context, `el.${name}.hasAttribute('hidden')`), expected, name);
+  for (const name of ['ctrlIconPlay', 'iconCenterPlay', 'ctrlIconVolMuted', 'iconCompress', 'ctrlIconCompress']) assertHidden(name, true);
+  for (const name of ['ctrlIconPause', 'iconCenterPause', 'ctrlIconVolHigh', 'iconExpand', 'ctrlIconExpand']) assertHidden(name, false);
+  run(context, 'el.videoPlayer.paused = true; el.videoPlayer.muted = true; document.fullscreenElement = {}; updatePlayPauseUI(); updateVolumeUI(); updateFullscreenUI();');
+  for (const name of ['ctrlIconPlay', 'iconCenterPlay', 'ctrlIconVolMuted', 'iconCompress', 'ctrlIconCompress']) assertHidden(name, false);
+  for (const name of ['ctrlIconPause', 'iconCenterPause', 'ctrlIconVolHigh', 'iconExpand', 'ctrlIconExpand']) assertHidden(name, true);
+  run(context, 'el.videoPlayer.muted = false; el.videoPlayer.volume = 0; document.fullscreenElement = null; document.webkitFullscreenElement = {}; updateVolumeUI(); updateFullscreenUI();');
+  assertHidden('ctrlIconVolHigh', true);
+  assertHidden('ctrlIconVolMuted', false);
+  assertHidden('iconExpand', true);
+  assertHidden('ctrlIconExpand', true);
+  run(context, 'el.videoPlayer.volume = 1; document.webkitFullscreenElement = null; updateVolumeUI(); updateFullscreenUI();');
+  assertHidden('ctrlIconVolHigh', false);
+  assertHidden('ctrlIconVolMuted', true);
+  assertHidden('iconExpand', false);
+  assertHidden('ctrlIconExpand', false);
+});
+
 function run(context, source) {
   return vm.runInContext(source, context);
 }

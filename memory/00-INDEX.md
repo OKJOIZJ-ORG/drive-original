@@ -11,7 +11,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 | `SESSION-LOG.md` | What happened, per working session | Append, dated |
 | `PRODUCT-TRUTH.md` | Evidence-backed product capabilities | Evidence + date only; implemented / not implemented / excluded |
 | `CHECKPOINT.md` | Current thirty-second return point | Replace with the latest state; archive the outgoing copy first |
-| `HANDOFF.md` | Single-use instructions after D080 explicit stop; verification list remains in QA owner | Consume/delete on explicit resume |
+| `HANDOFF.md` | Optional single-use handoff; D080 stop was consumed by D081 | Consume on explicit resume |
 | `REBOOT-RESUME-20261001.md` | Fresh browser/helper binding and continuous PC replay after the clean reboot | Local preparation only; resume on direct user instruction |
 | `NIGHT-ENVIRONMENT-20260930.md` | Historical PC/Android preparation and dated D076 actual iPhone Safari tooling readiness/commands | Update verified preparation state; no implied product execution or wakeup |
 | `checkpoints/` | Historical checkpoint snapshots | Append-only |
@@ -29,6 +29,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 5. Register unresolved items instead of remembering them informally.
 
 ## Current audit and release records
+
+- `RELEASE-1.23.0.md` and `../qa/responsive-redesign/README.md`: D081 local responsive redesign, loading/touch/playback optimization; PC and physical Android checks. Production approval remains separate.
 
 - `../qa/playback-repair/README.md` and `results.json`: D077 local repair plus D0781.22.1 served/cache/actual operating Safari evidence, retained failures/cleanup and exact ZIP. D079 removes Notion releases; its page deletion is refetched. Original acceptance remains separate.
 

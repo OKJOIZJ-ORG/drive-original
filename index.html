@@ -20,13 +20,10 @@
   <link rel="dns-prefetch" href="https://www.googleapis.com">
   <link rel="preconnect" href="https://drive.google.com">
   <link rel="dns-prefetch" href="https://drive.google.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css?v=1.22.1">
-  <script src="./runtime-config.js?v=1.22.1"></script>
-  <script src="./media/revision-pin.js?v=1.22.1" defer></script>
-  <script src="./app.js?v=1.22.1" defer></script>
+  <link rel="stylesheet" href="./styles.css?v=1.23.0">
+  <script src="./runtime-config.js?v=1.23.0"></script>
+  <script src="./media/revision-pin.js?v=1.23.0" defer></script>
+  <script src="./app.js?v=1.23.0" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -182,6 +179,13 @@
           <button type="button" data-filter="favorites" aria-pressed="false">좋아요</button>
         </div>
 
+        <details class="library-options" id="libraryOptions">
+          <summary aria-label="보기 설정" title="정렬 및 하위 폴더 설정">
+            <svg width="18" height="18" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h9m4 0h3M4 17h3m4 0h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>
+            <span>보기</span>
+          </summary>
+          <div class="library-options-panel">
+            <span class="options-heading">라이브러리 보기</span>
         <button type="button" class="deep-scan-toggle" id="deepScanToggle" aria-pressed="false" title="현재 폴더의 모든 하위 폴더까지 함께 불러옵니다">
           <svg width="15" height="15" style="width:15px;height:15px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M8 17h8"/><path d="M10 13h8"/></svg>
           <span>하위 폴더 포함</span>
@@ -201,7 +205,10 @@
           </select>
         </div>
 
-        <button type="button" class="selection-mode-button" id="selectionModeButton" aria-pressed="false">
+          </div>
+        </details>
+
+        <button type="button" class="selection-mode-button" id="selectionModeButton" aria-pressed="false" aria-label="파일 선택" title="파일 선택">
           <svg width="15" height="15" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
           <span>선택</span>
         </button>
@@ -346,6 +353,7 @@
             </button>
           </div>
           <div class="shorts-bottom-row">
+            <div class="mobile-time-display" aria-label="재생 시간"><span id="mobileCurrentTime">0:00</span><span class="time-separator"> / </span><span id="mobileTotalTime">0:00</span></div>
             <div class="mobile-shorts-title" id="mobileShortsTitle"></div>
             <button class="shorts-chip icon favorite-toggle" id="shortsFavoriteBtn" type="button" aria-label="좋아요 추가" aria-pressed="false" title="좋아요">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
@@ -415,12 +423,6 @@
                   <text x="12" y="15.2" font-size="7" font-weight="700" font-family="system-ui, sans-serif" text-anchor="middle" fill="currentColor" stroke="none">10</text>
                 </svg>
               </button>
-              <button class="player-ctrl-btn frame-step-btn" id="ctrlFramePrev" type="button" aria-label="1프레임 뒤로 (,)" title="1프레임 뒤로 (,)" hidden>
-                <svg width="17" height="17" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5v14"/><path d="m17 7-6 5 6 5z"/></svg>
-              </button>
-              <button class="player-ctrl-btn frame-step-btn" id="ctrlFrameNext" type="button" aria-label="1프레임 앞으로 (.)" title="1프레임 앞으로 (.)" hidden>
-                <svg width="17" height="17" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 5v14"/><path d="m7 7 6 5-6 5z"/></svg>
-              </button>
               <button class="player-ctrl-btn" id="ctrlForward" type="button" aria-label="10초 앞으로 (L)" title="10초 앞으로 (L)">
                 <svg width="18" height="18" style="width:18px;height:18px;flex-shrink:0;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
@@ -477,6 +479,12 @@
                     <span id="mediaFileSizeType">—</span>
                     <p id="codecNote">Drive 원본 파일 전송 여부를 확인하는 중입니다.</p>
                   </div>
+              <button class="player-more-action frame-step-btn" id="ctrlFramePrev" type="button" aria-label="1프레임 뒤로 (,)" title="1프레임 뒤로 (,)" hidden>
+                <svg width="17" height="17" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5v14"/><path d="m17 7-6 5 6 5z"/></svg>
+              <span>이전 프레임</span></button>
+              <button class="player-more-action frame-step-btn" id="ctrlFrameNext" type="button" aria-label="1프레임 앞으로 (.)" title="1프레임 앞으로 (.)" hidden>
+                <svg width="17" height="17" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 5v14"/><path d="m7 7 6 5-6 5z"/></svg>
+              <span>다음 프레임</span></button>
                   <button class="player-more-action" id="ctrlTracks" type="button">음성·자막</button>
                   <button class="player-more-action" id="ctrlMove" type="button">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M10 12h7"/><path d="M14 9l3 3-3 3"/></svg>
@@ -494,7 +502,9 @@
 
         <div class="media-loading" id="mediaLoading" role="status" aria-label="불러오는 중" aria-live="polite">
           <div class="loading-spinner"></div>
-          <p id="mediaLoadingText" hidden>원본 스트림 준비 중</p>
+          <strong id="mediaLoadingPercent">준비 중</strong>
+          <progress id="mediaLoadingProgress" max="100" aria-label="미디어 로딩 진행률" hidden></progress>
+          <p id="mediaLoadingText">원본 스트림 준비 중</p>
         </div>
 
         <div class="media-error" id="mediaError" role="alert" aria-live="assertive" hidden>
@@ -529,7 +539,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.22.1</span>
+            <span class="version-badge" id="settingsAppVersion">v1.23.0</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <button class="primary-button update-apply-btn" id="applyUpdateButton" type="button" hidden>
@@ -585,7 +595,7 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.22.1</span>
+          <span id="appVersion">v1.23.0</span>
         </div>
       </div>
     </form>

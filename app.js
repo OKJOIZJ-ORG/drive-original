@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.22.1';
+const APP_VERSION = '1.23.0';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -1286,7 +1286,7 @@ function bindElements() {
     'updateBanner', 'updateBannerText', 'bannerUpdateButton', 'closeBannerButton',
     'setupView', 'libraryView', 'authHint',
     'connectButton', 'openSetupHelp', 'librarySummary', 'refreshButton', 'searchInput',
-    'sortSelect', 'libraryStatus', 'accountSyncStatus', 'fileGrid', 'emptyState', 'emptyStateTitle', 'emptyStateText', 'loadMoreButton',
+    'sortSelect', 'libraryOptions', 'libraryStatus', 'accountSyncStatus', 'fileGrid', 'emptyState', 'emptyStateTitle', 'emptyStateText', 'loadMoreButton',
     'selectionModeButton', 'selectionToolbar', 'selectionCountText', 'selectionSelectAllBtn',
     'selectionMoveBtn', 'selectionDeleteBtn', 'selectionCancelBtn',
     'infiniteScrollSentinel', 'infiniteScrollSpinner',
@@ -1297,7 +1297,7 @@ function bindElements() {
     'mediaStage', 'ambientBackdrop', 'videoPlayer', 'imageViewer',
     'mediaSwipeNeighbor', 'mediaSwipeNeighborBackdrop', 'mediaSwipeNeighborImage', 'mediaSwipeNeighborTitle',
     'drivePreview', 'drivePreviewActions', 'drivePreviewRetryButton', 'drivePreviewOpenButton', 'playerControlsEntry', 'hidePlayerControlsButton', 'closeMediaErrorButton', 'playerFeedback', 'favoriteFeedback',
-    'mobileShortsOverlay', 'mobileShortsTitle', 'mobileShortsProgressBar', 'mobileShortsProgressTrack',
+    'mobileShortsOverlay', 'mobileShortsTitle', 'mobileShortsProgressBar', 'mobileShortsProgressTrack', 'mobileCurrentTime', 'mobileTotalTime',
     'stageCenterPlayBtn',
     'iconCenterPlay', 'iconCenterPause', 'customVideoControls', 'seekBarContainer',
     'seekBarBuffered', 'seekBarPlayed', 'seekBarThumb', 'seekBarTooltip',
@@ -1312,7 +1312,7 @@ function bindElements() {
     'ctrlTracks', 'shortsTracksBtn', 'playerTracksDialog', 'playerTracksClose',
     'playerAudioTrack', 'playerSubtitleTrack', 'playerTracksStatus',
     'ctrlFavorite', 'ctrlPip', 'ctrlFullscreen', 'ctrlIconExpand', 'ctrlIconCompress',
-    'mediaLoading', 'mediaLoadingText', 'mediaError', 'mediaErrorTitle', 'mediaErrorMessage',
+    'mediaLoading', 'mediaLoadingText', 'mediaLoadingProgress', 'mediaLoadingPercent', 'mediaError', 'mediaErrorTitle', 'mediaErrorMessage',
     'retryMediaButton', 'bufferOriginalButton', 'videoCompatButton', 'compatPlayerButton', 'openDriveButton', 'streamModeLabel', 'streamModeText',
     'qualityBadge', 'mediaResolution',
     'mediaFileSizeType', 'codecNote', 'settingsDialog', 'settingsAppVersion',
@@ -1342,7 +1342,22 @@ function bindDialogLightDismiss(dialog) {
   dialog.addEventListener('pointercancel', () => { startedOnBackdrop = false; });
 }
 
+function setupLibraryOptions() {
+  const options = el.libraryOptions;
+  if (!options) return;
+  document.addEventListener('click', event => {
+    if (options.open && !options.contains(event.target)) options.open = false;
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape' || !options.open) return;
+    event.preventDefault();
+    options.open = false;
+    options.querySelector('summary')?.focus();
+  });
+}
+
 function bindEvents() {
+  setupLibraryOptions();
   document.getElementById?.('reconnectButton')?.addEventListener('click', beginAuthorization);
   el.connectButton.addEventListener('click', beginAuthorization);
   el.openSetupHelp.addEventListener('click', () => openSettings(true));
@@ -1732,6 +1747,10 @@ function bindEvents() {
   });
   el.videoPlayer.addEventListener('waiting', (event) => {
     if (isCurrentMediaEvent(event.currentTarget)) {
+      if (el.mediaError?.hidden !== false && state.mediaAttempt !== 'blob-loading') {
+        showMediaLoading('재생에 필요한 구간 준비 중');
+        updateNativeLoadingProgress();
+      }
       emitMediaDiagnosticStage('media-waiting', {
         currentTime: Number(event.currentTarget.currentTime) || 0
       });
@@ -5758,8 +5777,7 @@ function setupPlayerChrome() {
     if (event.isPrimary === false) { cancelActiveTouchGesture(); return; }
     playerInputModality = 'pointer';
     playerRevealClick = null;
-    const revealOnly = el.playerControlsEntry?.contains(event.target)
-      || (el.playerModal.classList.contains('controls-idle') && isPlayerBottomActivation(event.clientX,event.clientY));
+    const revealOnly = el.playerControlsEntry?.contains(event.target);
     if (event.isPrimary !== false && (event.button == null || event.button === 0)
       && (revealOnly || playerChrome.contains(event.target))) {
       playerRevealPointer = {pointerId:event.pointerId,session:state.playbackSession,revealOnly};
@@ -5860,12 +5878,12 @@ function updatePlayPauseUI() {
   if (el.customVideoControls) el.customVideoControls.hidden = false;
   const isPaused = el.videoPlayer.paused;
   if (el.ctrlIconPlay && el.ctrlIconPause) {
-    el.ctrlIconPlay.hidden = !isPaused;
-    el.ctrlIconPause.hidden = isPaused;
+    el.ctrlIconPlay.toggleAttribute('hidden', !isPaused);
+    el.ctrlIconPause.toggleAttribute('hidden', isPaused);
   }
   if (el.iconCenterPlay && el.iconCenterPause) {
-    el.iconCenterPlay.hidden = !isPaused;
-    el.iconCenterPause.hidden = isPaused;
+    el.iconCenterPlay.toggleAttribute('hidden', !isPaused);
+    el.iconCenterPause.toggleAttribute('hidden', isPaused);
   }
   if (el.stageCenterPlayBtn) {
     el.stageCenterPlayBtn.hidden = true;
@@ -6066,6 +6084,7 @@ function beginMediaSeekIntent(video, targetTime, origin = 'native') {
   cancelVideoFrameSampling();
   state.isSeeking = true;
   state.lastPresentedMediaTime = null;
+  if (el.mediaLoading?.hidden === false) setMediaLoadingProgress(null, '준비 중', '선택한 위치 준비 중');
   recordMediaDiagnosticSeekStart(video, seekGeneration, numericTarget);
 
   if (Number.isFinite(numericTarget) && canOwnMediaSeek(video)) {
@@ -6781,8 +6800,8 @@ function updateVolumeUI() {
   if (!el.videoPlayer) return;
   const isMuted = el.videoPlayer.muted || el.videoPlayer.volume === 0;
   if (el.ctrlIconVolHigh && el.ctrlIconVolMuted) {
-    el.ctrlIconVolHigh.hidden = isMuted;
-    el.ctrlIconVolMuted.hidden = !isMuted;
+    el.ctrlIconVolHigh.toggleAttribute('hidden', isMuted);
+    el.ctrlIconVolMuted.toggleAttribute('hidden', !isMuted);
   }
   if (el.ctrlVolumeSlider) {
     el.ctrlVolumeSlider.value = isMuted ? 0 : el.videoPlayer.volume;
@@ -6893,38 +6912,50 @@ function onVideoTimeUpdate() {
   updateVideoProgress();
 }
 
-function onVideoProgressUpdate() {
+function onVideoProgressUpdate(timeline = null) {
+  updateNativeLoadingProgress();
   if (!el.videoPlayer || !el.seekBarBuffered) return;
-  const duration = playerTimeline().duration;
+  const { duration, mapping } = timeline || playerTimeline();
   if (!duration || duration <= 0) return;
   const buffered = el.videoPlayer.buffered;
   if (buffered.length > 0) {
-    const mapping = playerTimeline().mapping;
     const end = buffered.end(buffered.length - 1) + (mapping ? mapping.commonShift - mapping.sourceOrigin : 0);
     const bufferedRatio = Math.min(1, Math.max(0, end / duration));
-    el.seekBarBuffered.style.transform = `scaleX(${bufferedRatio})`;
+    const transform = `scaleX(${bufferedRatio})`;
+    if (el.seekBarBuffered.style.transform !== transform) el.seekBarBuffered.style.transform = transform;
   }
 }
 
 function updateVideoProgress() {
   if (!el.videoPlayer || el.videoPlayer.hidden) return;
-  const currentTime = playerTimeline().currentTime || 0;
-  const duration = Number.isFinite(playerTimeline().duration) ? playerTimeline().duration : 0;
+  const timeline = playerTimeline();
+  const currentTime = timeline.currentTime || 0;
+  const duration = Number.isFinite(timeline.duration) ? timeline.duration : 0;
   const ratio = duration > 0 ? Math.min(1, Math.max(0, currentTime / duration)) : 0;
+  const transform = `scaleX(${ratio})`;
+  const currentLabel = formatPlayerTime(currentTime);
+  const durationLabel = formatPlayerTime(duration);
 
-  if (el.seekBarPlayed) el.seekBarPlayed.style.transform = `scaleX(${ratio})`;
-  if (el.seekBarThumb && el.seekBarContainer) {
-    el.seekBarThumb.style.setProperty('--seek-x', `${ratio * el.seekBarContainer.clientWidth}px`);
+  if (el.seekBarPlayed && el.seekBarPlayed.style.transform !== transform) el.seekBarPlayed.style.transform = transform;
+  if (el.seekBarThumb) {
+    const position = `${ratio * 100}%`;
+    if (el.seekBarThumb.style.getPropertyValue?.('--seek-position') !== position) {
+      el.seekBarThumb.style.setProperty('--seek-position', position);
+    }
   }
-  if (el.mobileShortsProgressBar) el.mobileShortsProgressBar.style.transform = `scaleX(${ratio})`;
-  if (el.ctrlCurrentTime) el.ctrlCurrentTime.textContent = formatPlayerTime(currentTime);
-  if (el.ctrlTotalTime) el.ctrlTotalTime.textContent = formatPlayerTime(duration);
+  if (el.mobileShortsProgressBar && el.mobileShortsProgressBar.style.transform !== transform) el.mobileShortsProgressBar.style.transform = transform;
+  if (el.ctrlCurrentTime && el.ctrlCurrentTime.textContent !== currentLabel) el.ctrlCurrentTime.textContent = currentLabel;
+  if (el.ctrlTotalTime && el.ctrlTotalTime.textContent !== durationLabel) el.ctrlTotalTime.textContent = durationLabel;
+  if (el.mobileCurrentTime && el.mobileCurrentTime.textContent !== currentLabel) el.mobileCurrentTime.textContent = currentLabel;
+  if (el.mobileTotalTime && el.mobileTotalTime.textContent !== durationLabel) el.mobileTotalTime.textContent = durationLabel;
+  const attributes = { 'aria-valuenow': String(Math.round(Math.min(currentTime, duration))),
+    'aria-valuemax': String(Math.round(duration)), 'aria-valuetext': `${currentLabel} / ${durationLabel}` };
   [el.seekBarContainer, el.mobileShortsProgressTrack].filter(Boolean).forEach((track) => {
-    track.setAttribute('aria-valuenow', Math.round(Math.min(currentTime, duration)));
-    track.setAttribute('aria-valuemax', Math.round(duration));
-    track.setAttribute('aria-valuetext', `${formatPlayerTime(currentTime)} / ${formatPlayerTime(duration)}`);
+    for (const [name, value] of Object.entries(attributes)) {
+      if (track.getAttribute?.(name) !== value) track.setAttribute(name, value);
+    }
   });
-  onVideoProgressUpdate();
+  onVideoProgressUpdate(timeline);
 }
 
 function getSeekRatio(event) {
@@ -7005,12 +7036,12 @@ function onShortsProgressPointerDown(event) {
 }
 
 function onMediaStageClick(event) {
+  playerChromeTouch = event.pointerType === 'touch' || event.sourceCapabilities?.firesTouchEvents === true;
   const target = event.target;
   if (isPlayerGestureControl(target)) {
     cancelPendingStageTap();
     return;
   }
-  if (isPlayerBottomActivation(event.clientX, event.clientY)) { cancelPendingStageTap(); return; }
   if (isMobileDevice() && event.sourceCapabilities?.firesTouchEvents !== false
     && isReservedBackStart(event.clientX)) { cancelPendingStageTap(); return; }
   handleStageTap(event.clientX, event.clientY);
@@ -7040,12 +7071,12 @@ function toggleFullscreen() {
 function updateFullscreenUI() {
   const isFs = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
   if (el.iconExpand && el.iconCompress) {
-    el.iconExpand.hidden = isFs;
-    el.iconCompress.hidden = !isFs;
+    el.iconExpand.toggleAttribute('hidden', isFs);
+    el.iconCompress.toggleAttribute('hidden', !isFs);
   }
   if (el.ctrlIconExpand && el.ctrlIconCompress) {
-    el.ctrlIconExpand.hidden = isFs;
-    el.ctrlIconCompress.hidden = !isFs;
+    el.ctrlIconExpand.toggleAttribute('hidden', isFs);
+    el.ctrlIconCompress.toggleAttribute('hidden', !isFs);
   }
   if (el.fullscreenButton) {
     el.fullscreenButton.title = isFs ? '전체화면 종료 (ESC / F)' : '전체화면 (F)';
@@ -7553,6 +7584,7 @@ let lastTapX = 0;
 let lastTapY = 0;
 let lastTapZone = null;
 let singleTapTimer = null;
+let reservedEdgeTap = null;
 
 function isPlayerGestureControl(target) {
   return Boolean(target?.closest?.('.player-chrome, .custom-video-controls, .mobile-shorts-overlay, .seek-bar-container, .mobile-shorts-progress-track, .shorts-expand-row, .speed-dropdown, .volume-slider-wrap, .stage-center-btn, .media-error, .media-loading, button, a, input, select, textarea, summary, [role="button"], [role="slider"]'));
@@ -7583,11 +7615,13 @@ function getTapZone(clientX, clientY) {
   const nx = (clientX - rect.left) / rect.width;
   const ny = (clientY - rect.top) / rect.height;
   if (!Number.isFinite(nx) || !Number.isFinite(ny) || nx < 0 || nx > 1 || ny < 0 || ny > 1) return null;
-  if (nx >= 0.3 && nx <= 0.7 && ny >= 0.3 && ny <= 0.7) return 'center';
-  const edgeX = nx < 0.5 ? nx : 1 - nx;
-  const edgeY = ny < 0.5 ? ny : 1 - ny;
-  if (edgeX <= edgeY) return nx < 0.5 ? 'left' : 'right';
-  return ny < 0.5 ? 'top' : 'bottom';
+  // A square keeps the pause target the same shape in portrait and landscape.
+  const halfSide = Math.min(rect.width, rect.height) * 0.28;
+  const dx = clientX - rect.left - rect.width / 2;
+  const dy = clientY - rect.top - rect.height / 2;
+  if (Math.abs(dx) <= halfSide && Math.abs(dy) <= halfSide) return 'center';
+  if (Math.abs(dy) <= halfSide) return dx < 0 ? 'left' : 'right';
+  return dy < 0 ? 'top' : 'bottom';
 }
 
 function setStageImmersive(on) {
@@ -7606,7 +7640,6 @@ function flashSeekHint(zone) {
 
 function handleStageTap(clientX, clientY) {
   const session = state.mediaSession;
-  const dismissChrome = Boolean(el.playerModal && !el.playerModal.classList.contains('controls-idle'));
   const now = Date.now();
   const zone = getTapZone(clientX, clientY);
   if (!zone) { cancelPendingStageTap(); return; }
@@ -7639,14 +7672,18 @@ function handleStageTap(clientX, clientY) {
     return;
   }
 
-  // Only the central 2D region owns pause/play. Chrome dismissal remains
-  // independent of playback, including when a visible layer covers the stage.
+  // Every outer contact reveals controls, including corners. Keep pair history
+  // for narrow lateral seek, while only the center can schedule pause/play.
   if (singleTapTimer) clearTimeout(singleTapTimer);
+  singleTapTimer = null;
+  if (zone !== 'center') {
+    revealPlayerChrome({ touch: playerChromeTouch });
+    return;
+  }
   singleTapTimer = setTimeout(() => {
     singleTapTimer = null;
     if (session !== state.mediaSession || el.playerSheet?.hidden) return;
-    if (dismissChrome) setPlayerChromeVisible(false);
-    else if (zone === 'center' && el.videoPlayer && !el.videoPlayer.hidden) togglePlayPause();
+    if (el.videoPlayer && !el.videoPlayer.hidden) togglePlayPause();
   }, 320);
 }
 
@@ -7662,11 +7699,9 @@ function setupTouchGestures() {
     // cancelled OS/back gesture cannot be reinterpreted as previous video.
     if (e.touches.length === 1 && isReservedBackStart(e.touches[0].clientX)) {
       cancelActiveTouchGesture();
-      return;
-    }
-    if (e.touches.length === 1 && isPlayerBottomActivation(e.touches[0].clientX, e.touches[0].clientY)) {
-      cancelActiveTouchGesture();
-      revealPlayerChrome({touch:true});
+      const contact = e.touches[0];
+      if (e.cancelable !== false) reservedEdgeTap = { x: contact.clientX, y: contact.clientY,
+        id: contact.identifier ?? null, time: Date.now(), session: state.mediaSession };
       return;
     }
     if (state.mediaAttempt.startsWith('drive-preview')) { cancelActiveTouchGesture(); return; }
@@ -7686,6 +7721,7 @@ function setupTouchGestures() {
     // move is smaller than 12px, Chrome can otherwise make later moves
     // uncancelable before our axis recognizer gets a chance to own the drag.
     e.preventDefault();
+    playerChromeTouch = true;
     // A second contact may still become a double tap, but cannot let the first
     // tap timer fire while this contact is being held or dragged.
     clearTimeout(singleTapTimer);
@@ -7714,6 +7750,13 @@ function setupTouchGestures() {
   }, { passive: false });
 
   modal.addEventListener('touchmove', (e) => {
+    if (reservedEdgeTap) {
+      const contact = e.touches[0];
+      if (e.touches.length !== 1 || e.cancelable === false || reservedEdgeTap.session !== state.mediaSession
+        || (reservedEdgeTap.id !== null && contact.identifier !== reservedEdgeTap.id)
+        || Math.hypot(contact.clientX - reservedEdgeTap.x, contact.clientY - reservedEdgeTap.y) >= 10) reservedEdgeTap = null;
+      return;
+    }
     if (!isTouchActive) return;
     if (touchSession !== state.mediaSession) { cancelActiveTouchGesture(); return; }
     if (e.cancelable === false) { cancelActiveTouchGesture(); return; }
@@ -7790,6 +7833,19 @@ function setupTouchGestures() {
   }, { passive: false });
 
   modal.addEventListener('touchend', (e) => {
+    if (reservedEdgeTap) {
+      const candidate = reservedEdgeTap;
+      reservedEdgeTap = null;
+      const contact = e.changedTouches[0];
+      const zone = contact && getTapZone(contact.clientX, contact.clientY);
+      // Observe a stationary edge tap without claiming the OS back gesture.
+      if (e.cancelable !== false && candidate.session === state.mediaSession && !el.playerSheet?.hidden
+        && e.changedTouches.length === 1 && (candidate.id === null || contact.identifier === candidate.id)
+        && Date.now() - candidate.time < 300
+        && Math.hypot(contact.clientX - candidate.x, contact.clientY - candidate.y) < 10
+        && zone && zone !== 'center') revealPlayerChrome({ touch: true });
+      return;
+    }
     if (!isTouchActive) return;
     if (e.cancelable === false || touchSession !== state.mediaSession || e.changedTouches.length !== 1
       || (touchContactId !== null && e.changedTouches[0].identifier !== touchContactId)) {
@@ -7852,6 +7908,7 @@ function setupTouchGestures() {
 }
 
 function cancelActiveTouchGesture() {
+  reservedEdgeTap = null;
   cancelPendingStageTap();
   if (!isTouchActive) return;
   isTouchActive = false;
@@ -9616,13 +9673,14 @@ async function startOriginalBlobFallback(
 
 function updateOriginalBufferProgress(received, total, storageMode) {
   const now = performance.now();
-  if (now - updateOriginalBufferProgress.lastUpdate < 180) return;
-  const progress = total ? ` ${Math.min(100, Math.round((received / total) * 100))}%` : '';
-  const label = storageMode === 'disk' ? '원본 임시 디스크' : '원본 메모리 버퍼';
-  el.mediaLoadingText.textContent = `${label} ${formatBytes(received)}${progress}`;
+  if (now - updateOriginalBufferProgress.lastUpdate < 180 && (!total || received < total)) return;
+  const percent = Number.isFinite(total) && total > 0 && Number.isFinite(received)
+    ? (received / total) * 100 : null;
+  const label = storageMode === 'disk' ? '임시 디스크 저장' : '메모리 저장';
+  setMediaLoadingProgress(percent, '저장', `${label} · ${formatBytes(received)}${total > 0 ? ` / ${formatBytes(total)}` : ''}`);
   updateOriginalBufferProgress.lastUpdate = now;
 }
-updateOriginalBufferProgress.lastUpdate = 0;
+updateOriginalBufferProgress.lastUpdate = -Infinity;
 
 async function readResponseIntoBlob(
   response,
@@ -11248,11 +11306,45 @@ function updateQualityDisplay() {
 }
 
 function showMediaLoading(message) {
-  // Keep diagnostic detail available without narrating normal transport/auth.
-  el.mediaLoadingText.textContent = message;
-  el.mediaLoadingText.hidden = true;
+  updateOriginalBufferProgress.lastUpdate = -Infinity;
+  setMediaLoadingProgress(null, '준비 중', message);
   el.mediaLoading.hidden = false;
   el.mediaError.hidden = true;
+}
+
+function setMediaLoadingProgress(percent, label, detail = '') {
+  const measured = Number.isFinite(percent);
+  const value = measured ? Math.max(0, Math.min(100, Math.floor(percent))) : null;
+  if (el.mediaLoadingProgress) {
+    el.mediaLoadingProgress.hidden = !measured;
+    if (measured) el.mediaLoadingProgress.value = value;
+    else el.mediaLoadingProgress.removeAttribute('value');
+  }
+  if (el.mediaLoadingPercent) el.mediaLoadingPercent.textContent = measured ? `${label} ${value}%` : '준비 중';
+  if (el.mediaLoadingText) {
+    el.mediaLoadingText.textContent = detail;
+    el.mediaLoadingText.hidden = !detail;
+  }
+}
+
+function updateNativeLoadingProgress() {
+  const video = el.videoPlayer;
+  if (!video || video.hidden || el.mediaLoading?.hidden !== false || state.mediaAttempt === 'blob-loading'
+    || !isCurrentMediaEvent(video)) return;
+  const time = Number(video.currentTime);
+  const duration = Number(video.duration);
+  const target = Number.isFinite(duration) && duration > time ? Math.min(3, duration - time) : 3;
+  if (!Number.isFinite(time) || !video.buffered) return;
+  let ahead = 0;
+  for (let i = 0; i < video.buffered.length; i += 1) {
+    // Disjoint ranges elsewhere in the file cannot count toward this position.
+    if (video.buffered.start(i) <= time && video.buffered.end(i) >= time) {
+      ahead = video.buffered.end(i) - time;
+      break;
+    }
+  }
+  if (!video.buffered.length) return;
+  setMediaLoadingProgress((ahead / target) * 100, '버퍼', `현재 위치 이후 ${Math.min(ahead, target).toFixed(1)} / ${target.toFixed(1)}초 준비`);
 }
 
 function showMediaError(message, { title = '이 파일을 재생할 수 없습니다', showDrive = false, showRetry = true } = {}) {
@@ -11418,7 +11510,7 @@ function resetMediaElements() {
   }
   if (el.seekBarPlayed) el.seekBarPlayed.style.transform = 'scaleX(0)';
   if (el.seekBarBuffered) el.seekBarBuffered.style.transform = 'scaleX(0)';
-  if (el.seekBarThumb) el.seekBarThumb.style.setProperty('--seek-x', '0px');
+  if (el.seekBarThumb) el.seekBarThumb.style.setProperty('--seek-position', '0%');
   el.mediaError.hidden = true;
   el.playerModal?.classList.remove('media-recovery-mode');
   el.openDriveButton.hidden = false;
@@ -11426,8 +11518,7 @@ function resetMediaElements() {
   el.bufferOriginalButton.hidden = true;
   el.compatPlayerButton.hidden = true;
   if (el.mediaErrorTitle) el.mediaErrorTitle.textContent = '이 파일을 재생할 수 없습니다';
-  el.mediaLoading.hidden = false;
-  el.mediaLoadingText.textContent = '원본 스트림 준비 중';
+  showMediaLoading('원본 스트림 준비 중');
   state.mediaAttempt = 'idle';
   state.mediaPlaybackMode = '';
   state.mediaTransportVerified = false;
