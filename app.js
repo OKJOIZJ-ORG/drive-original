@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.23.1';
+const APP_VERSION = '1.23.2';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -560,6 +560,8 @@ const state = {
   bulkAction: false,
   serviceWorkerRegistration: null,
   loadingFiles: false,
+  listLoadError: false,
+  listPageTokens: new Set(),
   listGeneration: 0,
   listAbortController: null,
   listRequestPromise: null,
@@ -2931,9 +2933,7 @@ function setupInfiniteScroll() {
   infiniteScrollObserver = new IntersectionObserver((entries) => {
     const entry = entries[0];
     if (entry && entry.isIntersecting) {
-      if (state.nextPageToken && !state.loadingFiles) {
-        loadFiles({ append: true });
-      }
+      scheduleNextFilePage();
     }
   }, {
     root: null,
@@ -2942,6 +2942,30 @@ function setupInfiniteScroll() {
   });
 
   infiniteScrollObserver.observe(el.infiniteScrollSentinel);
+}
+
+function updateListLoadingUI() {
+  const ordinaryView = state.filter !== 'favorites' && !state.deepScan;
+  if (el.infiniteScrollSpinner) el.infiniteScrollSpinner.hidden = !ordinaryView || !state.loadingFiles;
+  if (el.loadMoreButton) {
+    el.loadMoreButton.hidden = !ordinaryView || !state.nextPageToken;
+    el.loadMoreButton.disabled = state.loadingFiles;
+    const label = el.loadMoreButton.querySelector?.('span') || el.loadMoreButton;
+    label.textContent = state.loadingFiles ? '불러오는 중…' : state.listLoadError ? '다시 불러오기' : '파일 더 불러오기';
+  }
+}
+
+function scheduleNextFilePage() {
+  const generation = state.listGeneration;
+  requestAnimationFrame(() => {
+    if (generation !== state.listGeneration || state.loadingFiles || state.listRequestPromise
+      || state.populationLoadPromise || state.listLoadError || !state.nextPageToken
+      || state.demo || state.deepScan || state.filter === 'favorites' || el.libraryView?.hidden) return;
+    const rect = el.infiniteScrollSentinel?.getBoundingClientRect?.();
+    if (rect?.width > 0 && rect.top < window.innerHeight + 600 && rect.bottom > -600) {
+      void loadFiles({ append: true });
+    }
+  });
 }
 
 const thumbnailExtractionQueue = [];
@@ -3103,6 +3127,7 @@ async function loadFiles({ append, statusToken = null }) {
     return true;
   }
   if (append && state.listRequestPromise) return state.listRequestPromise;
+  if (append && !state.nextPageToken) return state.populationComplete;
   if (!hasUsableToken()) {
     showReconnectState();
     showToast('Google Drive 연결을 갱신해 주세요.');
@@ -3113,12 +3138,14 @@ async function loadFiles({ append, statusToken = null }) {
   const generation = state.listGeneration;
   const controller = state.listAbortController;
   state.loadingFiles = true;
+  state.listLoadError = false;
   showLibrary();
   const requestStatusToken = statusToken ?? beginLibraryStatus(
     append ? '' : 'Drive에서 폴더와 원본 파일 목록을 불러오는 중…'
   );
   el.refreshButton.disabled = true;
-  if (el.infiniteScrollSpinner) el.infiniteScrollSpinner.hidden = false;
+  updateListLoadingUI();
+  updateLibrarySummary();
 
   const parentClause = state.currentFolderId === 'root'
     ? `'root' in parents`
@@ -3130,16 +3157,25 @@ async function loadFiles({ append, statusToken = null }) {
     spaces: 'drive',
     supportsAllDrives: 'true',
     includeItemsFromAllDrives: 'true',
-    fields: 'nextPageToken,files(id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,parents,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation))'
+    fields: 'nextPageToken,incompleteSearch,files(id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,parents,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation))'
   });
-  if (append && state.nextPageToken) params.set('pageToken', state.nextPageToken);
+  const requestedPageToken = append ? state.nextPageToken : null;
+  if (requestedPageToken) params.set('pageToken', requestedPageToken);
 
   const request = (async () => {
    try {
     const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, { signal: controller.signal });
     const data = await response.json();
     if (generation !== state.listGeneration || controller.signal.aborted) return false;
-    const incoming = Array.isArray(data.files) ? data.files : [];
+    if (!Array.isArray(data.files) || (data.nextPageToken != null && typeof data.nextPageToken !== 'string')) {
+      throw new Error('Drive가 올바른 파일 목록을 반환하지 않았습니다.');
+    }
+    if (data.incompleteSearch) throw new Error('Drive 파일 검색 결과가 완전하지 않습니다.');
+    const nextPageToken = data.nextPageToken || null;
+    if (nextPageToken && (nextPageToken === requestedPageToken || state.listPageTokens.has(nextPageToken))) {
+      throw new Error('Drive가 같은 페이지 토큰을 반복했습니다.');
+    }
+    const incoming = data.files;
     const incomingFolders = incoming.filter((f) => f.mimeType === FOLDER_MIME);
     const incomingMedia = incoming.filter((f) => f.mimeType?.startsWith('video/') || f.mimeType?.startsWith('image/'));
 
@@ -3150,7 +3186,8 @@ async function loadFiles({ append, statusToken = null }) {
       state.files = incomingMedia;
       state.folders = incomingFolders;
     }
-    state.nextPageToken = data.nextPageToken || null;
+    if (requestedPageToken) state.listPageTokens.add(requestedPageToken);
+    state.nextPageToken = nextPageToken;
     state.populationComplete = !state.nextPageToken;
     renderFiles({ resetWindow: !append });
     updateLibraryStatus(requestStatusToken, '');
@@ -3160,6 +3197,7 @@ async function loadFiles({ append, statusToken = null }) {
       return false;
     }
     reportAppFailure('library-list', error);
+    state.listLoadError = true;
     updateLibraryStatus(requestStatusToken, `파일 목록을 불러오지 못했습니다: ${humanizeDriveError(error)}`);
     if (error.status === 401) {
       clearRejectedToken(error);
@@ -3170,7 +3208,7 @@ async function loadFiles({ append, statusToken = null }) {
     if (generation === state.listGeneration) {
       state.loadingFiles = false;
       el.refreshButton.disabled = false;
-      if (el.infiniteScrollSpinner) el.infiniteScrollSpinner.hidden = !state.nextPageToken;
+      updateListLoadingUI();
       updateLibrarySummary();
       updateConnectionBadge();
     }
@@ -3180,7 +3218,10 @@ async function loadFiles({ append, statusToken = null }) {
   try {
     return await request;
   } finally {
-    if (state.listRequestPromise === request) state.listRequestPromise = null;
+    if (state.listRequestPromise === request) {
+      state.listRequestPromise = null;
+      if (generation === state.listGeneration && !state.listLoadError) scheduleNextFilePage();
+    }
   }
 }
 
@@ -3193,9 +3234,12 @@ function resetListingSession() {
   state.populationLoadPromise = null;
   state.populationComplete = false;
   state.loadingFiles = false;
+  state.listLoadError = false;
+  state.listPageTokens = new Set();
   state.files = [];
   state.folders = [];
   state.nextPageToken = null;
+  updateListLoadingUI();
   state.renderWindowStart = 0;
   state.renderRowHeight = 250;
   state.folderRenderLimit = FOLDER_RENDER_MAX;
@@ -3344,6 +3388,7 @@ function rememberLibraryView() {
   entry.data = {
     files: state.files, folders: state.folders, favoriteFiles: state.favoriteFiles,
     nextPageToken: state.nextPageToken, populationComplete: state.populationComplete,
+    listLoadError: state.listLoadError, listPageTokens: new Set(state.listPageTokens),
     order: new Map(shuffledOrderMap), revision: libraryNavigation.dataRevision || 0,
     complete: !state.loadingFiles && !state.loadingFavorites && !state.loadingTree
   };
@@ -3420,6 +3465,7 @@ async function restoreLibraryNavigation(target) {
       state.files = data.files; state.folders = data.folders;
       state.favoriteFiles = data.favoriteFiles.filter((file) => isFavoriteFileId(file.id));
       state.nextPageToken = data.nextPageToken; state.populationComplete = data.populationComplete;
+      state.listLoadError = Boolean(data.listLoadError); state.listPageTokens = new Set(data.listPageTokens || []);
       shuffledOrderMap = new Map(data.order);
       state.renderWindowStart = view.renderWindowStart || 0; state.renderRowHeight = view.renderRowHeight || 250;
       renderFiles();
@@ -5209,6 +5255,7 @@ function renderFiles({ resetWindow = false } = {}) {
   }
   renderBreadcrumb();
   updateLibrarySummary(files.length, visibleFolders.length);
+  scheduleNextFilePage();
 }
 
 function createFolderRow(folder, index = 0) {
@@ -5651,7 +5698,7 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
   details.textContent = formatBytes(file.size);
   const status = document.createElement('span');
   status.className = 'file-card-status';
-  status.textContent = canDownload ? (filenamePartLabel(file.name) || '원본 파일 재생') : '다운로드 제한';
+  status.textContent = canDownload ? (filenamePartLabel(file.name) || (isVideo ? '원본 파일 재생' : '원본 이미지 보기')) : '다운로드 제한';
   meta.append(details, status);
 
   body.append(nameButton, meta);
@@ -5687,16 +5734,20 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
 }
 
 function updateLibrarySummary(visibleCount, visibleFolderCount) {
-  const mediaCount = Number.isFinite(visibleCount) ? visibleCount : state.files.length;
+  updateListLoadingUI();
+  const mediaCount = Number.isFinite(visibleCount) ? visibleCount : filteredAndSortedFiles().length;
   if (state.filter === 'favorites') {
     el.librarySummary.textContent = `좋아요 미디어 ${mediaCount.toLocaleString('ko-KR')}개 · 모든 폴더`;
     return;
   }
-  const folderCount = Number.isFinite(visibleFolderCount) ? visibleFolderCount : state.folders.length;
+  const folderCount = Number.isFinite(visibleFolderCount) ? visibleFolderCount : state.filter === 'all'
+    ? state.folders.filter(folder => !state.query || String(folder.name || '').toLocaleLowerCase('ko').includes(state.query)).length : 0;
   const parts = [];
   if (folderCount > 0) parts.push(`폴더 ${folderCount.toLocaleString('ko-KR')}개`);
   parts.push(`미디어 ${mediaCount.toLocaleString('ko-KR')}개 표시`);
-  if (state.nextPageToken) parts.push('더 불러오는 중…');
+  if (state.loadingFiles) parts.push(state.nextPageToken ? '더 불러오는 중…' : '목록 불러오는 중…');
+  else if (state.listLoadError) parts.push('목록을 불러오지 못했습니다');
+  else if (state.nextPageToken) parts.push('추가 항목 있음');
   if (state.deepScan && state.treeCache) parts.push('하위 폴더 전체 포함');
   el.librarySummary.textContent = parts.join(' · ');
 }
@@ -5854,7 +5905,7 @@ function setupPlayerChrome() {
   });
   // A stable focus destination avoids Space activating the last pointer-clicked button.
   el.mediaStage.tabIndex = -1;
-  el.mediaStage.setAttribute('aria-label', '미디어 화면. Tab: 재생 제어, Space: 재생 또는 일시정지, Escape: 닫기');
+  el.mediaStage.setAttribute('aria-label', '미디어 화면. Tab: 미디어 제어, Escape: 닫기');
   el.playerModal.addEventListener('pointermove', event => {
     if (event.pointerType === 'touch' || el.playerSheet.hidden) return;
     const visible = !el.playerModal.classList.contains('controls-idle');
@@ -11509,6 +11560,15 @@ function updateQualityDisplay() {
 
 function updatePlayerNavigationLabels(file) {
   const noun = isVideoPresentation(file) ? '영상' : '이미지';
+  const controlsLabel = `${noun === '영상' ? '재생' : '이미지'} 제어 열기`;
+  if (el.playerControlsEntry) {
+    el.playerControlsEntry.setAttribute('aria-label', controlsLabel);
+    const caption = el.playerControlsEntry.querySelector('span');
+    if (caption) caption.textContent = controlsLabel;
+  }
+  el.mediaStage?.setAttribute('aria-label', noun === '영상'
+    ? '영상 화면. Tab: 재생 제어, Space: 재생 또는 일시정지, Escape: 닫기'
+    : '이미지 화면. Tab: 이미지 제어, Escape: 닫기');
   for (const [ids, label] of [
     [['topbarPrevBtn','ctrlPrevVideo'], `이전 ${noun}`],
     [['topbarNextBtn','ctrlNextVideo'], `다음 ${noun}`],

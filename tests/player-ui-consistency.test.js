@@ -12,7 +12,8 @@ function ui() {
   const c = fixture.exports();
   run(c, `const node=()=>({textContent:'',hidden:false,dataset:{},attributes:{},setAttribute(k,v){this.attributes[k]=v;}});
     for(const id of ['topbarPrevBtn','ctrlPrevVideo','topbarNextBtn','ctrlNextVideo','topbarRandomBtn','ctrlRandomShorts',
-      'ctrlSpeedText','playerQuality','mediaResolution','qualityBadge','streamModeLabel','streamModeText'])el[id]=node();
+      'ctrlSpeedText','playerQuality','mediaResolution','qualityBadge','streamModeLabel','streamModeText','mediaStage'])el[id]=node();
+    el.playerControlsEntry={...node(),caption:node(),querySelector(){return this.caption;}};
     el.videoPlayer={hidden:false,videoWidth:960,videoHeight:540,playbackRate:1};
     el.imageViewer={hidden:true,naturalWidth:0,naturalHeight:0};
     state.selected={id:'fixture',mimeType:'video/mp4',videoMediaMetadata:{width:1920,height:1080}};
@@ -38,6 +39,12 @@ test('previous, next and random labels change with the presented media type in b
   const c = ui();
   for (const [mime,noun] of [['video/mp4','영상'],['image/png','이미지'],['video/webm','영상']]) {
     run(c, `state.selected.mimeType='${mime}';updatePlayerNavigationLabels(state.selected);`);
+    const controlsLabel = `${noun==='영상'?'재생':'이미지'} 제어 열기`;
+    assert.equal(run(c, 'el.playerControlsEntry.attributes["aria-label"]'), controlsLabel);
+    assert.equal(run(c, 'el.playerControlsEntry.caption.textContent'), controlsLabel);
+    const stageLabel = run(c, 'el.mediaStage.attributes["aria-label"]');
+    assert.equal(stageLabel.includes('Space:'), noun==='영상');
+    assert.match(stageLabel, new RegExp(`^${noun} 화면`));
     for (const [ids,verb] of [[['topbarPrevBtn','ctrlPrevVideo'],'이전'],[['topbarNextBtn','ctrlNextVideo'],'다음'],[['topbarRandomBtn','ctrlRandomShorts'],'랜덤']]) {
       const expected = `${verb} ${noun}${verb==='랜덤'&&noun==='영상'?' (쇼츠)':''}`;
       for (const id of ids) assert.equal(run(c, `el.${id}.title`), expected), assert.equal(run(c, `el.${id}.attributes['aria-label']`), expected);
