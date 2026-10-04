@@ -575,3 +575,13 @@ sweep: current work resumed on codex/responsive-player-redesign; current checkpo
 ## D-084 · 1.23.1 잔여 개선과 실제 PC·Android 검증 — 2026-10-04 (User-confirmed)
 
 사용자는 main a5893dc/1.23.1을 기준으로 검색·목록 경계 일관성, 모바일 새로고침 원형, 터치 배경 잔류, 후속 페이지 로딩, PNG 문구, 진행 막대 조작 영역, 트랙 실패→재시도→성공, Android 재개방과 실제 연속 재생을 요청했다. Desktop/drive original의 새 이미지3개 전체 파일명과 표시 위치를 함께 읽는다. 원인 확인 전 구현 방식을 단정하지 않고 기해결 항목은 관련 회귀만 확인한다. iOS 직접 검사는 제외하고 사용자 실사용 검증으로 남긴다. D083의 같은 요청에서 부여된 병합·push·동일 운영 배포 권한과 D079 Notion 폐기·자동화 PAUSED·원본/보안 설정 보존 경계를 유지한다.
+
+→ origin 유지 조항만 D-085로 superseded (2026-10-04); 나머지 완료 범위와 경계는 유지.
+
+## D-085 · 짧은 workers.dev 운영 주소로 변경 요청 — 2026-10-04 (User-confirmed; supersedes D084 origin-maintenance clause only)
+
+사용자는 `drive-original.jbs.workers.dev`로 변경하라고 명시한 뒤, "우선 jyw.workes.dev 를 먼저 시도해줘."라고 지시했다. 앞선 workers.dev 주소 구조 설명의 맥락에서 `workes.dev`는 오타, `jyw`는 대체 계정 하위 도메인으로 읽고 이 해석을 사용자에게 밝혔다. 이번 주소 변경 및 필요한 기존 Google 로그인 설정·운영 연결의 이전은 요청 범위다. 원본 미디어·새 접근 권한·결제·Notion·자동화 재개는 포함하지 않는다. 미확정 대체 이름은 임의로 적용하지 않는다.
+
+Observed: 기존 Wrangler 인증을 사용한 Cloudflare 조회에서 jbs/jyw 모두 HTTP403/code10031 unavailable. jbs-drive/jbs-original/jyw-drive는 HTTP404/code10032 available but not configured. 이는 조회 시점의 가용성이고 예약·주소 변경·배포 성공이 아니다. 기존 운영 주소, Worker, OAuth 설정, 공개 소스는 변경하지 않았다. 사용 가능한 대체 이름의 사용자 선택을 요청했다.
+
+sweep: current checkpoint and session log aligned to address-name blocker; historical release addresses retained, runtime config unchanged (2026-10-04).
