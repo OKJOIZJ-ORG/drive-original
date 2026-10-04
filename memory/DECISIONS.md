@@ -561,3 +561,7 @@ D078 운영 반영과 기존 원본 명세의 남은 인수·비용·권한·자
 추가로 사용자는 Emil을 준수 의무가 아닌 참고로만 사용하라고 명시했고, 영상 재생 개선·최적화도 작업에 포함했다. USB 디버깅은 사용자 직접 승인 후 현재 SM-F711N/Android15 연결을 확인했다. 구현 선택·벤치마크·실제 재생 결과는 검증 기록으로 구분한다. 기존 원본 보존·무료·중지 자동화·Notion 폐기 경계는 유지한다. D078의 운영 반영 승인은 완료된1.22.1 대상이며 신규 운영 반영은 구체적인 결과 준비 후 확인한다.
 
 sweep: current work resumed on codex/responsive-player-redesign; current checkpoint/QA owner follows this scope, historical acceptance and releases preserved (2026-10-04).
+
+## D-082 · 준비된1.23.0 운영 반영 승인 — 2026-10-04 (User-confirmed)
+
+검증된1.23.0 공개 소스8ee61df를 main 병합·push하고 현재 Worker에 반영하며 기존 주소·로그인 설정을 유지한다는 구체적인 질문에 사용자는 “운영 반영 승인”이라고 답했다. 준비된65파일 ZIP/Worker 디렉터리를 사용해 배포하고 정상 업데이트·운영 재생을 확인한 뒤 마무리한다. D081의 이번 운영 승인 대기를 해소한다. 신규 origin/OAuth 이관, 원본 변경, 새 grant, 결제, 영구삭제, Notion 릴리즈 및 자동화 재개는 포함하지 않는다.
