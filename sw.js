@@ -1,5 +1,5 @@
 'use strict';
-const cacheName = 'drive-original-handoff-1.22.0';
+const cacheName = 'drive-original-handoff-1.23.3';
 // Existing windows keep their active worker until they close naturally. Keep
 // previous shell caches and all account state available for local recovery.
 self.addEventListener('install', event => {
