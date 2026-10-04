@@ -1,19 +1,16 @@
-# Checkpoint — D086 새 주소 운영 검증 및 Git 마감 진행 — 2026-10-04
+# Checkpoint — D086 새 주소 운영 반영 완료 — 2026-10-04 22:22
 
 ## The story so far
-사용자 확정 주소 https://drive-original.jyw-drive.workers.dev 로 운영 Worker와 계정 subdomain 변경, 동일 1.23.3 public assets 배포 완료. Worker ID/인증 namespace/4 secret names 보존. Google OAuth 기존 client의 새 origin/callback 추가 저장 확인. Public 5개 byte equality, private 3개 404, valid anonymous auth 401/no-store 통과. PC와 실기기 Android 새 주소 동일 계정/좋아요 13개 확인; Android 실제 짧은 영상 재생 통과. Private receipts: ../maintenance/tools/address-change-20261004/.
+현재 주소 https://drive-original.jyw-drive.workers.dev/, Workerdrive-original/b20aebdd-0c7f-44bc-a218-17460b200502. 동일1.23.3 runtime8bc5938/64public blobs와 기존 Worker ID/auth namespace/secrets 보존. 기존 OAuth 새origin/callback 저장·실제 PC/Android fresh login/동일계정13liked IDs/짧은 실제 재생 통과. Mainb625d78 branch검토·FF/push, Pages017e23011publicfiles 배포·serving/실제Chrome 이동 통과. 후속 완료 기록도 같은main에 보관. ADDRESS-MIGRATION-20261004.md 소유.
 
 ## Decided
-D086: drive-original.jyw-drive.workers.dev 사용자 승인. 기존 보안·원본 데이터·자동화PAUSED 유지. main 병합/push/기존 Pages 진입 링크 갱신 승인 범위.
+D086 정확한 새주소 사용자승인 완료. D084 기능·UI 완료는 유지. 원본/보안·Notion폐기·자동화PAUSED 유지; 새권한/쿠키복사/기기설정 변경 없음.
 
 ## Waiting on the user
-없음. iOS는 기존 사용자 실사용 검증 예정이며 이번 직접 검증 범위 제외.
+없음. iOS는 사용자 실사용 검증 예정이며 이번 직접 완료조건 제외. 기존 OS 홈화면 앱/북마크는 새 주소에서 다시 설치·변경해야 할 수 있음.
 
 ## Next first action
-CUA newPc(275142287) 좋아요 UI 결과 확인 후 실제 짧은 영상 재생과 설정 새 주소 screenshot을 저장한다. 이어 legacy public-only Pages 갱신/문서/main merge/push 완료.
+이번 주소 변경의 잔여 실행 없음. 이후 요청은 새주소/current record를 기준으로 시작하고, 과거 원래 명세 인수·45초 원인/iOS/전체41분53초 검증은 기존 소유 기록의 별도 미검증 범위를 유지한다.
 
 ## Tried
-Account subdomain PUT without allow-rename:1 returned409; 이를 gate하지 않고 배포한 실행 실수는 사용자에게 설명했으며 필요한 header로 재시도 성공/현재 새 origin 정상 확인.
-Chrome DevTools 다른 세션 profile conflict는 종료하지 않고 normal Chrome CUA 사용.
-Google 경고 페이지가 빈 DOM이었으나 normal reload 후 기존 권한 로그인 완료; 원인은 미확인.
-PC likedIDs Set JSON serialization과 Android 구view full-library count 비교는 검사 producer 오류로 원본 실패 보존 후 정확한 동일계정/13 likedIDs 판정으로 수정; 전체 library equivalence 통과 주장 없음.
+Subdomain PUT의 allow-rename:1 누락409를 gate하지 않은 배포 실행 실수는 설명 후 header재시도/readback/전체실제검증으로 해결. ChromeDevTools 다른소유 profile conflict는 종료하지 않고 normalChromeCUA 사용. Google blankwarning/초기fetch 원인UNKNOWN; 정상reload/현재serving/login 통과. PC Set JSON/없는el.video/Android 다른view count 및 익명 protocol누락은 검사producer 오류로 바로잡고 실패보존; 기준/보안 낮춤 없음. Private maintenance/tools/address-change-20261004 receipts; PC원래탭과Androidworking 새탭 보존, owned임시탭/forward 정리.

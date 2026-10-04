@@ -32,4 +32,6 @@ Private receipts/screenshots/local-state backups는 workspace `maintenance/tools
 
 ## Git 및 기존 Pages 진입점
 
-main 병합/push 및 public-only Pages 갱신/최종 serving readback 진행 중. 완료 영수증은 이 절에 반영한다.
+검토된 주소 변경 branch를 main **b625d7863eb3310b407b734210fb88c7547f4bc8**로 fast-forward 병합·push했다. 후속 완료 기록도 같은 main에 반영하며 공개 앱64blobs는 바뀌지 않는다.
+
+기존 `gh-pages`20d864c의 후속 **017e230e4a76830f92c7efea58741732cbde65b0**을 force 없이 push했다. [Pages build/deploy37205247878](https://github.com/OKJOIZJ-ORG/drive-original/actions/runs/37205247878) success 확인. 운영 Pages11개가 해당 public Git blobs와 byte 일치하고 private3routes404. 정상 PC Chrome에서 실제 이전 Pages 주소를 열면 새 주소로 이동하며 연결된 root14폴더가 표시된다. 새 Worker 인증/SW·기존계정13좋아요·실제 PC/Android 재생과 별도로 이 legacy 경로를 확인했다. 테스트 탭은 닫고 PC 기존 앱 탭과 Android의 working 새 앱 탭을 남겼다.
