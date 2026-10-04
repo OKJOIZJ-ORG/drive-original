@@ -152,7 +152,9 @@ const bounds = async page => page.evaluate(() => {
         }
         row.desktopImageNavigation = true;
       }
-      row.errors=errors;assert.deepEqual(errors,[]);rows.push(row);await context.close();
+      assert.deepEqual(errors,[]);
+      rows.push({width,height,mobile,passed:true,desktopImageNavigation:row.desktopImageNavigation===true});
+      await context.close();
     }
     fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({phase,baselineRef,hashes,producerSHA256:crypto.createHash('sha256').update(fs.readFileSync(__filename)).digest('hex'),proof:'Local actual-app DOM with synthetic catalog/poster. No account, media fetch, physical-device, or production proof.',rows},null,2));
     console.log(`${phase}: ${rows.length} viewport layouts and menus passed`);
