@@ -30,7 +30,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
-- `RELEASE-1.23.0.md` and `../qa/responsive-redesign/README.md`: D081 local responsive redesign, loading/touch/playback optimization; PC and physical Android checks. Production approval remains separate.
+- `RELEASE-1.23.0.md` and `../qa/responsive-redesign/README.md`: D081 responsive redesign/loading/touch/playback optimization; D082 operating release with actual normal PC and Android updates/replay complete. Public8ee61df, Worker c31cb961.
 
 - `../qa/playback-repair/README.md` and `results.json`: D077 local repair plus D0781.22.1 served/cache/actual operating Safari evidence, retained failures/cleanup and exact ZIP. D079 removes Notion releases; its page deletion is refetched. Original acceptance remains separate.
 

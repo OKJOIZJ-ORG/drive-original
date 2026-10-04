@@ -2,14 +2,15 @@
 
 Evidence class: local source code plus dated automated/browser verification. External claims may be sourced only from entries that are `operational` or `verified`.
 
-## Verified local redesign — 1.23.0 preparation (2026-10-04)
+## Current operating release — 1.23.0 (2026-10-04)
 
 - `verified local`: compact responsive library/player, measured loading percentage, central-square/exterior touch mapping, correct SVG state icons and retained desktop image navigation. Product suite872/872; final visual/DOM QA owned by `qa/responsive-redesign/README.md`.
-- `verified actual local-source playback`: authenticated PC and physical Android used only 뷰너 media, with existing SW control and local source substitution. Android portrait/landscape center and four-corner gestures pass; PC playback and keyboard seek pass. Final icon/version/image-navigation adjustments are covered locally. No deployed1.23.0, iOS or human-finger acceptance claim.
+- `verified actual local-source playback`: authenticated PC and physical Android used only 뷰너 media, with existing SW control and local source substitution. Android portrait/landscape center and four-corner gestures pass; PC playback and keyboard seek pass. Final icon/version/image-navigation adjustments are covered locally. No iOS or human-finger acceptance claim.
 - `verified scoped optimization`: AAC admission fixture DataView allocations731→1; timeline formatting/DOM writes consolidated and seek thumb no longer reads layout each update. Actual startup comparison does not show an improvement. Existing original byte/source/parser safeguards retained; no framework added.
+- `operational`: D082 approved source8ee61df/main563ea70 publication as Worker c31cb961-26af-4621-bbc7-64f435142a64. Six changed public assets are Git-equal; unchanged assets reuse prior proof; private routes404. Actual PC and Android normal updates retained login and reached app/active SW1.23.0. Operating 뷰너 replay: PC50frames/1.997s and seek5.016s/ready4; Android72frames/2.865s and seek62ms, center/exterior spot checks pass. No source overrides or cache deletion in operating replay; owned cleanup complete. RELEASE-1.23.0.md owns distribution details and preserved limits.
 
 
-## Current operating release — 1.22.1 (2026-10-03)
+## Historical operating release — 1.22.1 (2026-10-03)
 
 - `operational`: D078 approved main e4c963e integration/push and immutable runtime d0bdde5 delivery to the preserved Worker origin; Worker bf47cfd4-a626-43df-86f4-ab3d4a647ceb, all11bindings preserved. qa/playback-repair/production-deployment.json and production-readback.json own the observed deployment.
 - `verified serving`: public65 assets qualified, cache51 Git-equal, private6routes404, anonymous401/no-store and controlled offline reload with a blocked no-store network probe. Retained tool-oracle failures were repaired without product redeployment. Evidence: qa/playback-repair/production-served-final.json and production-browser-final.json, including their retained predecessor receipts.

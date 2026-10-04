@@ -1,6 +1,6 @@
 # Responsive redesign — 2026-10-04
 
-This is the single QA summary for D081. Production remains 1.22.1 until approval.
+This is the single QA summary for D081. D082 approved production1.23.0, now published on the existing origin.
 
 ## Changes
 
@@ -24,3 +24,9 @@ Private actual-media results/screenshots and temporary override bundle remain in
 ## Domain and limits
 
 The configured Cloudflare account has no custom-domain zone. The existing shorter GitHub Pages entry still redirects to the current Worker. A shorter final origin requires a Worker/account-subdomain change plus Google OAuth callback and origin-state migration; no account-wide rename or new origin was applied. Preserve the current origin for this UI release. iOS remains user validation. Earlier unrelated original-spec acceptance items remain in their existing owner; this bounded redesign does not relabel them passed.
+
+## Operating release readback
+
+Public8ee61df deployed as Worker c31cb961-26af-4621-bbc7-64f435142a64 after reviewed main integration/push563ea70. Six changed runtime responses equal Git bytes; unchanged assets reuse prior proof. Private memory/QA routes404. ZIP65entries equals Git; previous1.22.1 package preserved. No origin/permission/backend migration.
+
+PC existing tab: normal reload, login retained, app1.23.0, active controller and only1.23.0 shell cache with51entries. The same20.9MB 뷰너 original-range clip decoded50frames/1.997s, seek5.016s/ready4, no native error. SVG playing icon state correct. Returned to 뷰너 library. Android existing tab: normal update settled to app and live SW VERSION1.23.0, active controller/no installing or waiting, login retained; startup2.67s,72frames/2.865s,seek62ms, center pause and exterior reveal passed. Original tab returned to closed player; no new tabs, overrides, cache deletion, unregister or clients.claim. ADB forward removed. Private result: maintenance/tools/responsive-redesign/android-production.json. Initial update-in-progress observation and driver typo were not product passes; fixed without redeployment.
