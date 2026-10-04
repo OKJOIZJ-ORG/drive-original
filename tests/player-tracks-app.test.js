@@ -171,3 +171,134 @@ test('native color read uses the live pinned original only and rechecks after mo
   run(late, 'q0PinnedSource={descriptor:{fileId:"fixture"}}');
   release(c.fakeColorModule); assert.equal(await reading, null); assert.equal(late.captures, 0);
 });
+
+function discoveryFixture() {
+  const c = fixture.exports();
+  const app = fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8');
+  const opening = app.slice(app.indexOf('async function openPlayerTracks()'), app.indexOf('\nasync function observePinnedNativePlayerColor('))
+    .replace("import('./media/drive-source.mjs')", 'fakeSourceModule')
+    .replace("import('./media/general-tracks.mjs')", 'fakeTracksModule')
+    .replace("import('./media/subtitle-track.mjs')", 'fakeSubtitleModule')
+    .replace("import('./media/subtitle-presentation.mjs')", 'fakePresentationModule');
+  run(c, opening);
+  run(c, `state.selected={id:'fixture'};state.mediaSession=2;state.authAccountKey='a';state.driveSessionGeneration=7;
+    navigator.serviceWorker={controller:{}};collapseShortsExpand=()=>{};
+    Option=function(text,value){this.text=text;this.value=value;};
+    el.videoPlayer={hidden:false};el.playerSheet={hidden:false};
+    el.playerTracksDialog={open:false,showModal(){this.open=true;},close(){this.open=false;}};
+    el.playerTracksStatus={textContent:'',dataset:{}};el.playerTracksRetry={hidden:true,disabled:false};
+    const select=()=>({disabled:true,value:'',options:[],replaceChildren(...items){this.options=items;},append(item){this.options.push(item);}});
+    el.playerAudioTrack=select();el.playerSubtitleTrack=select();
+    globalThis.aborts=0;globalThis.probes=0;globalThis.subtitleOpens=0;globalThis.deadline=null;
+    globalThis.setTimeout=fn=>{deadline=fn;return 1;};globalThis.clearTimeout=()=>{deadline=null;};
+    globalThis.inventory={kind:'iso',identity:{size:100,headRevisionId:'A'},cleanup:{settled:true},
+      audioTracks:[{trackId:2,label:'eng (2)',codec:'aac',route:'q1'}],defaultAudioTrackId:2,subtitleTracks:[]};
+    globalThis.fakeSourceModule={openDriveQ1Source:async()=>({identity:inventory.identity,abort:async()=>{aborts++;return{settled:true};}})};
+    globalThis.fakeTracksModule={probePinnedGeneralTracks:async()=>{probes++;return inventory;}};
+    globalThis.fakeSubtitleModule={createPinnedSubtitleTrack:async()=>{subtitleOpens++;throw Error('unexpected subtitle probe');}};
+    globalThis.fakePresentationModule={};`);
+  return c;
+}
+
+test('confirmed absent subtitles end discovery without a second source or subtitle probe', async () => {
+  const c = discoveryFixture(); await run(c, 'openPlayerTracks()');
+  assert.equal(c.probes, 1); assert.equal(c.subtitleOpens, 0);
+  assert.equal(run(c, 'playerTracksOwner.phase'), 'ready');
+  assert.match(run(c, 'el.playerTracksStatus.textContent'), /원본에 자막 트랙은 없습니다/);
+  assert.equal(c.deadline, null); assert.equal(run(c, 'playerTracksOwner.checking'), false);
+});
+
+test('an empty track inventory differs from an unsupported selectable audio route', async () => {
+  const empty = discoveryFixture();run(empty, 'inventory.audioTracks=[];inventory.defaultAudioTrackId=null;');
+  await run(empty, 'openPlayerTracks()');assert.equal(run(empty, 'playerTracksOwner.phase'), 'empty');
+  const unsupported = discoveryFixture();run(unsupported, "inventory.audioTracks[0].route='unqualified';inventory.reason='GENERAL_EXPANDED_INDEX_LIMIT';");
+  await run(unsupported, 'openPlayerTracks()');assert.equal(run(unsupported, 'playerTracksOwner.phase'), 'unsupported');
+  assert.match(run(unsupported, 'el.playerTracksStatus.textContent'), /음성 전환은 지원하지/);
+  assert.equal(run(unsupported, 'playerTracksOwner.reason'), 'GENERAL_EXPANDED_INDEX_LIMIT');
+});
+
+test('failed discovery explains failure and retry waits for settled old ownership', async () => {
+  const c = discoveryFixture(); run(c, "fakeTracksModule.probePinnedGeneralTracks=async()=>{throw Error('Q1_SOURCE_CONTENT_DRIFT');};");
+  await run(c, 'openPlayerTracks()');
+  assert.equal(run(c, 'playerTracksOwner.phase'), 'failed');assert.match(run(c, 'el.playerTracksStatus.textContent'), /원본 파일이 변경/);
+  assert.equal(run(c, 'el.playerTracksRetry.hidden'), false);assert.equal(run(c, 'el.playerAudioTrack.disabled'), true);
+  run(c, 'fakeTracksModule.probePinnedGeneralTracks=async()=>{probes++;return inventory;};');
+  await run(c, 'retryPlayerTracks()');assert.equal(c.probes, 1);assert.equal(run(c, 'playerTracksOwner.phase'), 'ready');
+});
+
+test('total discovery deadline cancels pending work, publishes timeout and allows a drained retry', async () => {
+  const c = discoveryFixture();
+  run(c, `globalThis.started=null;globalThis.entered=new Promise(r=>started=r);
+    fakeTracksModule.probePinnedGeneralTracks=(source,{signal})=>new Promise((resolve,reject)=>{started();
+      signal.addEventListener('abort',()=>reject(Error('GENERAL_CANCELLED')),{once:true});});`);
+  const job = run(c, 'openPlayerTracks()');await c.entered;c.deadline();await job;
+  assert.equal(run(c, 'playerTracksOwner.controller.signal.aborted'), true);assert.equal(run(c, 'playerTracksOwner.phase'), 'failed');
+  assert.match(run(c, 'el.playerTracksStatus.textContent'), /30초/);assert.equal(run(c, 'el.playerTracksRetry.hidden'), false);
+  assert.equal(c.aborts, 1);assert.equal(c.deadline, null);
+});
+
+test('deadline while cleanup returns a late inventory cannot leave the dialog in checking', async () => {
+  const c = discoveryFixture();
+  run(c, `globalThis.started=null;globalThis.entered=new Promise(r=>started=r);
+    fakeTracksModule.probePinnedGeneralTracks=(source,{signal})=>new Promise(resolve=>{started();
+      signal.addEventListener('abort',()=>resolve(inventory),{once:true});});`);
+  const job = run(c, 'openPlayerTracks()');await c.entered;c.deadline();await job;
+  assert.equal(run(c, 'playerTracksOwner.phase'), 'failed');assert.match(run(c, 'el.playerTracksStatus.textContent'), /30초/);
+  assert.equal(run(c, 'el.playerTracksRetry.hidden'), false);assert.equal(run(c, 'el.playerAudioTrack.disabled'), true);
+});
+
+test('discovery deadline and dialog dismissal settle an uncancellable module import without late source creation', async () => {
+  for (const reason of ['deadline','dismiss']) {
+    const c = discoveryFixture();let resolve;
+    c.fakeTracksModule = new Promise(r=>{resolve=r;});
+    const job = run(c, 'openPlayerTracks()');await new Promise(r=>setImmediate(r));
+    if (reason === 'deadline') c.deadline();
+    else run(c, 'el.playerTracksDialog.close();cancelPlayerTrackDiscovery();');
+    await job;
+    if (reason === 'deadline') assert.equal(run(c, 'playerTracksOwner.phase'), 'failed');
+    else assert.equal((await run(c, 'playerTracksRetirement')).settled, true);
+    resolve({probePinnedGeneralTracks:()=>{assert.fail('late import cannot open a source');}});
+    await new Promise(r=>setImmediate(r));assert.equal(c.probes, 0);assert.equal(c.aborts, 0);
+  }
+});
+
+test('subtitle teardown rechecks deadline and unsettled cleanup before publishing an unsupported status', async () => {
+  for (const issue of ['deadline','cleanup']) {
+    const c = discoveryFixture();let started, release;
+    const entered = new Promise(r=>{started=r;});
+    c.inventory.subtitleTracks = [{trackId:3,codec:'wvtt'}];
+    c.fakeSubtitleModule = {createPinnedSubtitleTrack:async()=>({tracks:[{trackId:3,supported:false}],dispose:()=>{
+      started();return new Promise(r=>{release=r;});
+    }})};
+    const job = run(c, 'openPlayerTracks()');await entered;
+    if (issue === 'deadline') c.deadline();
+    release({settled:issue!=='cleanup'});await job;
+    assert.equal(run(c, 'playerTracksOwner.phase'), 'failed');
+    assert.equal(run(c, 'el.playerAudioTrack.disabled'), true);
+    if (issue === 'deadline') assert.match(run(c, 'el.playerTracksStatus.textContent'), /30초/);
+    else assert.equal(run(c, 'el.playerTracksRetry.disabled'), true), assert.match(run(c, 'el.playerTracksStatus.textContent'), /이전 확인 요청/);
+  }
+});
+
+test('closing discovery or changing the playing file fences late results', async () => {
+  for (const cancel of ['close', 'file']) {
+    const c = discoveryFixture();let release;const late = new Promise(r=>{release=r;});
+    c.fakeTracksModule = {probePinnedGeneralTracks:()=>late};
+    const job = run(c, 'openPlayerTracks()');await new Promise(r=>setImmediate(r));
+    const status = run(c, 'el.playerTracksStatus.textContent');
+    if (cancel === 'close') run(c, 'el.playerTracksDialog.close();cancelPlayerTrackDiscovery();');
+    else run(c, "state.selected={id:'other'};state.mediaSession++;");
+    release(c.inventory);await job;
+    assert.equal(run(c, 'el.playerTracksStatus.textContent'), status);
+    assert.equal(run(c, 'el.playerAudioTrack.disabled'), true);assert.equal(c.subtitleOpens, 0);
+    if (cancel === 'close') {assert.equal(run(c, 'playerTracksOwner'), null);assert.equal((await run(c, 'playerTracksRetirement')).settled, true);}
+  }
+});
+
+test('closing a completed discovery preserves the selected subtitle presentation', async () => {
+  const c = discoveryFixture();await run(c, 'openPlayerTracks()');
+  run(c, 'globalThis.presentation={selected:3};playerTracksOwner.presentation=presentation;');
+  run(c, 'el.playerTracksDialog.close();cancelPlayerTrackDiscovery();');
+  assert.equal(run(c, 'playerTracksOwner.phase'), 'ready');assert.equal(c.aborts, 0);
+  assert.equal(run(c, 'playerTracksOwner.presentation'), c.presentation);
+});

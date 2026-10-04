@@ -72,7 +72,8 @@ test('dispatched single touch only pauses in the central region; outer taps do n
     f.dispatch('touchstart',x,y); f.dispatch('touchend',x,y); f.flush(); f.run('clock+=400');
   }
   assert.equal(f.run('pauses'),0);
-  assert.equal(f.run('reveals'),8,'outside taps reveal even when controls are already open');
+  assert.equal(f.run('reveals'),4,'successive outside taps alternate reveal and hide');
+  assert.equal(f.run("classes.has('controls-idle')"),true,'four reveal/hide pairs end hidden');
   const start=f.dispatch('touchstart'),end=f.dispatch('touchend');f.flush();
   assert.equal(start.defaultPrevented,true);assert.equal(end.defaultPrevented,true);assert.equal(f.run('pauses'),1);
 });

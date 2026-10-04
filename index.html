@@ -20,10 +20,10 @@
   <link rel="dns-prefetch" href="https://www.googleapis.com">
   <link rel="preconnect" href="https://drive.google.com">
   <link rel="dns-prefetch" href="https://drive.google.com">
-  <link rel="stylesheet" href="./styles.css?v=1.23.0">
-  <script src="./runtime-config.js?v=1.23.0"></script>
-  <script src="./media/revision-pin.js?v=1.23.0" defer></script>
-  <script src="./app.js?v=1.23.0" defer></script>
+  <link rel="stylesheet" href="./styles.css?v=1.23.1">
+  <script src="./runtime-config.js?v=1.23.1"></script>
+  <script src="./media/revision-pin.js?v=1.23.1" defer></script>
+  <script src="./app.js?v=1.23.1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -277,6 +277,7 @@
             <span class="quality-badge" id="qualityBadge" data-quality="checking" hidden>원본 확인 중</span>
           </div>
           <h2 id="playerTitle">미디어 파일 이름</h2>
+          <span class="player-quality" id="playerQuality" hidden></span>
         </div>
         <div class="player-topbar-actions">
           <button class="player-ctrl-btn" id="topbarPrevBtn" type="button" aria-label="이전 영상" title="이전 영상">
@@ -328,13 +329,20 @@
         <!-- Mobile Shorts Bottom Overlay (Filename, Fullscreen default, expandable actions, thin progress) -->
         <div class="mobile-shorts-overlay" id="mobileShortsOverlay">
           <div class="shorts-expand-row" id="shortsExpandRow">
-            <button class="shorts-chip" id="shortsTracksBtn" type="button"><span>음성·자막</span></button>
+            <button class="shorts-chip" id="shortsTracksBtn" type="button"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="5" rx="2" ry="2" />
+  <path d="M7 15h4M15 15h2M7 11h2M13 11h4" /></svg><span>음성·자막</span></button>
             <button class="shorts-chip danger" id="shortsDeleteBtn" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11v6" />
+  <path d="M14 11v6" />
+  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+  <path d="M3 6h18" />
+  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
               <span>휴지통</span>
             </button>
             <button class="shorts-chip" id="shortsMoveBtn" type="button" aria-label="폴더로 이동" title="폴더로 이동">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M10 12h7"/><path d="M14 9l3 3-3 3"/></svg>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1" />
+  <path d="M2 13h10" />
+  <path d="m9 16 3-3-3-3" /></svg>
               <span>이동</span>
             </button>
             <button class="shorts-chip" id="shortsFramePrev" type="button" aria-label="1프레임 뒤로" title="1프레임 뒤로" hidden>
@@ -344,11 +352,14 @@
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 5v14"/><path d="m7 7 6 5-6 5z"/></svg><span>다음 프레임</span>
             </button>
             <button class="shorts-chip" id="shortsPipBtn" type="button" aria-label="화면 속 화면" title="화면 속 화면" hidden>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="5" rx="2"/><rect width="7" height="5" x="12" y="12" rx="1" fill="currentColor"/></svg>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 9V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h4" />
+  <rect width="10" height="7" x="12" y="13" rx="2" /></svg>
               <span>PiP</span>
             </button>
             <button class="shorts-chip" id="shortsDriveBtn" type="button" aria-label="Drive에서 열기" title="Drive에서 열기">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9"/><path d="M3 14h18l-2.2 4.5a2 2 0 0 1-1.8 1.1H7a2 2 0 0 1-1.8-1.1z"/></svg>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6" />
+  <path d="M10 14 21 3" />
+  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></svg>
               <span>Drive</span>
             </button>
           </div>
@@ -485,13 +496,20 @@
               <button class="player-more-action frame-step-btn" id="ctrlFrameNext" type="button" aria-label="1프레임 앞으로 (.)" title="1프레임 앞으로 (.)" hidden>
                 <svg width="17" height="17" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 5v14"/><path d="m7 7 6 5-6 5z"/></svg>
               <span>다음 프레임</span></button>
-                  <button class="player-more-action" id="ctrlTracks" type="button">음성·자막</button>
+                  <button class="player-more-action" id="ctrlTracks" type="button"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="5" rx="2" ry="2" />
+  <path d="M7 15h4M15 15h2M7 11h2M13 11h4" /></svg>음성·자막</button>
                   <button class="player-more-action" id="ctrlMove" type="button">
-                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M10 12h7"/><path d="M14 9l3 3-3 3"/></svg>
+                    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1" />
+  <path d="M2 13h10" />
+  <path d="m9 16 3-3-3-3" /></svg>
                     <span>폴더로 이동</span>
                   </button>
                   <button class="player-more-action danger" id="ctrlDelete" type="button">
-                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11v6" />
+  <path d="M14 11v6" />
+  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+  <path d="M3 6h18" />
+  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
                     <span>휴지통으로 이동</span>
                   </button>
                 </div>
@@ -525,6 +543,18 @@
     </div>
   </section>
 
+  <dialog class="app-dialog" id="fileNameDialog" aria-labelledby="fileNameDialogTitle">
+    <form method="dialog" class="dialog-box">
+      <div class="dialog-top">
+        <h2 id="fileNameDialogTitle">전체 파일명</h2>
+        <button class="icon-button" type="submit" value="cancel" aria-label="전체 파일명 닫기">
+          <svg width="17" height="17" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m18 6-12 12M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="dialog-content"><p class="file-name-text" id="fileNameText"></p></div>
+    </form>
+  </dialog>
+
   <!-- Settings Dialog -->
   <dialog class="settings-dialog" id="settingsDialog" aria-label="설정">
     <form method="dialog" class="dialog-box">
@@ -539,7 +569,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.23.0</span>
+            <span class="version-badge" id="settingsAppVersion">v1.23.1</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <button class="primary-button update-apply-btn" id="applyUpdateButton" type="button" hidden>
@@ -566,6 +596,9 @@
           </div>
         </section>
 
+        <details class="settings-advanced" id="settingsAdvanced">
+          <summary>고급 안내 · 자체 배포 및 설치</summary>
+          <div class="settings-advanced-content">
         <section class="settings-group" id="setupHelpSection">
           <h3>자체 배포 인증 안내</h3>
           <ol class="steps-list">
@@ -587,6 +620,8 @@
           <h3>iPhone / iPad 홈 화면 설치</h3>
           <p class="dialog-text">Safari에서 <strong>공유 아이콘 → 홈 화면에 추가</strong>를 누르면 전체화면 PWA 앱으로 편리하게 사용할 수 있습니다.</p>
         </section>
+          </div>
+        </details>
 
         <section class="settings-group">
           <h3>오픈소스</h3>
@@ -595,7 +630,7 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.23.0</span>
+          <span id="appVersion">v1.23.1</span>
         </div>
       </div>
     </form>
@@ -614,6 +649,7 @@
         <label for="playerSubtitleTrack">자막</label>
         <select id="playerSubtitleTrack" aria-describedby="playerTracksStatus" disabled><option value="">끔</option></select>
         <p class="dialog-text subtle" id="playerTracksStatus" role="status">음성·자막 목록을 확인합니다.</p>
+        <button class="secondary-button" id="playerTracksRetry" type="button" hidden>다시 확인</button>
       </div>
     </div>
   </dialog>

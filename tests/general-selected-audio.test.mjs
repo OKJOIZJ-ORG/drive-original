@@ -98,6 +98,36 @@ test('cancelled inventory drains pending capability without late choice publicat
  await gate;controller.abort();await rejected;finish({supported:true});assert.equal(s.stats().aborts,1);
  const aborted=new AbortController();aborted.abort();const noRead=source();await assert.rejects(probePinnedGeneralTracks(noRead,{signal:aborted.signal}),/GENERAL_CANCELLED/);assert.deepEqual(noRead.reads,[]);assert.equal(noRead.stats().aborts,1);
 });
+
+test('listing long ISO track descriptions does not relax the playback index admission',async()=>{
+ const long=Buffer.from(multi),at=long.indexOf('stsz');
+ long.writeUInt32BE(1,at+8);long.writeUInt32BE(GENERAL_LIMITS.tableSamplesPerTrack+1,at+12);
+ const s=source(new Uint8Array(long)),inventory=await probePinnedGeneralTracks(s);
+ assert.equal(inventory.kind,'iso');assert.equal(inventory.reason,'GENERAL_EXPANDED_INDEX_LIMIT');
+ assert.deepEqual(inventory.audioTracks.map(t=>[t.trackId,t.language,t.route]),[[2,'eng','unqualified'],[3,'kor','unqualified']]);
+ assert.deepEqual(inventory.subtitleTracks,[]);assert.equal(inventory.cleanup.settled,true);
+ assert.throws(()=>inspectGeneralMoov(moov(new Uint8Array(long))),/GENERAL_EXPANDED_INDEX_LIMIT/);
+});
+
+test('large metadata is fetched once in bounded coalesced blocks and never read back for local parsing',async()=>{
+ const original=Buffer.from(multi),ftyp=original.subarray(0,original.readUInt32BE(0));
+ const originalMoov=Buffer.from(moov(new Uint8Array(original)));
+ // Metadata-only discriminator; original sample offsets are not playback proof.
+ const metadata=box('moov',originalMoov.subarray(8),box('free',Buffer.alloc(1200000)));
+ const bytes=Buffer.concat([ftyp,metadata,box('mdat',Buffer.alloc(5*1024*1024))]);
+ const s=source(new Uint8Array(bytes)),inventory=await probePinnedGeneralTracks(s);
+ assert.deepEqual(inventory.audioTracks.map(t=>t.trackId),[2,3]);
+ assert.equal(s.reads.length,3);assert.equal(new Set(s.reads.map(r=>r[0])).size,3);
+ assert.ok(s.reads.every(([a,b])=>b-a+1===524288));assert.equal(inventory.cleanup.settled,true);
+ assert.deepEqual(inventory.subtitleTracks,[]);
+});
+
+test('subtitle metadata is retained only when actual subtitle handlers are present',async()=>{
+ const none=await probePinnedGeneralTracks(source());assert.deepEqual(none.subtitleTracks,[]);assert.equal(none.subtitleMetadata,undefined);
+ const yes=await probePinnedGeneralTracks(source(subtitle));assert.equal(yes.subtitleTracks.length,1);
+ assert.equal(yes.subtitleTracks[0].codec,'tx3g');assert.ok(yes.subtitleMetadata.moov instanceof Uint8Array);
+ assert.equal(yes.subtitleMetadata.identity.headRevisionId,'fixture-A');
+});
 test('explicit selected AC3/EAC3 reaches qualified Q2 profile without allocating codec heap when native output is unavailable',async()=>{
  for(const path of ['q2-audio-compatibility/synthetic-avc-ac3.mp4','q2-audio-compatibility/eac3-source-build/synthetic-avc-eac3-stereo.mp4']) {
   const bytes=bytesFor(path),inventory=await probePinnedGeneralTracks(source(bytes),{scope:scope()}),id=inventory.audioTracks[0].trackId;

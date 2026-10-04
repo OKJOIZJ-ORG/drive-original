@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createPinnedSubtitleTrack,decodeTx3gSample,SUBTITLE_LIMITS} from '../media/subtitle-track.mjs';
+import {probePinnedGeneralTracks} from '../media/general-tracks.mjs';
 
 const fixture=readFileSync(new URL('../qa/fm05-controlled-diagnostic/subtitle.mp4',import.meta.url));
 const oracle=JSON.parse(readFileSync(new URL('../qa/fm05-controlled-diagnostic/subtitle-input-probe.json',import.meta.url)));
@@ -144,6 +145,17 @@ test('aggregate samples, including unsupported tracks, refuse before index expan
 
 test('a source failure during discovery always closes the pinned subtitle owner',async()=>{
   const source=sourceFor(fixture,{reject:true});await assert.rejects(createPinnedSubtitleTrack(source),/synthetic read/);assert.equal(source.aborts,1);
+});
+
+test('same-revision subtitle discovery reuses fenced moov without repeating range reads',async()=>{
+ const first=sourceFor(fixture),inventory=await probePinnedGeneralTracks(first);
+ const second=sourceFor(fixture),owner=await createPinnedSubtitleTrack(second,{metadata:inventory.subtitleMetadata});
+ assert.equal(owner.tracks.length,1);assert.deepEqual(second.reads,[]);
+ owner.select(owner.tracks[0].trackId);assert.ok((await owner.cuesAt(0,{after:2})).length);
+ assert.ok(second.reads.length>0,'selected cues still read their original samples');await owner.dispose();
+ const stale=sourceFor(fixture);stale.identity.headRevisionId='changed';
+ await assert.rejects(createPinnedSubtitleTrack(stale,{metadata:inventory.subtitleMetadata}),/SUBTITLE_METADATA_IDENTITY/);
+ assert.equal(stale.reads.length,0);assert.equal(stale.aborts,1);
 });
 
 for(const [options,message] of [[{count:129,delta:1},'WINDOW_SAMPLE_LIMIT'],[{count:5,padding:60000},'WINDOW_BYTE_LIMIT']])test('finite cue window refuses excess '+message+' before payload reads',async()=>{

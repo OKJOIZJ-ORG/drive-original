@@ -4628,7 +4628,7 @@ test('native unsupported container keeps requested play intent but gesture denia
 
 function installMediaResetFixture(context) {
   run(context, `
-    const resetNode=()=>({hidden:false,dataset:{},classList:{remove(){}},
+    const resetNode=()=>({hidden:false,dataset:{},classList:{remove(){},toggle(){}},
       removeAttribute(name){delete this[name]},getAttribute(name){return this[name]??null}});
     el.videoPlayer={...resetNode(),paused:true,currentTime:0,duration:100,
       pause(){this.paused=true},load(){},addEventListener(_name,callback){globalThis.oldMetadataCallback=callback}};
@@ -4915,6 +4915,83 @@ test('ordinary and sampler paused target callbacks keep loading until owned seek
   }
 });
 
+
+test('settings gear returns to the top and setup help reveals its preserved section', () => {
+  const context = loadAppContext();
+  const body = { scrollTop: 300 }, helpScrolls = [];
+  context.requestAnimationFrame = callback => callback();
+  context.settingsBody = body;
+  context.helpScrolls = helpScrolls;
+  run(context, `el.settingsDialog = { open: false, showModal() { this.open = true; }, querySelector() { return settingsBody; } };
+    el.settingsAdvanced = { open: false };
+    el.setupHelpSection = { scrollIntoView(options) { helpScrolls.push(options); } };
+    openSettings(false);`);
+  assert.equal(body.scrollTop, 0);
+  assert.equal(run(context, 'el.settingsAdvanced.open'), false);
+  body.scrollTop = 300;
+  run(context, 'openSettings(true)');
+  assert.equal(run(context, 'el.settingsAdvanced.open'), true);
+  assert.equal(helpScrolls.length, 1);
+  assert.equal(helpScrolls[0].block, 'start');
+  body.scrollTop = 300;
+  run(context, 'openSettings(false)');
+  assert.equal(body.scrollTop, 0, 'a repeated gear action cannot retain the old scroll position');
+});
+
+test('card episode and part labels use only explicit filename tokens', () => {
+  const context = loadAppContext();
+  for (const [name, expected] of [
+    ['긴 제목 [EP.5] [PARTII].mp4', 'EP.5 · PARTII'],
+    ['title_EP.05_PART.III.mp4', 'EP.05 · PARTIII'],
+    ['episode 5 partial 2 report.mp4', ''],
+    ['STEP.5 DEPARTII.mp4', ''],
+    ['EP.5extra PARTIIIextra.mp4', ''],
+    ['제목 2026 10 4.mp4', '']
+  ]) assert.equal(run(context, `filenamePartLabel(${JSON.stringify(name)})`), expected, name);
+});
+
+test('full filename opens independently of playback and respects card selection mode', () => {
+  const context = loadAppContext();
+  const { findNodes } = installMiniDom(context);
+  const originalCreate = context.document.createElement;
+  context.document.createElement = tag => {
+    const node = originalCreate(tag);
+    node.events = new Map();
+    node.attributes = new Map();
+    node.addEventListener = (type, fn) => {
+      if (!node.events.has(type)) node.events.set(type, []);
+      node.events.get(type).push(fn);
+    };
+    node.setAttribute = (name, value) => node.attributes.set(name, value);
+    return node;
+  };
+  run(context, `el.fileNameText = { textContent: '' };
+    el.fileNameDialog = { open: false, showModal() { this.open = true; } };
+    globalThis.openedFile = null; openPlayer = file => { openedFile = file.id; };
+    toggleFileSelection = file => { state.selectedFileIds.add(file.id); };
+    globalThis.nameCard = createFileCard({ id: 'long-title', name: '같은 접두사 — 서로 다른 마지막 이름과 긴 확장자.mp4', mimeType: 'video/mp4', size: '10', thumbnailLink: 'https://example.test/thumb' });`);
+  const card = context.nameCard;
+  const nameButton = findNodes(card, '.file-card-name-button')[0];
+  const playbackButton = findNodes(card, '.file-card-open')[0];
+  const click = node => {
+    const event = { stopImmediatePropagation() { this.stopped = true; }, preventDefault() {} };
+    for (const callback of node.events.get('click') || []) {
+      callback(event);
+      if (event.stopped) break;
+    }
+  };
+  assert.equal(findNodes(playbackButton, '.file-card-name-button').length, 0, 'interactive title is not nested in the playback button');
+  click(nameButton);
+  assert.equal(run(context, 'el.fileNameDialog.open'), true);
+  assert.equal(run(context, 'el.fileNameText.textContent'), '같은 접두사 — 서로 다른 마지막 이름과 긴 확장자.mp4');
+  assert.equal(context.openedFile, null, 'reading a filename must not start media');
+  click(playbackButton);
+  assert.equal(context.openedFile, 'long-title');
+  run(context, "el.fileNameDialog.open = false; state.selectionMode = true;");
+  click(nameButton);
+  assert.equal(run(context, 'el.fileNameDialog.open'), false);
+  assert.equal(run(context, "state.selectedFileIds.has('long-title')"), true);
+});
 
 test('WebP cards freeze thumbnails without widening GIF semantics or changing native still-image cards', () => {
   const context = loadAppContext();

@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.23.0';
+const APP_VERSION = '1.23.1';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -1291,7 +1291,7 @@ function bindElements() {
     'selectionMoveBtn', 'selectionDeleteBtn', 'selectionCancelBtn',
     'infiniteScrollSentinel', 'infiniteScrollSpinner',
     'folderNav', 'breadcrumbTrail', 'folderUpButton', 'libraryTitle', 'folderStrip', 'folderMoreButton', 'edgeBackIndicator',
-    'playerSheet', 'playerBackdrop', 'playerModal', 'playerTitle', 'topbarPrevBtn', 'topbarRandomBtn', 'topbarNextBtn',
+    'playerSheet', 'playerBackdrop', 'playerModal', 'playerTitle', 'playerQuality', 'topbarPrevBtn', 'topbarRandomBtn', 'topbarNextBtn',
     'topbarFavoriteBtn',
     'fullscreenButton', 'iconExpand', 'iconCompress', 'closePlayerButton',
     'mediaStage', 'ambientBackdrop', 'videoPlayer', 'imageViewer',
@@ -1310,14 +1310,15 @@ function bindElements() {
     'ctrlVolumeSlider', 'ctrlTimeDisplay', 'ctrlCurrentTime', 'ctrlTotalTime',
     'speedMenuWrap', 'ctrlSpeedButton', 'ctrlSpeedText', 'speedDropdown', 'playerMoreMenu',
     'ctrlTracks', 'shortsTracksBtn', 'playerTracksDialog', 'playerTracksClose',
-    'playerAudioTrack', 'playerSubtitleTrack', 'playerTracksStatus',
+    'playerAudioTrack', 'playerSubtitleTrack', 'playerTracksStatus', 'playerTracksRetry',
     'ctrlFavorite', 'ctrlPip', 'ctrlFullscreen', 'ctrlIconExpand', 'ctrlIconCompress',
     'mediaLoading', 'mediaLoadingText', 'mediaLoadingProgress', 'mediaLoadingPercent', 'mediaError', 'mediaErrorTitle', 'mediaErrorMessage',
     'retryMediaButton', 'bufferOriginalButton', 'videoCompatButton', 'compatPlayerButton', 'openDriveButton', 'streamModeLabel', 'streamModeText',
     'qualityBadge', 'mediaResolution',
     'mediaFileSizeType', 'codecNote', 'settingsDialog', 'settingsAppVersion',
     'updateStatusText', 'checkUpdateButton', 'applyUpdateButton', 'forceReloadButton',
-    'logoutButton', 'disconnectButton', 'setupHelpSection',
+    'logoutButton', 'disconnectButton', 'setupHelpSection', 'settingsAdvanced',
+    'fileNameDialog', 'fileNameText',
     'currentOrigin', 'copyOriginButton', 'appVersion', 'toast',
     'deleteDialog', 'deleteFileName', 'deleteCancelButton', 'deleteConfirmButton',
     'permissionDialog', 'permissionReconnectButton', 'permissionCloseButton',
@@ -1503,6 +1504,8 @@ function bindEvents() {
     event.stopPropagation(); void openPlayerTracks();
   }));
   el.playerTracksClose?.addEventListener('click', () => el.playerTracksDialog.close());
+  el.playerTracksDialog?.addEventListener('close', cancelPlayerTrackDiscovery);
+  el.playerTracksRetry?.addEventListener('click', () => void retryPlayerTracks());
   el.playerAudioTrack?.addEventListener('change', () => void selectPlayerAudioTrack());
   el.playerSubtitleTrack?.addEventListener('change', () => {
     const owner = playerTracksOwner;
@@ -1641,7 +1644,7 @@ function bindEvents() {
     state.authRetryContext = null;
     beginAuthorization();
   });
-  [el.settingsDialog, el.deleteDialog, el.moveDialog, el.permissionDialog].forEach((dialog) => bindDialogLightDismiss(dialog));
+  [el.settingsDialog, el.fileNameDialog, el.deleteDialog, el.moveDialog, el.permissionDialog].forEach((dialog) => bindDialogLightDismiss(dialog));
   window.addEventListener('online', () => {
     refreshForegroundCredential();
     updateConnectionBadge();
@@ -3703,9 +3706,9 @@ async function applyFolderView() {
     return;
   }
   if (state.deepScan) {
-    ensureTreeCache().then(() => {
-      if (state.deepScan) computeAndRenderSubtree();
-    });
+    const folderId = state.currentFolderId, generation = state.listGeneration, filter = state.filter;
+    const cache = await ensureTreeCache(folderId);
+    if (cache && state.deepScan && folderId === state.currentFolderId && generation === state.listGeneration && filter === state.filter) computeAndRenderSubtree();
     return;
   }
   const generation = state.listGeneration + 1;
@@ -3726,10 +3729,22 @@ async function applyFolderView() {
   }
 }
 
-async function ensureTreeCache() {
-  if (state.treeCache) return state.treeCache;
+function treeCacheCoversFolder(cache, folderId = state.currentFolderId) {
+  return Boolean(cache && (!cache.scannedFolderIds || cache.scannedFolderIds.has(folderId)
+    || (folderId === 'root' && cache.scannedFolderIds.has(state.rootFolderId))));
+}
+
+async function ensureTreeCache(folderId = state.currentFolderId) {
+  if (state.treeCachePromise && (state.treeCachePromise.folderId !== folderId || state.treeAbort?.signal.aborted)) {
+    state.treeAbort?.abort();
+    await state.treeCachePromise;
+    if (folderId !== state.currentFolderId) return;
+    return ensureTreeCache(folderId);
+  }
+  if (treeCacheCoversFolder(state.treeCache, folderId)) return state.treeCache;
   if (state.treeCachePromise) return state.treeCachePromise;
-  const promise = collectTreeCache();
+  const promise = collectTreeCache(folderId);
+  promise.folderId = folderId;
   state.treeCachePromise = promise;
   try {
     return await promise;
@@ -3738,7 +3753,7 @@ async function ensureTreeCache() {
   }
 }
 
-async function collectTreeCache() {
+async function collectTreeCache(folderId = state.currentFolderId) {
   if (!hasUsableToken()) {
     showReconnectState();
     showToast('Google Drive 연결을 갱신해 주세요.');
@@ -3747,50 +3762,97 @@ async function collectTreeCache() {
   state.loadingTree = true;
   const controller = new AbortController();
   state.treeAbort = controller;
+  const accountGeneration = state.driveSessionGeneration, listingGeneration = state.listGeneration;
+  const ownsAccount = () => accountGeneration === state.driveSessionGeneration && state.treeAbort === controller;
+  const ownsView = () => ownsAccount() && folderId === state.currentFolderId && listingGeneration === state.listGeneration;
+  const assertCurrent = () => {
+    if (controller.signal.aborted || !ownsAccount()) throw new DOMException('Folder scan cancelled', 'AbortError');
+  };
+  const scopeName = state.currentFolderName || '현재 폴더';
   if (el.deepScanToggle) el.deepScanToggle.disabled = true;
   if (el.deepScanStopBtn) el.deepScanStopBtn.hidden = false;
-  const statusToken = beginLibraryStatus('드라이브 전체 폴더 트리를 수집하는 중…');
+  if (el.deepScanStopBtn) el.deepScanStopBtn.setAttribute('aria-label', `${scopeName} 하위 폴더 탐색 중지`);
+  const statusToken = beginLibraryStatus(`${scopeName} 및 하위 폴더를 탐색하는 중…`);
   try {
-    await resolveRootFolderId();
-    const items = [];
-    let pageToken = null;
-    const seenPageTokens = new Set();
-    do {
-      const params = new URLSearchParams({
-        pageSize: String(DRIVE_PAGE_SIZE),
-        orderBy: 'folder,modifiedTime desc',
-        q: `trashed = false and (mimeType = '${FOLDER_MIME}' or mimeType contains 'video/' or mimeType contains 'image/')`,
-        spaces: 'drive',
-        supportsAllDrives: 'true',
-        includeItemsFromAllDrives: 'true',
-        corpora: 'user',
-        fields: 'nextPageToken,incompleteSearch,files(id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),parents,videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation))'
-      });
-      if (pageToken) params.set('pageToken', pageToken);
-      const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, { signal: controller.signal });
-      const data = await response.json();
-      items.push(...(Array.isArray(data.files) ? data.files : []));
-      if (data.incompleteSearch) {
-        throw new Error('Google Drive가 전체 폴더 트리를 완전하게 반환하지 않았습니다. 잠시 후 다시 시도해 주세요.');
-      }
-      const next = data.nextPageToken || null;
-      if (next && seenPageTokens.has(next)) throw new Error('Drive가 같은 페이지 토큰을 반복했습니다.');
-      if (next) seenPageTokens.add(next);
-      pageToken = next;
-      updateLibraryStatus(statusToken, `드라이브 전체 폴더 트리 수집 중… ${items.length.toLocaleString('ko-KR')}개 항목`);
-    } while (pageToken);
-    state.treeCache = buildTreeIndexes(items);
+    const knownFolder = state.treeCache?.foldersById.get(folderId)
+      || state.folderIndex?.folders?.find(folder => folder.id === folderId)
+      || [...libraryNavigation.entries.values()].flatMap(entry => entry.data?.folders || []).find(folder => folder.id === folderId);
+    const resourceKeys = buildResourceKeysHeader([knownFolder]);
+    const rootParams = new URLSearchParams({ supportsAllDrives: 'true', fields: 'id,name,mimeType,parents,driveId,resourceKey' });
+    const rootResponse = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(folderId)}?${rootParams}`, {
+      signal: controller.signal, headers: resourceKeys ? { 'X-Goog-Drive-Resource-Keys': resourceKeys } : {}
+    });
+    const root = await rootResponse.json();
+    assertCurrent();
+    if (!root?.id || root.mimeType !== FOLDER_MIME || (folderId !== 'root' && root.id !== folderId)) {
+      throw new Error('탐색할 폴더 정보를 확인하지 못했습니다.');
+    }
+    if (folderId === 'root') state.rootFolderId = root.id;
+    // A Drive root has no parent; keep its metadata outside the visible root
+    // children rather than interpreting the missing parent as the 'root' alias.
+    const items = [{ ...root, parents: root.parents?.length ? root.parents : ['__drive_tree_boundary__'] }];
+    const queue = [root], scannedFolderIds = new Set();
+    for (let cursor = 0; cursor < queue.length; cursor += 1) {
+      const folder = queue[cursor];
+      if (scannedFolderIds.has(folder.id)) continue;
+      scannedFolderIds.add(folder.id);
+      let pageToken = null;
+      const seenPageTokens = new Set();
+      do {
+        assertCurrent();
+        const params = new URLSearchParams({
+          pageSize: String(DRIVE_PAGE_SIZE),
+          orderBy: 'folder,modifiedTime desc',
+          q: `trashed = false and '${folder.id}' in parents and (mimeType = '${FOLDER_MIME}' or mimeType contains 'video/' or mimeType contains 'image/')`,
+          spaces: 'drive',
+          supportsAllDrives: 'true',
+          includeItemsFromAllDrives: 'true',
+          corpora: folder.driveId || root.driveId ? 'drive' : 'user',
+          fields: 'nextPageToken,incompleteSearch,files(id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),parents,videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation))'
+        });
+        if (folder.driveId || root.driveId) params.set('driveId', folder.driveId || root.driveId);
+        if (pageToken) params.set('pageToken', pageToken);
+        const keys = buildResourceKeysHeader([folder]);
+        const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, {
+          signal: controller.signal, headers: keys ? { 'X-Goog-Drive-Resource-Keys': keys } : {}
+        });
+        const data = await response.json();
+        assertCurrent();
+        if (!Array.isArray(data.files) || (data.nextPageToken != null && typeof data.nextPageToken !== 'string')
+          || data.files.some(item => !item?.id || !Array.isArray(item.parents) || !item.parents.includes(folder.id))) {
+          throw new Error('Google Drive가 올바른 폴더 목록을 반환하지 않았습니다.');
+        }
+        items.push(...data.files);
+        queue.push(...data.files.filter(item => item.mimeType === FOLDER_MIME));
+        if (data.incompleteSearch) {
+          throw new Error('Google Drive가 폴더 목록을 완전하게 반환하지 않았습니다. 잠시 후 다시 시도해 주세요.');
+        }
+        const next = data.nextPageToken || null;
+        if (next && seenPageTokens.has(next)) throw new Error('Drive가 같은 페이지 토큰을 반복했습니다.');
+        if (next) seenPageTokens.add(next);
+        pageToken = next;
+        updateLibraryStatus(statusToken, `${scopeName} 및 하위 폴더 탐색 중… ${(items.length - 1).toLocaleString('ko-KR')}개 항목 · ${scannedFolderIds.size.toLocaleString('ko-KR')}개 폴더 확인`);
+      } while (pageToken);
+    }
+    assertCurrent();
+    if (folderId === 'root') scannedFolderIds.add('root');
+    const previous = state.treeCache;
+    const retained = (previous?.items || []).filter(item => !scannedFolderIds.has(item.parents?.[0]) && item.id !== root.id);
+    const coverage = previous && !previous.scannedFolderIds ? null : new Set([...(previous?.scannedFolderIds || []), ...scannedFolderIds]);
+    state.treeCache = buildTreeIndexes(dedupeFiles([...retained, ...items]), coverage);
     updateLibraryStatus(statusToken, '');
     return state.treeCache;
   } catch (error) {
     if (controller.signal.aborted || error?.name === 'AbortError') {
+      if (!ownsView()) return;
       // 사용자가 중지 버튼으로 취소 — 부분 데이터는 폐기하고 일반 모드로 복귀한다.
-      updateLibraryStatus(statusToken, '폴더 트리 수집을 중단했습니다.');
+      updateLibraryStatus(statusToken, `${scopeName} 하위 폴더 탐색을 중단했습니다.`);
       state.deepScan = false;
       syncDeepScanToggle();
-      applyFolderView();
+      if (state.filter !== 'favorites') await applyFolderView();
       return;
     }
+    if (!ownsView()) return;
     reportAppFailure('library-tree', error);
     updateLibraryStatus(statusToken, `하위 폴더 전체를 불러오지 못했습니다: ${humanizeDriveError(error)}`);
     if (error.status === 401) {
@@ -3800,14 +3862,16 @@ async function collectTreeCache() {
     state.deepScan = false;
     syncDeepScanToggle();
   } finally {
-    state.loadingTree = false;
-    state.treeAbort = null;
-    if (el.deepScanToggle) el.deepScanToggle.disabled = false;
-    if (el.deepScanStopBtn) el.deepScanStopBtn.hidden = true;
+    if (state.treeAbort === controller) {
+      state.loadingTree = false;
+      state.treeAbort = null;
+      if (el.deepScanToggle) el.deepScanToggle.disabled = false;
+      if (el.deepScanStopBtn) el.deepScanStopBtn.hidden = true;
+    }
   }
 }
 
-function buildTreeIndexes(items) {
+function buildTreeIndexes(items, scannedFolderIds = null) {
   const foldersById = new Map();
   const foldersByParent = new Map();
   const mediaByParent = new Map();
@@ -3822,7 +3886,7 @@ function buildTreeIndexes(items) {
       mediaByParent.get(parent).push(item);
     }
   });
-  return { items, foldersById, foldersByParent, mediaByParent };
+  return { items, foldersById, foldersByParent, mediaByParent, scannedFolderIds };
 }
 
 function isSupportedMediaFile(file) {
@@ -3872,7 +3936,7 @@ function effectiveRootId() {
 
 function computeAndRenderSubtree() {
   const cache = state.treeCache;
-  if (!cache) return;
+  if (!treeCacheCoversFolder(cache)) return;
   // 'root' 별칭과 실제 루트 폴더 ID 양쪽에서 직계 자식이 붙어 있을 수 있어 둘 다 탐색
   const rootIds = new Set([effectiveRootId()]);
   if (state.currentFolderId === 'root') rootIds.add('root');
@@ -3923,6 +3987,8 @@ async function setLibraryFilter(filter) {
   });
   if (next === 'favorites') {
     await loadFavoriteFiles();
+  } else if (state.deepScan && !state.loadingTree) {
+    await applyFolderView();
   } else {
     renderFiles({ resetWindow: true });
   }
@@ -5432,6 +5498,14 @@ function installCardSelectionGestures(button, file) {
   });
 }
 
+function filenamePartLabel(name) {
+  const text = String(name || '');
+  const boundary = '(?=$|[\\s._\\-\\[\\]()])';
+  const episode = text.match(new RegExp('(?:^|[\\s._\\-\\[\\]()])EP[.\\s]*(\\d{1,3})' + boundary, 'i'));
+  const part = text.match(new RegExp('(?:^|[\\s._\\-\\[\\]()])PART[.\\s]*(VIII|VII|VI|IV|III|II|IX|X|V|I|\\d{1,3})' + boundary, 'i'));
+  return [episode && `EP.${episode[1]}`, part && `PART${part[1].toUpperCase()}`].filter(Boolean).join(' · ');
+}
+
 function createFileCard(file, index = 0, absoluteIndex = index) {
   const isVideo = file.mimeType?.startsWith('video/');
   const isGif = isGifFile(file);
@@ -5452,6 +5526,7 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
   button.title = canDownload
     ? `${isVideo ? '영상' : '이미지'} 원본 열기`
     : `${isVideo ? '영상' : '이미지'} Google 호환 재생기로 열기`;
+  button.setAttribute('aria-label', `${file.name || '이름 없는 파일'} · ${button.title}`);
 
   const visual = document.createElement('div');
   visual.className = `file-card-visual ${isVideo ? 'video' : 'image'}`;
@@ -5553,6 +5628,16 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
   const name = document.createElement('span');
   name.className = 'file-card-title';
   name.textContent = file.name || '이름 없는 파일';
+  const nameButton = document.createElement('button');
+  nameButton.type = 'button';
+  nameButton.className = 'file-card-name-button';
+  nameButton.setAttribute('aria-label', `${name.textContent} · 전체 파일명 보기`);
+  nameButton.setAttribute('aria-haspopup', 'dialog');
+  nameButton.setAttribute('aria-controls', 'fileNameDialog');
+  const nameGlyph = document.createElement('span');
+  nameGlyph.setAttribute('aria-hidden', 'true');
+  nameGlyph.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>';
+  nameButton.append(name, nameGlyph);
   
   const meta = document.createElement('div');
   meta.className = 'file-card-meta';
@@ -5566,11 +5651,11 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
   details.textContent = formatBytes(file.size);
   const status = document.createElement('span');
   status.className = 'file-card-status';
-  status.textContent = canDownload ? '원본 파일 재생' : '다운로드 제한';
+  status.textContent = canDownload ? (filenamePartLabel(file.name) || '원본 파일 재생') : '다운로드 제한';
   meta.append(details, status);
 
-  body.append(name, meta);
-  button.append(visual, body);
+  body.append(nameButton, meta);
+  button.append(visual);
   const favoriteButton = document.createElement('button');
   favoriteButton.type = 'button';
   favoriteButton.className = 'file-card-favorite';
@@ -5586,8 +5671,14 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
     flashPressed(favoriteButton);
     showToast(liked ? '좋아요에 추가했습니다.' : '좋아요를 취소했습니다.');
   });
-  card.append(button, favoriteButton);
+  card.append(button, body, favoriteButton);
   installCardSelectionGestures(button, file);
+  installCardSelectionGestures(nameButton, file);
+  nameButton.addEventListener('click', () => {
+    if (state.selectionMode) return;
+    el.fileNameText.textContent = file.name || '이름 없는 파일';
+    if (!el.fileNameDialog.open) el.fileNameDialog.showModal();
+  });
   button.addEventListener('click', () => {
     if (state.selectionMode) return;
     openPlayer(file);
@@ -5784,7 +5875,8 @@ function setupPlayerChrome() {
     } else playerRevealPointer = null;
     if (revealOnly) {
       clearTimeout(singleTapTimer); singleTapTimer = null; lastTapTime = 0;
-      revealPlayerChrome({touch:event.pointerType !== 'mouse'});
+      if (!el.playerModal.classList.contains('controls-idle')) setPlayerChromeVisible(false);
+      else revealPlayerChrome({touch:event.pointerType !== 'mouse'});
     }
   }, { capture: true, passive: true });
   const finishRevealPointer = event => {
@@ -5803,6 +5895,15 @@ function setupPlayerChrome() {
       && (owned.revealOnly || !playerChrome.contains(event.target))) {
       event.preventDefault();event.stopImmediatePropagation();
       el.mediaStage.focus({preventScroll:true});return;
+    }
+    if (event.detail && playerChrome.contains(event.target)
+      && !event.target.closest?.('button,a,input,select,textarea,summary,details,[role="slider"],[role="button"]')) {
+      cancelPendingStageTap();
+      event.preventDefault(); event.stopImmediatePropagation();
+      el.mediaStage.focus({preventScroll:true});
+      playerChromePointer = false;
+      setPlayerChromeVisible(false);
+      return;
     }
     if (!event.detail || !event.target.closest?.('button,summary')) return;
     // Run after handlers, including ones that stop propagation. Keyboard
@@ -5825,26 +5926,29 @@ function setupPlayerChrome() {
     const selector = 'button,a,summary,input,select,[tabindex="0"]';
     const recovering = el.mediaError && !el.mediaError.hidden;
     const controls = [...(recovering ? el.mediaError.querySelectorAll(selector) : []), ...playerChrome.querySelectorAll(selector)]
-      .filter(node => !node.disabled && node.getClientRects().length && !node.closest('[hidden]'));
+      .filter(isOperablePlayerControl);
     if (!controls.length) return;
     const index = controls.indexOf(document.activeElement);
-    if (recovering) {
-      event.preventDefault();
-      const next = index < 0 ? (event.shiftKey ? controls.length - 1 : 0)
-        : (index + (event.shiftKey ? -1 : 1) + controls.length) % controls.length;
-      controls[next].focus({ preventScroll: true });
-      return;
-    }
-    if (index < 0 || (!event.shiftKey && index === controls.length-1) || (event.shiftKey && index === 0)) {
-      event.preventDefault();
-      controls[event.shiftKey ? controls.length-1 : 0].focus({preventScroll:true});
-    }
+    event.preventDefault();
+    const next = index < 0 ? (event.shiftKey ? controls.length - 1 : 0)
+      : (index + (event.shiftKey ? -1 : 1) + controls.length) % controls.length;
+    controls[next].focus({ preventScroll: true });
   }, true);
   window.addEventListener('blur', () => { playerChromePointer=false; playerRevealPointer=null; playerRevealClick=null; cancelActiveTouchGesture(); });
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') { playerChromePointer=false; playerRevealPointer=null; playerRevealClick=null; cancelActiveTouchGesture(); setPlayerChromeVisible(false); }
   });
   setPlayerChromeVisible(false);
+}
+
+function isOperablePlayerControl(node) {
+  if (node.disabled || node.matches(':disabled') || node.tabIndex < 0
+    || node.closest('[hidden],[inert]') || !node.getClientRects().length) return false;
+  // Closed details can expose descendant rectangles without allowing focus.
+  const closed = node.closest('details:not([open])');
+  if (closed && node !== closed.querySelector(':scope > summary')) return false;
+  const style = getComputedStyle(node);
+  return style.display !== 'none' && style.visibility === 'visible';
 }
 
 function hasOpenPlayerControlsMenu() {
@@ -6174,16 +6278,62 @@ function retirePlayerTracks() {
 
 function refreshPlayerSubtitles() { void playerTracksOwner?.presentation?.update(); }
 
+function cancelPlayerTrackDiscovery() {
+  // Completed subtitle presentation remains owned by the playing file. A
+  // dismissed discovery must stop its requests and cannot publish late UI.
+  if (!el.playerTracksDialog.open && playerTracksOwner?.checking) void retirePlayerTracks();
+}
+
+async function retryPlayerTracks() {
+  const owner = playerTracksOwner;
+  if (!owner || owner.checking || owner.switching || !owner.cleanupOk) return;
+  const {file, session} = owner;
+  const retired = await retirePlayerTracks();
+  if (retired.settled && state.selected?.id === file.id && state.mediaSession === session) await openPlayerTracks();
+}
+
+function setPlayerTracksStatus(owner, phase, message, retry = false) {
+  owner.phase = phase;
+  el.playerTracksStatus.textContent = message;
+  if (el.playerTracksStatus.dataset) el.playerTracksStatus.dataset.phase = phase;
+  if (el.playerTracksRetry) {
+    el.playerTracksRetry.hidden = !retry;
+    el.playerTracksRetry.disabled = !owner.cleanupOk || owner.checking;
+  }
+}
+
+function playerTracksFailureMessage(error) {
+  const code = error?.message || '';
+  if (/TIMEOUT/.test(code)) return '확인이 30초 안에 끝나지 않았습니다. 네트워크 상태를 확인한 뒤 다시 시도해 주세요.';
+  if (/CONTENT_DRIFT|METADATA_IDENTITY/.test(code)) return '확인 중 원본 파일이 변경됐습니다. 다시 시도해 주세요.';
+  if (/CLEANUP_UNSETTLED|CLEANUP_UNCONFIRMED/.test(code)) return '이전 확인 요청을 종료하지 못했습니다. 플레이어를 닫고 다시 열어 주세요.';
+  if (/IDENTITY_UNAVAILABLE/.test(code)) return '원본 파일의 버전을 확인할 수 없습니다. 다시 시도해 주세요.';
+  return '음성·자막 목록을 읽지 못했습니다. 네트워크 상태를 확인한 뒤 다시 시도해 주세요.';
+}
+
+async function awaitPlayerTrackModule(owner, pending) {
+  const signal = owner.controller.signal;
+  let cancel;
+  try {
+    return await Promise.race([pending, new Promise((_, reject) => {
+      cancel = () => reject(new Error('GENERAL_CANCELLED'));
+      signal.addEventListener('abort', cancel, {once:true});
+      if (signal.aborted) cancel();
+    })]);
+  } finally { signal.removeEventListener('abort', cancel); }
+}
+
 async function openPlayerTracks() {
   if (!state.selected || el.videoPlayer.hidden || el.playerSheet.hidden) return;
   if (el.playerMoreMenu) el.playerMoreMenu.open = false;
   collapseShortsExpand();
   el.playerTracksDialog.showModal();
   if (playerTracksOwner?.current()) return;
+  if (playerTracksOwner) void retirePlayerTracks();
+  if (!el.playerTracksDialog.open) el.playerTracksDialog.showModal();
   el.playerAudioTrack.replaceChildren(new Option('현재 원본 음성', ''));
   el.playerSubtitleTrack.replaceChildren(new Option('끔', ''));
   el.playerAudioTrack.disabled = el.playerSubtitleTrack.disabled = true;
-  el.playerTracksStatus.textContent = '음성·자막 목록을 확인하는 중입니다.';
   const file = state.selected, session = state.mediaSession, account = state.authAccountKey;
   const accountGeneration = state.driveSessionGeneration, swController = navigator.serviceWorker?.controller;
   const controller = new AbortController();
@@ -6192,17 +6342,23 @@ async function openPlayerTracks() {
     && q1Playback.swController === swController && q1Playback.swGeneration === mediaSourceGeneration
     && !q1Playback.controller.signal.aborted ? q1Playback : null;
   const owner = {file, session, account, accountGeneration, controller, source: null,
-    subtitles: null, presentation: null, cleanupOk: true,
+    subtitles: null, presentation: null, cleanupOk: true, checking: true,
     identity: activeAudio?.routeIdentity ? {...activeAudio.routeIdentity} : null,
     selectedAudioTrackId: activeAudio?.selectedAudioTrackId,
     nativeColorObservation: activeAudio?.nativeColorObservation || null};
-  owner.current = () => playerTracksOwner === owner && !controller.signal.aborted
+  owner.visible = () => playerTracksOwner === owner
     && state.selected?.id === file.id && state.mediaSession === session
     && state.authAccountKey === account && state.driveSessionGeneration === accountGeneration
     && navigator.serviceWorker?.controller === swController && !el.playerSheet.hidden;
+  owner.current = () => owner.visible() && !controller.signal.aborted
+    && (!owner.checking || el.playerTracksDialog.open);
   playerTracksOwner = owner;
+  setPlayerTracksStatus(owner, 'checking', '음성·자막 목록을 확인하는 중입니다.');
+  // Optional discovery has a total wall, rather than a fresh timeout for every
+  // metadata/range request. It never times a selected subtitle's playback life.
+  let discoveryTimer;
   const readIdentity = async () => {
-    const {openDriveQ1Source} = await import('./media/drive-source.mjs');
+    const {openDriveQ1Source} = await awaitPlayerTrackModule(owner, import('./media/drive-source.mjs'));
     if (!owner.current()) throw new Error('Q1_SOURCE_STALE');
     const metadataUrl = new URL(`${DRIVE_API}/files/${encodeURIComponent(file.id)}`);
     metadataUrl.searchParams.set('fields', 'id,headRevisionId,version,size,mimeType,modifiedTime,sha256Checksum,trashed,capabilities(canDownload)');
@@ -6238,13 +6394,18 @@ async function openPlayerTracks() {
       const retired = await playerTracksRetirement;
       if (!owner.current()) return;
       if (!retired.settled) throw new Error('GENERAL_TRACK_CLEANUP_UNSETTLED');
-      const {probePinnedGeneralTracks} = await import('./media/general-tracks.mjs');
+      discoveryTimer = setTimeout(() => { owner.timedOut = true; controller.abort(); }, 30000);
+      const {probePinnedGeneralTracks} = await awaitPlayerTrackModule(owner, import('./media/general-tracks.mjs'));
       owner.source = await readIdentity();
       owner.inventory = await probePinnedGeneralTracks(owner.source, {signal: controller.signal, isCurrent: owner.current});
+      owner.reason = owner.inventory.reason || null;
       owner.identity = {...owner.inventory.identity};
       owner.cleanupOk &&= owner.inventory.cleanup?.settled === true;
       owner.source = null;
-      if (!owner.current()) return;
+      if (!owner.current()) {
+        if (owner.timedOut) throw new Error('TRACK_DISCOVERY_TIMEOUT');
+        return;
+      }
       if (!owner.cleanupOk) throw new Error('GENERAL_TRACK_CLEANUP_UNSETTLED');
       el.playerAudioTrack.replaceChildren();
       for (const track of owner.inventory.audioTracks) {
@@ -6260,15 +6421,29 @@ async function openPlayerTracks() {
       }
       el.playerAudioTrack.disabled = !owner.inventory.audioTracks.some(track => track.route !== 'unqualified');
       if (owner.inventory.kind !== 'iso') {
-        el.playerTracksStatus.textContent = '이 원본 형식의 음성·자막 선택을 지원하지 않습니다.';
+        setPlayerTracksStatus(owner, 'unsupported', '이 원본 형식의 음성·자막 선택을 지원하지 않습니다.');
         return;
       }
-      const [{createPinnedSubtitleTrack}, {createSubtitlePresentation}] = await Promise.all([
-        import('./media/subtitle-track.mjs'), import('./media/subtitle-presentation.mjs')]);
+      if (!owner.inventory.subtitleTracks?.length) {
+        const audioPresent = owner.inventory.audioTracks.length > 0;
+        setPlayerTracksStatus(owner, !audioPresent ? 'empty' : el.playerAudioTrack.disabled ? 'unsupported' : 'ready',
+          !audioPresent ? '원본에 선택 가능한 음성·자막 트랙이 없습니다.'
+            : el.playerAudioTrack.disabled ? '음성 목록을 확인했습니다. 이 파일의 음성 전환은 지원하지 않으며, 원본에 자막 트랙은 없습니다.'
+              : '음성 목록을 확인했습니다. 원본에 자막 트랙은 없습니다.');
+        return;
+      }
+      const [{createPinnedSubtitleTrack}, {createSubtitlePresentation}] = await awaitPlayerTrackModule(owner, Promise.all([
+        import('./media/subtitle-track.mjs'), import('./media/subtitle-presentation.mjs')]));
       owner.source = await readIdentity();
-      owner.subtitles = await createPinnedSubtitleTrack(owner.source, {signal: controller.signal, isCurrent: owner.current});
+      owner.subtitles = await createPinnedSubtitleTrack(owner.source, {signal: controller.signal, isCurrent: owner.current,
+        metadata: owner.inventory.subtitleMetadata});
+      owner.inventory.subtitleMetadata = null;
       owner.source = null;
-      if (!owner.current()) { owner.cleanupOk &&= (await owner.subtitles.dispose()).settled; return; }
+      if (!owner.current()) {
+        owner.cleanupOk &&= (await owner.subtitles.dispose()).settled;
+        if (owner.timedOut) throw new Error('TRACK_DISCOVERY_TIMEOUT');
+        return;
+      }
       for (const track of owner.subtitles.tracks) {
         const option = new Option(`${track.label || track.language || '자막'} (${track.trackId})${track.supported ? '' : ' · 선택 지원 안 됨'}`, String(track.trackId));
         option.disabled = !track.supported; el.playerSubtitleTrack.append(option);
@@ -6276,11 +6451,17 @@ async function openPlayerTracks() {
       el.playerSubtitleTrack.disabled = !owner.subtitles.tracks.some(track => track.supported);
       if (el.playerSubtitleTrack.disabled) {
         owner.cleanupOk &&= (await owner.subtitles.dispose()).settled; owner.subtitles = null;
+        if (owner.timedOut) throw new Error('TRACK_DISCOVERY_TIMEOUT');
+        if (!owner.current()) return;
+        if (!owner.cleanupOk) throw new Error('GENERAL_TRACK_CLEANUP_UNSETTLED');
       } else {
         if (typeof el.videoPlayer.addTextTrack !== 'function' || typeof globalThis.VTTCue !== 'function') {
           owner.cleanupOk &&= (await owner.subtitles.dispose()).settled; owner.subtitles = null;
+          if (owner.timedOut) throw new Error('TRACK_DISCOVERY_TIMEOUT');
+          if (!owner.current()) return;
+          if (!owner.cleanupOk) throw new Error('GENERAL_TRACK_CLEANUP_UNSETTLED');
           el.playerSubtitleTrack.disabled = true;
-          el.playerTracksStatus.textContent = '이 브라우저는 선택한 텍스트 자막 표시를 지원하지 않습니다.';
+          setPlayerTracksStatus(owner, 'unsupported', '이 브라우저는 선택한 텍스트 자막 표시를 지원하지 않습니다.');
           return;
         }
         playerSubtitleTextTrack ||= el.videoPlayer.addTextTrack('subtitles', '선택한 자막');
@@ -6295,12 +6476,24 @@ async function openPlayerTracks() {
             if (owner.current()) el.playerTracksStatus.textContent = '선택한 자막 읽기가 중단됐습니다. 다른 음성으로 전환하지 않습니다.';
           }});
       }
-      el.playerTracksStatus.textContent = owner.subtitles
-        ? '음성은 선택한 언어를 유지합니다. 자막은 텍스트만 표시합니다.' : '선택 가능한 텍스트 자막이 없습니다.';
+      setPlayerTracksStatus(owner, owner.subtitles ? 'ready' : 'unsupported', owner.subtitles
+        ? '음성은 선택한 언어를 유지합니다. 자막은 텍스트만 표시합니다.' : '원본에 자막 트랙이 있지만, 이 자막 형식의 선택을 지원하지 않습니다.');
     } catch (error) {
+      owner.reason = owner.timedOut ? 'TRACK_DISCOVERY_TIMEOUT' : error?.message || 'TRACK_DISCOVERY_FAILED';
       if (error?.cleanup?.settled === false) owner.cleanupOk = false;
       if (owner.source) { owner.cleanupOk &&= (await owner.source.abort()).settled; owner.source = null; }
-      if (owner.current()) el.playerTracksStatus.textContent = '이 파일의 음성·자막 목록을 안전하게 확인하지 못했습니다.';
+      if (owner.visible() && el.playerTracksDialog.open) {
+        const unsupported = /^SUBTITLE_.*(?:UNSUPPORTED|LIMIT)$/.test(error?.message || '');
+        if (!unsupported) el.playerAudioTrack.disabled = el.playerSubtitleTrack.disabled = true;
+        owner.checking = false;
+        setPlayerTracksStatus(owner, unsupported ? 'unsupported' : 'failed', unsupported
+          ? '원본의 자막 목록은 확인했지만, 이 자막 형식이나 크기는 선택을 지원하지 않습니다.'
+          : playerTracksFailureMessage(owner.timedOut ? new Error('TRACK_DISCOVERY_TIMEOUT') : error), !unsupported);
+      }
+    } finally {
+      clearTimeout(discoveryTimer); owner.checking = false;
+      if (owner.inventory) owner.inventory.subtitleMetadata = null;
+      if (owner.visible() && el.playerTracksRetry) el.playerTracksRetry.disabled = !owner.cleanupOk;
     }
   })();
   await owner.loading;
@@ -6820,13 +7013,7 @@ function toggleSpeedMenu(event) {
 function setPlaybackSpeed(speed) {
   if (!el.videoPlayer) return;
   el.videoPlayer.playbackRate = speed;
-  if (el.ctrlSpeedText) el.ctrlSpeedText.textContent = `${speed}×`;
-  const buttons = el.speedDropdown?.querySelectorAll('button') || [];
-  buttons.forEach((btn) => {
-    const active = Number(btn.dataset.speed) === speed;
-    btn.classList.toggle('active', active);
-    btn.setAttribute('aria-checked', String(active));
-  });
+  updateSpeedUI();
   isSpeedMenuOpen = false;
   if (el.speedDropdown) el.speedDropdown.hidden = true;
   el.ctrlSpeedButton?.setAttribute('aria-expanded', 'false');
@@ -6838,6 +7025,11 @@ function updateSpeedUI() {
   if (!el.videoPlayer) return;
   const speed = el.videoPlayer.playbackRate || 1;
   if (el.ctrlSpeedText) el.ctrlSpeedText.textContent = `${speed}×`;
+  (el.speedDropdown?.querySelectorAll('button') || []).forEach(btn => {
+    const active = Number(btn.dataset.speed) === speed;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-checked', String(active));
+  });
 }
 
 function onDocumentClickForSpeedMenu(event) {
@@ -7163,7 +7355,7 @@ function showPlayerFeedback(text) {
   feedbackTimer = setTimeout(() => {
     el.playerFeedback.classList.remove('active');
     setTimeout(() => { if (!el.playerFeedback.classList.contains('active')) el.playerFeedback.hidden = true; }, 200);
-  }, 850);
+  }, /^[+−-]?\d+S$/.test(text) ? 450 : 850);
 }
 
 function getPlaybackFileList() {
@@ -7629,15 +7821,6 @@ function setStageImmersive(on) {
   else resetControlsTimer();
 }
 
-function flashSeekHint(zone) {
-  const hint = zone === 'left' ? el.seekHintLeft : zone === 'right' ? el.seekHintRight : null;
-  if (!hint) return;
-  hint.classList.remove('active');
-  void hint.offsetWidth;
-  hint.classList.add('active');
-  setTimeout(() => hint.classList.remove('active'), 550);
-}
-
 function handleStageTap(clientX, clientY) {
   const session = state.mediaSession;
   const now = Date.now();
@@ -7664,7 +7847,6 @@ function handleStageTap(clientX, clientY) {
     if (doubleTapAction === 'seek-backward' || doubleTapAction === 'seek-forward') {
       const seekZone = doubleTapAction === 'seek-backward' ? 'left' : 'right';
       seekRelative(seekZone === 'left' ? -10 : 10);
-      flashSeekHint(seekZone);
     } else if (doubleTapAction === 'favorite') {
       toggleFavoriteForSelected({ showFeedback: true });
       navigator.vibrate?.(10);
@@ -7677,7 +7859,9 @@ function handleStageTap(clientX, clientY) {
   if (singleTapTimer) clearTimeout(singleTapTimer);
   singleTapTimer = null;
   if (zone !== 'center') {
-    revealPlayerChrome({ touch: playerChromeTouch });
+    if (!el.playerModal.classList.contains('controls-idle')) {
+      setPlayerChromeVisible(false);
+    } else revealPlayerChrome({ touch: playerChromeTouch });
     return;
   }
   singleTapTimer = setTimeout(() => {
@@ -10584,7 +10768,7 @@ async function performDeleteFile() {
       generatedThumbnailCache.delete(file.id);
     });
     if (state.treeCache) {
-      state.treeCache = buildTreeIndexes(state.treeCache.items.filter((file) => !removedIds.has(file.id)));
+      state.treeCache = buildTreeIndexes(state.treeCache.items.filter((file) => !removedIds.has(file.id)), state.treeCache.scannedFolderIds);
     }
     if (el.deleteDialog?.open) el.deleteDialog.close();
     collapseShortsExpand();
@@ -11041,7 +11225,7 @@ async function performMoveFile() {
 
     if (!state.deepScan) state.files = state.files.filter((file) => !movedIds.has(file.id));
     moved.forEach((file) => shuffledOrderMap.delete(file.id));
-    if (state.treeCache) state.treeCache = buildTreeIndexes(state.treeCache.items);
+    if (state.treeCache) state.treeCache = buildTreeIndexes(state.treeCache.items, state.treeCache.scannedFolderIds);
     if (el.moveDialog?.open) el.moveDialog.close();
     collapseShortsExpand();
     if (state.deepScan && state.treeCache) computeAndRenderSubtree();
@@ -11211,6 +11395,7 @@ function getPlaybackQualityLabel(mode, verified) {
 function updateQualityDisplay() {
   const file = state.selected;
   if (!file) return;
+  updatePlayerNavigationLabels(file);
 
   const attempt = state.mediaAttempt;
   const playbackMode = state.mediaPlaybackMode;
@@ -11234,6 +11419,17 @@ function updateQualityDisplay() {
   const effectiveW = liveW || metaW;
   const effectiveH = liveH || metaH;
   const effectiveCat = getResolutionCategory(effectiveW, effectiveH);
+  if (el.playerQuality) {
+    const verified = state.mediaTransportVerified && !state.demo
+      && playbackMode !== PLAYBACK_MODE.COMPATIBILITY && !attempt.startsWith('drive-preview');
+    const original = verified && playbackMode !== PLAYBACK_MODE.VIDEO_COMPATIBILITY;
+    const knownSize = liveW && liveH ? [liveW, liveH] : original && metaW && metaH ? [metaW, metaH] : null;
+    const resolution = knownSize ? `${Math.min(...knownSize)}p` : '';
+    const source = original ? (playbackMode === PLAYBACK_MODE.AUDIO_COMPATIBILITY ? '영상 원본' : '원본')
+      : verified ? '호환 변환' : '미확인';
+    el.playerQuality.textContent = [source, resolution].filter(Boolean).join(' · ');
+    el.playerQuality.hidden = !isVideo;
+  }
 
   if (el.mediaFileSizeType) {
     const sizeStr = formatBytes(file.size);
@@ -11305,10 +11501,24 @@ function updateQualityDisplay() {
 
 }
 
+function updatePlayerNavigationLabels(file) {
+  const noun = isVideoPresentation(file) ? '영상' : '이미지';
+  for (const [ids, label] of [
+    [['topbarPrevBtn','ctrlPrevVideo'], `이전 ${noun}`],
+    [['topbarNextBtn','ctrlNextVideo'], `다음 ${noun}`],
+    [['topbarRandomBtn','ctrlRandomShorts'], `랜덤 ${noun}${noun === '영상' ? ' (쇼츠)' : ''}`]
+  ]) for (const id of ids) {
+    if (!el[id]) continue;
+    el[id].title = label;
+    el[id].setAttribute('aria-label', label);
+  }
+}
+
 function showMediaLoading(message) {
   updateOriginalBufferProgress.lastUpdate = -Infinity;
   setMediaLoadingProgress(null, '준비 중', message);
   el.mediaLoading.hidden = false;
+  el.mediaLoading.classList?.toggle('seek-loading', Boolean(state.isSeeking && state.mediaTransportStarted));
   el.mediaError.hidden = true;
 }
 
@@ -11548,8 +11758,11 @@ function isMobileDevice() {
 }
 
 function openSettings(scrollToHelp) {
+  const content = el.settingsDialog.querySelector('.dialog-content');
+  if (scrollToHelp && el.settingsAdvanced) el.settingsAdvanced.open = true;
   if (!el.settingsDialog.open) el.settingsDialog.showModal();
-  if (scrollToHelp) requestAnimationFrame(() => el.setupHelpSection.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  if (content) content.scrollTop = 0;
+  if (scrollToHelp) requestAnimationFrame(() => el.setupHelpSection.scrollIntoView({ behavior: 'instant', block: 'start' }));
 }
 
 async function postAuthAction(path, body = {}) {

@@ -149,12 +149,19 @@ export function inspectSubtitleMoov(bytes,{size,mdatRanges=[]}={}) {
 
 // The source is a separate pinned owner. Cleanup aborts it exactly once; sharing
 // the playback source here would incorrectly retire the playback owner.
-export async function createPinnedSubtitleTrack(source,{signal,isCurrent=()=>true,readTimeoutMs=30000}={}) {
+export async function createPinnedSubtitleTrack(source,{signal,isCurrent=()=>true,readTimeoutMs=30000,metadata=null}={}) {
   const rpc=createGeneralSource(source,{signal,isCurrent,readTimeoutMs,discoveryBytes:8*1024*1024,discoveryRequests:512});
   let inventory,selected=null,generation=0,inFlight=false,disposed=false;
   const dispose=async()=>{ disposed=true; generation++; selected=null; if(inventory) for(const track of inventory.tracks) track.samples=[]; return rpc.cleanup(); };
   try {
     let p=0,moov=null; const mdatRanges=[];
+    if (metadata) {
+      // Reuse only an already fenced metadata snapshot of this exact revision.
+      demand(metadata.moov instanceof Uint8Array && metadata.size === rpc.size
+        && ['fileId','accountKey','accountGeneration','headRevisionId','size','mimeType','modifiedTime','sha256Checksum']
+          .every(key => metadata.identity?.[key] === source.identity[key]), 'METADATA_IDENTITY');
+      moov=metadata.moov; mdatRanges.push(...metadata.mdatRanges); p=rpc.size;
+    }
     for(let n=0;p<rpc.size;n++) { demand(n<256,'TOP_BOX_LIMIT'); const b=await rpc.exact(p,Math.min(16,rpc.size-p)); demand(b.length>=8,'BOX_HEADER'); let length=u32(b,0),header=8;
       if(length===1) { demand(b.length>=16,'BOX_HEADER'); length=u64(b,8); header=16; } else if(!length) length=rpc.size-p;
       const end=safe(p+length); demand(length>=header&&end<=rpc.size,'BOX_BOUNDS'); const type=fourcc(b,4); demand(!FORBIDDEN.includes(type),'FEATURE_UNSUPPORTED');
