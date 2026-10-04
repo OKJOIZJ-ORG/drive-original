@@ -2,7 +2,13 @@
 
 Evidence class: local source code plus dated automated/browser verification. External claims may be sourced only from entries that are `operational` or `verified`.
 
-## Current operating release — 1.23.0 (2026-10-04)
+## Current operating release — 1.23.3 (2026-10-04)
+
+- `operational`: source8bc5938/main publication at preserved origin, Worker9ab1e4ad-477a-4ea3-b985-23578c74e68c;65-entry ZIP/extracted package and five changed public responses equal Git blobs, four private routes404. RELEASE-1.23.3.md owns distribution receipt.
+- `verified finite UI`: D084 calmer search/list boundaries,44×44 refresh, hover only for fine pointers while actual selected/focus remain, pagination actual/idle/error/retry/completion and scoped stale-result fences, PNG stage/entry/card text,44px mobile/32px desktop seek hit areas with rectangle corners.915product checks before final CSS/version-only change plusstatic20 and actual affected inputs. Normal Windows11Pro Chrome154.0.8037.93 and physical SM-F711N Android15 Chrome154.0.8037.126 verification, including pagination2020completion/failure/retry/transition, actual Android18touch positions, final mobile corners, keyboard ring versus touch hover. Desktop seek container is hidden in the actual Android layouts and its acceptance belongs to PC. QA owner qa/uiux-followup/README.md.
+- `verified finite native continuity`: unchanged1.23.1 playback implementation, six actual short/long card starts3.165–3.198seconds; uninterrupted1x900.029wallseconds,900.037media seconds,+26974frames with no observed waiting/stalled/seeking/pause/error increase. Selected track request fault→actual retry qualified PCready/audio1/subtitle0 and Android metadata-complete/knownunsupportedindex limit, with Android native playback advancing. Pending request close/transition cleanup qualified. Historical45s cause remainsUNKNOWN; no alternative-track existence, full41m53s, general performance, iOS or human-finger claim.
+
+## Historical operating release — 1.23.0 (2026-10-04)
 
 - `verified local`: compact responsive library/player, measured loading percentage, central-square/exterior touch mapping, correct SVG state icons and retained desktop image navigation. Product suite872/872; final visual/DOM QA owned by `qa/responsive-redesign/README.md`.
 - `verified actual local-source playback`: authenticated PC and physical Android used only 뷰너 media, with existing SW control and local source substitution. Android portrait/landscape center and four-corner gestures pass; PC playback and keyboard seek pass. Final icon/version/image-navigation adjustments are covered locally. No iOS or human-finger acceptance claim.

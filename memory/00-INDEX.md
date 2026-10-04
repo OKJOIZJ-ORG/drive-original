@@ -30,6 +30,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `RELEASE-1.23.3.md`, historical `RELEASE-1.23.2.md` and `../qa/uiux-followup/README.md`: D084 eight remaining UI/verification requests and three image directives. Operating8bc5938/Worker9ab1e4ad;915product checks plus finalstatic20 and actual PC/Android input, pagination retry/fencing, track fault recovery, six starts and15-minute uninterrupted playback. Historical45s causeUNKNOWN; iOS user validation and full-duration limits preserved.
+
 - `RELEASE-1.23.1.md` and `../qa/uiux-polish/README.md`: D083 eleven functional/UI requests and five screenshot directives; published4fbbb5f/Workerdebe477b,905product checks, six fixture layouts and actual normal PC/physicalAndroid UI/touch replay. First transient long startup remains causeUNKNOWN; iOS user validation/sustained playback excluded.
 
 - `RELEASE-1.23.0.md` and `../qa/responsive-redesign/README.md`: D081 responsive redesign/loading/touch/playback optimization; D082 operating release with actual normal PC and Android updates/replay complete. Public8ee61df, Worker c31cb961.
