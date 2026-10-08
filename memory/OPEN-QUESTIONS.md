@@ -146,3 +146,9 @@ LOCAL_DONE: rounded shadow clipping and temporary mobile hold2x are implemented 
 ## 2026-10-08 — D092 photo-control evidence boundary
 
 LOCAL_DONE: mobile photos and video→photo transitions contain no video-only paint/AX/Tab control, persistent feedback/menu state retires immediately, and native video recovery/hold2x pass in scoped local emulation. UNKNOWN: new actual operating/account/Drive acquisition, physical Android/iOS and finger/OS-edge behavior. Owner: qa/image-control-cleanup/README.md. No remaining local blocker or requested decision; this boundary creates no unattended device work or new deployment grant.
+
+## 2026-10-08 — D093 delivery resolves D091/D092 operating boundary
+
+RESOLVED for authorized operating delivery: D093 explicitly approves prepared D091/D092 and minimal loading;1.23.5 runtime5f38160/Worker7c761d33 deployed with exact public/config/ordinary account update and one native clip proof. No remaining delivery decision. Previous D091/D092 new-deployment authority and operating-execution unknowns are closed in this finite scope.
+
+UNKNOWN remains: new physical Android/iOS/finger/OS-edge, sustained/all-format evidence and D089 controlled speed/acquisition attribution. RELEASE-1.23.5.md owns current proof; these limits create no unattended queue or automatic device work.
