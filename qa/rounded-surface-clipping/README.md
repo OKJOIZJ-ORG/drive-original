@@ -1,0 +1,15 @@
+# Rounded surface clipping — local native audit
+
+Run from `source`: `node qa/rounded-surface-clipping/native.cjs`.
+
+Observed cause: the transparent native `<dialog>` uses the browser's `overflow:auto` and square clipping box. The rounded `.dialog-box` owns its background and shadow, but its shadow was abruptly clipped at the square host. Baseline `f3463f1` reproduces the opaque corner scraps in the filename dialog. The common host now uses `overflow:visible`; `.dialog-box` retains rounded `overflow:hidden`, and `.dialog-content` still owns scrolling. This changes two CSS lines, with no dependency or component rewrite. [MDN overflow](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/overflow) documents the clipping distinction.
+
+Observed on 2026-10-08: four candidate layouts (1440×900,390×844,320×568,844×390) passed all six native dialogs: filename, settings, audio/subtitles, trash confirmation, move, permission. Each kept the painted shell inside the viewport, focus inside the modal, independently scrollable long body, reachable last item, visible header and working safe close. Filename opening and library options opening/Escape use ordinary app controls. Other dialog openings and long body content are explicit local fixtures, without an account or Drive mutation.
+
+The library options menu and existing speed/more/mobile-expanded menu surfaces were visually inspected. Their backgrounds already own their curves, shadows and inset controls; they need no new clipping rule. The latter three are explicit paint fixtures using the actual DOM/CSS reparented outside hidden responsive control parents. Only their intended layouts qualify: the mobile expanded menu's unstyled desktop fixture is not product UI or acceptance. Menu fixture focus is native; no actual playback or command behavior is inferred from these images.
+
+`results.json` owns exact public hashes and measurements. Native screenshots and the visually reviewed eight contact sheets are in `maintenance/tools/rounded-surface-clipping/`. The same filename before/after pair uses a clearly labeled high-contrast background calibration; the ordinary demo app pair is also retained. Visual review confirms the hard square cutoff becomes a soft continuous shadow and all intended curved surfaces remain clean.
+
+Integration: `node --test tests/*.test.js tests/*.test.mjs` passed930/930, syntax and whitespace checks passed. The initial929/930 failure was an old immersive-test DOM mock missing `mediaStage.contains`; the fixture now supplies that real DOM method without weakening the existing OS-edge reservation assertions. Initial failure and final output remain in the screenshot directory. The separate hold-speed driver and limits are owned by `qa/mobile-hold-speed/README.md` (19 native cases/11 focused tests).
+
+This is local isolated Chrome, with external requests and service workers blocked. Mobile layouts are emulation. New production, physical Android/iOS and actual finger/OS-edge behavior remain unverified. Operating1.23.4 and its prior release evidence remain separate.

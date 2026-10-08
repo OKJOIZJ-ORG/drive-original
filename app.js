@@ -1784,6 +1784,7 @@ function bindEvents() {
   });
   el.videoPlayer.addEventListener('pause', (event) => {
     if (!isCurrentMediaEvent(event.currentTarget)) return;
+    stopMobileHoldSpeed();
     syncMediaSeekWatchdog();
     clearMediaFrameWatchdog('paused');
     updatePlayPauseUI();
@@ -1791,6 +1792,7 @@ function bindEvents() {
   });
   el.videoPlayer.addEventListener('ended', (event) => {
     if (!isCurrentMediaEvent(event.currentTarget)) return;
+    stopMobileHoldSpeed();
     clearMediaSeekWatchdog('ended');
     clearMediaFrameWatchdog('ended');
   });
@@ -5748,6 +5750,7 @@ function updateLibrarySummary(visibleCount, visibleFolderCount) {
 
 function openPlayer(file) {
   if (playerHistoryPending) return;
+  cancelActiveTouchGesture();
   cancelLibraryEdgeBack();
   pushPlayerHistory(file);
   playerReturnFocus = typeof document.activeElement?.focus === 'function' ? document.activeElement : null;
@@ -7063,6 +7066,7 @@ function toggleSpeedMenu(event) {
 
 function setPlaybackSpeed(speed) {
   if (!el.videoPlayer) return;
+  stopMobileHoldSpeed();
   el.videoPlayer.playbackRate = speed;
   updateSpeedUI();
   isSpeedMenuOpen = false;
@@ -7397,12 +7401,14 @@ function tryCaptureAmbientFrame() {
   } catch (_) {}
 }
 
-function showPlayerFeedback(text) {
+function showPlayerFeedback(text, { persistent = false } = {}) {
   if (!el.playerFeedback) return;
+  if (mobileHoldSpeed?.active && !persistent) return;
   el.playerFeedback.textContent = text;
   el.playerFeedback.hidden = false;
   requestAnimationFrame(() => el.playerFeedback.classList.add('active'));
   clearTimeout(feedbackTimer);
+  if (persistent) { feedbackTimer = null; el.playerFeedback.classList.add('active'); return; }
   feedbackTimer = setTimeout(() => {
     el.playerFeedback.classList.remove('active');
     setTimeout(() => { if (!el.playerFeedback.classList.contains('active')) el.playerFeedback.hidden = true; }, 200);
@@ -7626,6 +7632,7 @@ function getTransitionTransform(direction, distance) {
 }
 
 async function animateMediaTransition(direction, callback, target = null) {
+  stopMobileHoldSpeed();
   const currentEl = getActiveMediaElement();
   const stage = el.mediaStage;
   const session = state.playbackSession;
@@ -7829,6 +7836,74 @@ let lastTapY = 0;
 let lastTapZone = null;
 let singleTapTimer = null;
 let reservedEdgeTap = null;
+let mobileHoldSpeed = null;
+const MOBILE_HOLD_SPEED_DELAY = 450;
+const MOBILE_HOLD_SPEED_FEEDBACK = '2× 재생 중';
+
+function isCurrentMobileHoldSpeed(owner) {
+  return Boolean(owner && owner.video === el.videoPlayer && !owner.video.hidden
+    && !el.playerSheet?.hidden && state.selected?.id === owner.fileId
+    && state.mediaSession === owner.session && state.playbackSession === owner.playbackSession
+    && mediaSourceGeneration === owner.sourceGeneration && isCurrentMediaEvent(owner.video));
+}
+
+function canStartMobileHoldSpeed() {
+  const video = el.videoPlayer;
+  return Boolean(isMobileDevice() && video && !video.hidden && !video.paused && !video.ended
+    && video.readyState >= 2 && isCurrentMediaEvent(video) && !el.playerSheet?.hidden
+    && document.visibilityState !== 'hidden'
+    && el.mediaLoading?.hidden !== false && el.mediaError?.hidden !== false
+    && !state.pendingPlay && !state.isSeeking && !mediaTransitionCommitting && !swipeCommitPending
+    && !state.mediaAttempt.startsWith('drive-preview') && state.mediaAttempt !== 'failed');
+}
+
+function startMobileHoldSpeed(contact) {
+  stopMobileHoldSpeed();
+  if (!canStartMobileHoldSpeed()) return;
+  const rect = el.mediaStage.getBoundingClientRect();
+  const nx = (contact.clientX - rect.left) / rect.width;
+  const ny = (contact.clientY - rect.top) / rect.height;
+  // Hold shares the narrow lateral bands with seek, including their corners;
+  // quick corner taps still use the ordinary controls-reveal recognizer.
+  if (!Number.isFinite(nx) || !Number.isFinite(ny) || nx < 0 || nx > 1 || ny < 0 || ny > 1
+    || (nx > 0.18 && nx < 0.82)) return;
+  const owner = { video: el.videoPlayer, fileId: state.selected.id, session: state.mediaSession,
+    playbackSession: state.playbackSession, sourceGeneration: mediaSourceGeneration, active: false, timer: null };
+  mobileHoldSpeed = owner;
+  owner.timer = setTimeout(() => {
+    owner.timer = null;
+    if (mobileHoldSpeed !== owner || !isCurrentMobileHoldSpeed(owner) || !canStartMobileHoldSpeed()) {
+      stopMobileHoldSpeed(); return;
+    }
+    owner.previousRate = owner.video.playbackRate;
+    owner.active = true;
+    cancelPendingStageTap();
+    owner.video.playbackRate = 2;
+    updateSpeedUI();
+    showPlayerFeedback(MOBILE_HOLD_SPEED_FEEDBACK, { persistent: true });
+  }, MOBILE_HOLD_SPEED_DELAY);
+}
+
+function stopMobileHoldSpeed() {
+  const owner = mobileHoldSpeed;
+  if (!owner) return false;
+  mobileHoldSpeed = null;
+  clearTimeout(owner.timer);
+  // Retire before a source/session is replaced. A stale release never assigns
+  // its old rate to a newly opened video using the same HTMLVideoElement.
+  if (owner.active && isCurrentMobileHoldSpeed(owner)) {
+    owner.video.playbackRate = owner.previousRate;
+    updateSpeedUI();
+  }
+  if (owner.active && el.playerFeedback?.textContent === MOBILE_HOLD_SPEED_FEEDBACK) {
+    el.playerFeedback.classList.remove('active');
+    el.playerFeedback.hidden = true;
+  }
+  // Once activated, this contact is consumed even if pause/end or another
+  // command ends the temporary rate before the finger is released.
+  if (owner.active) clearActiveTouchGesture();
+  return owner.active;
+}
 
 function isPlayerGestureControl(target) {
   return Boolean(target?.closest?.('.player-chrome, .custom-video-controls, .mobile-shorts-overlay, .seek-bar-container, .mobile-shorts-progress-track, .shorts-expand-row, .speed-dropdown, .volume-slider-wrap, .stage-center-btn, .media-error, .media-loading, button, a, input, select, textarea, summary, [role="button"], [role="slider"]'));
@@ -7938,6 +8013,7 @@ function setupTouchGestures() {
       const contact = e.touches[0];
       if (e.cancelable !== false) reservedEdgeTap = { x: contact.clientX, y: contact.clientY,
         id: contact.identifier ?? null, time: Date.now(), session: state.mediaSession };
+      if (reservedEdgeTap && el.mediaStage?.contains(e.target)) startMobileHoldSpeed(contact);
       return;
     }
     if (state.mediaAttempt.startsWith('drive-preview')) { cancelActiveTouchGesture(); return; }
@@ -7983,6 +8059,7 @@ function setupTouchGestures() {
     swipeGestureDirection = null;
     swipeGestureTargetId = null;
     swipeGestureAwaitingPopulation = false;
+    startMobileHoldSpeed(e.touches[0]);
   }, { passive: false });
 
   modal.addEventListener('touchmove', (e) => {
@@ -7990,7 +8067,9 @@ function setupTouchGestures() {
       const contact = e.touches[0];
       if (e.touches.length !== 1 || e.cancelable === false || reservedEdgeTap.session !== state.mediaSession
         || (reservedEdgeTap.id !== null && contact.identifier !== reservedEdgeTap.id)
-        || Math.hypot(contact.clientX - reservedEdgeTap.x, contact.clientY - reservedEdgeTap.y) >= 10) reservedEdgeTap = null;
+        || Math.hypot(contact.clientX - reservedEdgeTap.x, contact.clientY - reservedEdgeTap.y) >= 10) {
+        stopMobileHoldSpeed(); reservedEdgeTap = null;
+      }
       return;
     }
     if (!isTouchActive) return;
@@ -8002,6 +8081,9 @@ function setupTouchGestures() {
     }
     const rawX = e.touches[0].clientX - touchStartX;
     const rawY = e.touches[0].clientY - touchStartY;
+    if (Math.hypot(rawX, rawY) >= 10 && stopMobileHoldSpeed()) {
+      cancelActiveTouchGesture(); return;
+    }
     if (Math.hypot(rawX, rawY) >= 10) cancelPendingStageTap();
     
     // Lock only after a deliberate, clearly dominant direction emerges.
@@ -8069,6 +8151,10 @@ function setupTouchGestures() {
   }, { passive: false });
 
   modal.addEventListener('touchend', (e) => {
+    if (stopMobileHoldSpeed()) {
+      if (e.cancelable) e.preventDefault();
+      cancelActiveTouchGesture(); return;
+    }
     if (reservedEdgeTap) {
       const candidate = reservedEdgeTap;
       reservedEdgeTap = null;
@@ -8141,9 +8227,23 @@ function setupTouchGestures() {
   }, { passive: false });
 
   modal.addEventListener('touchcancel', cancelActiveTouchGesture, { passive: true });
+  modal.addEventListener('pointercancel', () => {
+    if (mobileHoldSpeed) cancelActiveTouchGesture();
+  }, { passive: true });
+  modal.addEventListener('lostpointercapture', () => {
+    if (mobileHoldSpeed?.active) cancelActiveTouchGesture();
+  }, { passive: true });
+  modal.addEventListener('contextmenu', (event) => {
+    if (mobileHoldSpeed && !isPlayerGestureControl(event.target)) event.preventDefault();
+  });
 }
 
 function cancelActiveTouchGesture() {
+  stopMobileHoldSpeed();
+  clearActiveTouchGesture();
+}
+
+function clearActiveTouchGesture() {
   reservedEdgeTap = null;
   cancelPendingStageTap();
   if (!isTouchActive) return;
@@ -8359,7 +8459,8 @@ function capturePlaybackSnapshot() {
     paused: Boolean(video.paused) && !state.pendingPlay,
     volume: Number.isFinite(video.volume) ? video.volume : 1,
     muted: Boolean(video.muted),
-    playbackRate: Number.isFinite(video.playbackRate) ? video.playbackRate : 1,
+    playbackRate: mobileHoldSpeed?.active && isCurrentMobileHoldSpeed(mobileHoldSpeed)
+      ? mobileHoldSpeed.previousRate : (Number.isFinite(video.playbackRate) ? video.playbackRate : 1),
     fullscreen: Boolean(document.fullscreenElement || document.webkitFullscreenElement),
     decoded: state.mediaDecodeVerified === true,
     ...(q1Playback?.selectedAudioTrackId !== undefined ? {
@@ -8402,6 +8503,7 @@ function restorePlaybackSnapshot(video, snapshot, session) {
 
 function openMediaSource(file) {
   if (!file) return;
+  cancelActiveTouchGesture();
   const diagnosticIntentAt = mediaDiagnosticTimestamp();
   finishMediaDiagnosticTrace('superseded');
   state.selected = file;
@@ -11623,6 +11725,7 @@ function updateNativeLoadingProgress() {
 }
 
 function showMediaError(message, { title = '이 파일을 재생할 수 없습니다', showDrive = false, showRetry = true } = {}) {
+  cancelActiveTouchGesture();
   q3Choice=null;
   if(el.videoCompatButton)el.videoCompatButton.hidden=true;
   clearTimeout(controlsHideTimer);
@@ -11664,6 +11767,7 @@ function retryMedia() {
 
 function closePlayer({ preserveHistory = false } = {}) {
   if (el.playerSheet.hidden) return;
+  cancelActiveTouchGesture();
   cancelLibraryEdgeBack();
   if (!preserveHistory && hasOwnedPlayerEntry()) {
     const next = { ...history.state };
@@ -11707,6 +11811,7 @@ function closePlayer({ preserveHistory = false } = {}) {
 }
 
 function clearDirectMediaSources() {
+  cancelActiveTouchGesture();
   playerTracksOwner?.presentation?.clear();
   q3Choice=null;
   if(el.videoCompatButton)el.videoCompatButton.hidden=true;
@@ -11746,6 +11851,7 @@ function clearDirectMediaSources() {
 }
 
 function resetMediaElements() {
+  cancelActiveTouchGesture();
   void retirePlayerTracks();
   q0PinnedSource = null;
   verifiedOriginalImage = null;

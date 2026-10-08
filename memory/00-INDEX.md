@@ -30,6 +30,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `../qa/rounded-surface-clipping/README.md`, `../qa/mobile-hold-speed/README.md`: D091 로컬 둥근 창의 사각형 그림자 잘림 수정과 모바일 가장자리 홀드2배속. 전체930검사,6창/4크기 paint·스크롤·닫기,19네이티브 터치 시나리오. 운영1.23.4와 실제 기기 검증을 구분.
+
 - `RELEASE-1.23.4.md`, `../qa/release-1.23.4/README.md`: D090 승인된 D087/D088/D089 전체 패치 운영 반영. Runtimee677852/Worker4d0146e1/main·push,65-entryGit동일ZIP,public5/private5/cache4, 실제 PC 정상 업데이트·18좋아요 보존·2051목록·짧은 원본 재생·정리. 새 실기기/속도 향상률 인수는 제외.
 
 - `../qa/video-startup/README.md`: D089 영상 시작 중 자동 목록 수집·주변 준비 지연, 첫 화면/이미지 전환/닫기 후 재개. 정확한 로컬922검사·nativeChrome2크기와 운영 임시 concept 실험을 분리; 속도 향상률 미확정. 이후 D0901.23.4 실제 반영은 별도 릴리즈가 소유.

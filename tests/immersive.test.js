@@ -105,7 +105,7 @@ function touchGestureClient() {
   const c=client(), handlers=new Map(); c.gestureHandlers=handlers;
   c.run(`el.playerModal={addEventListener:(name,handler)=>gestureHandlers.set(name,handler)};
     el.playerControlsEntry={getBoundingClientRect:()=>({left:0,right:390,top:800,bottom:844})};
-    el.mediaStage={clientWidth:390,clientHeight:844,classList:classes()};
+    el.mediaStage={clientWidth:390,clientHeight:844,classList:classes(),contains:()=>true};
     state.mediaAttempt='range';clearMediaTransition=()=>{};getActiveMediaElement=()=>null;
     resolveSwipeTarget=()=>({id:'next-fixture'});snapBackSpring=()=>{};setupTouchGestures();`);
   const event=(x=190,y=400,{interactive=false,tagName='',count=1,cancelable=true}={})=>{

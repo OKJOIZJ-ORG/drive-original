@@ -1777,6 +1777,141 @@ test('mobile tap pairs toggle favorites once per pair and consume the gesture', 
   assert.deepEqual(result, { toggles: 2, feedback: true, pendingSingleTap: false, lastTapTime: 0 });
 });
 
+function mobileHoldFixture() {
+  const context = loadAppContext({ 'user-speed': '1.25' });
+  const timers = new Map(); let serial = 0;
+  context.setTimeout = (fn, delay) => { const id = ++serial; timers.set(id, { fn, delay }); return id; };
+  context.clearTimeout = id => timers.delete(id);
+  context.requestAnimationFrame = fn => fn();
+  run(context, `
+    globalThis.holdListeners = {}; globalThis.holdActions = [];
+    globalThis.holdTarget = {closest:()=>null};
+    const classes = () => ({add(){},remove(){},contains:()=>false});
+    el.playerModal = {addEventListener:(type,fn)=>holdListeners[type]=fn,classList:classes()};
+    el.mediaStage = {getBoundingClientRect:()=>({left:0,top:0,width:400,height:800}),contains:()=>true,
+      clientWidth:400,clientHeight:800,classList:classes()};
+    el.playerSheet = {hidden:false}; el.mediaLoading = {hidden:true}; el.mediaError = {hidden:true};
+    el.videoPlayer = {hidden:false,paused:false,ended:false,readyState:3,playbackRate:1.25,
+      volume:1,muted:false,currentTime:15,duration:100,dataset:{mediaSession:String(state.mediaSession)},style:{},className:''};
+    el.playerFeedback = {hidden:true,textContent:'',classList:classes()};
+    state.selected = {id:'hold-file'}; state.mediaAttempt = 'range';
+    isMobileDevice = ()=>true; clearMediaTransition = ()=>{}; snapBackSpring = ()=>{};
+    updateSpeedUI = ()=>{}; handleStageTap = ()=>holdActions.push('tap');
+    revealPlayerChrome = ()=>holdActions.push('reveal');
+    setupTouchGestures();
+    globalThis.holdEvent = (x=50,y=400,extra={})=>({target:holdTarget,cancelable:true,
+      touches:[{clientX:x,clientY:y,identifier:7}],changedTouches:[{clientX:x,clientY:y,identifier:7}],
+      preventDefault(){},...extra});
+  `);
+  return { context, timers, fire() {
+    const entry = [...timers].find(([, timer]) => timer.delay === 450);
+    assert.ok(entry, 'eligible press must own a hold deadline'); timers.delete(entry[0]); entry[1].fn();
+  } };
+}
+
+test('mobile edge hold temporarily uses 2x, keeps feedback visible, snapshots user speed and consumes release', () => {
+  for (const [x,y] of [[50,400],[350,400],[50,20],[350,780],[4,400]]) {
+    const f = mobileHoldFixture(); run(f.context, `holdListeners.touchstart(holdEvent(${x},${y}))`);
+    assert.equal(run(f.context,'el.videoPlayer.playbackRate'),1.25); f.fire();
+    assert.equal(run(f.context,'el.videoPlayer.playbackRate'),2);
+    assert.equal(run(f.context,'capturePlaybackSnapshot().playbackRate'),1.25);
+    assert.equal(run(f.context,'el.playerFeedback.hidden'),false);
+    assert.equal(run(f.context,'feedbackTimer'),null,'while-held feedback must not auto-hide');
+    run(f.context,"showPlayerFeedback('다른 알림')");
+    assert.equal(run(f.context,'el.playerFeedback.textContent'),'2× 재생 중');
+    run(f.context,`holdListeners.touchend(holdEvent(${x},${y},{touches:[]}))`);
+    assert.equal(run(f.context,'el.videoPlayer.playbackRate'),1.25);
+    assert.equal(run(f.context,'el.playerFeedback.hidden'),true);
+    assert.equal(run(f.context,'mobileHoldSpeed'),null);
+    assert.equal(run(f.context,'JSON.stringify(holdActions)'),'[]');
+    assert.equal(f.context.localStorage.getItem('user-speed'),'1.25');
+  }
+});
+
+test('quick edge tap and pre-hold movement retire the deadline without activating speed', () => {
+  const f = mobileHoldFixture();run(f.context,'holdListeners.touchstart(holdEvent());holdListeners.touchend(holdEvent(50,400,{touches:[]}));');
+  assert.equal(run(f.context,'JSON.stringify(holdActions)'), '["tap"]');
+  assert.equal([...f.timers.values()].some(timer=>timer.delay===450),false);
+  run(f.context,'holdListeners.touchstart(holdEvent());holdListeners.touchmove(holdEvent(57,408));');
+  assert.equal(run(f.context,'mobileHoldSpeed'),null);
+  assert.equal(run(f.context,'el.videoPlayer.playbackRate'),1.25);
+});
+
+test('active hold restores on movement, multitouch, cancellation, lost capture and controls', () => {
+  for (const action of [
+    'holdListeners.touchmove(holdEvent(50,411))',
+    'holdListeners.touchstart(holdEvent(50,400,{touches:[{},{}]}))',
+    'holdListeners.touchcancel()', 'holdListeners.pointercancel()', 'holdListeners.lostpointercapture()',
+    'holdListeners.touchstart(holdEvent(50,400,{target:{closest:()=>({})}}))', 'cancelActiveTouchGesture()'
+  ]) {
+    const f=mobileHoldFixture();run(f.context,'holdListeners.touchstart(holdEvent())');f.fire();run(f.context,action);
+    assert.equal(run(f.context,'el.videoPlayer.playbackRate'),1.25,action);
+    assert.equal(run(f.context,'mobileHoldSpeed'),null,action);
+    assert.equal(run(f.context,'isTouchActive'),false,action);
+  }
+});
+
+test('hold eligibility excludes center, desktop, controls, image, paused and pending/error playback', () => {
+  for(const setup of ['isMobileDevice=()=>false','el.videoPlayer.hidden=true','el.videoPlayer.paused=true',
+    'el.videoPlayer.ended=true','el.videoPlayer.readyState=1','state.pendingPlay=true','state.isSeeking=true',
+    'el.mediaLoading.hidden=false','el.mediaError.hidden=false',"state.mediaAttempt='failed'",
+    "document.visibilityState='hidden'",
+    "state.mediaAttempt='drive-preview-open'",'mediaTransitionCommitting=true','swipeCommitPending=true',
+    'el.playerSheet.hidden=true','state.selected={id:"other"};state.mediaSession++']) {
+    const f=mobileHoldFixture();run(f.context,setup+';holdListeners.touchstart(holdEvent())');
+    assert.equal(run(f.context,'mobileHoldSpeed'),null,setup);
+  }
+  const f=mobileHoldFixture();run(f.context,'holdListeners.touchstart(holdEvent(200,400))');
+  assert.equal(run(f.context,'mobileHoldSpeed'),null);
+  run(f.context,'holdListeners.touchstart(holdEvent(50,400,{target:{closest:()=>({})}}))');
+  assert.equal(run(f.context,'mobileHoldSpeed'),null);
+});
+
+test('hold deadline and stale release cannot set or restore speed on a replacement media owner', () => {
+  for (const mutation of ['state.mediaSession++','state.playbackSession++','mediaSourceGeneration++',"state.selected={id:'new-file'}"]) {
+    const pending=mobileHoldFixture();run(pending.context,'holdListeners.touchstart(holdEvent());'+mutation);pending.fire();
+    assert.equal(run(pending.context,'el.videoPlayer.playbackRate'),1.25,mutation);
+    const active=mobileHoldFixture();run(active.context,'holdListeners.touchstart(holdEvent())');active.fire();
+    run(active.context,mutation+';el.videoPlayer.playbackRate=1.5;holdListeners.touchend(holdEvent(50,400,{touches:[]}))');
+    assert.equal(run(active.context,'el.videoPlayer.playbackRate'),1.5,mutation);
+  }
+});
+
+test('a chosen speed replaces temporary hold speed without persisting 2x', () => {
+  const f=mobileHoldFixture();run(f.context,'resetControlsTimer=()=>{};holdListeners.touchstart(holdEvent())');f.fire();
+  run(f.context,'setPlaybackSpeed(1.75);holdListeners.touchend(holdEvent(50,400,{touches:[]}))');
+  assert.equal(run(f.context,'el.videoPlayer.playbackRate'),1.75);
+  assert.equal(run(f.context,'mobileHoldSpeed'),null);
+  assert.equal(f.context.localStorage.getItem('user-speed'),'1.25');
+});
+
+test('pause, end and command retirement consume an activated hold through later movement and release', () => {
+  for(const x of [4,50,350]) {
+    for(const stop of ['el.videoPlayer.paused=true;stopMobileHoldSpeed()',
+      'el.videoPlayer.ended=true;stopMobileHoldSpeed()', 'setPlaybackSpeed(1.75)', 'stopMobileHoldSpeed()']) {
+      const f=mobileHoldFixture();run(f.context,`resetControlsTimer=()=>{};holdListeners.touchstart(holdEvent(${x},400))`);f.fire();
+      run(f.context,stop);
+      assert.equal(run(f.context,'isTouchActive'),false,stop);
+      assert.equal(run(f.context,'reservedEdgeTap'),null,stop);
+      run(f.context,`holdListeners.touchmove(holdEvent(${x},320));holdListeners.touchend(holdEvent(${x},320,{touches:[]}))`);
+      assert.equal(run(f.context,'JSON.stringify(holdActions)'),'[]',stop);
+      assert.equal(run(f.context,'lockedAxis'),null,stop);
+      assert.equal(run(f.context,'el.videoPlayer.playbackRate'),stop.startsWith('setPlaybackSpeed')?1.75:1.25,stop);
+    }
+  }
+});
+
+test('media opening retires the hold before mutating selected file or playback ownership', () => {
+  for(const opening of ['openPlayer({id:"next"})','openMediaSource({id:"next"})']) {
+    const f=mobileHoldFixture();run(f.context,'holdListeners.touchstart(holdEvent())');f.fire();
+    run(f.context,'cancelLibraryEdgeBack=()=>{};pushPlayerHistory=()=>{throw Error("opening boundary")};finishMediaDiagnosticTrace=()=>{throw Error("opening boundary")};');
+    assert.throws(()=>run(f.context,opening),/opening boundary/);
+    assert.equal(run(f.context,'el.videoPlayer.playbackRate'),1.25);
+    assert.equal(run(f.context,'mobileHoldSpeed'),null);
+    assert.equal(run(f.context,'state.selected.id'),'hold-file');
+  }
+});
+
 test('mobile library edge swipe tracks from the left edge and commits one back navigation', () => {
   const context = loadAppContext();
   const result = JSON.parse(run(context, `(() => {

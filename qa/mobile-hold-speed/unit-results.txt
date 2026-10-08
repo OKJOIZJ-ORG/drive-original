@@ -1,0 +1,19 @@
+✔ double-tap reserves narrow lateral video edges for seek and the central zone for likes (41.5321ms)
+✔ mobile tap pairs toggle favorites once per pair and consume the gesture (4.6411ms)
+✔ mobile edge hold temporarily uses 2x, keeps feedback visible, snapshots user speed and consumes release (19.7714ms)
+✔ quick edge tap and pre-hold movement retire the deadline without activating speed (5.1735ms)
+✔ active hold restores on movement, multitouch, cancellation, lost capture and controls (24.1654ms)
+✔ hold eligibility excludes center, desktop, controls, image, paused and pending/error playback (61.9944ms)
+✔ hold deadline and stale release cannot set or restore speed on a replacement media owner (30.6746ms)
+✔ a chosen speed replaces temporary hold speed without persisting 2x (3.7013ms)
+✔ pause, end and command retirement consume an activated hold through later movement and release (49.4378ms)
+✔ media opening retires the hold before mutating selected file or playback ownership (10.5125ms)
+✔ mobile library edge swipe tracks from the left edge and commits one back navigation (5.5017ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 356.22
