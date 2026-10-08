@@ -142,3 +142,7 @@ D090 delivery update (2026-10-08):1.23.4 exact operating actual PC clip reaches 
 ## 2026-10-08 — D091 local feature evidence boundary
 
 LOCAL_DONE: rounded shadow clipping and temporary mobile hold2x are implemented and scoped local QA passes. UNKNOWN: new actual operating/account, physical Android/iOS and finger/OS-edge behavior. Owners: `qa/rounded-surface-clipping/README.md` and `qa/mobile-hold-speed/README.md`. D090 delivered the previous1.23.4 unit; no new D091 deployment authority is inferred. This entry records evidence limits and creates no unattended work or automatic rollout.
+
+## 2026-10-08 — D092 photo-control evidence boundary
+
+LOCAL_DONE: mobile photos and video→photo transitions contain no video-only paint/AX/Tab control, persistent feedback/menu state retires immediately, and native video recovery/hold2x pass in scoped local emulation. UNKNOWN: new actual operating/account/Drive acquisition, physical Android/iOS and finger/OS-edge behavior. Owner: qa/image-control-cleanup/README.md. No remaining local blocker or requested decision; this boundary creates no unattended device work or new deployment grant.

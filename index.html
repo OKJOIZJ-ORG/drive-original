@@ -360,7 +360,7 @@
             </button>
           </div>
           <div class="shorts-bottom-row">
-            <div class="mobile-time-display" aria-label="재생 시간"><span id="mobileCurrentTime">0:00</span><span class="time-separator"> / </span><span id="mobileTotalTime">0:00</span></div>
+            <div class="mobile-time-display" id="mobileTimeDisplay" aria-label="재생 시간" hidden><span id="mobileCurrentTime">0:00</span><span class="time-separator"> / </span><span id="mobileTotalTime">0:00</span></div>
             <div class="mobile-shorts-title" id="mobileShortsTitle"></div>
             <button class="shorts-chip icon favorite-toggle" id="shortsFavoriteBtn" type="button" aria-label="좋아요 추가" aria-pressed="false" title="좋아요">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
@@ -381,11 +381,11 @@
         </div>
 
         <!-- Double-tap seek ripple hints (mobile shorts pattern) -->
-        <div class="seek-hint seek-hint-left" id="seekHintLeft" aria-hidden="true">
+        <div class="seek-hint seek-hint-left" id="seekHintLeft" aria-hidden="true" hidden>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 17l-5-5 5-5"/><path d="M18 17l-5-5 5-5"/></svg>
           <span>10초</span>
         </div>
-        <div class="seek-hint seek-hint-right" id="seekHintRight" aria-hidden="true">
+        <div class="seek-hint seek-hint-right" id="seekHintRight" aria-hidden="true" hidden>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 17l5-5-5-5"/><path d="M6 17l5-5-5-5"/></svg>
           <span>10초</span>
         </div>

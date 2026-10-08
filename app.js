@@ -1298,7 +1298,7 @@ function bindElements() {
     'mediaStage', 'ambientBackdrop', 'videoPlayer', 'imageViewer',
     'mediaSwipeNeighbor', 'mediaSwipeNeighborBackdrop', 'mediaSwipeNeighborImage', 'mediaSwipeNeighborTitle',
     'drivePreview', 'drivePreviewActions', 'drivePreviewRetryButton', 'drivePreviewOpenButton', 'playerControlsEntry', 'hidePlayerControlsButton', 'closeMediaErrorButton', 'playerFeedback', 'favoriteFeedback',
-    'mobileShortsOverlay', 'mobileShortsTitle', 'mobileShortsProgressBar', 'mobileShortsProgressTrack', 'mobileCurrentTime', 'mobileTotalTime',
+    'mobileShortsOverlay', 'mobileShortsTitle', 'mobileShortsProgressBar', 'mobileShortsProgressTrack', 'mobileTimeDisplay', 'mobileCurrentTime', 'mobileTotalTime',
     'stageCenterPlayBtn',
     'iconCenterPlay', 'iconCenterPause', 'customVideoControls', 'seekBarContainer',
     'seekBarBuffered', 'seekBarPlayed', 'seekBarThumb', 'seekBarTooltip',
@@ -6020,11 +6020,9 @@ function togglePlayPause(event) {
 }
 
 function updatePlayPauseUI() {
-  const isVideo = el.videoPlayer && !el.videoPlayer.hidden;
+  const isVideo = el.videoPlayer && !el.videoPlayer.hidden && (!state.selected || isVideoPresentation());
+  setNativeVideoActionsAvailable(isVideo);
   if (!isVideo) {
-    if (el.customVideoControls) el.customVideoControls.hidden = true;
-    if (el.stageCenterPlayBtn) el.stageCenterPlayBtn.hidden = true;
-    updateFrameStepVisibility(false);
     return;
   }
   if (el.customVideoControls) el.customVideoControls.hidden = false;
@@ -6040,7 +6038,6 @@ function updatePlayPauseUI() {
   if (el.stageCenterPlayBtn) {
     el.stageCenterPlayBtn.hidden = true;
   }
-  updateFrameStepVisibility(isPaused);
 }
 
 function updateFrameStepVisibility(show = Boolean(el.videoPlayer && !el.videoPlayer.hidden && el.videoPlayer.paused)) {
@@ -8410,7 +8407,9 @@ function handlePlayerKeyboard(event) {
 
 function setNativeVideoActionsAvailable(available) {
   const enabled = Boolean(available);
-  if (el.mobileShortsProgressTrack) el.mobileShortsProgressTrack.hidden = !enabled;
+  [el.mobileTimeDisplay, el.mobileShortsProgressTrack, el.seekHintLeft, el.seekHintRight].forEach((node) => {
+    if (node) node.hidden = !enabled;
+  });
   if (el.pipButton) el.pipButton.hidden = !document.pictureInPictureEnabled || !enabled;
   if (el.ctrlPip) el.ctrlPip.hidden = !document.pictureInPictureEnabled || !enabled;
   if (el.shortsPipBtn) el.shortsPipBtn.hidden = !document.pictureInPictureEnabled || !enabled;
@@ -8418,6 +8417,21 @@ function setNativeVideoActionsAvailable(available) {
   if (el.shortsRotateBtn) el.shortsRotateBtn.hidden = !enabled;
   if (el.ctrlTracks) el.ctrlTracks.hidden = !enabled;
   if (el.shortsTracksBtn) el.shortsTracksBtn.hidden = !enabled;
+  if (!enabled) {
+    // Photos and cleared sources retire the whole video UI, including overlays
+    // that may still be open when the next item replaces a playing video.
+    if (el.customVideoControls) el.customVideoControls.hidden = true;
+    if (el.stageCenterPlayBtn) el.stageCenterPlayBtn.hidden = true;
+    isSpeedMenuOpen = false;
+    if (el.speedDropdown) el.speedDropdown.hidden = true;
+    el.ctrlSpeedButton?.setAttribute('aria-expanded', 'false');
+    clearTimeout(feedbackTimer);
+    feedbackTimer = null;
+    if (el.playerFeedback) {
+      el.playerFeedback.classList.remove('active');
+      el.playerFeedback.hidden = true;
+    }
+  }
 }
 
 function suspendBackgroundThumbnailImages() {
@@ -11843,6 +11857,7 @@ function clearDirectMediaSources() {
     el.imageViewer.classList.remove('is-ready');
     el.imageViewer.hidden = true;
   }
+  setNativeVideoActionsAvailable(false);
   if (state.mediaBlobUrl) {
     URL.revokeObjectURL(state.mediaBlobUrl);
     state.mediaBlobUrl = null;

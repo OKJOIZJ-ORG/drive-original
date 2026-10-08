@@ -1,0 +1,110 @@
+{
+  "completed": true,
+  "proof": "Local isolated Chrome; mobile emulation; ordinary demo image UI; local native MP4 acquisition substitution. No account, physical device, production, or all-format acceptance.",
+  "hashes": {
+    "app.js": "9dc362525b4f9b55b6d02f9843234b392813cedee55f9ed72647c04194155fb3",
+    "styles.css": "13754107056cc63e5a84eed68b3640c6501f5abb05dc660c1209622cb4eea444",
+    "index.html": "2c28eb893f692278a385f610375edc3318c3d22c342435b1713c8f50a3d1fe49"
+  },
+  "checks": {
+    "photoCaptures": 14,
+    "recovery": [
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844,
+          "mobile": true
+        },
+        "nativeVisible": true,
+        "rate": 1.25,
+        "centerTapPausePlay": true,
+        "hold2x": true
+      },
+      {
+        "viewport": {
+          "width": 320,
+          "height": 568,
+          "mobile": true
+        },
+        "nativeVisible": true,
+        "rate": 1.25,
+        "centerTapPausePlay": true,
+        "hold2x": true
+      },
+      {
+        "viewport": {
+          "width": 844,
+          "height": 390,
+          "mobile": true
+        },
+        "nativeVisible": true,
+        "rate": 1.25,
+        "centerTapPausePlay": true,
+        "hold2x": true
+      },
+      {
+        "viewport": {
+          "width": 1440,
+          "height": 900,
+          "mobile": false
+        },
+        "nativeVisible": true,
+        "rate": 1.25,
+        "playPause": true
+      }
+    ],
+    "currentHashMatch": true,
+    "fixtureRestoration": "No direct setNativeVideoActionsAvailable(true); native play events own UI restoration",
+    "mobileRestoredTimeAndProgress": true,
+    "photoPaintAxTab": "All video-only inventory absent across14photo states",
+    "photoActionsPreserved": true,
+    "retirementScope": "Original4-view run used normal feedback and did not set speed-menu flag; persistent ownership proven separately at390x844"
+  },
+  "supplementalPersistentRetirement": {
+    "completed": true,
+    "hashes": {
+      "app.js": "9dc362525b4f9b55b6d02f9843234b392813cedee55f9ed72647c04194155fb3",
+      "styles.css": "13754107056cc63e5a84eed68b3640c6501f5abb05dc660c1209622cb4eea444",
+      "index.html": "2c28eb893f692278a385f610375edc3318c3d22c342435b1713c8f50a3d1fe49"
+    },
+    "rows": [
+      {
+        "viewport": {
+          "width": 390,
+          "height": 844,
+          "mobile": true
+        },
+        "name": "persistent-feedback-speed-menu-retirement",
+        "primed": {
+          "feedbackHidden": false,
+          "feedbackActive": true,
+          "speedOpen": true,
+          "dropdownHidden": false,
+          "expanded": "true"
+        },
+        "sustained": {
+          "feedbackHidden": false,
+          "feedbackActive": true,
+          "speedOpen": true,
+          "dropdownHidden": false,
+          "expanded": "true"
+        },
+        "immediate": {
+          "feedbackHidden": true,
+          "feedbackActive": false,
+          "speedOpen": false,
+          "dropdownHidden": true,
+          "expanded": "false"
+        },
+        "loaded": {
+          "feedbackHidden": true,
+          "feedbackActive": false,
+          "speedOpen": false,
+          "dropdownHidden": true,
+          "expanded": "false"
+        }
+      }
+    ],
+    "currentHashMatch": true
+  }
+}

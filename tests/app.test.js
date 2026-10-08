@@ -2150,16 +2150,53 @@ test('non-video media immediately hides stale video playback controls', () => {
   const context = loadAppContext();
   const result = JSON.parse(run(context, `(() => {
     el.videoPlayer = { hidden: true };
-    el.customVideoControls = { hidden: false };
-    el.stageCenterPlayBtn = { hidden: false };
-    el.ctrlFramePrev = { hidden: false };
-    el.ctrlFrameNext = { hidden: false };
-    el.shortsFramePrev = { hidden: false };
-    el.shortsFrameNext = { hidden: false };
+    const videoOnly = ['customVideoControls','stageCenterPlayBtn','mobileTimeDisplay','mobileShortsProgressTrack',
+      'pipButton','ctrlPip','shortsPipBtn','shortsRotateBtn','ctrlTracks','shortsTracksBtn',
+      'ctrlFramePrev','ctrlFrameNext','shortsFramePrev','shortsFrameNext','seekHintLeft','seekHintRight','speedDropdown'];
+    for (const id of videoOnly) el[id] = { hidden:false };
+    const common = ['shortsFavoriteBtn','shortsFullscreenBtn','shortsMoreBtn','shortsMoveBtn','shortsDeleteBtn','shortsDriveBtn'];
+    for (const id of common) el[id] = { hidden:false };
+    const feedbackClasses = new Set(['active']);
+    el.playerFeedback = { hidden:false, classList:{remove:(name)=>feedbackClasses.delete(name)} };
+    el.ctrlSpeedButton = { setAttribute:(name,value)=>{el.ctrlSpeedButton[name]=value} };
+    isSpeedMenuOpen = true;
     updatePlayPauseUI();
-    return JSON.stringify({ controls: el.customVideoControls.hidden, center: el.stageCenterPlayBtn.hidden });
+    return JSON.stringify({ allHidden:videoOnly.every(id=>el[id].hidden),
+      commonVisible:common.every(id=>!el[id].hidden), speedOpen:isSpeedMenuOpen,
+      speedExpanded:el.ctrlSpeedButton['aria-expanded'], feedbackHidden:el.playerFeedback.hidden,
+      feedbackActive:feedbackClasses.has('active') });
   })()`));
-  assert.deepEqual(result, { controls: true, center: true });
+  assert.deepEqual(result, { allHidden:true, commonVisible:true, speedOpen:false,
+    speedExpanded:'false', feedbackHidden:true, feedbackActive:false });
+});
+
+test('native video actions recover after photo retirement and frame controls follow pause state', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `(() => {
+    const ids=['customVideoControls','mobileTimeDisplay','mobileShortsProgressTrack','shortsPipBtn',
+      'shortsTracksBtn','shortsRotateBtn','shortsFramePrev','shortsFrameNext'];
+    for(const id of ids)el[id]={hidden:false};
+    el.videoPlayer={hidden:true,paused:true};document.pictureInPictureEnabled=true;
+    updatePlayPauseUI();
+    const photo=ids.every(id=>el[id].hidden);
+    el.videoPlayer.hidden=false;updatePlayPauseUI();
+    const paused=ids.every(id=>!el[id].hidden);
+    el.videoPlayer.paused=false;updatePlayPauseUI();
+    return JSON.stringify({photo,paused,playingFrameHidden:el.shortsFramePrev.hidden&&el.shortsFrameNext.hidden,
+      playingTimeVisible:!el.mobileTimeDisplay.hidden,playingTimelineVisible:!el.mobileShortsProgressTrack.hidden});
+  })()`));
+  assert.deepEqual(result,{photo:true,paused:true,playingFrameHidden:true,playingTimeVisible:true,playingTimelineVisible:true});
+});
+
+test('selected photo cannot retain video controls through a still-visible retired video element', () => {
+  const context = loadAppContext();
+  run(context, `state.selected={id:'photo',mimeType:'image/jpeg'};
+    el.videoPlayer={hidden:false,paused:true};
+    for(const id of ['customVideoControls','stageCenterPlayBtn','mobileTimeDisplay','mobileShortsProgressTrack','shortsTracksBtn'])
+      el[id]={hidden:false};
+    updatePlayPauseUI();`);
+  for(const id of ['customVideoControls','stageCenterPlayBtn','mobileTimeDisplay','mobileShortsProgressTrack','shortsTracksBtn'])
+    assert.equal(run(context,`el.${id}.hidden`),true,id);
 });
 
 test('vertical shorts deck preassigns two items above and below and reverses spatially', () => {

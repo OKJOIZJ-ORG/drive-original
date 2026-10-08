@@ -180,3 +180,7 @@ The physical-device procedure and remaining open gates are in `memory/ACCEPTANCE
 ## D091 local rounded-surface and hold-speed checks
 
 See [rounded native paint/scroll audit](rounded-surface-clipping/README.md) and [mobile hold-speed audit](mobile-hold-speed/README.md). They use isolated local Chrome and explicit fixtures; operating1.23.4 and physical-device proof are separate.
+
+## D092 local photo-control cleanup
+
+See [photo controls and video recovery](image-control-cleanup/README.md). Four local Chrome layouts cover photo paint, accessibility, Tab navigation and native video restoration; a separate390×844 check covers synchronous persistent-feedback and speed-menu retirement. Original Drive acquisition, physical devices and operating deployment remain separate.

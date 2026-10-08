@@ -1,20 +1,21 @@
-# Checkpoint — D091 local rounded surfaces and mobile hold speed complete — 2026-10-08 16:28
+# Checkpoint — D092 photo controls verified locally — 2026-10-08 17:01
 
 ## The story so far
-Local branch codex/rounded-surface-clipping starts from mainf3463f1. Common native dialog overflow:visible fixes its square clipping of the inner rounded shadow; content clipping and scrolling remain. Six dialogs/four layouts and intended menus visually reviewed; native focus/long-scroll/end/header/close pass. Mobile lateral18% bands including corners hold450ms→temporary2x/persistent pill, retirement restores priorrate and consumes contact. NativeChrome19cases/focused11/fullproduct930/930 pass; finalapp5555217f/style1ef3f8d8 match receipts. Maintained QA owns exact proof/limits. This coherent local unit is saved; operatingD0901.23.4 runtimee677852/Worker4d0146e1 unchanged. No new production/physicaldevice proof.
+Local branch codex/photo-control-cleanup starts from D091b41d810. Photos retained0:00/0:00 because the time wrapper lacked video ownership. Existing common setter now hides video UI/time/hints and retires speed-menu/feedback state on photo/source clearing, with selected presentation guarding stale native video and byte-verified raster. Photo actions stay trailing; no new dependency/state abstraction. Final app9dc36252/style13754107/shell2c28eb89 match QA receipts. Full932/932 tests; native four-layout14photo paint/AX/Tab cases and4video recoveries pass. Separate390x844 persistent-feedback/menu retirement passes beyond normal expiry. D091 hold2x retained. qa/image-control-cleanup/README.md owns exact scope. OperatingD0901.23.4 unchanged; physical-device/account/production proof is absent.
 
 ## Decided
-D091: fix opaque protrusions around rounded overlays; add mobile left/right edge hold2x with previous-speed restoration. KISS, ordinary gestures and existing product boundaries persist.
+D092: remove all video playback remnants on mobile photos and verify return to video; common photo actions and D091/KISS persist.
 
 ## Waiting on the user
-None for completed local implementation. New D091 delivery authority is absent; this is not an unattended deployment or device-verification queue.
+None for local patch/QA. New operating delivery authority is absent; no unattended deployment/device queue.
 
 ## Next first action
-Open C:\Projects\Drive-Original\source\qa\rounded-surface-clipping\README.md and qa/mobile-hold-speed/README.md to review D091's completed local changes and evidence before any separately authorized operating delivery.
+Read source/qa/image-control-cleanup/README.md for the completed local evidence and delivery limits; no further rollout or device action is scheduled.
 
 ## Tried
-Chrome MCP screenshot filePath was outside its stale allowed workspace; screenshot without a path timed out. Use the local native QA driver for paint receipts.
-Passing image base64 through a Windows command exceeded command-line size; do not repeat.
-Existing playback-gestures-local.cjs desktop reveal assertion failed with both working and HEAD app.js; it does not establish a new hold-speed regression and its later mobile cases were not reached.
-Initial full suite929/930 failed because the old immersive fixture lacked mediaStage.contains; fixture corrected, assertions preserved, final930/930 pass.
-Critical review found pause/end stop-only could leave an activated contact eligible for tap; common hold retirement now clears the recognizer and native pause/end movement/release cases pass.
+CSS override hypothesis rejected: global hidden already display:none!important and real direct-photo progress/track/rotation/PiP controls disappear; the time wrapper never received hidden ownership.
+MCP viewport change invalidated a UID; fresh snapshot/retry opened the ordinary demo photo. Inspecting before actual open was not evidence of the photo defect.
+Initial native baseline attempted a desktop photo menu inside the hidden custom-video-controls parent; keep the failure receipt and qualify only available photo UI, with ordinary desktop photo controls checked separately.
+Visibility-only video recovery re-enabled actions for a byte-verified raster with stale video visibility; selected presentation now guards the common setter. The image-owner test checks nonempty all-false actions rather than an idempotent setter's call count.
+The first native recovery oracle required a permanently hidden legacy center button; ordinary trusted center taps are the valid playback check.
+The broad fixture passed boolean true instead of {persistent:true} and omitted the speed-menu flag; its persistent ownership claim was withdrawn. Corrected focused390x844 proof verifies state remains active1.35s and synchronously retires on photo transition.
