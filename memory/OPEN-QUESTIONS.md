@@ -132,3 +132,7 @@ RESOLVED: the direct continuation following the explicit remaining main/push/pro
 ## 2026-10-03 — original-spec acceptance remains open after release
 
 Current BMP QA-FM08 actual proof is UNKNOWN; next prepare one current identity-bound read-only header/viewer/close witness. MEDIA06/09 actual-device sustained Q2/Q3 memory/thermal/processing qualification incomplete; representative bounded actor/observer/cleanup must be prepared first. QA-SW01 historical active replacement failures remain unresolved; compare current safe-version contract before targeted reproduction, with no current production failure claim. RELEASE-1.22.0.md owns exact matrix and limits. Controlled20pairs complete, corpus-budget omissions are not an all-video replay requirement, conditional HDR/codecs UNKNOWN and iOSD066 deferred. Earlier resolved G6 authority/deployment is not reopened.
+
+## 2026-10-08 — D089 startup speed and acquisition attribution
+
+UNKNOWN: a controlled exact-candidate speed improvement and which original acquisition/response hop dominates across videos. Actual old-production concept replays varied4.8–9.4seconds and were not matched cold controls; latest source-assignment5ms versus metadata4631ms suggests waiting, but native/probe requests were not correlated. Local guard correctness is verified; no percentage/average or historical45second-cause claim. Owner: `qa/video-startup/README.md`. Any later comparison must distinguish exact candidate/account/device and controlled state; this entry creates no unattended execution or deployment grant.

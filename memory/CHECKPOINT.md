@@ -1,16 +1,18 @@
-# Checkpoint — D088 UI hierarchy and sequential collection local complete — 2026-10-08 15:01
+# Checkpoint — D089 video startup priority local complete — 2026-10-08 15:35
 
 ## The story so far
-Local codex/library-hierarchy-loading includes borderless368add6 and the verified UI/loading patch. Actual authenticated1.23.3 diagnosis: ㅇㅎㅎ2052direct files =1451video+600image+1other, plus2folders; app supports2051media. Old bottom sentinel about20048px below the top gated further collection at458. Local patch collects metadata sequentially without scrolling, preserves240-card virtualization, shows partial/complete/failed state and top retry, clears stale content and waits before declaring no search matches. Existing CSS consolidated into control/type/state roles; narrow settings labels wrap. Final918product checks and synthetic nativeChrome1440/390/320 integrated UI/loading/retry/image-control scenarios passed and captures visually reviewed. QA owner: qa/library-hierarchy-loading/README.md. Production remains D0861.23.3; no merge/push/deploy/version bump. Local implementation and records form one verified savepoint.
+Local codex/video-startup-optimization includes D088523cae2 and verified startup priority. Automatic catalog collection and neighbor warming wait for the current video presentation; first frame/image fallback/close resumes them. Low-priority images reuse browser hints. Original/auth/audio/raster, explicit full-deck navigation and player-lifetime thumbnail suspension remain. Final922/922product checks and isolated nativeChrome1440/390 decoding/catalog/close fixtures pass. Actual production concept reduced pre-frame catalog starts2–3 to0; startup4.8–9.4seconds varied and proves no speed percentage. Browser probes cleaned and originalㅇㅎㅎfolder restored. qa/video-startup/README.md owns evidence/limits; implementation and records form one local savepoint. Production remains D0861.23.3, with no merge/push/deploy/versionbump.
 
 ## Decided
-D088 user request for UI hierarchy and loading diagnosis/patch; D087 borderless/KISS preserved. Counts/root cause/implementation/QA are observed or implementation choices, not additional user decisions. D086 address, original preservation, auth boundaries, Notion removal and automationPAUSED remain.
+D089 user request for faster video loading; D087KISS and D088UI/loading scope preserved. Scheduler implementation and measurements are observations/choices, not additional user decisions. Original/auth/Notion/automationPAUSED boundaries persist.
 
 ## Waiting on the user
-None for local patch. Candidate actual-account/device/production execution is unperformed; new operating delivery requires applicable authorization. Previous iOS/full-duration acceptance boundaries remain with release owners.
+None for local patch. Controlled exact-candidate startup gain remainsUNKNOWN in OPEN-QUESTIONS; no new merge/push/deploy authority. Previous device/full-duration acceptance boundaries remain with release owners.
 
 ## Next first action
-Inspect git show --stat codex/library-hierarchy-loading in C:\Projects\Drive-Original\source to review this local UI/loading unit before any separately authorized delivery.
+Inspect git show --stat codex/video-startup-optimization in C:\Projects\Drive-Original\source to review this local unit before any separately authorized delivery.
 
 ## Tried
-Privacy-fixture DOM failure was fixed by its existing render stub and final918passed. Initial image QA selector/root/hidden-close probes were replaced by reset demo root, actual card button and Tab-visible close; final3-viewports passed. Actual normal-Chrome diagnosis used existing credentials in page only and restored root. Earlier D087 connector-path failure stays in its archive.
+Warming-only concept still allowed1catalog request before frame; ordinary auto scheduler also needed a startup guard.
+Initial native fixture setup lacked abort ownership and its8second bootstrap deadline was shorter than existing readiness wait; fixed fixture ownership/bootstrap, retained failure receipt.
+Unmatched real reopens varied too much to support a startup-speed claim; no matched cold-pair inference.

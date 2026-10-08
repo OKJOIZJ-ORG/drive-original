@@ -19,6 +19,7 @@ const seekOwnerSource = app.slice(ownerStart, ownerEnd);
 
 test('same-session source replacement schedules a new presentation while stale frames cannot clear its loader', () => {
   const callbacks = [];
+  let backgroundResumes = 0;
   const video = {
     hidden: false, dataset: {}, currentTime: 5.4,
     classList: { add() {}, remove() {} }, removeAttribute() {},
@@ -31,7 +32,8 @@ test('same-session source replacement schedules a new presentation while stale f
     completedMediaSeekPresentation: null,
     mediaSeekWatchdog: null,
     isCurrentMediaEvent: () => true, noteMediaFrameProgress() {},
-    tryCaptureAmbientFrame() {}, updateQualityDisplay() {}, hideSwipeNeighbor() {}
+    tryCaptureAmbientFrame() {}, updateQualityDisplay() {}, hideSwipeNeighbor() {},
+    scheduleNextFilePage() { backgroundResumes++; }, warmPlaybackNeighborhood() {}
   };
   vm.createContext(context);
   vm.runInContext(seekOwnerSource + '\n' + presentationSource, context);
@@ -49,8 +51,10 @@ test('same-session source replacement schedules a new presentation while stale f
   callbacks[0](0, { mediaTime: 3 });
   assert.equal(context.el.mediaLoading.hidden, false, 'superseded source cannot dismiss current loading');
   assert.equal(video.dataset.presentationSession, currentKey, 'stale callback cannot discard the current owner');
+  assert.equal(backgroundResumes, 0, 'stale frames cannot restart background collection');
 
   callbacks[1](1, { mediaTime: 5.375 });
   assert.equal(context.el.mediaLoading.hidden, true, 'the current decoded frame completes its handoff');
   assert.equal(video.dataset.presentationSession, undefined);
+  assert.equal(backgroundResumes, 1, 'valid presentation resumes background collection');
 });

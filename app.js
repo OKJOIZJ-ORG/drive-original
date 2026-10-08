@@ -2934,12 +2934,18 @@ function updateListLoadingUI() {
 }
 
 // Collect metadata sequentially; scrolling only determines which cards are rendered.
+function isVideoStartupPending() {
+  return el.playerSheet?.hidden === false && el.mediaLoading?.hidden === false
+    && isVideoPresentation();
+}
+
 function scheduleNextFilePage() {
   const generation = state.listGeneration;
   requestAnimationFrame(() => {
     if (generation !== state.listGeneration || state.loadingFiles || state.listRequestPromise
       || state.populationLoadPromise || state.listLoadError || !state.nextPageToken
-      || state.demo || state.deepScan || state.filter === 'favorites' || el.libraryView?.hidden) return;
+      || state.demo || state.deepScan || state.filter === 'favorites' || el.libraryView?.hidden
+      || isVideoStartupPending()) return;
     void loadFiles({ append: true });
   });
 }
@@ -7474,6 +7480,7 @@ function warmThumbnail(file) {
   if (!source || warmedThumbnails.has(file.id) || typeof Image !== 'function') return;
   const image = new Image();
   image.decoding = 'async';
+  image.fetchPriority = 'low';
   image.referrerPolicy = 'no-referrer';
   image.src = source;
   warmedThumbnails.set(file.id, image);
@@ -7483,7 +7490,7 @@ function warmThumbnail(file) {
 }
 
 function warmPlaybackNeighborhood(file = state.selected, { loadPopulation = false } = {}) {
-  if (!file?.id || el.playerSheet?.hidden) return;
+  if (!file?.id || el.playerSheet?.hidden || isVideoStartupPending()) return;
   const list = getPlaybackFileList();
   const deck = ensureVerticalPlaybackDeck(file, list);
   const ids = [...(deck.above || []), ...(deck.below || [])];
@@ -11341,6 +11348,8 @@ function completeVideoFramePresentation(owner, confidence = 'decoded-frame') {
   tryCaptureAmbientFrame();
   el.mediaLoading.hidden = true;
   el.mediaError.hidden = true;
+  scheduleNextFilePage();
+  warmPlaybackNeighborhood(state.selected, { loadPopulation: true });
   updateQualityDisplay();
   hideSwipeNeighbor({ immediate: false });
   return true;
@@ -11400,6 +11409,8 @@ function onMediaReady() {
   if (el.imageViewer && !el.imageViewer.hidden) {
     el.mediaLoading.hidden = true;
     el.imageViewer.classList.add('is-ready');
+    scheduleNextFilePage();
+    warmPlaybackNeighborhood(state.selected, { loadPopulation: true });
     scheduleImageViewedPresentation(el.imageViewer);
     requestAnimationFrame(() => hideSwipeNeighbor({ immediate: false }));
   }
@@ -11689,6 +11700,7 @@ function closePlayer({ preserveHistory = false } = {}) {
   state.playbackOrderIds = [];
   state.playbackDeck = { anchorId: null, above: [], below: [] };
   state.playbackDeckComplete = false;
+  scheduleNextFilePage();
   requestAnimationFrame(() => {
     if (returnFocus?.isConnected) returnFocus.focus({ preventScroll: true });
   });

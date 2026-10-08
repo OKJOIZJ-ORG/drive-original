@@ -43,6 +43,74 @@ function provider(context, pages) {
   return requests;
 }
 
+function pendingVideo(context) {
+  run(context, `state.selected=state.files[0];state.pendingPlay=true;playerMediaPriorityActive=true;
+    el.playerSheet={hidden:false};el.mediaLoading={hidden:false};el.mediaError={hidden:false};el.imageViewer={hidden:true};
+    el.videoPlayer={hidden:false,dataset:{mediaSession:String(state.mediaSession)},currentTime:0,
+      classList:{add(){},remove(){}},removeAttribute(){}};
+    tryCaptureAmbientFrame=updateQualityDisplay=hideSwipeNeighbor=()=>{};
+    globalThis.presentationOwner={video:el.videoPlayer,fileId:state.selected.id,session:state.mediaSession,
+      playbackSession:state.playbackSession,accountId:state.accountId,authAccountKey:state.authAccountKey,
+      accountGeneration:state.driveSessionGeneration,sourceAttempt:state.mediaAttempt,
+      sourceGeneration:mediaSourceGeneration,seekGeneration:mediaSeekGeneration};`);
+}
+
+test('video startup defers queued catalog and neighbor work until a valid presentation, then preserves full-population order', async () => {
+  const f=fixture(),c=f.context;
+  const requests=provider(c,{'':{files:[media('first'),{...media('neighbor'),thumbnailLink:'https://example.test/neighbor.jpg'}],nextPageToken:'B'},
+    B:{files:[media('last')]}});
+  const warmed=[];
+  c.Image=class {set src(source){warmed.push({source,priority:this.fetchPriority});}};
+  await run(c,'loadFiles({append:false})');pendingVideo(c);
+  run(c,"el.videoPlayer.hidden=true;state.playbackOrderIds=['first','neighbor'];warmPlaybackNeighborhood(state.selected,{loadPopulation:true})");
+  await f.settle();
+  assert.equal(requests.length,1,'route/control preparation is protected before the video element becomes visible');
+  assert.equal(warmed.length,0);
+  run(c,'el.videoPlayer.hidden=false');
+  assert.equal(run(c,'completeVideoFramePresentation({...presentationOwner,sourceGeneration:mediaSourceGeneration+1})'),false);
+  await f.settle();assert.equal(requests.length,1);
+  assert.equal(run(c,'completeVideoFramePresentation(presentationOwner)'),true);
+  const population=run(c,'state.populationLoadPromise');if(population)await population;await f.settle();
+  assert.deepEqual(requests.map(r=>r.token),['','B']);
+  assert.ok(warmed.length>0);assert.ok(warmed.every(image=>image.priority==='low'));
+  assert.deepEqual(value(c,'state.playbackOrderIds'),['first','neighbor','last']);
+  assert.equal(run(c,'state.playbackDeckComplete'),true);
+  assert.equal(run(c,'playerMediaPriorityActive'),true,'thumbnail work stays suspended while the player remains open');
+});
+
+test('explicit full-population navigation can collect during video startup', async () => {
+  const f=fixture(),c=f.context;
+  const requests=provider(c,{'':{files:[media('first')],nextPageToken:'B'},B:{files:[media('last')]}});
+  await run(c,'loadFiles({append:false})');pendingVideo(c);run(c,'showPlayerFeedback=()=>{}');
+  await run(c,'prepareFullPlaybackPopulation()');await f.settle();
+  assert.deepEqual(requests.map(r=>r.token),['','B']);
+  assert.equal(run(c,'el.mediaLoading.hidden'),false);
+  assert.equal(run(c,'state.playbackDeckComplete'),true);
+});
+
+test('closing a pending video restarts automatic catalog collection', async () => {
+  const f=fixture(),c=f.context;
+  const requests=provider(c,{'':{files:[media('first')],nextPageToken:'B'},B:{files:[media('last')]}});
+  await run(c,'loadFiles({append:false})');pendingVideo(c);await f.settle();assert.equal(requests.length,1);
+  run(c,`document.body={style:{}};cancelLibraryEdgeBack=clearMediaTransition=finishMediaDiagnosticTrace=()=>{};
+    resetMediaElements=collapseShortsExpand=resetVideoRotation=setStageImmersive=setPlayerBackgroundInert=()=>{};
+    setPlayerMediaPriorityActive=()=>{playerMediaPriorityActive=false};closePlayer({preserveHistory:true});`);
+  await f.settle();assert.deepEqual(requests.map(r=>r.token),['','B']);
+  assert.equal(run(c,'state.populationComplete'),true);
+  assert.equal(run(c,'completeVideoFramePresentation(presentationOwner)'),false,'closed video cannot reopen background warmup');
+});
+
+test('image readiness resumes work for a selected file declared as video', async () => {
+  const f=fixture(),c=f.context;
+  const requests=provider(c,{'':{files:[media('first')],nextPageToken:'B'},B:{files:[media('last')]}});
+  await run(c,'loadFiles({append:false})');pendingVideo(c);await f.settle();assert.equal(requests.length,1);
+  run(c,`el.videoPlayer.hidden=true;el.imageViewer={hidden:false,classList:{add(){}}};
+    scheduleImageViewedPresentation=()=>{};onMediaReady();`);
+  const population=run(c,'state.populationLoadPromise');if(population)await population;await f.settle();
+  assert.deepEqual(requests.map(r=>r.token),['','B']);
+  assert.equal(run(c,'playerMediaPriorityActive'),true);
+});
+
 test('list collection shows partial progress continuously until complete', async () => {
   const {context:c}=fixture();
   const held=deferred(),release=held.resolve;

@@ -2,6 +2,11 @@
 
 Evidence class: local source code plus dated automated/browser verification. External claims may be sourced only from entries that are `operational` or `verified`.
 
+## Verified local startup scheduling — D089 (2026-10-08; not deployed)
+
+- `verified local`: automatic catalog continuation and neighbor warming wait for the current video presentation; valid first frame, raster fallback readiness or player close resumes work. Neighbor image priority is advisory low. Explicit complete-population navigation, source/frame ownership, stable deck order and player-lifetime thumbnail extraction suspension remain. Final922product checks plus isolated nativeChrome1440/390 local MP4/synthetic metadata fixtures pass; exact app/style/index hashes are in `qa/video-startup/native-results.json`. Original Q0 revision/auth/Range and audio/raster repair are unchanged.
+- `observed actual concept, not candidate`: temporary wrappers in normal authenticated production1.23.3 yielded2–3catalog starts before frame in baseline and0 in two combined-deferral replays. Startup4.8–9.4seconds varied; no proved speed percentage/mean/upper bound, no physical-device/all-format claim. Probe/functions/trace cleaned and original folder restored. `qa/video-startup/README.md` and `actual-concept.json` own scope. Candidate account/production execution remains unperformed.
+
 ## Current operating release — 1.23.3 (2026-10-04)
 
 - `operational address migration`: D086 current origin is https://drive-original.jyw-drive.workers.dev/; Worker `drive-original`, account label `jyw-drive`, deployed version `b20aebdd-0c7f-44bc-a218-17460b200502`. Immutable Worker ID/auth namespace and secret bindings retained, existing Google OAuth client adds new origin/callback. Five current public responses Git-equal, three private routes404, valid anonymous auth401/no-store. Actual normal PC and physical Android fresh login retain the same account/13liked IDs and active SW; short actual playback advances without native error. No cookie export, expanded grant, media write or iOS/PWA install migration claim. `ADDRESS-MIGRATION-20261004.md` owns current address evidence; the original release receipts below are historical.

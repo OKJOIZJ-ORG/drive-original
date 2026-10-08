@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-08",
+  "evidenceClass": "Observed actual normal-Chrome production 1.23.3 with temporary concept wrappers, not exact candidate execution",
+  "clock": "ordinary card pointer event to native first decoded-frame callback",
+  "identityPolicy": "No filename, ID, account, credential, media URL or query retained; same selected file verified in-page for runs 2 through 6",
+  "runs": [
+    { "run": 1, "mode": "baseline", "firstFrameMs": 6022, "catalogBeforeFrame": 2, "sameFileAssertion": "not separately retained" },
+    { "run": 2, "mode": "baseline", "firstFrameMs": 9389, "catalogBeforeFrame": 3, "sameFileAssertion": true },
+    { "run": 3, "mode": "warming-only exploratory", "firstFrameMs": 6396, "catalogBeforeFrame": 1, "sameFileAssertion": true },
+    { "run": 4, "mode": "baseline", "firstFrameMs": 9154, "catalogBeforeFrame": 3, "sameFileAssertion": true },
+    { "run": 5, "mode": "automatic-catalog-and-warming-deferred", "firstFrameMs": 9089, "catalogBeforeFrame": 0, "sameFileAssertion": true },
+    { "run": 6, "mode": "automatic-catalog-and-warming-deferred", "firstFrameMs": 4798, "catalogBeforeFrame": 0, "sameFileAssertion": true }
+  ],
+  "traceExcerpt": {
+    "clock": "media intent, separate from pointer clock",
+    "sourceAssignedMs": 5,
+    "nativeMetadataMs": 4631,
+    "firstDecodedFrameMs": 4743,
+    "limit": "Multiple native/probe requests uncorrelated; no hop-specific cause claim"
+  },
+  "limits": [
+    "Cache, cold state, run order and provider/network response uncontrolled",
+    "No proved speed percentage, average improvement or maximum startup time",
+    "Old viewport-gated scheduler retained under temporary wrapper; candidate image priority hint absent",
+    "No physical-device, all-format or sustained playback acceptance"
+  ],
+  "cleanup": {
+    "originalFunctionsRestored": true,
+    "probeAndListenersRemoved": true,
+    "traceEndedAndSinkRestored": true,
+    "playerClosed": true,
+    "originalFolderRestored": true,
+    "productionCodeChanged": false
+  }
+}

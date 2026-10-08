@@ -1,0 +1,89 @@
+{
+  "proof": "Isolated native Chrome local MP4 decoding and actual app presentation/catalog flow, with synthetic catalog and substituted source acquisition. Late closed-owner callback is synthetic. No credentials, Q0 transport authorization, real Drive, production, or physical-device acceptance.",
+  "hashes": {
+    "app.js": "e14f73fcce7c8674aacc75dae7d4fe5c563d5d36f2246662d5f4337b1986aea5",
+    "styles.css": "cfad83d251038aa1389dfbdc9c15722421f6be77394a06453ad8c17869fa8a85",
+    "index.html": "8d9ed96b27a9fc36072396649d656df07380b76417ffb022691d14d1ff80cd28"
+  },
+  "fixtureBytes": 202253,
+  "rows": [
+    {
+      "width": 1440,
+      "height": 900,
+      "mobile": false,
+      "passed": true,
+      "phase": "close-setup",
+      "pending": {
+        "requests": 0,
+        "warmed": 0,
+        "frame": null,
+        "loader": true,
+        "cards": 240
+      },
+      "ready": {
+        "firstDecodedAt": 12969.5,
+        "requests": [
+          {
+            "token": "B",
+            "at": 13023.800000011921,
+            "priority": "low"
+          }
+        ],
+        "warmed": 8,
+        "total": 2051,
+        "cards": 240,
+        "overflow": false,
+        "thumbnailPriority": true,
+        "deckComplete": true,
+        "loaderHidden": true
+      },
+      "closed": {
+        "requests": 1,
+        "hidden": true,
+        "before": 0,
+        "after": 0,
+        "frame": null,
+        "total": 2051
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "mobile": true,
+      "passed": true,
+      "phase": "close-setup",
+      "pending": {
+        "requests": 0,
+        "warmed": 0,
+        "frame": null,
+        "loader": true,
+        "cards": 240
+      },
+      "ready": {
+        "firstDecodedAt": 12578.399999976158,
+        "requests": [
+          {
+            "token": "B",
+            "at": 12583.399999976158,
+            "priority": "low"
+          }
+        ],
+        "warmed": 7,
+        "total": 2051,
+        "cards": 240,
+        "overflow": false,
+        "thumbnailPriority": true,
+        "deckComplete": true,
+        "loaderHidden": true
+      },
+      "closed": {
+        "requests": 1,
+        "hidden": true,
+        "before": 0,
+        "after": 0,
+        "frame": null,
+        "total": 2051
+      }
+    }
+  ]
+}
