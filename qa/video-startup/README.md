@@ -1,6 +1,8 @@
 # Video startup priority — D089
 
-Local branch `codex/video-startup-optimization`, based on D088 `523cae2`. The user requested faster video loading while retaining KISS. This unit adds no dependency, format conversion, cache or transport path. Production remains the D086 1.23.3 baseline; no version bump, merge, push or deployment was performed.
+Local branch `codex/video-startup-optimization`, based on D088 `523cae2`. The user requested faster video loading while retaining KISS. This unit adds no dependency, format conversion, cache or transport path. At D089 local completion production was the D0861.23.3 baseline, with no version bump, merge, push or deployment in that unit.
+
+Later delivery: D090 user approval published1.23.4 runtimee677852/Worker4d0146e1. This document and native receipt retain the original D089 local/concept evidence; exact operating update/account/library/playback/cache proof is owned separately by [release1.23.4](../../memory/RELEASE-1.23.4.md).
 
 ## Diagnosis and change
 

@@ -30,13 +30,15 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
-- `../qa/video-startup/README.md`: D089 영상 시작 중 자동 목록 수집·주변 준비 지연, 첫 화면/이미지 전환/닫기 후 재개. 정확한 로컬922검사·nativeChrome2크기와 운영 임시 concept 실험을 분리; 속도 향상률 미확정, 운영 미반영.
+- `RELEASE-1.23.4.md`, `../qa/release-1.23.4/README.md`: D090 승인된 D087/D088/D089 전체 패치 운영 반영. Runtimee677852/Worker4d0146e1/main·push,65-entryGit동일ZIP,public5/private5/cache4, 실제 PC 정상 업데이트·18좋아요 보존·2051목록·짧은 원본 재생·정리. 새 실기기/속도 향상률 인수는 제외.
 
-- `../qa/library-hierarchy-loading/README.md`: D088 UI 역할·타이포 통일과 viewport 의존 metadata 수집 제거. 실제 계정의2052 direct-file/2051media 원인 진단과 로컬918검사·nativeChrome3크기 증거를 분리; 운영 미반영.
+- `../qa/video-startup/README.md`: D089 영상 시작 중 자동 목록 수집·주변 준비 지연, 첫 화면/이미지 전환/닫기 후 재개. 정확한 로컬922검사·nativeChrome2크기와 운영 임시 concept 실험을 분리; 속도 향상률 미확정. 이후 D0901.23.4 실제 반영은 별도 릴리즈가 소유.
+
+- `../qa/library-hierarchy-loading/README.md`: D088 UI 역할·타이포 통일과 viewport 의존 metadata 수집 제거. 실제 계정의2052 direct-file/2051media 원인 진단과 로컬918검사·nativeChrome3크기 증거를 분리. 이후 D0901.23.4 실제 반영은 별도 릴리즈가 소유.
 
 - `ADDRESS-MIGRATION-20261004.md`: D086 새 운영 주소 `drive-original.jyw-drive.workers.dev`, 동일1.23.3 runtime/인증 저장소 보존 및 실제 PC·Android 새 로그인/13좋아요/짧은 재생. 현재 주소 소유 기록; 이전 릴리즈의 주소·배포 증거는 역사로 보존.
 
-- `RELEASE-1.23.3.md`, historical `RELEASE-1.23.2.md` and `../qa/uiux-followup/README.md`: D084 eight remaining UI/verification requests and three image directives. Operating8bc5938/Worker9ab1e4ad;915product checks plus finalstatic20 and actual PC/Android input, pagination retry/fencing, track fault recovery, six starts and15-minute uninterrupted playback. Historical45s causeUNKNOWN; iOS user validation and full-duration limits preserved.
+- Historical `RELEASE-1.23.3.md`, `RELEASE-1.23.2.md` and `../qa/uiux-followup/README.md`: D084 eight remaining UI/verification requests and three image directives. Operating8bc5938/Worker9ab1e4ad;915product checks plus finalstatic20 and actual PC/Android input, pagination retry/fencing, track fault recovery, six starts and15-minute uninterrupted playback. Historical45s causeUNKNOWN; iOS user validation and full-duration limits preserved.
 
 - `RELEASE-1.23.1.md` and `../qa/uiux-polish/README.md`: D083 eleven functional/UI requests and five screenshot directives; published4fbbb5f/Workerdebe477b,905product checks, six fixture layouts and actual normal PC/physicalAndroid UI/touch replay. First transient long startup remains causeUNKNOWN; iOS user validation/sustained playback excluded.
 

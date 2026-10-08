@@ -136,3 +136,5 @@ Current BMP QA-FM08 actual proof is UNKNOWN; next prepare one current identity-b
 ## 2026-10-08 — D089 startup speed and acquisition attribution
 
 UNKNOWN: a controlled exact-candidate speed improvement and which original acquisition/response hop dominates across videos. Actual old-production concept replays varied4.8–9.4seconds and were not matched cold controls; latest source-assignment5ms versus metadata4631ms suggests waiting, but native/probe requests were not correlated. Local guard correctness is verified; no percentage/average or historical45second-cause claim. Owner: `qa/video-startup/README.md`. Any later comparison must distinguish exact candidate/account/device and controlled state; this entry creates no unattended execution or deployment grant.
+
+D090 delivery update (2026-10-08):1.23.4 exact operating actual PC clip reaches first frame6773ms/ready4/111frames/error0 and normal cleanup, while fresh library collects2051at scroll0. RELEASE-1.23.4.md resolves actual operating execution for this finite scope. Controlled speed gain/acquisition-hop attribution remainsUNKNOWN; deployment approval does not close it or create an unattended queue.
