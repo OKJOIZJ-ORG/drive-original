@@ -1,21 +1,20 @@
-# Checkpoint — D092 photo controls verified locally — 2026-10-08 17:01
+# Checkpoint — D093 minimal loader and1.23.5 delivery prepared — 2026-10-08 17:16
 
 ## The story so far
-Local branch codex/photo-control-cleanup starts from D091b41d810. Photos retained0:00/0:00 because the time wrapper lacked video ownership. Existing common setter now hides video UI/time/hints and retires speed-menu/feedback state on photo/source clearing, with selected presentation guarding stale native video and byte-verified raster. Photo actions stay trailing; no new dependency/state abstraction. Final app9dc36252/style13754107/shell2c28eb89 match QA receipts. Full932/932 tests; native four-layout14photo paint/AX/Tab cases and4video recoveries pass. Separate390x844 persistent-feedback/menu retirement passes beyond normal expiry. D091 hold2x retained. qa/image-control-cleanup/README.md owns exact scope. OperatingD0901.23.4 unchanged; physical-device/account/production proof is absent.
+User D093 approves minimal loading UI and deployment including pending D091/D092. Focused codex/minimal-loading-release is based on1642531; operating/mainf3463f1 remains1.23.4. Loader now shows only 로딩 중 and measured numeric/bar progress; unknown clears number/bar, compact seek keeps number. Explanation node/slow-copy timers removed; error watchdog and frame ownership preserved. Final1.23.5 appb8f33a50/stylef1d427ea/shellb5eb9ddb match four-layout24state native receipts;932/932 product checks pass. Independent main..working product review found no blocker. Before snapshot confirms existing same-origin Worker11bindings/four secrets/current4d0146e1; actual normal Chrome1.23.4 is connected with18likes and in-page private preservation digest. No deployment yet; physical devices untested.
 
 ## Decided
-D092: remove all video playback remnants on mobile photos and verify return to video; common photo actions and D091/KISS persist.
+D093: minimal status/progress only; merge/push/deploy complete D091/D092/new loading unit to existing operating Worker. Original/auth/free-operation/Notion/automation boundaries persist.
 
 ## Waiting on the user
-None for local patch/QA. New operating delivery authority is absent; no unattended deployment/device queue.
+None for authorized1.23.5 delivery. No new physical-device or all-format acceptance is implied.
 
 ## Next first action
-Read source/qa/image-control-cleanup/README.md for the completed local evidence and delivery limits; no further rollout or device action is scheduled.
+Commit exact prepared paths, fast-forward reviewed main, materialize its immutable public tree and deploy the existing Worker, then verify serving and ordinary app update.
 
 ## Tried
-CSS override hypothesis rejected: global hidden already display:none!important and real direct-photo progress/track/rotation/PiP controls disappear; the time wrapper never received hidden ownership.
-MCP viewport change invalidated a UID; fresh snapshot/retry opened the ordinary demo photo. Inspecting before actual open was not evidence of the photo defect.
-Initial native baseline attempted a desktop photo menu inside the hidden custom-video-controls parent; keep the failure receipt and qualify only available photo UI, with ordinary desktop photo controls checked separately.
-Visibility-only video recovery re-enabled actions for a byte-verified raster with stale video visibility; selected presentation now guards the common setter. The image-owner test checks nonempty all-false actions rather than an idempotent setter's call count.
-The first native recovery oracle required a permanently hidden legacy center button; ordinary trusted center taps are the valid playback check.
-The broad fixture passed boolean true instead of {persistent:true} and omitted the speed-menu flag; its persistent ownership claim was withdrawn. Corrected focused390x844 proof verifies state remains active1.35s and synchronously retires on photo transition.
+Removing a loading-only location label also removed the binding used by post-load codecNote; full-original permission fallback test caught it. Defined the label at its remaining use; final932/932 pass, initial931/932 receipt retained.
+node --test tests treated the directory as a module; explicit discovered test files run all932. Initial tool failure retained.
+Initial compact screenshot preceded the900ms delayed reveal; final native driver waits for actual paint and retains intermediate receipts.
+Chrome MCP profile conflict recovered by checking exact MCP Chrome6048/node9420 ownership and graceful close; restarted isolated page2 works, normal user Chrome untouched by recovery.
+Actual preservation probe used nonexistent state.likedIds; corrected to accountFavoriteIds(state.accountMediaState) before storing a private in-page digest. No raw IDs/account/credentials exported.

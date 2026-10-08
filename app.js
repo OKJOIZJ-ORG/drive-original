@@ -1,6 +1,6 @@
 'use strict';
 
-const APP_VERSION = '1.23.4';
+const APP_VERSION = '1.23.5';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -52,7 +52,6 @@ const DEFAULT_FRAME_DURATION = 1 / 30;
 const MEDIA_ERROR_CLASSIFY_DELAY_MS = 180;
 const MEDIA_FRAME_NO_PROGRESS_TIMEOUT_MS = 15_000;
 const MEDIA_SEEK_COMPLETION_TIMEOUT_MS = 15_000;
-const DRIVE_PREVIEW_SLOW_MS = 8_000;
 const DRIVE_PREVIEW_TIMEOUT_MS = 30_000;
 const MAX_ORIGINAL_RETRY_AFTER_MS = 2_147_483_647;
 const GIF_THUMBNAIL_SIZE = 320;
@@ -729,7 +728,7 @@ function waitForQ0Control(file, kind, session, message, onReady) {
   q0ControlWait = owner;
   state.mediaAbortController?.abort(); state.mediaAbortController = controller;
   state.mediaAttempt = 'range-preparing';
-  showMediaLoading(message);
+  showMediaLoading();
   let finished = false, port = null, probedController = null;
   const closePort = () => { if (port) { port.onmessage = null; port.close(); port = null; } };
   const finish = outcome => {
@@ -889,7 +888,6 @@ function confirmQ1WorkerRetirement(owner) {
     } catch (_) { finish(false); }
   });
 }
-let drivePreviewSlowTimer = null;
 let drivePreviewTimeoutTimer = null;
 let swipePreviewDirection = null;
 let swipePreviewTargetId = null;
@@ -1313,7 +1311,7 @@ function bindElements() {
     'ctrlTracks', 'shortsTracksBtn', 'playerTracksDialog', 'playerTracksClose',
     'playerAudioTrack', 'playerSubtitleTrack', 'playerTracksStatus', 'playerTracksRetry',
     'ctrlFavorite', 'ctrlPip', 'ctrlFullscreen', 'ctrlIconExpand', 'ctrlIconCompress',
-    'mediaLoading', 'mediaLoadingText', 'mediaLoadingProgress', 'mediaLoadingPercent', 'mediaError', 'mediaErrorTitle', 'mediaErrorMessage',
+    'mediaLoading', 'mediaLoadingProgress', 'mediaLoadingPercent', 'mediaError', 'mediaErrorTitle', 'mediaErrorMessage',
     'retryMediaButton', 'bufferOriginalButton', 'videoCompatButton', 'compatPlayerButton', 'openDriveButton', 'streamModeLabel', 'streamModeText',
     'qualityBadge', 'mediaResolution',
     'mediaFileSizeType', 'codecNote', 'settingsDialog', 'settingsAppVersion',
@@ -1752,7 +1750,7 @@ function bindEvents() {
   el.videoPlayer.addEventListener('waiting', (event) => {
     if (isCurrentMediaEvent(event.currentTarget)) {
       if (el.mediaError?.hidden !== false && state.mediaAttempt !== 'blob-loading') {
-        showMediaLoading('재생에 필요한 구간 준비 중');
+        showMediaLoading();
         updateNativeLoadingProgress();
       }
       emitMediaDiagnosticStage('media-waiting', {
@@ -1893,7 +1891,7 @@ function restartPendingMediaAfterServiceWorkerChange() {
     state.mediaAttempt = 'worker-updating';
     setNativeVideoActionsAvailable(false);
     updatePlayPauseUI();
-    showMediaLoading('앱 업데이트 확인 중');
+    showMediaLoading();
     void q1Retirement.then(() => {
       if (state.selected?.id !== file.id || state.mediaSession !== session
         || state.playbackSession !== playbackSession || state.accountId !== accountId
@@ -2333,9 +2331,7 @@ async function recoverFromMediaProxyError(data) {
     state.authRetryContext = { fileId: retryFile.id, mediaSession: retrySession };
     state.mediaAttempt = 'auth-refresh';
     if (action === 'refresh-permission') state.mediaPermissionRetryCount += 1;
-    showMediaLoading(action === 'refresh-auth'
-      ? 'Google 연결을 안전하게 갱신하는 중'
-      : 'Drive 원본 권한을 다시 확인하는 중');
+    showMediaLoading();
     const refreshed = await requestSessionCredential({
       background: true,
       force: true,
@@ -6233,7 +6229,7 @@ function beginMediaSeekIntent(video, targetTime, origin = 'native') {
   cancelVideoFrameSampling();
   state.isSeeking = true;
   state.lastPresentedMediaTime = null;
-  if (el.mediaLoading?.hidden === false) setMediaLoadingProgress(null, '준비 중', '선택한 위치 준비 중');
+  if (el.mediaLoading?.hidden === false) setMediaLoadingProgress(null);
   recordMediaDiagnosticSeekStart(video, seekGeneration, numericTarget);
 
   if (Number.isFinite(numericTarget) && canOwnMediaSeek(video)) {
@@ -8574,7 +8570,7 @@ function openMediaSource(file) {
     kind: isVideo ? 'video' : 'image'
   }, session);
   updateQualityDisplay();
-  showMediaLoading('원본 재생 경로 확인 중');
+  showMediaLoading();
 
   if (state.demo) {
     if (isVideo) {
@@ -8648,7 +8644,7 @@ async function startInitialOriginalPlayback(file, kind, session) {
   }
   if (shouldProbeOriginalTs(file, kind)) {
     emitMediaDiagnosticStage('route-selected', { route: 'probe', reason: 'bounded-ts-admission' }, session);
-    showMediaLoading('원본 형식 확인 중');
+    showMediaLoading();
     sendTokenToWorker();
     if (await tryOriginalTsPlayback(file, session, { initial: true })) return;
     if (!current()) return;
@@ -8691,7 +8687,7 @@ function startOriginalRangePlayback(file, kind, session, message = 'Drive 원본
   state.lastProxyError = null;
   emitMediaDiagnosticStage('range-source-assigned', { route: 'range', kind }, session);
   updateQualityDisplay();
-  showMediaLoading(message);
+  showMediaLoading();
   sendTokenToWorker();
   beginQ0Playback(file, session);
   const mediaUrl = buildPinnedMediaUrl(file);
@@ -8728,11 +8724,6 @@ function startOriginalRangePlayback(file, kind, session, message = 'Drive 원본
     el.imageViewer.src = mediaUrl;
   }
 
-  window.setTimeout(() => {
-    if (session === state.mediaSession && state.mediaAttempt === 'range' && !el.mediaLoading.hidden) {
-      el.mediaLoadingText.textContent = '원본 응답을 기다리는 중입니다…';
-    }
-  }, 5000);
   return true;
 }
 
@@ -9172,7 +9163,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
           clearMediaSeekWatchdog('q1-source'); clearMediaFrameWatchdog('q1-source'); cancelVideoFrameSampling();
           state.isSeeking = false; state.mediaTransportVerified = false; state.mediaTransportStarted = false;
           state.mediaDecodeVerified = false; state.lastPresentedMediaTime = null;
-          showMediaLoading(videoCompatibility ? '영상 호환 변환 준비 중' : '원본 스트림 재포장 준비 중'); updateQualityDisplay();
+          showMediaLoading(); updateQualityDisplay();
         } else if (event.type === 'buffered') {
           state.mediaTransportVerified = true; state.mediaTransportStarted = true;
           state.pendingPlay = false;
@@ -9411,7 +9402,7 @@ function scheduleOriginalStreamRetry(file, expectedSession, delayMs, message) {
   clearTimeout(mediaRecoveryTimer);
   retireQ0Playback();
   state.mediaAttempt = 'retry-wait';
-  showMediaLoading(message);
+  showMediaLoading();
   mediaRecoveryTimer = window.setTimeout(() => {
     mediaRecoveryTimer = null;
     retryOriginalStream(file, expectedSession, '원본 스트림 자동 재연결 중');
@@ -9484,7 +9475,7 @@ function retryOriginalStream(file, expectedSession, message, { consumeRetry = tr
     el.videoPlayer.classList.add('has-poster');
   }
   updateQualityDisplay();
-  showMediaLoading(message);
+  showMediaLoading();
   sendTokenToWorker();
 
   el.videoPlayer.hidden = false;
@@ -9837,10 +9828,7 @@ async function startOriginalBlobFallback(
     el.videoPlayer.hidden = false;
     el.videoPlayer.dataset.mediaSession = String(session);
   }
-  const locationLabel = resolvedPolicy.mode === 'disk' ? '앱 전용 임시 디스크' : '메모리';
-  showMediaLoading(rangeFallbackOnFailure
-    ? `Drive 원본 파일을 ${locationLabel}에 준비하는 중`
-    : `직접 스트림 복구 중 — 원본을 ${locationLabel}에 임시 저장하는 중`);
+  showMediaLoading();
   const bufferController = new AbortController();
   state.mediaAbortController = bufferController;
   const bufferSourceGeneration = mediaSourceGeneration;
@@ -9864,6 +9852,7 @@ async function startOriginalBlobFallback(
     state.mediaTransportVerified = true;
     state.mediaTransportStarted = true;
     updateQualityDisplay();
+    const locationLabel = resolvedPolicy.mode === 'disk' ? '앱 전용 임시 디스크' : '메모리';
     el.codecNote.textContent = `Drive 원본 파일 바이트를 ${locationLabel}에 임시 저장해 재인코딩 없이 재생 중입니다. 플레이어를 닫거나 이동하면 즉시 삭제됩니다.`;
 
     if (kind === 'video') {
@@ -9983,7 +9972,7 @@ async function startOriginalBlobFallback(
           state.resumePosition = { fileId: file.id, time: playbackSnapshot.time, snapshot: playbackSnapshot };
         }
         state.mediaAttempt = 'auth-refresh';
-        showMediaLoading('Drive 원본 권한을 다시 확인하는 중');
+        showMediaLoading();
         const refreshed = await requestSessionCredential({
           background: true,
           force: true,
@@ -10023,13 +10012,12 @@ async function startOriginalBlobFallback(
   }
 }
 
-function updateOriginalBufferProgress(received, total, storageMode) {
+function updateOriginalBufferProgress(received, total) {
   const now = performance.now();
   if (now - updateOriginalBufferProgress.lastUpdate < 180 && (!total || received < total)) return;
   const percent = Number.isFinite(total) && total > 0 && Number.isFinite(received)
     ? (received / total) * 100 : null;
-  const label = storageMode === 'disk' ? '임시 디스크 저장' : '메모리 저장';
-  setMediaLoadingProgress(percent, '저장', `${label} · ${formatBytes(received)}${total > 0 ? ` / ${formatBytes(total)}` : ''}`);
+  setMediaLoadingProgress(percent);
   updateOriginalBufferProgress.lastUpdate = now;
 }
 updateOriginalBufferProgress.lastUpdate = -Infinity;
@@ -10063,7 +10051,7 @@ async function readResponseIntoBlob(
         throw new RangeError('Original file exceeds the memory buffer limit');
       }
       chunks.push(value);
-      updateOriginalBufferProgress(received, total, 'memory');
+      updateOriginalBufferProgress(received, total);
     }
     if (!isCurrentOriginalBufferOwner(file, session, sourceGeneration)) {
       throw createOriginalBufferOwnerError();
@@ -10151,7 +10139,7 @@ async function writeResponseIntoOpfs(
           await reader.cancel();
           throw createOriginalBufferOwnerError();
         }
-        updateOriginalBufferProgress(received, total, 'disk');
+        updateOriginalBufferProgress(received, total);
       }
     }
     await writable.close();
@@ -10211,9 +10199,7 @@ async function cleanupStaleOriginalBuffers() {
 }
 
 function clearDrivePreviewTimers() {
-  clearTimeout(drivePreviewSlowTimer);
   clearTimeout(drivePreviewTimeoutTimer);
-  drivePreviewSlowTimer = null;
   drivePreviewTimeoutTimer = null;
 }
 
@@ -10285,7 +10271,7 @@ function showDrivePreview(file, reason, { userInitiated = false } = {}) {
   el.mediaStage?.classList.add('drive-preview-active');
   el.playerModal?.classList.add('drive-preview-mode');
   if (el.drivePreviewActions) el.drivePreviewActions.hidden = false;
-  showMediaLoading('Google 미리보기 여는 중');
+  showMediaLoading();
 
   el.drivePreview.title = `${file.name || '미디어'} · Google Drive 호환 재생기`;
   el.drivePreview.dataset.mediaSession = String(previewSession);
@@ -10294,11 +10280,6 @@ function showDrivePreview(file, reason, { userInitiated = false } = {}) {
   el.codecNote.textContent = '직접 선택한 Google 미리보기입니다. 실제 재생과 원본 화질은 앱에서 확인할 수 없습니다.';
   updateQualityDisplay();
 
-  drivePreviewSlowTimer = window.setTimeout(() => {
-    if (state.mediaSession === previewSession && state.mediaAttempt === 'drive-preview-loading') {
-      el.mediaLoadingText.textContent = 'Google에서 재생 가능한 변환본을 준비하는 중입니다…';
-    }
-  }, DRIVE_PREVIEW_SLOW_MS);
   drivePreviewTimeoutTimer = window.setTimeout(() => {
     if (state.mediaSession === previewSession && state.mediaAttempt === 'drive-preview-loading') {
       handleDrivePreviewFailure();
@@ -11695,15 +11676,15 @@ function updatePlayerNavigationLabels(file) {
   }
 }
 
-function showMediaLoading(message) {
+function showMediaLoading() {
   updateOriginalBufferProgress.lastUpdate = -Infinity;
-  setMediaLoadingProgress(null, '준비 중', message);
+  setMediaLoadingProgress(null);
   el.mediaLoading.hidden = false;
   el.mediaLoading.classList?.toggle('seek-loading', Boolean(state.isSeeking && state.mediaTransportStarted));
   el.mediaError.hidden = true;
 }
 
-function setMediaLoadingProgress(percent, label, detail = '') {
+function setMediaLoadingProgress(percent) {
   const measured = Number.isFinite(percent);
   const value = measured ? Math.max(0, Math.min(100, Math.floor(percent))) : null;
   if (el.mediaLoadingProgress) {
@@ -11711,10 +11692,9 @@ function setMediaLoadingProgress(percent, label, detail = '') {
     if (measured) el.mediaLoadingProgress.value = value;
     else el.mediaLoadingProgress.removeAttribute('value');
   }
-  if (el.mediaLoadingPercent) el.mediaLoadingPercent.textContent = measured ? `${label} ${value}%` : '준비 중';
-  if (el.mediaLoadingText) {
-    el.mediaLoadingText.textContent = detail;
-    el.mediaLoadingText.hidden = !detail;
+  if (el.mediaLoadingPercent) {
+    el.mediaLoadingPercent.textContent = measured ? `${value}%` : '';
+    el.mediaLoadingPercent.hidden = !measured;
   }
 }
 
@@ -11735,7 +11715,7 @@ function updateNativeLoadingProgress() {
     }
   }
   if (!video.buffered.length) return;
-  setMediaLoadingProgress((ahead / target) * 100, '버퍼', `현재 위치 이후 ${Math.min(ahead, target).toFixed(1)} / ${target.toFixed(1)}초 준비`);
+  setMediaLoadingProgress((ahead / target) * 100);
 }
 
 function showMediaError(message, { title = '이 파일을 재생할 수 없습니다', showDrive = false, showRetry = true } = {}) {
@@ -11915,7 +11895,7 @@ function resetMediaElements() {
   el.bufferOriginalButton.hidden = true;
   el.compatPlayerButton.hidden = true;
   if (el.mediaErrorTitle) el.mediaErrorTitle.textContent = '이 파일을 재생할 수 없습니다';
-  showMediaLoading('원본 스트림 준비 중');
+  showMediaLoading();
   state.mediaAttempt = 'idle';
   state.mediaPlaybackMode = '';
   state.mediaTransportVerified = false;

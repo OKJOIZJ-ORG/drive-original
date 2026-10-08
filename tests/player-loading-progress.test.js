@@ -18,7 +18,7 @@ function fixture() {
   vm.runInContext(fs.readFileSync(path.join(__dirname,'..','app.js'),'utf8'),c);
   const run = code=>vm.runInContext(code,c);
   run(`state.selected={id:'video'};state.mediaSession=3;state.mediaAttempt='range';
-    el.mediaLoading={hidden:false};el.mediaError={hidden:true};el.mediaLoadingText={};el.mediaLoadingPercent={};
+    el.mediaLoading={hidden:false,classList:{toggle(){}}};el.mediaError={hidden:true};el.mediaLoadingPercent={};
     el.mediaLoadingProgress={hidden:true,value:0,removeAttribute(){delete this.value;}};
     el.videoPlayer={hidden:false,dataset:{mediaSession:'3'},duration:100,currentTime:20,
       buffered:{length:1,start:()=>20,end:()=>21.5}};`);
@@ -27,38 +27,38 @@ function fixture() {
 
 test('full original saving shows measured byte percentage and always delivers completion', () => {
   const f=fixture();
-  f.run("showMediaLoading('원본 저장 준비 중');updateOriginalBufferProgress(25,100,'disk')");
-  assert.equal(f.run('el.mediaLoadingPercent.textContent'),'저장 25%');
+  f.run("showMediaLoading();updateOriginalBufferProgress(25,100)");
+  assert.equal(f.run('el.mediaLoadingPercent.textContent'),'25%');
+  assert.equal(f.run('el.mediaLoadingPercent.hidden'),false);
   assert.equal(f.run('el.mediaLoadingProgress.value'),25);
   assert.equal(f.run('el.mediaLoadingProgress.hidden'),false);
-  assert.match(f.run('el.mediaLoadingText.textContent'),/25 B \/ 100 B/);
-  f.run("updateOriginalBufferProgress(100,100,'disk')");
-  assert.equal(f.run('el.mediaLoadingPercent.textContent'),'저장 100%');
-  f.run("showMediaLoading('새 파일 준비 중');updateOriginalBufferProgress(10,0,'memory')");
-  assert.equal(f.run('el.mediaLoadingPercent.textContent'),'준비 중');
+  f.run("updateOriginalBufferProgress(100,100)");
+  assert.equal(f.run('el.mediaLoadingPercent.textContent'),'100%');
+  f.run("showMediaLoading();updateOriginalBufferProgress(10,0)");
+  assert.equal(f.run('el.mediaLoadingPercent.textContent'),'');
+  assert.equal(f.run('el.mediaLoadingPercent.hidden'),true);
   assert.equal(f.run('el.mediaLoadingProgress.hidden'),true);
   assert.equal(f.run('el.mediaLoadingProgress.value'),undefined);
-  assert.equal(f.run('el.mediaLoadingText.hidden'),false);
 });
 
 test('range buffer percent measures only contiguous seconds ahead of the current position', () => {
   const f=fixture();f.run('updateNativeLoadingProgress()');
-  assert.equal(f.run('el.mediaLoadingPercent.textContent'),'버퍼 50%');
-  assert.match(f.run('el.mediaLoadingText.textContent'),/1\.5 \/ 3\.0초/);
+  assert.equal(f.run('el.mediaLoadingPercent.textContent'),'50%');
   f.run('el.videoPlayer.buffered={length:1,start:()=>80,end:()=>100};updateNativeLoadingProgress()');
-  assert.equal(f.run('el.mediaLoadingPercent.textContent'),'버퍼 0%','ranges elsewhere are not playback progress');
+  assert.equal(f.run('el.mediaLoadingPercent.textContent'),'0%','ranges elsewhere are not playback progress');
   f.run('el.videoPlayer.currentTime=99;el.videoPlayer.buffered={length:1,start:()=>99,end:()=>99.5};updateNativeLoadingProgress()');
-  assert.equal(f.run('el.mediaLoadingPercent.textContent'),'버퍼 50%','the target shrinks only at known EOF');
+  assert.equal(f.run('el.mediaLoadingPercent.textContent'),'50%','the target shrinks only at known EOF');
 });
 
 test('new loading phases clear prior percentage and stale, hidden or saving events cannot override it', () => {
-  const f=fixture();f.run('updateNativeLoadingProgress();showMediaLoading("선택한 위치 준비 중")');
+  const f=fixture();f.run('updateNativeLoadingProgress();showMediaLoading()');
   assert.equal(f.run('el.mediaLoadingProgress.hidden'),true);
-  assert.equal(f.run('el.mediaLoadingPercent.textContent'),'준비 중');
+  assert.equal(f.run('el.mediaLoadingPercent.textContent'),'');
+  assert.equal(f.run('el.mediaLoadingPercent.hidden'),true);
   for (const change of ["el.videoPlayer.dataset.mediaSession='2'",'el.videoPlayer.hidden=true',
     'el.mediaLoading.hidden=true',"state.mediaAttempt='blob-loading'"]) {
-    const f=fixture();f.run(`showMediaLoading('새 단계');${change};updateNativeLoadingProgress()`);
-    assert.equal(f.run('el.mediaLoadingPercent.textContent'),'준비 중');
+    const f=fixture();f.run(`showMediaLoading();${change};updateNativeLoadingProgress()`);
+    assert.equal(f.run('el.mediaLoadingPercent.textContent'),'');
     assert.equal(f.run('el.mediaLoadingProgress.hidden'),true);
   }
 });

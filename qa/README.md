@@ -184,3 +184,7 @@ See [rounded native paint/scroll audit](rounded-surface-clipping/README.md) and 
 ## D092 local photo-control cleanup
 
 See [photo controls and video recovery](image-control-cleanup/README.md). Four local Chrome layouts cover photo paint, accessibility, Tab navigation and native video restoration; a separate390×844 check covers synchronous persistent-feedback and speed-menu retirement. Original Drive acquisition, physical devices and operating deployment remain separate.
+
+## D093 minimal loading checks
+
+See [minimal loading native audit](minimal-loading/README.md). Four layouts cover status-only unknown progress, measured numeric/bar progress, compact seek, source reset and ready/error retirement. Progress paint calibration and ordinary demo-image lifecycle are explicitly distinguished from operating account/device evidence.
