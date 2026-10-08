@@ -301,7 +301,7 @@ test('real listing failure logs fixed status classification without upstream pri
   run(context, `
     state.token='synthetic-test-token';state.expiresAt=Date.now()+3600000;
     el.refreshButton={disabled:false};el.libraryStatus={textContent:''};
-    showLibrary=()=>{};updateLibrarySummary=()=>{};updateConnectionBadge=()=>{};
+    showLibrary=()=>{};renderFiles=()=>{};updateLibrarySummary=()=>{};updateConnectionBadge=()=>{};
   `);
   assert.equal(await run(context, 'loadFiles({append:false})'), false);
   assert.deepEqual(JSON.parse(JSON.stringify(logs)), [['[drive-original] library-list', { category: 'missing', status: 404 }]]);

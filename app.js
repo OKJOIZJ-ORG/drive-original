@@ -1258,7 +1258,6 @@ async function init() {
   setupPlayerChrome();
   setupTouchGestures();
   setupLibraryEdgeBackGesture();
-  setupInfiniteScroll();
   cleanupStaleOriginalBuffers().catch(() => {});
   removeLegacyCredentialStorage();
   el.currentOrigin.textContent = location.origin;
@@ -1291,7 +1290,7 @@ function bindElements() {
     'sortSelect', 'libraryOptions', 'libraryStatus', 'accountSyncStatus', 'fileGrid', 'emptyState', 'emptyStateTitle', 'emptyStateText', 'loadMoreButton',
     'selectionModeButton', 'selectionToolbar', 'selectionCountText', 'selectionSelectAllBtn',
     'selectionMoveBtn', 'selectionDeleteBtn', 'selectionCancelBtn',
-    'infiniteScrollSentinel', 'infiniteScrollSpinner',
+    'infiniteScrollSpinner',
     'folderNav', 'breadcrumbTrail', 'folderUpButton', 'libraryTitle', 'folderStrip', 'folderMoreButton', 'edgeBackIndicator',
     'playerSheet', 'playerBackdrop', 'playerModal', 'playerTitle', 'playerQuality', 'topbarPrevBtn', 'topbarRandomBtn', 'topbarNextBtn',
     'topbarFavoriteBtn',
@@ -1412,7 +1411,7 @@ function bindEvents() {
     setLibraryFilter(button.dataset.filter);
   }));
   el.loadMoreButton.addEventListener('click', () => {
-    if (state.nextPageToken) loadFiles({ append: true });
+    if (state.listLoadError) void loadFiles({ append: Boolean(state.nextPageToken) });
   });
   if (el.selectionModeButton) el.selectionModeButton.addEventListener('click', () => enterSelectionMode());
   if (el.selectionCancelBtn) el.selectionCancelBtn.addEventListener('click', exitSelectionMode);
@@ -2921,50 +2920,27 @@ function requestSessionCredential({ background = false, force = false, rejectedR
   return operation;
 }
 
-let infiniteScrollObserver = null;
 const generatedThumbnailCache = new Map();
-
-function setupInfiniteScroll() {
-  if (infiniteScrollObserver) {
-    infiniteScrollObserver.disconnect();
-  }
-  if (!el.infiniteScrollSentinel) return;
-
-  infiniteScrollObserver = new IntersectionObserver((entries) => {
-    const entry = entries[0];
-    if (entry && entry.isIntersecting) {
-      scheduleNextFilePage();
-    }
-  }, {
-    root: null,
-    rootMargin: '600px 0px',
-    threshold: 0
-  });
-
-  infiniteScrollObserver.observe(el.infiniteScrollSentinel);
-}
 
 function updateListLoadingUI() {
   const ordinaryView = state.filter !== 'favorites' && !state.deepScan;
-  if (el.infiniteScrollSpinner) el.infiniteScrollSpinner.hidden = !ordinaryView || !state.loadingFiles;
+  const collecting = ordinaryView && !state.listLoadError && (state.loadingFiles || Boolean(state.nextPageToken));
+  if (ordinaryView && el.fileGrid) el.fileGrid.setAttribute('aria-busy', String(state.loadingFiles));
+  if (el.infiniteScrollSpinner) el.infiniteScrollSpinner.hidden = !collecting;
   if (el.loadMoreButton) {
-    el.loadMoreButton.hidden = !ordinaryView || !state.nextPageToken;
+    el.loadMoreButton.hidden = !ordinaryView || !state.listLoadError;
     el.loadMoreButton.disabled = state.loadingFiles;
-    const label = el.loadMoreButton.querySelector?.('span') || el.loadMoreButton;
-    label.textContent = state.loadingFiles ? '불러오는 중…' : state.listLoadError ? '다시 불러오기' : '파일 더 불러오기';
   }
 }
 
+// Collect metadata sequentially; scrolling only determines which cards are rendered.
 function scheduleNextFilePage() {
   const generation = state.listGeneration;
   requestAnimationFrame(() => {
     if (generation !== state.listGeneration || state.loadingFiles || state.listRequestPromise
       || state.populationLoadPromise || state.listLoadError || !state.nextPageToken
       || state.demo || state.deepScan || state.filter === 'favorites' || el.libraryView?.hidden) return;
-    const rect = el.infiniteScrollSentinel?.getBoundingClientRect?.();
-    if (rect?.width > 0 && rect.top < window.innerHeight + 600 && rect.bottom > -600) {
-      void loadFiles({ append: true });
-    }
+    void loadFiles({ append: true });
   });
 }
 
@@ -3145,7 +3121,8 @@ async function loadFiles({ append, statusToken = null }) {
   );
   el.refreshButton.disabled = true;
   updateListLoadingUI();
-  updateLibrarySummary();
+  if (append) updateLibrarySummary();
+  else renderFiles({ resetWindow: true });
 
   const parentClause = state.currentFolderId === 'root'
     ? `'root' in parents`
@@ -3164,7 +3141,7 @@ async function loadFiles({ append, statusToken = null }) {
 
   const request = (async () => {
    try {
-    const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, { signal: controller.signal });
+    const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, { signal: controller.signal, priority: append ? 'low' : 'auto' });
     const data = await response.json();
     if (generation !== state.listGeneration || controller.signal.aborted) return false;
     if (!Array.isArray(data.files) || (data.nextPageToken != null && typeof data.nextPageToken !== 'string')) {
@@ -3210,6 +3187,7 @@ async function loadFiles({ append, statusToken = null }) {
       el.refreshButton.disabled = false;
       updateListLoadingUI();
       updateLibrarySummary();
+      if (!state.listLoadError && !state.nextPageToken) renderFiles();
       updateConnectionBadge();
     }
   }
@@ -5235,8 +5213,10 @@ function renderFiles({ resetWindow = false } = {}) {
       : '폴더 더 보기';
   }
   renderMediaGrid(files);
-  if (el.fileGrid) el.fileGrid.setAttribute('aria-busy', String(loadingFavoriteView));
-  el.emptyState.hidden = loadingFavoriteView || files.length + visibleFolders.length > 0;
+  const collecting = state.filter !== 'favorites' && !state.deepScan && !state.listLoadError
+    && (state.loadingFiles || Boolean(state.nextPageToken));
+  if (el.fileGrid) el.fileGrid.setAttribute('aria-busy', String(loadingFavoriteView || state.loadingFiles));
+  el.emptyState.hidden = loadingFavoriteView || collecting || files.length + visibleFolders.length > 0;
   if (!el.emptyState.hidden && el.emptyStateTitle && el.emptyStateText) {
     if (state.filter === 'favorites' && !state.query) {
       el.emptyStateTitle.textContent = '좋아요가 아직 없습니다';
@@ -5300,7 +5280,7 @@ function shuffleCurrentFiles() {
   });
 }
 
-/* 무한 스크롤로 아직 불러오지 않은 페이지가 있을 때 전부 로드한다.
+/* 순차 수집 중인 목록의 남은 페이지를 같은 요청 체인으로 기다린다.
    랜덤 배열·랜덤 쇼츠가 '대상 폴더(또는 딥스캔 서브트리)의 전체 파일'을
    대상으로 동작하도록 보장한다. 진행 중 로드가 있으면 끝날 때까지 대기 후 이어 받는다. */
 async function ensureAllPagesLoaded({ statusToken = state.libraryStatusToken } = {}) {
@@ -5744,10 +5724,18 @@ function updateLibrarySummary(visibleCount, visibleFolderCount) {
     ? state.folders.filter(folder => !state.query || String(folder.name || '').toLocaleLowerCase('ko').includes(state.query)).length : 0;
   const parts = [];
   if (folderCount > 0) parts.push(`폴더 ${folderCount.toLocaleString('ko-KR')}개`);
-  parts.push(`미디어 ${mediaCount.toLocaleString('ko-KR')}개 표시`);
-  if (state.loadingFiles) parts.push(state.nextPageToken ? '더 불러오는 중…' : '목록 불러오는 중…');
-  else if (state.listLoadError) parts.push('목록을 불러오지 못했습니다');
-  else if (state.nextPageToken) parts.push('추가 항목 있음');
+  const ordinaryView = !state.deepScan;
+  const partial = ordinaryView && !state.populationComplete;
+  const filtered = Boolean(state.query) || state.filter !== 'all';
+  const typeLabel = state.query ? '검색 결과' : state.filter === 'video' ? '영상' : state.filter === 'image' ? '이미지' : '미디어';
+  if (state.loadingFiles && !state.files.length && !state.folders.length) {
+    parts.push('목록을 불러오는 중…');
+  } else {
+    parts.push(`${typeLabel} ${mediaCount.toLocaleString('ko-KR')}개${partial && !filtered ? ' 수집' : ''}`);
+    if (filtered && ordinaryView) parts.push(`${partial ? '수집한' : '전체'} 미디어 ${state.files.length.toLocaleString('ko-KR')}개`);
+    if (state.listLoadError) parts.push('목록 수집 중단');
+    else if (partial && (state.loadingFiles || state.nextPageToken)) parts.push('목록 확인 중…');
+  }
   if (state.deepScan && state.treeCache) parts.push('하위 폴더 전체 포함');
   el.librarySummary.textContent = parts.join(' · ');
 }
