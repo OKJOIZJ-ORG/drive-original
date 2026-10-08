@@ -854,7 +854,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   gap: 0;
   background: var(--system-bg-secondary);
   border-radius: 12px;
-  border: 1px solid #303034;
   overflow: hidden;
   margin-bottom: 18px;
 }
@@ -976,7 +975,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   -webkit-tap-highlight-color: transparent;
   border-radius: 10px;
   background: var(--system-bg-secondary);
-  border: 1px solid #303034;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -997,12 +995,6 @@ button:focus-visible, input:focus-visible, select:focus-visible, [tabindex="0"]:
   color: inherit;
   text-align: left;
   cursor: pointer;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .file-card:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-  }
 }
 
 .file-card:has(.file-card-open:active) {
@@ -2975,9 +2967,10 @@ dialog {
 .search-box input {
   display: block; appearance: none; margin: 0; min-width: 0;
   width: 100%; height: 100%; padding: 0 12px 0 36px; border-radius: 10px;
-  border: 1px solid #303034; background: var(--system-bg-secondary); color: var(--label-primary);
+  border: 0; background: var(--system-bg-secondary); color: var(--label-primary);
   font-size: 1rem; letter-spacing: -.015em;
 }
+.search-box input:focus-visible { outline: 2px solid var(--system-blue); }
 .search-box input::placeholder { color: #8e8e96; font-size: .8125rem; }
 .segmented { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: stretch; gap: 2px; height: var(--control-size); }
 .segmented button {
@@ -2988,13 +2981,13 @@ dialog {
 .library-options { position: relative; }
 .library-options summary, .selection-mode-button {
   height: var(--control-size); min-height: var(--control-size); min-width: var(--control-size); display: flex; align-items: center;
-  justify-content: center; gap: 7px; padding: 0 10px; border: 1px solid #303034;
+  justify-content: center; gap: 7px; padding: 0 10px; border: 0;
   border-radius: 10px; background: var(--system-bg-secondary); color: #c3c3ca; font-size: .8125rem;
   font-weight: 500; white-space: nowrap; cursor: pointer; list-style: none;
   -webkit-tap-highlight-color: transparent; user-select: none; touch-action: manipulation;
 }
 .library-options summary::-webkit-details-marker { display: none; }
-.library-options[open] summary, .selection-mode-button[aria-pressed="true"] { background: #2a2a2e; border-color: #55555e; color: #eee; }
+.library-options[open] summary, .selection-mode-button[aria-pressed="true"] { background: #2a2a2e; color: #eee; }
 .library-options summary:focus-visible { outline: 2px solid #c6ceda; outline-offset: -3px; }
 .library-options summary:active { background: #ffffff14; }
 .library-options-panel {
