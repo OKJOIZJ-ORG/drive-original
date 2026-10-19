@@ -144,3 +144,45 @@ test('malformed equal-looking pin or descriptor does not establish identity', ()
   const malformed = { ...a, uri: uri + '&access_token=synthetic' };
   assert.equal(pin.samePin(malformed, malformed), false);
 });
+test('listing revision hint overlaps the revision POST with the first metadata read', async () => {
+  let releaseMetadata; const metadataHeld = new Promise(resolve => { releaseMetadata = resolve; });
+  const f = fixture({ revisionHint: 'A', readMetadata: async args => {
+    f.calls.push({ type: 'metadata', phase: args.phase }); return args.phase === 'before' ? metadataHeld : metadata; } });
+  const opening = pin.acquire(f.options);
+  await new Promise(resolve => setImmediate(resolve));
+  assert.deepEqual(f.calls.map(c => c.type), ['metadata', 'download']);
+  assert.equal(f.calls[1].revisionId, 'A'); assert.equal(f.calls[1].resourceKey, null);
+  releaseMetadata(metadata);
+  const value = await opening;
+  assert.equal(value.uri, uri); assert.equal(value.descriptor.headRevisionId, 'A');
+  assert.deepEqual(f.calls.map(c => c.type), ['metadata', 'download', 'metadata']);
+});
+test('stale, rejected, resource-keyed or malformed hints fall back to the sequential exact-revision POST', async () => {
+  const stale = fixture({ revisionHint: 'OLD' });
+  assert.equal((await pin.acquire(stale.options)).uri, uri);
+  assert.deepEqual(stale.calls.filter(c => c.type === 'download').map(c => c.revisionId), ['OLD', 'A']);
+  const rejected = fixture({ revisionHint: 'A', startDownload: async args => {
+    rejected.calls.push({ type: 'download', ...args });
+    if (rejected.calls.filter(c => c.type === 'download').length === 1) throw Error('synthetic hinted POST failure');
+    return operation; } });
+  assert.equal((await pin.acquire(rejected.options)).uri, uri);
+  assert.equal(rejected.calls.filter(c => c.type === 'download').length, 2);
+  const keyed = fixture({ revisionHint: 'A', readMetadata: async args => {
+    keyed.calls.push({ type: 'metadata', phase: args.phase }); return { ...metadata, resourceKey: 'key' }; } });
+  await pin.acquire(keyed.options);
+  assert.deepEqual(keyed.calls.filter(c => c.type === 'download').map(c => c.resourceKey), [null, 'key']);
+  for (const revisionHint of ['', 'bad hint', 7, { id: 'A' }]) {
+    const malformed = fixture({ revisionHint });
+    await pin.acquire(malformed.options);
+    assert.deepEqual(malformed.calls.map(c => c.type), ['metadata', 'download', 'metadata']);
+  }
+});
+test('a hinted acquisition still rejects drift, denial and wrong revision before returning a pin', async () => {
+  const drift = fixture({ revisionHint: 'A', readMetadata: async ({ phase }) => phase === 'before' ? metadata : { ...metadata, headRevisionId: 'B' } });
+  await assert.rejects(pin.acquire(drift.options), { code: 'CONTENT_DRIFT' });
+  const denied = fixture({ revisionHint: 'A', readMetadata: async () => ({ ...metadata, capabilities: { canDownload: false } }) });
+  await assert.rejects(pin.acquire(denied.options), { code: 'PERMISSION' });
+  const wrongUri = fixture({ revisionHint: 'A', startDownload: async () => ({ ...operation, response: {
+    ...operation.response, downloadUri: uri.replace('/revisions/A', '/revisions/B') } }) });
+  await assert.rejects(pin.acquire(wrongUri.options), { code: 'URI' });
+});

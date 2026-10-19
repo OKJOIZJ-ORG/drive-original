@@ -419,6 +419,8 @@ async function proxyDriveMedia(request, url, clientId) {
       Object.assign(context, { accountGeneration: scope.accountGeneration, expectedAccount: scope.accountKey,
         sessionId: scope.mediaSession, mediaSession: scope.mediaSession, resourceKey: reply.resourceKey || null,
         traceId: normalizeMediaTraceId(reply.traceId),
+        revisionHint: typeof reply.revisionHint === 'string' && /^[A-Za-z0-9_-]{1,512}$/.test(reply.revisionHint)
+          ? reply.revisionHint : null,
         acknowledgeAbuse: reply.acknowledgeAbuse === true });
     }
     if (context.requireCurrentMedia && !await waitForQ1CleanupFence(clientId)) {
@@ -800,7 +802,7 @@ async function getQ0RevisionPin(context, credential) {
       try {
         const retained = (await requestQ0Page(context, 'get', null, owner.controller.signal)).pin;
         const pin = await DriveRevisionPin.acquire({ context: scope, retainedPin: retained, signal: owner.controller.signal,
-          isCurrent: current,
+          isCurrent: current, revisionHint: context.revisionHint,
           readMetadata: ({ signal }) => {
             const url = new URL(`https://www.googleapis.com/drive/v3/files/${context.fileId}`);
             url.searchParams.set('fields', 'id,headRevisionId,size,mimeType,modifiedTime,sha256Checksum,trashed,resourceKey,capabilities(canDownload,canReadRevisions)');

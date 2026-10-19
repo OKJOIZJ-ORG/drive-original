@@ -64,7 +64,7 @@ const ACCOUNT_STATE_SCHEMA_VERSION = 1;
 const ACCOUNT_STATE_SYNC_DELAY_MS = 650;
 const ACCOUNT_STATE_REFRESH_INTERVAL_MS = 15_000;
 const ACCOUNT_STATE_READ_TIMEOUT_MS = 30_000;
-const MEDIA_FILE_FIELDS = 'id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),parents,videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation)';
+const MEDIA_FILE_FIELDS = 'id,name,mimeType,size,modifiedTime,headRevisionId,resourceKey,thumbnailLink,hasThumbnail,webViewLink,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),parents,videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation)';
 // Revision identity read that pins every original source to one exact Drive revision.
 async function readSourceRevisionMetadata(file, signal) {
   const url = new URL(`${DRIVE_API}/files/${encodeURIComponent(file.id)}`);
@@ -816,19 +816,121 @@ function sameQ0Context(a, b) {
     .every(key => a?.[key] === b?.[key]);
 }
 
-function handleQ0PinMessage(event, data) {
+// Card intent (hover dwell or press) acquires the same immutable revision pin
+// the SW would acquire after the click. The SW adopts it through its existing
+// retained-pin 'get' handshake, validates it and still reauthorizes before any
+// original bytes. Single use and short-lived, so an open never plays a stale pin.
+const Q0_PREWARM_HOVER_MS = 150;
+const Q0_PREWARM_MAX_AGE_MS = 30000;
+const Q0_PREWARM_GET_WAIT_MS = 1500;
+const Q0_PIN_METADATA_FIELDS = 'id,headRevisionId,size,mimeType,modifiedTime,sha256Checksum,trashed,resourceKey,capabilities(canDownload,canReadRevisions)';
+let q0Prewarm = null;
+
+async function fetchQ0PinJSON(url, { method = 'GET', resourceKey = null, signal } = {}) {
+  if (!hasUsableToken() || !hasAuthCapability('driveRead')) throw DriveRevisionPin.error('AUTH', 401);
+  const headers = { Authorization: `Bearer ${state.token}` };
+  if (resourceKey) headers['X-Goog-Drive-Resource-Keys'] = resourceKey;
+  const response = await fetch(url, { method, headers, signal, redirect: 'error', cache: 'no-store' });
+  if (!response.ok) {
+    response.body?.cancel().catch(() => {});
+    throw DriveRevisionPin.error(response.status === 401 ? 'AUTH' : 'PROVIDER_DENIAL', response.status);
+  }
+  const text = await response.text();
+  if (text.length > 32768) throw DriveRevisionPin.error('JSON_LIMIT');
+  try { return JSON.parse(text); } catch (_) { throw DriveRevisionPin.error('JSON_INVALID'); }
+}
+
+function prewarmRevisionPin(file) {
+  const account = state.authAccountKey, accountGeneration = state.driveSessionGeneration;
+  if (state.demo || !file?.id || !file.mimeType?.startsWith('video/') || file.capabilities?.canDownload === false
+    || !account || !hasUsableToken() || !hasAuthCapability('driveRead') || !globalThis.DriveRevisionPin
+    || !navigator.serviceWorker?.controller) return null;
+  const existing = q0Prewarm;
+  if (existing?.fileId === file.id && existing.account === account && existing.accountGeneration === accountGeneration
+    && (!existing.settledAt || performance.now() - existing.settledAt < Q0_PREWARM_MAX_AGE_MS)) return existing;
+  existing?.controller.abort();
+  const controller = new AbortController();
+  const entry = { fileId: file.id, account, accountGeneration, controller, pin: null, settledAt: 0 };
+  const resourceKeyHeader = key => (key || file.resourceKey) ? `${file.id}/${key || file.resourceKey}` : null;
+  const fileUrl = `${DRIVE_API}/files/${encodeURIComponent(file.id)}`;
+  q0Prewarm = entry;
+  entry.promise = DriveRevisionPin.acquire({
+    context: { fileId: file.id, accountKey: account, accountGeneration },
+    revisionHint: file.headRevisionId, signal: controller.signal, maxPolls: 0,
+    isCurrent: () => q0Prewarm === entry && state.authAccountKey === account
+      && state.driveSessionGeneration === accountGeneration,
+    readMetadata: ({ signal }) => fetchQ0PinJSON(`${fileUrl}?${new URLSearchParams({
+      fields: Q0_PIN_METADATA_FIELDS, supportsAllDrives: 'true' })}`, { resourceKey: resourceKeyHeader(), signal }),
+    startDownload: ({ revisionId, resourceKey, signal }) => fetchQ0PinJSON(
+      `${fileUrl}/download?${new URLSearchParams({ revisionId })}`,
+      { method: 'POST', resourceKey: resourceKeyHeader(resourceKey), signal })
+  }).then(pin => {
+    entry.pin = pin;
+    entry.settledAt = performance.now();
+    return pin;
+  }, () => {
+    if (q0Prewarm === entry) q0Prewarm = null;
+    return null;
+  });
+  return entry;
+}
+
+// Hands a matching prewarmed pin to the current Q0 owner at most once. An
+// in-flight prewarm is joined for a bounded time below the SW handshake limit.
+async function takePrewarmedRevisionPin(owner) {
+  const entry = q0Prewarm;
+  if (!entry || entry.fileId !== owner.fileId || entry.account !== owner.account
+    || entry.accountGeneration !== owner.accountGeneration) return null;
+  let timer;
+  const pin = entry.pin || await Promise.race([entry.promise,
+    new Promise(resolve => { timer = setTimeout(() => resolve(null), Q0_PREWARM_GET_WAIT_MS); })]);
+  clearTimeout(timer);
+  if (q0Prewarm === entry) q0Prewarm = null;
+  if (!pin || performance.now() - entry.settledAt > Q0_PREWARM_MAX_AGE_MS) return null;
+  return pin;
+}
+
+function installCardPinPrewarm(button, file) {
+  if (!file.mimeType?.startsWith('video/')) return;
+  let timer = null;
+  const cancel = () => { clearTimeout(timer); timer = null; };
+  button.addEventListener('pointerenter', (event) => {
+    if (event.pointerType === 'touch' || state.selectionMode) return;
+    cancel();
+    timer = setTimeout(() => { timer = null; prewarmRevisionPin(file); }, Q0_PREWARM_HOVER_MS);
+  });
+  button.addEventListener('pointerleave', cancel);
+  button.addEventListener('pointerdown', (event) => {
+    cancel();
+    if (event.button === 0 && !state.selectionMode && !state.bulkAction) prewarmRevisionPin(file);
+  });
+}
+
+async function handleQ0PinMessage(event, data) {
   const port = event.ports?.[0], owner = q0Playback;
   if (!port) return;
   const protocol = globalThis.DriveRevisionPin?.PROTOCOL;
-  const valid = protocol && data.protocol === protocol && /^[A-Za-z0-9_-]{1,80}$/.test(data.requestId || '')
+  const isValid = () => protocol && data.protocol === protocol && /^[A-Za-z0-9_-]{1,80}$/.test(data.requestId || '')
     && typeof data.clientId === 'string' && data.clientId.length > 0 && data.clientId.length <= 512
     && event.source === owner?.swController && navigator.serviceWorker?.controller === owner?.swController
     && isCurrentQ0Playback(owner, data.fileId, data.sourceGeneration);
+  let valid = isValid();
+  if (valid && data.type === 'Q0_PIN_REQUEST' && data.mode === 'get' && !q0PinnedSource) {
+    const prewarmed = await takePrewarmedRevisionPin(owner);
+    valid = isValid();
+    if (valid && prewarmed && !q0PinnedSource) {
+      try {
+        const pin = DriveRevisionPin.validatePin(prewarmed, q0OwnerContext(owner, data.clientId));
+        q0PinnedSource = Object.freeze({ ...pin, descriptor: Object.freeze({ ...pin.descriptor }) });
+      } catch (_) { /* The SW acquires its own pin. */ }
+    }
+  }
   const context = valid ? q0OwnerContext(owner, data.clientId) : null;
   if (data.type === 'Q0_OWNER_REQUEST') {
     port.postMessage({ type: 'Q0_OWNER_RESPONSE', protocol, requestId: data.requestId,
       requestCurrent: Boolean(valid), context,
       resourceKey: valid ? state.selected.resourceKey || null : null,
+      revisionHint: valid ? state.selected.headRevisionId || null : null,
       traceId: valid ? getMediaDiagnosticTraceId(state.mediaSession) : '',
       acknowledgeAbuse: valid && state.mediaAbuseAcknowledged === true });
   } else {
@@ -5658,6 +5760,7 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
     showToast(liked ? '좋아요에 추가했습니다.' : '좋아요를 취소했습니다.');
   });
   card.append(button, body, favoriteButton);
+  installCardPinPrewarm(button, file);
   installCardSelectionGestures(button, file);
   installCardSelectionGestures(nameButton, file);
   nameButton.addEventListener('click', () => {

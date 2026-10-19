@@ -32,6 +32,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `../qa/video-startup-20261019/README.md`: D100 measured video startup phases on actual Chrome (pin 1.45 s, Drive TTFB ~0.85 s/request, moov-at-end +2 s) and the hinted/prewarmed revision pin; local branch claude/video-startup-perf-20261019, 959 tests, not deployed.
+
 - `RELEASE-1.23.10.md`, `../qa/release-1.23.10/README.md`: D099 root-cause fixes (Q3 codec -text = license manifest, Drive-upload hardlink-tolerant materializer, Q3 Q1_SOURCE causes) as Worker 02b55d4c; 947 tests, 65/65 Git-equal, actual Chrome.
 
 - `../qa/simple-ui-20261019/README.md`: D097 simple-is-best pass (badge only on problems, ring loader, volume, dialogs, card title/play disc, side seek hint, top 2× pill); local branch, 943 tests, native hold 19/19; not deployed.

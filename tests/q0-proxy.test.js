@@ -285,3 +285,80 @@ test(`cold control callback cannot resume after ${mutation}`,()=>{
   const f=coldFixture();f.begin();run(f.page,mutation);f.claim();
   assert.equal(f.video.src,undefined);assert.equal(run(f.page,'q0Playback'),null);assert.equal(f.events.size,0);assert.equal(f.calls.length,0);
 });
+const pageMetadata={id:'fixture',headRevisionId:'A',size:'16',mimeType:'video/mp4',modifiedTime:'A',sha256Checksum:'a'.repeat(64),
+  trashed:false,capabilities:{canDownload:true,canReadRevisions:true}};
+const pageOperation=uri=>({name:'opaque/name+value/part',done:true,response:{'@type':'type.googleapis.com/google.apps.drive.v3.DownloadFileResponse',
+  downloadUri:uri,partialDownloadAllowed:true}});
+function prewarmFixture(){
+  const f=fixture(),pageCalls=[];
+  f.page.fetch=async(url,init)=>{pageCalls.push({url:String(url),method:init.method||'GET',auth:init.headers.Authorization});
+    return String(url).includes('/download')?Response.json(pageOperation(f.uri)):Response.json(pageMetadata);};
+  run(f.page,"state.selected.headRevisionId='A'");
+  return {f,pageCalls};
+}
+test('page revision hint lets the SW revision POST overlap the first metadata read',async()=>{
+  const gate=deferred(),started=deferred();let held=false;
+  const f=fixture({fetch:async c=>{if(!held&&!c.url.includes('alt=media')&&!c.url.includes('/download')){held=true;started.resolve();await gate.promise;}}});
+  run(f.page,"state.selected.headRevisionId='A'");
+  const request=f.request();await started.promise;
+  for(let i=0;i<20&&!f.count('/download');i++)await tick();
+  assert.equal(f.count('/download'),1);assert.equal(f.calls.some(c=>c.url.includes('alt=media')),false);
+  assert.equal(new URL(f.calls.find(c=>c.url.includes('/download')).url).searchParams.get('revisionId'),'A');
+  gate.resolve();const response=await request;assert.equal(response.status,206);
+  assert.deepEqual([...new Uint8Array(await response.arrayBuffer())],[65,65,65,65]);
+  assert.equal(f.count('/download'),1);await f.retire();
+});
+test('a card-intent prewarmed pin is adopted once by the SW without provider acquisition',async()=>{
+  const {f,pageCalls}=prewarmFixture();
+  const entry=run(f.page,'prewarmRevisionPin(state.selected)');assert.ok(await entry.promise);
+  assert.deepEqual(pageCalls.map(c=>c.method),['GET','POST','GET']);
+  assert.equal(new URL(pageCalls[1].url).searchParams.get('revisionId'),'A');assert.equal(pageCalls[0].auth,'Bearer synthetic-1');
+  const response=await f.request();assert.equal(response.status,206);
+  assert.deepEqual([...new Uint8Array(await response.arrayBuffer())],[65,65,65,65]);
+  assert.deepEqual(f.calls.map(c=>c.url),[f.uri]);
+  assert.equal(f.messages.some(m=>m.type==='TOKEN_REQUEST'),true);
+  assert.equal(run(f.page,'q0Prewarm'),null);assert.equal(run(f.page,'q0PinnedSource.uri'),f.uri);
+  await f.retire();
+});
+test('an in-flight prewarm is joined by the SW handshake instead of a duplicate acquisition',async()=>{
+  const {f,pageCalls}=prewarmFixture();const gate=deferred();const pageFetch=f.page.fetch;
+  f.page.fetch=async(url,init)=>{if(String(url).includes('/download'))await gate.promise;return pageFetch(url,init);};
+  const entry=run(f.page,'prewarmRevisionPin(state.selected)');const request=f.request();
+  for(let i=0;i<10;i++)await tick();assert.equal(f.calls.length,0);
+  gate.resolve();await entry.promise;const response=await request;assert.equal(response.status,206);await response.arrayBuffer();
+  assert.deepEqual(f.calls.map(c=>c.url),[f.uri]);assert.equal(pageCalls.length,3);await f.retire();
+});
+for(const [name,mutation] of [['stale',"q0Prewarm.settledAt=performance.now()-31000"],['other account',"q0Prewarm.account='other'"],
+  ['other file',"q0Prewarm.fileId='other'"],['previous generation',"q0Prewarm.accountGeneration=0"]])
+test(`a ${name} prewarm is never adopted and the SW acquires its own pin`,async()=>{
+  const {f}=prewarmFixture();await run(f.page,'prewarmRevisionPin(state.selected)').promise;run(f.page,mutation);
+  const response=await f.request();assert.equal(response.status,206);await response.arrayBuffer();
+  assert.equal(f.count('/download'),1);assert.equal(f.calls.filter(c=>!c.url.includes('alt=media')&&!c.url.includes('/download')).length,2);
+  await f.retire();
+});
+test('prewarm is skipped for demo, images, download-restricted files and missing read capability',()=>{
+  const {f,pageCalls}=prewarmFixture();
+  for(const expression of ["prewarmRevisionPin({...state.selected,mimeType:'image/jpeg'})",
+    "prewarmRevisionPin({...state.selected,capabilities:{canDownload:false}})",
+    "(()=>{state.demo=true;const r=prewarmRevisionPin(state.selected);state.demo=false;return r;})()",
+    "(()=>{const c=state.authCapabilities;state.authCapabilities={...c,driveRead:false};const r=prewarmRevisionPin(state.selected);state.authCapabilities=c;return r;})()"])
+    assert.equal(run(f.page,expression),null,expression);
+  assert.equal(pageCalls.length,0);
+});
+test('card prewarm starts on press or mouse hover dwell, not on touch hover or a passing pointer',async()=>{
+  const {f}=prewarmFixture();
+  run(f.page,`globalThis.__prewarms=[];prewarmRevisionPin=file=>{__prewarms.push(file.id);return null;};
+    globalThis.__button={handlers:{},addEventListener(type,fn){this.handlers[type]=fn;}};
+    installCardPinPrewarm(__button,{id:'video',mimeType:'video/mp4'});
+    globalThis.__image={handlers:{},addEventListener(type,fn){this.handlers[type]=fn;}};
+    installCardPinPrewarm(__image,{id:'image',mimeType:'image/png'});`);
+  assert.equal(Object.keys(run(f.page,'__image.handlers')).length,0);
+  run(f.page,"__button.handlers.pointerenter({pointerType:'touch'})");await new Promise(r=>setTimeout(r,200));
+  run(f.page,"__button.handlers.pointerenter({pointerType:'mouse'});__button.handlers.pointerleave({})");await new Promise(r=>setTimeout(r,200));
+  assert.deepEqual([...run(f.page,'__prewarms')],[]);
+  run(f.page,"__button.handlers.pointerenter({pointerType:'mouse'})");await new Promise(r=>setTimeout(r,200));
+  assert.deepEqual([...run(f.page,'__prewarms')],['video']);
+  run(f.page,"__button.handlers.pointerdown({button:0,pointerType:'touch'});__button.handlers.pointerdown({button:2,pointerType:'mouse'})");
+  assert.deepEqual([...run(f.page,'__prewarms')],['video','video']);
+  await f.retire();
+});

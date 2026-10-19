@@ -162,3 +162,7 @@ UNKNOWN whether intended: media/video-q3-pipeline.mjs reports Q1_SOURCE_* read f
 Observed during 1.23.9 delivery: licenses/video-q3-source-manifest.json pins media/video-q3-codec.mjs as sha256 32561bde… (13112 B, the Windows CRLF working-tree bytes), while the committed blob that materialize serves is 9f6f66f2… (13110 B, LF via .gitattributes eol=lf). Production now serves the Git blob, as 1.23.8 did. UNKNOWN which bytes the published corresponding source intends; resolving needs a decision (re-generate the manifest or pin the file -text) and must not be guessed.
 
 Closed 2026-10-19 by D099 (1.23.10): Q3 Q1_SOURCE allowlist — Q3 now passes Q1_SOURCE/Q1_EXACT causes like Q1, source package regenerated; video-q3-codec manifest vs Git blob — file pinned -text, blob equals the manifest (32561bde…). qa/release-1.23.10 owns evidence.
+
+## 2026-10-19 — D100 follow-ups (not decided)
+
+UNKNOWN until deployed: the SW-side hinted acquisition (player next/previous, keyboard opens) was verified by unit tests and a page micro-benchmark only, not live. Proposal, not decided: moov-at-end files still pay two extra serial Drive range requests (~2 s); a bounded SW continuation of the cancelled head stream could save ~1 s but is a new transport path and needs its own decision. Owner: qa/video-startup-20261019/README.md.

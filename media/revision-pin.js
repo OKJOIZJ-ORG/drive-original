@@ -82,7 +82,7 @@
       return a.uri === b.uri && sameDescriptor(a.descriptor, b.descriptor);
     } catch (_) { return false; }
   }
-  async function acquire({ context, retainedPin = null, readMetadata, startDownload, pollOperation,
+  async function acquire({ context, retainedPin = null, revisionHint = null, readMetadata, startDownload, pollOperation,
     pause, isCurrent, signal, maxPolls = 3, maxAcquisitionMs = 40000 } = {}) {
     const scope = owner(context);
     demand(typeof isCurrent === 'function' && Number.isSafeInteger(maxPolls) && maxPolls >= 0 && maxPolls <= 3
@@ -119,8 +119,19 @@
       }
       demand(typeof readMetadata === 'function' && typeof startDownload === 'function', 'OPTIONS');
       timer = setTimeout(() => lifetime.abort(error('ACQUISITION_TIMEOUT', 504)), maxAcquisitionMs);
-      const before = descriptor(await call(readMetadata, { context: scope, phase: 'before', signal: lifetime.signal }), scope);
-      let operation = await call(startDownload, { context: scope, method: 'POST', body: null,
+      // A listing headRevisionId hint lets the revision POST overlap the first
+      // metadata read. It is used only when that read names the same revision
+      // and no resource key; otherwise the ordinary sequential POST follows.
+      const hint = id(revisionHint) ? revisionHint : null;
+      const [beforeRead, hinted] = await Promise.allSettled([
+        call(readMetadata, { context: scope, phase: 'before', signal: lifetime.signal }),
+        hint && call(startDownload, { context: scope, method: 'POST', body: null,
+          revisionId: hint, resourceKey: null, signal: lifetime.signal })]);
+      if (beforeRead.status === 'rejected') throw beforeRead.reason;
+      const before = descriptor(beforeRead.value, scope);
+      let operation = hint && hinted.status === 'fulfilled' && hint === before.headRevisionId
+        && before.resourceKey == null ? hinted.value : null;
+      operation ||= await call(startDownload, { context: scope, method: 'POST', body: null,
         revisionId: before.headRevisionId, resourceKey: before.resourceKey, signal: lifetime.signal });
       let name = null;
       for (let polls = 0;; polls++) {
