@@ -914,3 +914,7 @@ Patched (confirmed by code reading; production redirect observed via read-only c
 Not applied: `.media-stage` focus-visible ring (stage is focused programmatically on each open; visible design change needs user choice). clientCredentials map never pruned (low). 
 
 Result: 938/938 Node tests, node --check, git diff --check, wrangler dry-run bundle OK. Not done: browser/native QA, actual account replay, version bump, merge/push/deploy — all await user approval.
+
+## 2026-10-19 — D094 1.23.6 delivery
+
+The user asked: bump to 1.23.6, check in a browser, merge to main, push, deploy to the same production Worker. Version hooks (app/sw/index/version.json/static test) bumped; 938/938. Local _site check in built-in browser passed. Main fast-forward c8ab9a2→ab025b7 pushed. Wrangler was unauthenticated; the user logged in (reduced scopes). Before snapshot matched 1.23.5 (7c761d33, 11 bindings, 4 secrets). First deploy halted at materialization guard (transient nlink); re-run deployed 7 changed assets, version 0b6180cc. After snapshot equal; served/auth/redirect checks pass (qa/release-1.23.6). Signed-in account replay not performed.

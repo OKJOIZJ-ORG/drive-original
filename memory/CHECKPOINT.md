@@ -1,22 +1,18 @@
-# Checkpoint — D0931.23.5 operating delivery complete — 2026-10-08 17:31
+# Checkpoint — D094 1.23.6 operating delivery complete — 2026-10-19
 
 ## The story so far
-User D093's approved minimal loader and pending D091/D092 are delivered as1.23.5. Reviewed runtime/main5f38160 FF/push complete; Worker7c761d33 at unchanged drive-original.jyw-drive.workers.dev. Immutable64public/65entry ZIP and five changed served assets Git-equal; private5routes404/valid anonymous401 no-store; same Worker/subdomain/all11bindings/four secrets. Local932/932 and four-layout24state loader receipts match final appb8f33a50/stylef1d427ea/shellb5eb9ddb. Actual normal Chrome update preserves same account/exact18likes/four cache assets; original folder2051media/2folders/no cursor/error. Actual4.295692s original card ends127frames/ready4/error0 with clean status+14→100% and owned frame2948ms after intent. Player/priority/observer/sink/private marker cleaned and folder restored. RELEASE-1.23.5.md owns proof; no controlled speed gain, physical-device or all-format claim. Final evidence-only commits do not change public bytes.
+User D094 asked for a full review and proactive patches, then explicitly asked to release them as 1.23.6. Ten confirmed fixes (auth storage rows, callback return, SW redirected shell cache, playback speed restore, library window/refresh/favorites, media error codes/cleanup, subtitle empty edit) are on main ab025b7, pushed, and deployed to the same Worker drive-original (version 0b6180cc, previous 7c761d33) at drive-original.jyw-drive.workers.dev. 938/938 tests; seven changed public files Git-equal; private 404; anonymous credential 401/no-store; 11 bindings/4 secret names unchanged; production license link works under an SW with a redirected cache entry. RELEASE-1.23.6.md owns proof.
 
 ## Decided
-D093: only loading status and honest measured progress; completed D091/D092 and new loading patch deployed. Original/auth/free-operation/Notion/automationPAUSED boundaries persist.
+D094: full review with local patches; deployment of 1.23.6 explicitly requested afterwards. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
 
 ## Waiting on the user
-None for completed delivery; no unattended device or legacy acceptance queue is created.
+Optional: signed-in account check (normal update, likes preserved, playback) was not performed in this release.
 
 ## Next first action
-Read source/memory/RELEASE-1.23.5.md for the current operating identity and bounded validation; no remaining deployment action is scheduled.
+Read source/memory/RELEASE-1.23.6.md. Not applied from the review: media-stage focus-visible ring (design choice), clientCredentials pruning (low).
 
 ## Tried
-Removing a loading-only location label also removed the binding used by post-load codecNote; full-original permission fallback test caught it. Defined the label at its remaining use; final932/932 pass, initial931/932 receipt retained.
-node --test tests treated the directory as a module; explicit discovered test files run all932. Initial tool failure retained.
-Initial compact screenshot preceded the900ms delayed reveal; final native driver waits for actual paint and retains intermediate receipts.
-Chrome MCP profile conflict recovered by checking exact MCP Chrome6048/node9420 ownership and graceful close; restarted isolated page2 works, normal user Chrome untouched by recovery.
-Actual preservation probe used nonexistent state.likedIds; corrected to accountFavoriteIds(state.accountMediaState) before storing a private in-page digest. No raw IDs/account/credentials exported.
-Anonymous POST without required CSRF header403 is not the valid credential test; final required-header401/no-store passes.
-Cleanup report referenced nonexistent playerThumbnailPriority after cleanup had already run; source-owned playerMediaPriorityActive readback proves release and no marker/observer remain.
+First deploy stopped at materialization guard (transient nlink 2 on media/video-q3-codec.mjs; one link per fsutil); re-run passed, nothing uploaded by the failed attempt.
+Wrangler was logged out on this PC; the user logged in. My first suggested login command included offline_access, which wrangler rejects as a --scopes value; corrected command worked.
+A local static server cannot reproduce the production 307s; the redirect fix was verified on production after deploy.

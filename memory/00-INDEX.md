@@ -32,6 +32,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `RELEASE-1.23.6.md`, `../qa/release-1.23.6/README.md`: D094 full-review fixes (auth storage, callback return, SW redirected shell, speed restore, library/favorites state, media errors, subtitle edit) delivered as Worker 0b6180cc; 938 tests, Git-equal served bytes, unchanged bindings. Signed-in account and device checks not performed.
+
 - `RELEASE-1.23.5.md`, `../qa/release-1.23.5/README.md`: D093 최소 로딩과 D091/D092 준비 패치 운영 배포,932검사/4크기24상태, 동일 인증·18좋아요 정상 업데이트 및 실제 짧은 원본 재생. 실제 모바일 기기 증거와 구분.
 
 - `../qa/rounded-surface-clipping/README.md`, `../qa/mobile-hold-speed/README.md`: D091 로컬 둥근 창의 사각형 그림자 잘림 수정과 모바일 가장자리 홀드2배속. 전체930검사,6창/4크기 paint·스크롤·닫기,19네이티브 터치 시나리오. 운영1.23.4와 실제 기기 검증을 구분.
