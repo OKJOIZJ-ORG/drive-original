@@ -5620,10 +5620,8 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
   nameButton.setAttribute('aria-label', `${name.textContent} · 전체 파일명 보기`);
   nameButton.setAttribute('aria-haspopup', 'dialog');
   nameButton.setAttribute('aria-controls', 'fileNameDialog');
-  const nameGlyph = document.createElement('span');
-  nameGlyph.setAttribute('aria-hidden', 'true');
-  nameGlyph.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>';
-  nameButton.append(name, nameGlyph);
+  nameButton.title = name.textContent;
+  nameButton.append(name);
   
   const meta = document.createElement('div');
   meta.className = 'file-card-meta';
@@ -5664,6 +5662,9 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
   installCardSelectionGestures(nameButton, file);
   nameButton.addEventListener('click', () => {
     if (state.selectionMode) return;
+    // The full name only adds something when the clamped title actually hides part of it.
+    const clipped = !(name.scrollHeight <= name.clientHeight + 1 && name.scrollWidth <= name.clientWidth + 1);
+    if (!clipped) { openPlayer(file); return; }
     el.fileNameText.textContent = file.name || '이름 없는 파일';
     if (!el.fileNameDialog.open) el.fileNameDialog.showModal();
   });
@@ -6002,9 +6003,32 @@ function seekRelative(deltaSeconds) {
   const duration = playerTimeline().duration || Infinity;
   const target = Math.max(0, Math.min(duration, playerTimeline().currentTime + deltaSeconds));
   setPlayerCurrentTime(el.videoPlayer, target, 'relative');
-  showPlayerFeedback(deltaSeconds > 0 ? `+${deltaSeconds}S` : `${deltaSeconds}S`);
+  showSeekHint(deltaSeconds);
   updateVideoProgress();
   resetControlsTimer();
+}
+
+// Repeated seeks in one direction accumulate into a single side hint ("20초") instead of stacking toasts.
+let seekHintTimer = null;
+let seekHintTotal = 0;
+function showSeekHint(deltaSeconds) {
+  const forward = deltaSeconds > 0;
+  const hint = forward ? el.seekHintRight : el.seekHintLeft;
+  const other = forward ? el.seekHintLeft : el.seekHintRight;
+  if (!hint) return;
+  seekHintTotal = Math.sign(seekHintTotal) === Math.sign(deltaSeconds) && hint.classList.contains('show')
+    ? seekHintTotal + deltaSeconds : deltaSeconds;
+  other?.classList.remove('show');
+  const label = hint.querySelector('span');
+  if (label) label.textContent = `${Math.abs(seekHintTotal)}초`;
+  hint.classList.remove('pulse');
+  void hint.offsetWidth;
+  hint.classList.add('show', 'pulse');
+  clearTimeout(seekHintTimer);
+  seekHintTimer = setTimeout(() => {
+    seekHintTimer = null;
+    hint.classList.remove('show', 'pulse');
+  }, 650);
 }
 
 function mediaSeekTargetTolerance() {
@@ -6966,13 +6990,13 @@ function stepVideoFrame(direction) {
     'frame-step'
   );
   updateVideoProgress();
-  showPlayerFeedback(direction < 0 ? '−1 FRAME' : '+1 FRAME');
+  showPlayerFeedback(direction < 0 ? '−1 프레임' : '+1 프레임');
 }
 
 function toggleMute() {
   if (!el.videoPlayer) return;
   el.videoPlayer.muted = !el.videoPlayer.muted;
-  showPlayerFeedback(el.videoPlayer.muted ? 'MUTE ON' : `VOL ${Math.round(el.videoPlayer.volume * 100)}%`);
+  showPlayerFeedback(el.videoPlayer.muted ? '음소거' : `음량 ${Math.round(el.videoPlayer.volume * 100)}%`);
   updateVolumeUI();
 }
 
@@ -6993,6 +7017,7 @@ function updateVolumeUI() {
   }
   if (el.ctrlVolumeSlider) {
     el.ctrlVolumeSlider.value = isMuted ? 0 : el.videoPlayer.volume;
+    el.ctrlVolumeSlider.style?.setProperty?.('--volume-fill', `${(isMuted ? 0 : el.videoPlayer.volume) * 100}%`);
   }
 }
 
@@ -7022,7 +7047,7 @@ function setPlaybackSpeed(speed) {
   el.videoPlayer.playbackRate = speed;
   updateSpeedUI();
   closeSpeedMenu();
-  showPlayerFeedback(`SPEED ${speed}X`);
+  showPlayerFeedback(`${speed}×`);
   resetControlsTimer();
 }
 
@@ -7350,7 +7375,7 @@ function showPlayerFeedback(text, { persistent = false } = {}) {
   feedbackTimer = setTimeout(() => {
     el.playerFeedback.classList.remove('active');
     setTimeout(() => { if (!el.playerFeedback.classList.contains('active')) el.playerFeedback.hidden = true; }, 200);
-  }, /^[+−-]?\d+S$/.test(text) ? 450 : 850);
+  }, 800);
 }
 
 function getPlaybackFileList() {
@@ -7760,7 +7785,7 @@ let singleTapTimer = null;
 let reservedEdgeTap = null;
 let mobileHoldSpeed = null;
 const MOBILE_HOLD_SPEED_DELAY = 450;
-const MOBILE_HOLD_SPEED_FEEDBACK = '2× 재생 중';
+const MOBILE_HOLD_SPEED_FEEDBACK = '2×';
 
 function resetSwipeGesture() {
   lockedAxis = null;
@@ -8280,7 +8305,7 @@ function handlePlayerKeyboard(event) {
       event.preventDefault();
       el.videoPlayer.muted = false;
       el.videoPlayer.volume = Math.min(1, +(el.videoPlayer.volume + 0.1).toFixed(2));
-      showPlayerFeedback(`VOL ${Math.round(el.videoPlayer.volume * 100)}%`);
+      showPlayerFeedback(`음량 ${Math.round(el.videoPlayer.volume * 100)}%`);
       updateVolumeUI();
       return;
     }
@@ -8288,7 +8313,7 @@ function handlePlayerKeyboard(event) {
     if (event.key === 'ArrowDown') {
       event.preventDefault();
       el.videoPlayer.volume = Math.max(0, +(el.videoPlayer.volume - 0.1).toFixed(2));
-      showPlayerFeedback(`VOL ${Math.round(el.videoPlayer.volume * 100)}%`);
+      showPlayerFeedback(`음량 ${Math.round(el.videoPlayer.volume * 100)}%`);
       updateVolumeUI();
       return;
     }
@@ -8302,7 +8327,7 @@ function handlePlayerKeyboard(event) {
           (digit / 10) * playerTimeline().duration,
           'digit-shortcut'
         );
-        showPlayerFeedback(`SEEK ${digit * 10}%`);
+        showPlayerFeedback(`${digit * 10}%`);
         updateVideoProgress();
       }
     }
@@ -12032,6 +12057,9 @@ function updateConnectionBadge(forcedState) {
     else if (state.authStatus === 'auth-unavailable') label.textContent = '인증 일시 중단';
     else label.textContent = '연결 안 됨';
   }
+  // A healthy or still-checking connection needs no chrome; only states the user must act on show.
+  el.connectionBadge.hidden = state.demo || badgeState === 'online' || badgeState === 'busy'
+    || (navigator.onLine && !['reconnect-required', 'auth-unavailable'].includes(state.authStatus));
 }
 
 function hasUsableToken() {

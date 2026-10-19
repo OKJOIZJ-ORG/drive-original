@@ -1821,7 +1821,7 @@ test('mobile edge hold temporarily uses 2x, keeps feedback visible, snapshots us
     assert.equal(run(f.context,'el.playerFeedback.hidden'),false);
     assert.equal(run(f.context,'feedbackTimer'),null,'while-held feedback must not auto-hide');
     run(f.context,"showPlayerFeedback('다른 알림')");
-    assert.equal(run(f.context,'el.playerFeedback.textContent'),'2× 재생 중');
+    assert.equal(run(f.context,'el.playerFeedback.textContent'),'2×');
     run(f.context,`holdListeners.touchend(holdEvent(${x},${y},{touches:[]}))`);
     assert.equal(run(f.context,'el.videoPlayer.playbackRate'),1.25);
     assert.equal(run(f.context,'el.playerFeedback.hidden'),true);
@@ -5213,4 +5213,59 @@ test('WebP cards freeze thumbnails without widening GIF semantics or changing na
   assert.equal(run(context, 'isGifFile(cardFiles[0])'), false, 'WebP remains separate from global GIF behavior');
   assert.equal(run(context, 'isGifFile(cardFiles[1])'), false);
   assert.equal(run(context, 'isGifFile(cardFiles[2])'), true);
+});
+
+test('connection badge appears only for states the user must act on', () => {
+  const context = loadAppContext();
+  installAuthUi(context);
+  const read = source => JSON.parse(run(context, `(() => { ${source}; updateConnectionBadge(); return JSON.stringify({ hidden: el.connectionBadge.hidden, label: authUi.badgeLabel.textContent }); })()`));
+  assert.deepEqual(read(`state.token = 't'; state.expiresAt = Date.now() + 3600000; state.authStatus = ''`), { hidden: true, label: 'Drive 연결됨' });
+  assert.equal(JSON.parse(run(context, `(() => { updateConnectionBadge('busy'); return JSON.stringify(el.connectionBadge.hidden); })()`)), true);
+  assert.deepEqual(read(`state.token = null; state.authStatus = 'reconnect-required'`), { hidden: false, label: '재연결 필요' });
+  assert.deepEqual(read(`state.authStatus = ''`), { hidden: true, label: '연결 안 됨' });
+  assert.deepEqual(read(`navigator.onLine = false`), { hidden: false, label: '오프라인' });
+  assert.deepEqual(read(`navigator.onLine = true; state.demo = true`), { hidden: true, label: '데모 모드' });
+});
+
+test('relative seeks show one side hint that accumulates in the same direction', () => {
+  const context = loadAppContext();
+  const result = JSON.parse(run(context, `(() => {
+    const hint = () => { const classes = new Set(); const label = { textContent: '' };
+      return { label, offsetWidth: 1, querySelector: () => label,
+        classList: { add: (...names) => names.forEach(n => classes.add(n)), remove: (...names) => names.forEach(n => classes.delete(n)), contains: n => classes.has(n) } }; };
+    el.seekHintLeft = hint(); el.seekHintRight = hint();
+    const steps = [];
+    const snap = () => steps.push({ left: el.seekHintLeft.classList.contains('show') ? el.seekHintLeft.label.textContent : null,
+      right: el.seekHintRight.classList.contains('show') ? el.seekHintRight.label.textContent : null });
+    showSeekHint(10); snap(); showSeekHint(10); snap(); showSeekHint(-10); snap(); showSeekHint(-10); snap();
+    return JSON.stringify(steps);
+  })()`));
+  assert.deepEqual(result, [
+    { left: null, right: '10초' }, { left: null, right: '20초' },
+    { left: '10초', right: null }, { left: '20초', right: null }
+  ]);
+});
+
+test('an untruncated card title opens the file instead of a redundant full-name dialog', () => {
+  const context = loadAppContext();
+  const { findNodes } = installMiniDom(context);
+  const originalCreate = context.document.createElement;
+  context.document.createElement = tag => {
+    const node = originalCreate(tag);
+    node.events = new Map();
+    node.addEventListener = (type, fn) => { if (!node.events.has(type)) node.events.set(type, []); node.events.get(type).push(fn); };
+    node.setAttribute = () => {};
+    return node;
+  };
+  run(context, `el.fileNameText = { textContent: '' };
+    el.fileNameDialog = { open: false, showModal() { this.open = true; } };
+    globalThis.openedFile = null; openPlayer = file => { openedFile = file.id; };
+    globalThis.shortCard = createFileCard({ id: 'short', name: 'a.mp4', mimeType: 'video/mp4', size: '10' });`);
+  const nameButton = findNodes(context.shortCard, '.file-card-name-button')[0];
+  const title = findNodes(context.shortCard, '.file-card-title')[0];
+  Object.assign(title, { scrollHeight: 17, clientHeight: 34, scrollWidth: 40, clientWidth: 120 });
+  for (const callback of nameButton.events.get('click') || []) callback({});
+  assert.equal(context.openedFile, 'short');
+  assert.equal(run(context, 'el.fileNameDialog.open'), false);
+  assert.equal(nameButton.title, 'a.mp4');
 });
