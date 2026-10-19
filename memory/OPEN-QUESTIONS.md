@@ -156,3 +156,7 @@ UNKNOWN remains: new physical Android/iOS/finger/OS-edge, sustained/all-format e
 ## 2026-10-19 — Q3 pipeline error-code allowlist omits Q1_SOURCE
 
 UNKNOWN whether intended: media/video-q3-pipeline.mjs reports Q1_SOURCE_* read failures as Q3_PIPELINE_FAILED, while Q1/Q2 pipelines pass them through. D096 refactor preserved each allowlist exactly. Changing it alters user-visible error classification and the license-pinned Q3 product source (licenses/video-q3-source-manifest.json), so it needs an explicit decision and a re-packaged corresponding source.
+
+## 2026-10-19 — video-q3-codec.mjs manifest hash differs from the Git blob
+
+Observed during 1.23.9 delivery: licenses/video-q3-source-manifest.json pins media/video-q3-codec.mjs as sha256 32561bde… (13112 B, the Windows CRLF working-tree bytes), while the committed blob that materialize serves is 9f6f66f2… (13110 B, LF via .gitattributes eol=lf). Production now serves the Git blob, as 1.23.8 did. UNKNOWN which bytes the published corresponding source intends; resolving needs a decision (re-generate the manifest or pin the file -text) and must not be guessed.
