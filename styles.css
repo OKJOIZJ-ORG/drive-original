@@ -955,17 +955,17 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   text-overflow: ellipsis;
 }
 
-.folder-meta {
-  font-size: var(--text-small);
-  color: var(--label-secondary);
-  margin-right: 8px;
-}
-
 .folder-chevron {
   color: var(--label-tertiary);
   display: grid;
   place-items: center;
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  flex-shrink: 0;
 }
+
+.folder-chevron svg { width: 16px; height: 16px; }
 
 .folder-chip-left {
   display: flex;

@@ -5162,6 +5162,9 @@ test('full filename opens independently of playback and respects card selection 
   const card = context.nameCard;
   const nameButton = findNodes(card, '.file-card-name-button')[0];
   const playbackButton = findNodes(card, '.file-card-open')[0];
+  assert.equal(findNodes(card, '.file-card-status').length, 0, 'a plain playable card carries no generic action label');
+  const restricted = run(context, `createFileCard({ id: 'locked', name: 'locked.mp4', mimeType: 'video/mp4', size: '10', capabilities: { canDownload: false } })`);
+  assert.equal(findNodes(restricted, '.file-card-status')[0]?.textContent, '다운로드 제한');
   const click = node => {
     const event = { stopImmediatePropagation() { this.stopped = true; }, preventDefault() {} };
     for (const callback of node.events.get('click') || []) {

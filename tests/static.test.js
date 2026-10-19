@@ -404,12 +404,17 @@ test('mobile shell preserves zoom and high-contrast metadata labels', () => {
   const html = read('index.html');
   const styles = read('styles.css');
   const viewport = html.match(/<meta name="viewport" content="([^"]+)">/)?.[1] || '';
-  const folderMeta = styles.match(/\.folder-meta \{[\s\S]*?\n\}/)?.[0] || '';
   const fileMeta = styles.match(/\.file-card-meta \{[\s\S]*?\n\}/)?.[0] || '';
 
   assert.doesNotMatch(viewport, /user-scalable\s*=\s*no/i);
   assert.doesNotMatch(viewport, /maximum-scale\s*=\s*1(?:\.0)?/i);
-  assert.match(folderMeta, /color:\s*var\(--label-secondary\)/);
   assert.match(fileMeta, /color:\s*var\(--label-secondary\)/);
   assert.doesNotMatch(html, /id="brandButton"[^>]*aria-label=/);
+  // Icon-only on phones: the visible label is hidden, so the name must not depend on it.
+  assert.match(html, /id="refreshButton"[^>]*aria-label="새로고침"/);
+  // Disconnect is confirmed, but must not be the most prominent control in settings.
+  assert.match(html, /class="danger-text-button" id="disconnectButton"/);
+  const chevron = styles.match(/\.folder-chevron \{[\s\S]*?\n\}/)?.[0] || '';
+  assert.match(chevron, /width:\s*16px/);
+  assert.match(styles, /\.folder-chevron svg \{ width: 16px; height: 16px; \}/);
 });

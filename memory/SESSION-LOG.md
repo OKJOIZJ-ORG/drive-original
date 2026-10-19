@@ -918,3 +918,9 @@ Result: 938/938 Node tests, node --check, git diff --check, wrangler dry-run bun
 ## 2026-10-19 — D094 1.23.6 delivery
 
 The user asked: bump to 1.23.6, check in a browser, merge to main, push, deploy to the same production Worker. Version hooks (app/sw/index/version.json/static test) bumped; 938/938. Local _site check in built-in browser passed. Main fast-forward c8ab9a2→ab025b7 pushed. Wrangler was unauthenticated; the user logged in (reduced scopes). Before snapshot matched 1.23.5 (7c761d33, 11 bindings, 4 secrets). First deploy halted at materialization guard (transient nlink); re-run deployed 7 changed assets, version 0b6180cc. After snapshot equal; served/auth/redirect checks pass (qa/release-1.23.6). Signed-in account replay not performed.
+
+## 2026-10-19 — D095 actual account check and UI/UX pass
+
+Actual normal Chrome (user profile, own tab, closed after): production already auto-updated to v1.23.6 (SW active, cache drive-original-shell-1.23.6); signed in; 20 likes (18 recorded at 1.23.5; later user likes assumed); favorites view loads all 20 with no status error; smallest liked clip plays via ordinary card click (original-range, first frame ~6.1s after click, 66 frames, error 0); speed 1.5 survives the app's real retryOriginalStream path (UI 1.5×); speed reset to 1, player closed, filter restored to 전체. Observed stray "1.0x" in the a11y tree is not app DOM.
+
+D095 UI/UX: qa/uiux-review-20261019 (40 demo states). Fixed refresh button name, invisible folder chevron + redundant "폴더" label, generic card footer label, disconnect button prominence. 938/938 tests (two new assertions groups). Local only; deployment awaits approval.

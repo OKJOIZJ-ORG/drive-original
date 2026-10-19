@@ -5272,16 +5272,12 @@ function createFolderRow(folder, index = 0) {
   name.className = 'folder-name';
   name.textContent = folder.name || '이름 없는 폴더';
 
-  const meta = document.createElement('span');
-  meta.className = 'folder-meta';
-  meta.textContent = '폴더';
-
   const chevron = document.createElement('span');
   chevron.className = 'folder-chevron';
   chevron.setAttribute('aria-hidden', 'true');
   chevron.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>';
 
-  button.append(glyph, name, meta, chevron);
+  button.append(glyph, name, chevron);
   button.addEventListener('click', () => navigateToFolder(folder.id, folder.name));
   return button;
 }
@@ -5694,10 +5690,15 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
   }
   const details = document.createElement('span');
   details.textContent = formatBytes(file.size);
-  const status = document.createElement('span');
-  status.className = 'file-card-status';
-  status.textContent = canDownload ? (filenamePartLabel(file.name) || (isVideo ? '원본 파일 재생' : '원본 이미지 보기')) : '다운로드 제한';
-  meta.append(details, status);
+  meta.append(details);
+  // Only informative states earn the slot; the card itself already opens the original.
+  const statusText = canDownload ? filenamePartLabel(file.name) : '다운로드 제한';
+  if (statusText) {
+    const status = document.createElement('span');
+    status.className = 'file-card-status';
+    status.textContent = statusText;
+    meta.append(status);
+  }
 
   body.append(nameButton, meta);
   button.append(visual);
