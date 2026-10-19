@@ -10,12 +10,12 @@
 D094 review/patch, D095 UI/UX, D096 refactor, D097 simple UI, D098 1.23.9 delivery; each deployment explicitly requested. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
 
 ## Waiting on the user
-Approval to merge/bump/deploy D097. Open question: Q3 pipeline Q1_SOURCE allowlist (OPEN-QUESTIONS 2026-10-19).
+None. Open: Q3 Q1_SOURCE allowlist; video-q3-codec manifest hash vs Git blob (OPEN-QUESTIONS 2026-10-19).
 
 ## Next first action
 Read source/memory/RELEASE-1.23.9.md.
 
 ## Tried
-Deploy: the materialization guard sees transient nlink 2 on files build-pages just copied; `npm run deploy:candidate` can fail repeatedly. Working procedure: `npm run build:assets`, wait ~8 s, `node ../scripts/materialize-committed-pages.cjs`, `npx wrangler deploy --config wrangler.jsonc` (same guard, nothing skipped).
+Deploy: never chain materialize and deploy without checking the materialize exit (1.23.9 deployed an unmaterialized CRLF asset once). The materialization guard sees transient nlink 2 on files build-pages just copied; `npm run deploy:candidate` can fail repeatedly. Working procedure: `npm run build:assets`, wait ~8 s, `node ../scripts/materialize-committed-pages.cjs`, `npx wrangler deploy --config wrangler.jsonc` (same guard, nothing skipped).
 Wrangler login needs `npx wrangler login --scopes account:read user:read workers:write workers_scripts:write`; account ID cf830a3ca386bf7ee3592d15ef17242c.
 License-pinned modules (audio-general-*.mjs, video-q3-*.mjs) must stay byte-identical unless corresponding-source manifests are regenerated.
