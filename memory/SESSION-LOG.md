@@ -939,3 +939,7 @@ Other files: sw.js notifyRangeInvalid, postMediaClientMessage, settleClaimedTerm
 
 Verification: baseline 938/938 → 940/940; every baseline test name still passes; two new tests (quality-display characterization, error-code allowlist). audio-compat scripts pass; node --check; git diff --check; wrangler dry-run (agent). Not deployed; no browser run for this refactor yet.
 Browser smoke after commit 1b7c50c: demo-mode capture 40 states 0 failures/0 page errors; scripted folder→subfolder→breadcrumb→up button→open→ctrl next→ctrl prev→speed menu produced an identical state trace on the pre-refactor app.js and the refactored one, no page errors.
+
+## 2026-10-19 — D096 1.23.8 delivery
+
+On request ("배포까지해봐"): bumped to 1.23.8 (940/940), pushed f85f1c9. Before snapshot matched 886ccdba. deploy:candidate failed twice at the materialization guard (transient nlink 2 after copy); ran build:assets, waited 8 s, materialize, wrangler deploy → b5aaf144 with 11 changed assets and the Worker script. After snapshot equal; served/auth endpoint checks pass; actual normal Chrome: v1.23.8, old cache cleaned, same account, forced credential refresh OK, 20 likes, folder open/up, favorites, short clip plays, next works, state restored. qa/release-1.23.8 owns receipts.
