@@ -7,7 +7,7 @@ D094 review fixes shipped as 1.23.6 (Worker 0b6180cc). D095 actual-account check
 D094 review/patch, D095 proactive UI/UX; both deployments were explicitly requested. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
 
 ## Waiting on the user
-None.
+None. Note: main 27e55bd includes the D096 behavior-preserving refactor merged after 1.23.7; production still serves 1.23.7 (Worker 886ccdba, runtime 550c789). The user asked not to deploy it; a later release must bump the version first.
 
 ## Next first action
 Read source/memory/RELEASE-1.23.7.md. Further UI/UX work can reuse qa/uiux-review-20261019/capture.cjs (demo mode, four viewports, axe).
