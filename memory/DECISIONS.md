@@ -671,3 +671,7 @@ D097 결과 보고 후 사용자는 "1.23.9로 올리고 main 병합·push·운�
 D100 세션이 남긴 제안(OPEN-QUESTIONS 2026-10-19 D100 follow-ups)을 위임 세션이 평가했다. D089는 그 단위에서 새 캐시·전송 경로를 만들지 않았으므로 이 결정이 별도로 범위를 정한다. 결정: Q0 고정 원본의 byte 0부터 끝까지의 응답에 한해, 페이지가 그 요청 하나만 버린 경우(스트림 취소 또는 request.signal 중단) 살아 있는 상위 스트림을 메모리에만(≤4 MiB, ≤10초, 클라이언트당 1개) 보관하고, 같은 Q0 소유자·세대·고정 URI·크기의 다음 열린 범위 요청 시작점이 이미 받은 범위 안이면 그 스트림으로 응답한다. 소유자 확인·정리 울타리·고정 검증·자격 재확인·Range/Content-Range/길이 검사는 그대로 거친다. 보관분은 자체 q1TransportOwners 소유자로 등록되어 은퇴·만료·교체 시 fenceQ1RejectedBody로 취소된다. 명시적 은퇴·시간 초과·길이 오류는 계속 취소한다. 디스크 캐시나 재사용 캐시는 만들지 않는다.
 
 브랜치 claude/q0-moov-continuation-20261019 로컬 커밋까지이며 병합·push·배포는 실제 Chrome 확인 후 별도 명시 승인 대상(D090/D093 관례). 원본·인증/OAuth 설정·운영 주소·Notion·자동화 PAUSED 경계 유지. 근거와 위험은 qa/q0-continuation-20261019가 소유한다.
+
+## D-102 · D101 moov 이어받기 1.23.12 운영 반영과 실제 Drive 측정 — 2026-10-19 (User-confirmed)
+
+D101 로컬 실제 Chrome 결과(요청 3→2, 1초 재생 도달 −0.93초) 보고 후 사용자는 "Merge the moov continuation branch into main as 1.23.12, deploy it, and measure it on real Drive."를 선택했다. 브랜치를 main에 병합해 1.23.12로 정렬하고 push·기존 동일 운영 Worker 배포·제공 파일 확인 후 실제 Chrome에서 실제 Drive moov-at-end 영상의 요청 수와 시작 시간을 측정한다. 원본·인증/OAuth 설정·운영 주소·무료 운영·Notion·자동화 PAUSED 경계 유지. 검증과 수치는 qa/release-1.23.12와 qa/q0-continuation-20261019가 소유한다.
