@@ -1,0 +1,22 @@
+{
+  "date": "2026-10-19",
+  "environment": "Chrome 155 (dedicated AI profile, shared chrome-ai host), Windows; local node server (server.js) with 900 ms TTFB and ~10 MiB/s per media request; real candidate sw.js (branch claude/q0-moov-continuation-20261019 rebased on 1.23.11) with only page owner, credential and pin replaced by local fakes (exp-sw-cand.js); baseline = same SW with tapQ0Continuation/adoptQ0Continuation disabled (exp-sw-base.js); separate origins :8711 base / :8712 candidate",
+  "media": "ffmpeg testsrc2+noise, x264 veryfast, moov at end: small 978938 B (720p 3 s, first keyframe 80 KB), medium 15358676 B (1080p 15 s, first keyframe 255 KB)",
+  "legend": "mode ; file ; rVFC first frame ms (compositor-limited, see README) ; src→currentTime>=1s ms ; upstream requests (x = closed early, +offset, bytes sent) ; ranges served by continuation",
+  "baseline": [
+    "base ; small ; 2983 ; 4134 ; bytes=0- x +0ms sent=104858 | bytes=950272- +930ms sent=28666 | bytes=65536- +1868ms sent=913402 ;",
+    "base ; medium ; 3045 ; 4162 ; bytes=0- x +0ms sent=104858 | bytes=15335424- +935ms sent=23252 | bytes=65536- +1862ms sent=7969208 ;",
+    "base ; small ; 3008 ; 4124 ; bytes=0- x +0ms sent=104858 | bytes=950272- +934ms sent=28666 | bytes=65536- +1861ms sent=913402 ;",
+    "base ; medium ; 3029 ; 4159 ; bytes=0- x +0ms sent=104858 | bytes=15335424- +936ms sent=23252 | bytes=65536- +1868ms sent=7969208 ;",
+    "base ; small ; 3046 ; 4106 ; bytes=0- x +0ms sent=104858 | bytes=950272- +927ms sent=28666 | bytes=65536- +1867ms sent=913402 ;",
+    "base ; medium ; 3026 ; 4158 ; bytes=0- x +0ms sent=104858 | bytes=15335424- +930ms sent=23252 | bytes=65536- +1864ms sent=7759492 ;"
+  ],
+  "candidate": [
+    "cand ; small ; 2047 ; 3194 ; bytes=0- +0ms sent=978938 | bytes=950272- +932ms sent=28666 ; bytes=65536-",
+    "cand ; medium ; 3046 ; 3214 ; bytes=0- +0ms sent=15358676 | bytes=15335424- +936ms sent=23252 ; bytes=65536-",
+    "cand ; small ; 3024 ; 3210 ; bytes=0- +0ms sent=978938 | bytes=950272- +937ms sent=28666 ; bytes=65536-",
+    "cand ; medium ; 3019 ; 3194 ; bytes=0- +0ms sent=15358676 | bytes=15335424- +928ms sent=23252 ; bytes=65536-",
+    "cand ; small ; 3039 ; 3192 ; bytes=0- +0ms sent=978938 | bytes=950272- +930ms sent=28666 ; bytes=65536-",
+    "cand ; medium ; 3029 ; 3189 ; bytes=0- +0ms sent=15358676 | bytes=15335424- +924ms sent=23252 ; bytes=65536-"
+  ]
+}

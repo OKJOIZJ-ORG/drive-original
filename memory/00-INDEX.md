@@ -32,7 +32,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
-- `../qa/q0-continuation-20261019/README.md`: D101 bounded SW continuation of a page-cancelled moov-at-end Q0 head (≤4 MiB, ≤10 s, retirement-owned); local branch claude/q0-moov-continuation-20261019, 967 tests, live Chrome behavior UNKNOWN, not deployed.
+- `../qa/q0-continuation-20261019/README.md`: D101 bounded SW continuation of a page-cancelled moov-at-end Q0 head (≤4 MiB, ≤10 s, retirement-owned); local branch claude/q0-moov-continuation-20261019 on 1.23.11, 967 tests; local actual Chrome 155 with Drive-like server: 3→2 requests, −0.93 s to 1 s of playback; not deployed.
 
 - `../qa/video-startup-20261019/README.md`: D100 measured video startup phases on actual Chrome (pin 1.45 s, Drive TTFB ~0.85 s/request, moov-at-end +2 s) and the hinted/prewarmed revision pin; local branch claude/video-startup-perf-20261019, 959 tests, not deployed.
 

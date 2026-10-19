@@ -170,3 +170,5 @@ UNKNOWN until deployed: the SW-side hinted acquisition (player next/previous, ke
 ## 2026-10-19 — D101 head continuation live behavior
 
 UNKNOWN: whether actual Chrome signals the abandoned moov-at-end head to the SW (stream cancel or request.signal abort) before the ~32 KiB restart arrives. Without it the D101 park never forms (no harm, no saving). Expected saving ≈0.9–1.2 s per moov-at-end open is assumed, not measured. Resolve with an actual Chrome run of branch claude/q0-moov-continuation-20261019 watching `request-start` reason `continuation`. Owner: qa/q0-continuation-20261019/README.md. The D100 follow-up proposal above is now prototyped by D101; its release remains undecided.
+
+Resolved 2026-10-19 (D101 cancel propagation): in actual Chrome 155 against a local Drive-like server (900 ms TTFB), the abandoned head reaches the SW before the restart; all 6 candidate opens served `bytes=65536-` from the continuation (3→2 requests, −0.93 s to 1 s of playback). Production Drive and other engines remain unmeasured; release remains undecided. qa/q0-continuation-20261019/local-chrome owns the receipts.

@@ -1,0 +1,46 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>D101 experiment</title>
+<pre id="out"></pre>
+<script>
+const mode = new URLSearchParams(location.search).get('mode') || 'cand';
+const traces = [];
+navigator.serviceWorker.addEventListener('message', e => {
+  if (e.data?.type === 'MEDIA_TRACE_EVENT') traces.push({ t: performance.now(), stage: e.data.stage, range: e.data.requestedRange, reason: e.data.reason || null });
+});
+let generation = 100;
+async function ready() {
+  await navigator.serviceWorker.register(`/exp-sw-${mode}.js`, { scope: '/' });
+  await navigator.serviceWorker.ready;
+  return Boolean(navigator.serviceWorker.controller);
+}
+async function openOnce(file) {
+  await fetch('/__exp_log?reset=1');
+  traces.length = 0;
+  const video = document.createElement('video');
+  video.muted = true; video.playsInline = true; document.body.append(video);
+  const t0 = performance.now();
+  const frame = new Promise(resolve => video.requestVideoFrameCallback(() => resolve(performance.now() - t0)));
+  const failed = new Promise(resolve => video.addEventListener('error', () => resolve(-1), { once: true }));
+  video.src = `/__drive_media/${file}?mediaOwner=q0&sourceGeneration=${++generation}`;
+  video.play().catch(() => {});
+  const progress = new Promise(resolve => video.addEventListener('timeupdate', function check() {
+    if (video.currentTime >= 1) { video.removeEventListener('timeupdate', check); resolve(performance.now() - t0); }
+  }));
+  const ms = await Promise.race([frame, failed, new Promise(r => setTimeout(() => r(-2), 20000))]);
+  const oneSecondMs = await Promise.race([progress, failed, new Promise(r => setTimeout(() => r(-2), 20000))]);
+  await new Promise(r => setTimeout(r, 300));
+  const log = await (await fetch('/__exp_log')).json();
+  video.pause(); video.removeAttribute('src'); video.load(); video.remove();
+  await new Promise(r => setTimeout(r, 11000)); // let any park expire before the next run
+  return { mode, file, firstFrameMs: Math.round(ms), oneSecondMs: Math.round(oneSecondMs), upstream: log.map(e => `${e.range}${e.closedEarly ? ' x' : ''} +${e.at - log[0].at}ms sent=${e.sent}`),
+    continuation: traces.filter(t => t.reason === 'continuation').map(t => t.range),
+    cancels: traces.filter(t => t.stage === 'request-cancelled').length };
+}
+async function run(files, repeat) {
+  const results = [];
+  for (let i = 0; i < repeat; i++) for (const file of files) results.push(await openOnce(file));
+  document.getElementById('out').textContent = JSON.stringify(results, null, 1);
+  return results;
+}
+</script>
