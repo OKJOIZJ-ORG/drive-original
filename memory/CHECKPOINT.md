@@ -10,7 +10,7 @@ D100 on branch claude/video-startup-perf-20261019 (not merged/pushed/deployed): 
 D094–D099 as before; D100 performance scope (original-bytes-first, auth checks, tests kept). Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
 
 ## Waiting on the user
-Approval to merge/push/deploy D100 (would become 1.23.11), and whether to pursue the moov-at-end head-stream continuation (OPEN-QUESTIONS 2026-10-19 D100).
+1.23.11 deployed (Worker ac8f076c, main 523e1db). Paused before verification: actual Chrome tab showed signed-out screen (cause unknown); served-byte check unfinished. Resume: check sign-in in the user's Chrome, then served bytes and playback.
 
 ## Next first action
 Read qa/video-startup-20261019/README.md.
