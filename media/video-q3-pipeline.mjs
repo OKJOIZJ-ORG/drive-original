@@ -79,5 +79,5 @@ export async function streamGeneralQ3({source,generation=1,signal,isCurrent=()=>
   if(m){if(decoder)m._q3_close(decoder);for(const p of [extra,packet,raw])if(p)m._free(p);}metrics.closed=true;
   const cleanup=await rpc.cleanup();if(!cleanup.settled&&!failure)failure=new Error('Q3_SOURCE_CLEANUP_UNSETTLED');if(failure){failure.cleanup=cleanup;failure.reads=rpc.metrics;}if(result){result.cleanup=cleanup;result.reads=rpc.metrics;}
  }
- if(failure){if(!/^(?:GENERAL|Q3|TIMING)_[A-Z0-9_]+$/.test(failure.message))failure=Object.assign(new Error('Q3_PIPELINE_FAILED'),{cleanup:failure.cleanup,reads:failure.reads});throw failure;}return result;
+ if(failure){if(!/^(?:GENERAL|Q3|TIMING|Q1_EXACT|Q1_SOURCE)_[A-Z0-9_]+$/.test(failure.message))failure=Object.assign(new Error('Q3_PIPELINE_FAILED'),{cleanup:failure.cleanup,reads:failure.reads});throw failure;}return result;
 }

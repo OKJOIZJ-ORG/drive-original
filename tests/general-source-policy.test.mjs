@@ -67,8 +67,17 @@ test('a rejected transport abort reports unsettled cleanup instead of throwing',
  assert.deepEqual(await rpc.cleanup(),{settled:false,transportFailed:true});
 });
 test('error-code allowlist keeps each caller prefix set exact',()=>{
- const q1=['GENERAL','TIMING','Q1_EXACT','Q1_SOURCE'],q3=['GENERAL','Q3','TIMING'];
+ const q1=['GENERAL','TIMING','Q1_EXACT','Q1_SOURCE'],q3=['GENERAL','Q3','TIMING','Q1_EXACT','Q1_SOURCE'];
  for(const code of ['GENERAL_PIPELINE_FAILED','TIMING_MOOV_NOT_FOUND','Q1_EXACT_CLOCK_UNREPRESENTABLE','Q1_SOURCE_DTS_REQUIRED','GENERAL_X264'])assert.equal(isAllowedErrorCode(code,q1),true,code);
  for(const code of ['AUDIO_DECODE_FAILED','Q3_PIPELINE_FAILED','WORKER_X','GENERAL_','GENERAL_lower','xGENERAL_X','GENERAL_X'+String.fromCharCode(10)+'Y',undefined,null,'Drive failed'])assert.equal(isAllowedErrorCode(code,q1),false,String(code));
- assert.equal(isAllowedErrorCode('Q3_PIPELINE_FAILED',q3),true);assert.equal(isAllowedErrorCode('Q1_SOURCE_READ_FAILED',q3),false);
+ assert.equal(isAllowedErrorCode('Q3_PIPELINE_FAILED',q3),true);assert.equal(isAllowedErrorCode('Q1_SOURCE_READ_FAILED',q3),true);assert.equal(isAllowedErrorCode('AUDIO_DECODE_FAILED',q3),false);
+});
+test('Q3 stream reports source and exact-clock causes like Q1 and masks unknown failures',async()=>{
+ const fixture=fs.readFileSync(new URL('../qa/q3-browser-execution/synthetic-mpeg4.mp4',import.meta.url)),bytes=Buffer.alloc(1024*KiB);fixture.copy(bytes);const mdat=bytes.indexOf('mdat');bytes.writeUInt32BE(0,mdat-4);
+ const scope={VideoDecoder:{isConfigSupported:async()=>({supported:false})},VideoEncoder:{isConfigSupported:async()=>({supported:true})},MediaSource:{isTypeSupported:()=>true}};
+ const run=message=>streamGeneralQ3({source:source(bytes),scope,onChunk(){},loadModule:async()=>{throw Error(message);}});
+ await assert.rejects(run('Q1_SOURCE_HTTP_UNAVAILABLE'),/^Error: Q1_SOURCE_HTTP_UNAVAILABLE$/);
+ await assert.rejects(run('Q1_EXACT_CLOCK_UNREPRESENTABLE'),/^Error: Q1_EXACT_CLOCK_UNREPRESENTABLE$/);
+ await assert.rejects(run('Drive said no'),/^Error: Q3_PIPELINE_FAILED$/);
+ await assert.rejects(run('AUDIO_DECODE_FAILED'),/^Error: Q3_PIPELINE_FAILED$/);
 });

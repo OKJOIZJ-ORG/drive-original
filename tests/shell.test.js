@@ -190,3 +190,18 @@ test('HEAD/public changes or output contamination during writing prevent success
     assert.throws(f.run,/HEAD changed|differs from captured HEAD|Extra/);assert.ok(f.writes.length>0);
   }
 });
+test('a temporary sync-client hardlink is waited out within the bound, then materializes normally',()=>{
+  const f=releaseFixture();const node=f.nodes.get(f.absolute('_site/app.js'));node.nlink=2;
+  let clock=0,sleeps=0,retries=0;
+  const result=materializeCommittedPages({...f,hardlinkWaitMs:5000,now:()=>clock,sleep:ms=>{sleeps++;clock+=ms;if(sleeps===2)node.nlink=1;},onRetry:()=>retries++});
+  assert.deepEqual(result,{head:'a'.repeat(40),materialized:2});assert.equal(retries,2);
+  assert.ok(f.output('app.js').equals(f.blobs.get('app.js')));
+});
+test('a persistent hardlink still fails after the wait with no write, and aliasing is never retried',()=>{
+  const f=releaseFixture();f.nodes.get(f.absolute('app.js')).nlink=2;let clock=0;
+  assert.throws(()=>materializeCommittedPages({...f,hardlinkWaitMs:3000,now:()=>clock,sleep:ms=>{clock+=ms;}}),/Linked publication source/);
+  assert.equal(clock,3000);assert.equal(f.writes.length,0);
+  const g=releaseFixture();g.nodes.set(g.absolute('_site/app.js'),{type:'link',ino:999,nlink:1,target:'outside'});let slept=0;
+  assert.throws(()=>materializeCommittedPages({...g,hardlinkWaitMs:3000,now:()=>0,sleep:()=>slept++}),/linked/i);
+  assert.equal(slept,0);assert.equal(g.writes.length,0);
+});

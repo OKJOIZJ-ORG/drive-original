@@ -52,6 +52,8 @@
 /media/general-* -text whitespace=cr-at-eol
 /media/audio-* -text whitespace=cr-at-eol
 /media/mediabunny-q1* -text whitespace=cr-at-eol
+# Emscripten output ends in CRLF lines; the published Q3 corresponding source pins those exact bytes.
+/media/video-q3-codec.mjs -text whitespace=cr-at-eol
 /tests/general-* -text whitespace=cr-at-eol
 /tests/audio-compat-* -text whitespace=cr-at-eol
 /scripts/build-general-q1.cjs -text whitespace=cr-at-eol

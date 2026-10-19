@@ -42,7 +42,7 @@ test('release version is synchronized across runtime, shell, HTML, and metadata'
   const metadata = JSON.parse(read('version.json'));
   const appVersion = app.match(/const APP_VERSION = '([^']+)'/)?.[1];
   const workerVersion = worker.match(/const VERSION = '([^']+)'/)?.[1];
-  assert.equal(metadata.version, '1.23.9');
+  assert.equal(metadata.version, '1.23.10');
   assert.equal(appVersion, metadata.version);
   assert.equal(workerVersion, metadata.version);
   assert.match(html, new RegExp(`styles\\.css\\?v=${metadata.version.replaceAll('.', '\\.')}`));
@@ -417,4 +417,21 @@ test('mobile shell preserves zoom and high-contrast metadata labels', () => {
   const chevron = styles.match(/\.folder-chevron \{[\s\S]*?\n\}/)?.[0] || '';
   assert.match(chevron, /width:\s*16px/);
   assert.match(styles, /\.folder-chevron svg \{ width: 16px; height: 16px; \}/);
+});
+
+test('license-pinned product files are committed byte-exact (no Git line-ending normalization)', () => {
+  const { execFileSync } = require('node:child_process');
+  const sha = (bytes) => crypto.createHash('sha256').update(bytes).digest('hex');
+  for (const manifestName of ['licenses/audio-source-manifest.json', 'licenses/video-q3-source-manifest.json']) {
+    const manifest = JSON.parse(read(manifestName));
+    for (const entry of manifest.files.filter(file => file.path.startsWith('product-source/'))) {
+      const name = `media/${entry.path.slice('product-source/'.length)}`;
+      if (!fs.existsSync(path.join(root, name))) continue;
+      const bytes = fs.readFileSync(path.join(root, name));
+      if (sha(bytes) !== entry.sha256 || !bytes.includes(13)) continue;
+      // Served bytes come from the Git blob; a text-normalized path would strip CR and diverge from the published source.
+      const attr = execFileSync('git', ['check-attr', 'text', '--', name], { cwd: root }).toString();
+      assert.match(attr, /: text: unset\s*$/, `${name} contains CR bytes and must be -text in .gitattributes`);
+    }
+  }
 });

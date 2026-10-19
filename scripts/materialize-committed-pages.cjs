@@ -9,7 +9,31 @@ const root = path.resolve(__dirname, '..');
 const governing = ['.gitattributes', 'scripts/build-pages.cjs', 'scripts/public-files.cjs',
   'scripts/materialize-committed-pages.cjs', 'scripts/publish-pages.cjs'];
 
-function materializeCommittedPages({ repoRoot = root, fsApi = fs, gitApi } = {}) {
+// A second hard link is the one condition a Windows sync client (e.g. Google Drive
+// for desktop staging an upload in .tmp.driveupload) creates and later removes on
+// its own. Only that condition may be retried; aliasing and content checks never are.
+function hardlinkError(message) {
+  return Object.assign(new Error(message), { transientHardlink: true });
+}
+
+function sleepSync(ms) {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+}
+
+function materializeCommittedPages({ hardlinkWaitMs = 0, sleep = sleepSync, now = Date.now, onRetry, ...options } = {}) {
+  const deadline = now() + hardlinkWaitMs;
+  for (;;) {
+    try {
+      return materializeOnce(options);
+    } catch (error) {
+      if (!error?.transientHardlink || now() >= deadline) throw error;
+      onRetry?.(error);
+      sleep(Math.min(1000, Math.max(0, deadline - now())));
+    }
+  }
+}
+
+function materializeOnce({ repoRoot = root, fsApi = fs, gitApi } = {}) {
   repoRoot = fsApi.realpathSync(repoRoot);
   const git = gitApi || (args => execFileSync('git', args, { cwd: repoRoot, maxBuffer: 64 * 1024 * 1024 }));
   const text = args => git(args).toString('utf8');
@@ -51,9 +75,10 @@ function materializeCommittedPages({ repoRoot = root, fsApi = fs, gitApi } = {})
   function assertInputs() { for (const entry of entries) {
     if (entry.type !== 'blob' || !['100644', '100755'].includes(entry.mode)) throw new Error('Linked publication source is forbidden.');
     const absolute = path.join(repoRoot, entry.name), stat = fsApi.lstatSync(absolute);
-    if (!stat.isFile() || stat.isSymbolicLink() || stat.nlink > 1 || fsApi.realpathSync(absolute) !== absolute) {
+    if (!stat.isFile() || stat.isSymbolicLink() || fsApi.realpathSync(absolute) !== absolute) {
       throw new Error('Linked publication source is forbidden.');
     }
+    if (stat.nlink > 1) throw hardlinkError('Linked publication source is forbidden.');
     // Git normalization permits clean CRLF checkouts and detects changes hidden
     // by assume-unchanged/skip-worktree or a cached stat result.
     if (text(['hash-object', `--path=${entry.name}`, '--', entry.name]).trim() !== entry.oid) {
@@ -81,7 +106,8 @@ function materializeCommittedPages({ repoRoot = root, fsApi = fs, gitApi } = {})
           if (!directories.has(relative)) throw new Error('Extra _site directory.');
           walk(absolute);
         } else {
-          if (!stat.isFile() || stat.nlink > 1 || !expected.has(relative)) throw new Error('Extra or linked _site file.');
+          if (!stat.isFile() || !expected.has(relative)) throw new Error('Extra or linked _site file.');
+          if (stat.nlink > 1) throw hardlinkError('Extra or linked _site file.');
           found.add(relative);
         }
       }
@@ -99,10 +125,11 @@ function materializeCommittedPages({ repoRoot = root, fsApi = fs, gitApi } = {})
     const absolute = path.join(destination, name), fd = fsApi.openSync(absolute, 'r+');
     try {
       const stat = fsApi.fstatSync(fd), current = fsApi.lstatSync(absolute);
-      if (!stat.isFile() || stat.nlink > 1 || current.isSymbolicLink()
+      if (!stat.isFile() || current.isSymbolicLink()
         || stat.dev !== current.dev || stat.ino !== current.ino || fsApi.realpathSync(absolute) !== absolute) {
         throw new Error('Output entry changed or became linked.');
       }
+      if (stat.nlink > 1) throw hardlinkError('Output entry changed or became linked.');
       fsApi.ftruncateSync(fd, 0); fsApi.writeFileSync(fd, committed);
     } finally { fsApi.closeSync(fd); }
   }
@@ -116,6 +143,9 @@ function materializeCommittedPages({ repoRoot = root, fsApi = fs, gitApi } = {})
 
 module.exports = { materializeCommittedPages };
 if (require.main === module) {
-  const result = materializeCommittedPages();
+  const result = materializeCommittedPages({
+    hardlinkWaitMs: 120_000,
+    onRetry: () => console.log('A public file has a temporary second hard link (sync client upload); waiting…')
+  });
   console.log(`Materialized ${result.materialized} public assets byte-for-byte from ${result.head}.`);
 }
