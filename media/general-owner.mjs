@@ -69,7 +69,7 @@ export function startGeneralWorker({ source, generation, isCurrent = () => true,
     } catch (error) {
       if (!current()) metrics.staleRepliesSuppressed++;
       else metrics.invalidMessages++;
-      if (!terminal && Number.isSafeInteger(message?.id)) reply(message.id, null, /^(?:GENERAL|WORKER|Q1_EXACT|Q1_SOURCE|TIMING)_[A-Z_]+$/.test(error.message) ? error.message : 'GENERAL_CONSUMER_FAILED');
+      if (!terminal && Number.isSafeInteger(message?.id)) reply(message.id, null, /^(?:GENERAL|WORKER|TIMING|Q1_EXACT|Q1_SOURCE|AUDIO|Q3)_[A-Z0-9_]+$/.test(error.message) ? error.message : 'GENERAL_CONSUMER_FAILED');
       if (!current() || /CONCURRENCY|BOUNDS|GENERATION|REQUEST_ID|MESSAGE_LIMIT/.test(error.message)) void cancel();
     }
   }

@@ -80,6 +80,12 @@ test('initial empty edit delays subtitle presentation without rebasing original 
   assert.deepEqual(await owner.cuesAt(0,{after:0}),[]);assert.deepEqual((await owner.cuesAt(1,{after:0})).map(c=>[c.startTime,c.endTime]),[[1,3]]);await owner.dispose();
 });
 
+test('cues trimmed by a later media origin stay hidden during the initial empty edit',async()=>{
+  const owner=await createPinnedSubtitleTrack(sourceFor(synthetic({edit:[[1000,-1],[5000,3000]]})));owner.select(3);
+  assert.deepEqual(await owner.cuesAt(0.5,{after:0}),[]);
+  assert.deepEqual((await owner.cuesAt(1.5,{after:0})).map(c=>[c.text,c.startTime,c.endTime]),[['SECOND',1,2]]);await owner.dispose();
+});
+
 test('unsupported subtitle codec remains explicit and cannot be selected',async()=>{
   const owner=await createPinnedSubtitleTrack(sourceFor(synthetic({codec:'wvtt'})));assert.equal(owner.tracks[0].supported,false);assert.equal(owner.tracks[0].reason,'CODEC_UNSUPPORTED');assert.throws(()=>owner.select(3),/SUBTITLE_CODEC_UNSUPPORTED/);await owner.dispose();
 });

@@ -222,7 +222,8 @@ class FakeStorage {
     this.sql = { exec: (query, ...bindings) => {
       if (query.startsWith('CREATE TABLE')) return new FakeCursor();
       if (query.startsWith('SELECT json')) return new FakeCursor(this.rows.has(bindings[0]) ? [{ json: this.rows.get(bindings[0]) }] : []);
-      if (query.startsWith('INSERT INTO')) { this.rows.set(bindings[0], bindings[1]); return new FakeCursor(); }
+      if (query.startsWith('INSERT INTO')) { this.writes = (this.writes || 0) + 1; this.rows.set(bindings[0], bindings[1]); return new FakeCursor(); }
+      if (query.startsWith('DELETE FROM')) { this.writes = (this.writes || 0) + 1; this.rows.delete(bindings[0]); return new FakeCursor(); }
       throw new Error(`Unexpected SQL: ${query}`);
     } };
   }
@@ -250,6 +251,22 @@ test('SQLite adapter commits atomically and rolls back thrown mutations', async 
   assert.equal(await adapter.transaction(state => state.count), 1);
   await assert.rejects(adapter.transaction(async state => { state.count = 3; }));
   assert.equal(await adapter.transaction(state => state.count), 1);
+});
+
+test('SQLite adapter leaves no row for reads, unchanged state or emptied state', async () => {
+  const storage = new FakeStorage();
+  const adapter = new CloudflareSqliteState(storage);
+  adapter.initialize();
+  assert.equal(await adapter.transaction(state => state.missing), undefined);
+  assert.equal(storage.rows.size, 0);
+  assert.equal(storage.writes || 0, 0);
+  await adapter.transaction(state => { state.value = { a: 1 }; });
+  assert.equal(storage.writes, 1);
+  assert.deepEqual(await adapter.transaction(state => state.value), { a: 1 });
+  assert.equal(storage.writes, 1);
+  await adapter.transaction(state => { delete state.value; });
+  assert.equal(storage.rows.size, 0);
+  assert.equal(storage.writes, 2);
 });
 
 test('one SQLite AuthObject provides one-use transaction and alarm-backed opaque locator owners', async () => {
@@ -401,6 +418,18 @@ test('recoverable callback failures expire pre-auth and redirect to one allowlis
   assert.equal(callback.headers.get('Location'), `${origin}/?authError=transaction_invalid`);
   assert.match(responseCookies(callback).join('\n'), /__Host-drive_original_oauth=;.*Max-Age=0/);
   assert.doesNotMatch(callback.headers.get('Location'), /secret-code|secret-scope|state=/);
+});
+
+test('non-recoverable callback failures still return the browser to the app as unavailable', async () => {
+  const fixture = await workerFlowFixture();
+  await fixture.handler(new Request(`${origin}/auth/google/start`, { headers: { 'Sec-Fetch-Site': 'same-origin' } }));
+  const callback = await fixture.handler(new Request(
+    `${origin}/auth/google/callback?code=${'c'.repeat(4096)}&state=${fixture.state}`,
+    { headers: { Cookie: `__Host-drive_original_oauth=${fixture.preauth}` } },
+  ));
+  assert.equal(callback.status, 303);
+  assert.equal(callback.headers.get('Location'), `${origin}/?authError=auth_unavailable`);
+  assert.match(responseCookies(callback).join('\n'), /__Host-drive_original_oauth=;.*Max-Age=0/);
 });
 
 test('live diagnostic wiring reports a fixed token rejection stage without leaking provider data', async () => {

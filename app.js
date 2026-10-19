@@ -321,6 +321,9 @@ function computeRenderWindow(totalCount, requestedStart, columnCount) {
   const columns = Math.max(1, Math.floor(Number(columnCount) || 1));
   const windowSize = Math.max(columns, Math.floor(RENDER_WINDOW_MAX / columns) * columns);
   if (!total) return { start: 0, end: 0 };
+  // A list that fits one window always starts at the top; a stale offset after
+  // deletes or moves would otherwise leave unrecoverable blank leading rows.
+  if (total <= windowSize) return { start: 0, end: total };
 
   const clamped = Math.max(0, Math.min(Number(requestedStart) || 0, total - 1));
   const start = Math.floor(clamped / columns) * columns;
@@ -3216,6 +3219,8 @@ function resetListingSession() {
   state.populationLoadPromise = null;
   state.populationComplete = false;
   state.loadingFiles = false;
+  // The aborted page load's finally no longer owns the button after this bump.
+  if (el.refreshButton) el.refreshButton.disabled = false;
   state.listLoadError = false;
   state.listPageTokens = new Set();
   state.files = [];
@@ -4051,6 +4056,9 @@ async function performFavoriteLoad({ refreshState = true, preserveWindow = false
   const statusToken = beginLibraryStatus('계정의 좋아요 항목을 모든 폴더에서 모으는 중…');
   let nextFiles = [];
   let nextStatus = '';
+  // An abort from another owner (credential loss, account-state reset) keeps
+  // this generation current; it must not read as "no favorites".
+  let committed = false;
   try {
     let syncError = null;
     try {
@@ -4092,12 +4100,18 @@ async function performFavoriteLoad({ refreshState = true, preserveWindow = false
     } else if (syncError) {
       nextStatus = '이 기기에 저장된 좋아요를 표시했습니다. 다른 기기와 동기화하려면 Google Drive를 다시 연결하세요.';
     }
+    committed = true;
   } catch (error) {
     if (controller.signal.aborted || error?.name === 'AbortError' || generation !== state.favoriteLoadGeneration) return;
     reportAppFailure('favorite-files-load', error);
     nextStatus = `좋아요 항목을 불러오지 못했습니다: ${humanizeDriveError(error)}`;
+    committed = true;
   } finally {
     if (generation === state.favoriteLoadGeneration && state.filter === 'favorites') {
+      if (!committed) {
+        nextFiles = state.favoriteFiles;
+        nextStatus = '좋아요 항목을 불러오는 작업이 중단되었습니다. 새로고침해 다시 시도하세요.';
+      }
       // A remote/local unlike may arrive while metadata is in flight.
       state.favoriteFiles = nextFiles.filter((file) => isFavoriteFileId(file.id));
       state.loadingFavorites = false;
@@ -8481,6 +8495,13 @@ function capturePlaybackSnapshot() {
   };
 }
 
+// The media load algorithm resets playbackRate to defaultPlaybackRate, so a
+// rate set before src/load() is lost. Re-apply it unless the viewer changed it.
+function reapplyRestoredPlaybackRate(video, rate) {
+  if (!video || !Number.isFinite(rate) || rate <= 0) return;
+  if (video.playbackRate === (video.defaultPlaybackRate ?? 1) && video.playbackRate !== rate) video.playbackRate = rate;
+}
+
 function restorePlaybackSnapshot(video, snapshot, session) {
   if (!video || !snapshot) return;
   if (snapshot.decoded) state.mediaDecodeVerified = true;
@@ -8493,6 +8514,7 @@ function restorePlaybackSnapshot(video, snapshot, session) {
   video.addEventListener('loadedmetadata', () => {
     if (state.mediaSession !== session || mediaSourceGeneration !== sourceGeneration || !isCurrentMediaEvent(video)) return;
     if (pendingPlaybackRestore === restore) pendingPlaybackRestore = null;
+    reapplyRestoredPlaybackRate(video, snapshot.playbackRate);
     if (snapshot.time > 0) {
       setPlayerCurrentTime(
         video,
@@ -9145,7 +9167,12 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
     const poster = file.thumbnailLink || generatedThumbnailCache.get(file.id);
     if (poster) { el.videoPlayer.poster = poster; el.videoPlayer.classList.add('has-poster'); }
     if (snapshot) {
-      if (Number.isFinite(snapshot.playbackRate) && snapshot.playbackRate > 0) el.videoPlayer.playbackRate = snapshot.playbackRate;
+      if (Number.isFinite(snapshot.playbackRate) && snapshot.playbackRate > 0) {
+        el.videoPlayer.playbackRate = snapshot.playbackRate;
+        el.videoPlayer.addEventListener('loadedmetadata', () => {
+          if (current()) reapplyRestoredPlaybackRate(el.videoPlayer, snapshot.playbackRate);
+        }, { once: true });
+      }
     }
     owner.player = createPlayer({ video: el.videoPlayer, openSource, isCurrent: current,
       ...(!ts ? {selectedAudioTrackId, nativeColorObservation} : {}),

@@ -59,3 +59,9 @@ test('only Q3 stream selects 512KiB while Q3 probe, Q2 probe and Q1 remain at 64
  const q2=source(bytes);assert.equal((await probePinnedGeneralAudio(q2)).route,'native');assert.equal(q2.ranges[0][1]+1,64*KiB);
  const q1=source(bytes);await assert.rejects(streamGeneralQ1({source:q1,onChunk(){}}),/^Error: GENERAL_/);assert.equal(q1.ranges[0][1]+1,64*KiB);
 });
+
+test('a rejected transport abort reports unsettled cleanup instead of throwing', async () => {
+ const s={identity:{size:1024},read:async({start,end})=>new Uint8Array(end-start+1),abort:async()=>{throw new Error('WORKER_RPC_TIMEOUT');}};
+ const rpc=createGeneralSource(s);
+ assert.deepEqual(await rpc.cleanup(),{settled:false,transportFailed:true});
+});

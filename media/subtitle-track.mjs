@@ -114,7 +114,7 @@ export function inspectSubtitleMoov(bytes,{size,mdatRanges=[]}={}) {
     // Unsupported subtitle codecs are visible and cannot be selected.
     if(!subtitle) continue;
     if(codec!=='tx3g') { tracks.push({trackId,codec,language,handler,supported:false,reason:'CODEC_UNSUPPORTED',limitations:LIMITATIONS}); continue; }
-    let shift=0,clipEnd=Infinity;
+    let shift=0,clipStart=0,clipEnd=Infinity;
     const edts=one(trak.children,'edts',false),elst=edts&&one(edts.children,'elst');
     if(elst) {
       demand(elst.body+8<=elst.end,'EDIT_HEADER'); const v=bytes[elst.body]; demand((v===0||v===1)&&(u32(bytes,elst.body)&0xffffff)===0,'EDIT_VERSION');
@@ -122,7 +122,7 @@ export function inspectSubtitleMoov(bytes,{size,mdatRanges=[]}={}) {
       for(let i=0;i<n;i++) { const p=elst.body+8+i*width,duration=v?u64(bytes,p):u32(bytes,p),origin=v?i64(bytes,p+8):i32(bytes,p+4),rate=p+(v?16:8);
         demand(u32(bytes,rate)===65536&&duration>0,'EDIT_UNSUPPORTED');
         if(origin===-1) { demand(i===0&&n===2,'EDIT_UNSUPPORTED'); empty=duration/movie.scale; }
-        else { demand(origin>=0&&origin<=media.duration&&i===n-1,'EDIT_UNSUPPORTED'); shift=empty-origin/media.scale; clipEnd=empty+duration/movie.scale; }
+        else { demand(origin>=0&&origin<=media.duration&&i===n-1,'EDIT_UNSUPPORTED'); shift=empty-origin/media.scale; clipStart=empty; clipEnd=empty+duration/movie.scale; }
       }
     }
     const samples=[]; let sampleIndex=0,scIndex=0;
@@ -140,7 +140,7 @@ export function inspectSubtitleMoov(bytes,{size,mdatRanges=[]}={}) {
     }
     demand(dts===media.duration,'DURATION_MISMATCH');
     if(tables.ctts) { const ct=tables.ctts; index=0; for(let i=0;i<ct.count;i++) { const p=ct.body+8+i*8,n=u32(bytes,p),offset=bytes[ct.body]===1?i32(bytes,p+4):u32(bytes,p+4); for(let j=0;j<n;j++) samples[index++].cts=offset; } }
-    for(const sample of samples) { const ticks=safe(sample.dts+(sample.cts||0)),end=safe(ticks+sample.duration); sample.startTime=Math.max(0,ticks/media.scale+shift); sample.endTime=Math.min(clipEnd,end/media.scale+shift); delete sample.dts; delete sample.cts; delete sample.duration; }
+    for(const sample of samples) { const ticks=safe(sample.dts+(sample.cts||0)),end=safe(ticks+sample.duration); sample.startTime=Math.max(clipStart,ticks/media.scale+shift); sample.endTime=Math.min(clipEnd,end/media.scale+shift); delete sample.dts; delete sample.cts; delete sample.duration; }
     samples.sort((a,b)=>a.startTime-b.startTime);
     tracks.push({trackId,codec,language,handler,supported:true,limitations:LIMITATIONS,samples});
   }

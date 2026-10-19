@@ -285,12 +285,24 @@ function shellAssetCacheKey(request) {
   return url.href;
 }
 
+// Static hosting redirects /index.html and /licenses/index.html to their
+// directories, so cache.addAll can store a followed redirect. Navigations use
+// redirect: 'manual' and reject such a response; serve its bytes instead.
+function withoutRedirectFlag(response) {
+  if (!response?.redirected) return response;
+  return new Response(response.body, {
+    status: response.status, statusText: response.statusText, headers: response.headers
+  });
+}
+
 async function networkFirstAsset(request) {
   const cacheKey = shellAssetCacheKey(request);
   if (!cacheKey) return fetch(request);
   let response;
   try {
     response = await fetch(request);
+    // Let the browser follow the host's canonical redirect itself.
+    if (response?.type === 'opaqueredirect') return response;
     if (response && response.ok) {
       try {
         const cache = await caches.open(SHELL_CACHE);
@@ -302,10 +314,10 @@ async function networkFirstAsset(request) {
   try {
     const cache = await caches.open(SHELL_CACHE);
     const cached = await cache.match(cacheKey);
-    if (cached) return cached;
+    if (cached) return withoutRedirectFlag(cached);
     if (request.mode === 'navigate') {
       const fallback = await cache.match(new URL('index.html', workerScopeUrl()).href);
-      if (fallback) return fallback;
+      if (fallback) return withoutRedirectFlag(fallback);
     }
   } catch (_) { /* The original HTTP error remains more useful than a cache error. */ }
   return response || Response.error();

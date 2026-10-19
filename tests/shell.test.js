@@ -38,6 +38,17 @@ test('temporary server failures use the owned cached shell instead of an error d
   const r=await w.run(`networkFirstAsset(new Request('https://app.test/drive-original/index.html'))`);
   assert.equal(r.status,200);assert.equal(await r.text(),'known good');
 });
+test('canonical host redirects pass through and cached redirected shell entries stay navigable',async()=>{
+  const redirect=Object.defineProperty(new Response(null,{status:200}),'type',{value:'opaqueredirect'});
+  const passed=await worker(async()=>redirect,{put:async()=>{throw new Error('must not cache a redirect');}})
+    .run(`networkFirstAsset(new Request('https://app.test/drive-original/licenses/index.html'))`);
+  assert.equal(passed,redirect);
+  const stored=()=>Object.defineProperty(new Response('licenses page',{headers:{'Content-Type':'text/html'}}),'redirected',{value:true});
+  const w=worker(async()=>{throw new TypeError('offline');},{match:async()=>stored()});
+  const r=await w.run(`networkFirstAsset(new Request('https://app.test/drive-original/licenses/index.html'))`);
+  assert.equal(r.redirected,false);assert.equal(r.status,200);
+  assert.equal(r.headers.get('Content-Type'),'text/html');assert.equal(await r.text(),'licenses page');
+});
 test('public deployment allowlist excludes internal memory, workflows and test fixtures',()=>{
   const build=fs.readFileSync(path.join(root,'scripts/build-pages.cjs'),'utf8');
   const copies=[];

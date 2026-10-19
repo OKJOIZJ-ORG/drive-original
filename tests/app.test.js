@@ -1584,6 +1584,9 @@ test('render window is row-aligned and never exceeds the hard DOM cap', () => {
   const tail = JSON.parse(run(context, 'JSON.stringify(computeRenderWindow(9788, 9700, 5))'));
   assert.equal(tail.end, 9788);
   assert.ok(tail.end - tail.start <= 240);
+
+  const shrunk = JSON.parse(run(context, 'JSON.stringify(computeRenderWindow(230, 12, 4))'));
+  assert.deepEqual(shrunk, { start: 0, end: 230 });
 });
 
 test('render scheduler repairs uncovered viewport rows and keeps covered scrolling inside hysteresis', () => {
@@ -4874,6 +4877,20 @@ test('native restore callback cannot reposition a later Q1 source in the same se
     restorePlaybackSnapshot(video,{time:6.1,paused:true,volume:1,muted:true,playbackRate:1},1);
     mediaSourceGeneration=2;metadataCallback();`);
   assert.equal(run(context,'restored'),0);
+});
+
+test('restored playback speed survives the load reset unless the viewer changed it', () => {
+  const context=loadAppContext();
+  run(context,`var metadataCallback;
+    state.mediaSession=1;state.selected={id:'one'};mediaSourceGeneration=1;
+    isCurrentMediaEvent=()=>true;setPlayerCurrentTime=()=>{};updatePlayPauseUI=()=>{};
+    var video={defaultPlaybackRate:1,playbackRate:1,addEventListener(_name,fn){metadataCallback=fn}};
+    restorePlaybackSnapshot(video,{time:0,paused:true,volume:1,muted:false,playbackRate:1.5},1);
+    video.playbackRate=video.defaultPlaybackRate;metadataCallback();`);
+  assert.equal(run(context,'video.playbackRate'),1.5);
+  run(context,`restorePlaybackSnapshot(video,{time:0,paused:true,volume:1,muted:false,playbackRate:1.5},1);
+    video.playbackRate=0.75;metadataCallback();`);
+  assert.equal(run(context,'video.playbackRate'),0.75);
 });
 
 test('early TS eligibility is a bounded hint and preserves native capability and unknown-size paths', () => {

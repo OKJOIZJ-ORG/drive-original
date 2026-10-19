@@ -235,9 +235,10 @@ export function createWorkerHandler(env, {
       return await sessionHandler(request, settings, crypt);
     } catch (error) {
       const code = error instanceof AuthError ? error.code : 'auth_unavailable';
-      if (callbackRequest && callbackRecoveryOrigin && CALLBACK_RECOVERY_ERRORS.has(code)) {
+      if (callbackRequest && callbackRecoveryOrigin) {
+        // A browser mid-login always returns to the app; codes the app has no message for read as unavailable.
         const target = new URL('/', callbackRecoveryOrigin);
-        target.searchParams.set('authError', code);
+        target.searchParams.set('authError', CALLBACK_RECOVERY_ERRORS.has(code) ? code : 'auth_unavailable');
         return redirect(target.href, [expire(PREAUTH_COOKIE)]);
       }
       return errorResponse(code, callbackRequest ? [expire(PREAUTH_COOKIE)] : []);

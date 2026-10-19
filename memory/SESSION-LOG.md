@@ -894,3 +894,23 @@ Runtime5f381601fdf181ce3d7ea2d3a0be1475d81a9376 committed; clean mainFF/push. Ex
 Actual existing normalChrome ordinarycheck/update1.23.4→1.23.5 retains same account/exact18likes by private in-page digest, no raw IDs/credential/fingerprint exported and marker removed. Four changed cache assets Git-equal; SW intentionally outside shell cache. Restored originalㅇㅎㅎfolder2051supportedmedia/2folders/240cards/no cursor/error. Ordinary short card/no sourceoverride: loaderonly로딩 중 and14/21/36/42/61/100%; native4.295692s/end127frames/ready4/error0/loaderhidden/transport+decode true. Owned firstframe2948ms after intent is uncontrolled finite evidence, not a speed gain. Normal stageTab→close restores library, releases priority, disconnects observer/restores trace sink/deletes private marker.
 
 Chrome MCP profile conflict recovered only after exact6048Chrome/9420MCPnode ownership verification and graceful close; restarted isolatedpage2 restoredabout:blank. Initial anonymousPOST missingCSRF403, preservationlikedIds and cleanup-priority wrong-field probes are diagnostic mistakes; corrected source-owned probes pass, no product failure inferred. Ordinary playback may persist viewed state; no originalmedia/preferences/credentials/security/Notion/automation change. No new physicalAndroid/iOS/finger/OSedge/sustained/allformat acceptance. RELEASE-1.23.5.md and qa/release-1.23.5 own exact bounded delivery; completed authorized queue has no remaining rollout action.
+
+## 2026-10-19 — D094 full review and local patches (branch claude/review-patches-20261019)
+
+Baseline main c8ab9a2: 932/932 Node tests observed. Five parallel read-only reviews (Worker auth, sw.js, app.js halves, media). Each finding below was re-read in code before patching; each new test was confirmed to fail without its fix where practical.
+
+Patched (confirmed by code reading; production redirect observed via read-only curl -I):
+1. worker/durable-object.mjs — transaction() wrote a row for every read; anonymous callback/session probes with random state/cookies left permanent `{}` rows. Now skips unchanged writes and deletes the row when state empties. Residual: empty table schema per touched object remains.
+2. worker/index.mjs — callback AuthErrors other than transaction_invalid/auth_unavailable (bad_request, account_mismatch, reauthorization_required) showed raw JSON mid-login; now always 303 back to `/?authError=` (unknown codes → auth_unavailable), pre-auth cookie still expired.
+3. sw.js — observed: production 307s /index.html→/ and /licenses/index.html→/licenses/. cache.addAll stored followed redirects; navigations (redirect: manual) to the license link fell back to a redirected cached response → network error. Now opaqueredirect passes through and cached redirected entries are re-wrapped.
+4. app.js — restored playback speed lost after load()/src reset (retry, blob fallback, range start, Q1/general/audio-track switch). Re-applied at loadedmetadata unless the viewer changed speed.
+5. app.js computeRenderWindow — list shrinking to ≤240 with a stale window start left blank leading rows with no scroll recovery; now starts at 0.
+6. app.js resetListingSession — refresh button stayed disabled when a page load was aborted by deep-scan/folder change; now re-enabled.
+7. app.js performFavoriteLoad — external abort (credential loss) rendered favorites as empty; now keeps previous list with an interruption status.
+8. media/general-owner.mjs — AUDIO_/Q3_/digit error codes collapsed to GENERAL_CONSUMER_FAILED; regex aligned with general-player.
+9. media/general-source.mjs — rejected transport abort made cleanup() throw inside pipeline finally, overwriting the real failure; now reports {settled:false, transportFailed:true}.
+10. media/subtitle-track.mjs — cues before a later media origin showed during an initial empty edit; start now clamped to the empty-edit end.
+
+Not applied: `.media-stage` focus-visible ring (stage is focused programmatically on each open; visible design change needs user choice). clientCredentials map never pruned (low). 
+
+Result: 938/938 Node tests, node --check, git diff --check, wrangler dry-run bundle OK. Not done: browser/native QA, actual account replay, version bump, merge/push/deploy — all await user approval.

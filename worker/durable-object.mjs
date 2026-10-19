@@ -16,15 +16,21 @@ export class CloudflareSqliteState {
   async transaction(callback) {
     return this.storage.transactionSync(() => {
       const rows = this.storage.sql.exec('SELECT json FROM auth_state WHERE slot = ?', STATE_SLOT).toArray();
-      const state = rows.length ? JSON.parse(rows[0].json) : {};
+      const stored = rows.length ? rows[0].json : null;
+      const state = stored == null ? {} : JSON.parse(stored);
       const result = callback(state);
       if (result && typeof result.then === 'function') throw new TypeError('Durable transaction callback must be synchronous');
       const serialized = JSON.stringify(state);
       if (encoder.encode(serialized).byteLength > 512_000) throw new TypeError('Durable state exceeds adapter bound');
-      this.storage.sql.exec(
-        'INSERT INTO auth_state (slot, json) VALUES (?, ?) ON CONFLICT(slot) DO UPDATE SET json = excluded.json',
-        STATE_SLOT, serialized,
-      );
+      // Reads and unknown-key lookups must not leave a permanent empty row behind.
+      if (serialized === '{}') {
+        if (stored != null) this.storage.sql.exec('DELETE FROM auth_state WHERE slot = ?', STATE_SLOT);
+      } else if (serialized !== stored) {
+        this.storage.sql.exec(
+          'INSERT INTO auth_state (slot, json) VALUES (?, ?) ON CONFLICT(slot) DO UPDATE SET json = excluded.json',
+          STATE_SLOT, serialized,
+        );
+      }
       return clone(result);
     });
   }

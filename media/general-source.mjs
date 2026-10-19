@@ -11,7 +11,7 @@ export function createGeneralSource(source,{signal,isCurrent=()=>true,discoveryB
  const cache=new Map();let retained=0,active=true,streaming=false,chain=Promise.resolve(),queued=0,closing;
  const metrics={requests:0,bytes:0,logicalReads:0,cacheHits:0,peakCache:0,inFlight:0,peakInFlight:0,peakQueued:0,discoveryBytes:0,discoveryRequests:0};
  const check=()=>demand(active&&!signal?.aborted&&isCurrent(),'CANCELLED');
- const close=()=>{if(!closing){active=false;cache.clear();retained=0;signal?.removeEventListener('abort',close);closing=Promise.resolve().then(()=>source.abort());}return closing;};
+ const close=()=>{if(!closing){active=false;cache.clear();retained=0;signal?.removeEventListener('abort',close);closing=Promise.resolve().then(()=>source.abort()).catch(()=>({settled:false,transportFailed:true}));}return closing;};
  async function block(start){check();const hit=cache.get(start);if(hit){cache.delete(start);cache.set(start,hit);metrics.cacheHits++;return hit;}
   const end=Math.min(size,start+blockSize)-1,length=end-start+1;
   if(!streaming){demand(metrics.discoveryBytes+length<=discoveryBytes&&metrics.discoveryRequests<discoveryRequests,'DISCOVERY_LIMIT');metrics.discoveryBytes+=length;metrics.discoveryRequests++;}
