@@ -924,3 +924,7 @@ The user asked: bump to 1.23.6, check in a browser, merge to main, push, deploy 
 Actual normal Chrome (user profile, own tab, closed after): production already auto-updated to v1.23.6 (SW active, cache drive-original-shell-1.23.6); signed in; 20 likes (18 recorded at 1.23.5; later user likes assumed); favorites view loads all 20 with no status error; smallest liked clip plays via ordinary card click (original-range, first frame ~6.1s after click, 66 frames, error 0); speed 1.5 survives the app's real retryOriginalStream path (UI 1.5×); speed reset to 1, player closed, filter restored to 전체. Observed stray "1.0x" in the a11y tree is not app DOM.
 
 D095 UI/UX: qa/uiux-review-20261019 (40 demo states). Fixed refresh button name, invisible folder chevron + redundant "폴더" label, generic card footer label, disconnect button prominence. 938/938 tests (two new assertions groups). Local only; deployment awaits approval.
+
+## 2026-10-19 — D095 1.23.7 delivery
+
+On explicit request: bumped to 1.23.7 (938/938), fast-forwarded main 1498bba→550c789 and pushed. Before snapshot matched 0b6180cc. First deploy halted at materialization guard (nlink 2 on fresh copies); re-run deployed five changed assets as 886ccdba. After snapshot equal; served/auth checks pass. Actual normal Chrome (own tab, closed): auto-updated v1.23.7, same account, 20 likes, new folder chevron/labels present, favorites cards without generic label, short clip plays, player closed and filter restored. qa/release-1.23.7 owns receipts.

@@ -32,6 +32,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `RELEASE-1.23.7.md`, `../qa/release-1.23.7/README.md`, `../qa/uiux-review-20261019/README.md`: D095 UI/UX pass (folder chevron, card status slot, refresh name, disconnect style) delivered as Worker 886ccdba; 40-state demo review, Git-equal served bytes, actual signed-in Chrome update/likes/playback.
+
 - `RELEASE-1.23.6.md`, `../qa/release-1.23.6/README.md`: D094 full-review fixes (auth storage, callback return, SW redirected shell, speed restore, library/favorites state, media errors, subtitle edit) delivered as Worker 0b6180cc; 938 tests, Git-equal served bytes, unchanged bindings. Signed-in account and device checks not performed.
 
 - `RELEASE-1.23.5.md`, `../qa/release-1.23.5/README.md`: D093 최소 로딩과 D091/D092 준비 패치 운영 배포,932검사/4크기24상태, 동일 인증·18좋아요 정상 업데이트 및 실제 짧은 원본 재생. 실제 모바일 기기 증거와 구분.
