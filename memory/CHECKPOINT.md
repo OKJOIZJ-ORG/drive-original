@@ -1,16 +1,16 @@
-# Checkpoint — D100 video startup pin prewarm (local branch) — 2026-10-19
+# Checkpoint — D100 1.23.11 delivered — 2026-10-19
 
 ## The story so far
 Production is 1.23.10 (D099): runtime b4c27e2, Worker 02b55d4c at drive-original.jyw-drive.workers.dev, 947/947 at release. RELEASE-1.23.10.md owns that proof.
 
 ## Latest
-D100 on branch claude/video-startup-perf-20261019 (not merged/pushed/deployed): measured video startup on actual Chrome and cut the Q0 revision pin from the critical path (hinted parallel download POST + card hover/press prewarm adopted by the SW retained-pin handshake). Click→first frame median −0.4…−0.7 s (tap) and −0.4…−1.0 s (400 ms hover) on five liked videos; 959/959 tests. qa/video-startup-20261019 owns numbers.
+1.23.11 (D100) live: Worker ac8f076c, main 523e1db. Revision pin hinted/prewarmed; click→first frame ~0.4–1.0 s faster; 959/959; 64/64 served Git-equal; actual Chrome signed in, 20 likes, playback and player-next verified. qa/video-startup-20261019 owns numbers.
 
 ## Decided
 D094–D099 as before; D100 performance scope (original-bytes-first, auth checks, tests kept). Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
 
 ## Waiting on the user
-1.23.11 deployed (Worker ac8f076c, main 523e1db). Paused before verification: actual Chrome tab showed signed-out screen (cause unknown); served-byte check unfinished. Resume: check sign-in in the user's Chrome, then served bytes and playback.
+None for D100. Separate session branch claude/q0-moov-continuation-20261019 (a8f93b2, D101 proposal) is unmerged and undeployed; deploy only on explicit request.
 
 ## Next first action
 Read qa/video-startup-20261019/README.md.

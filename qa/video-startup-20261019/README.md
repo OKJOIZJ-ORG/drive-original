@@ -60,3 +60,11 @@ Raw lines: [results.json](results.json).
 ## Verification
 
 `node --test tests/*.test.js tests/*.test.mjs`: 959/959 (947 before; 12 new in `revision-pin.test.js` and `q0-proxy.test.js`). `node --check app.js sw.js`, `git diff --check` clean.
+
+## Production 1.23.11 (Worker ac8f076c) — observed 2026-10-19
+
+Deployed from main 523e1db. 64/64 public files served Git-equal; private paths 404. Actual Chrome: v1.23.11, signed in (an earlier fresh tab showed the setup screen; on return the user confirmed sign-in and the app had a token — cause of the earlier screen UNKNOWN, no login attempted), 20 likes, listing carries headRevisionId for all 20.
+
+Tap, click → first frame (ms): #16 6328/3790/4591, #19 2489/1803/3626, #9 8419/4614/4294, #10 1821/1769/12583 then 1786/1733/2567/1749, #6 2948/3551/3428. Typical runs match the injected candidate; the 6.3/8.4/12.6 s runs were provider delays in the pin or range stage (baseline also had a 5.8 s one).
+
+Player next (SW-side hinted pin, no card prewarm): SW credential-ready → first range request 0.85–0.89 s in 4 of 5 (one 1.33 s), versus ~1.45 s baseline. Filter restored to 전체, tab closed.
