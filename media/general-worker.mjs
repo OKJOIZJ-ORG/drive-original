@@ -1,4 +1,5 @@
 import { streamGeneralQ1 } from './general-pipeline.mjs';
+import { isAllowedErrorCode } from './general-timeline.mjs';
 import { qualifyNativeColorObservation } from './native-color.mjs';
 const browser = typeof self !== 'undefined' && typeof self.postMessage === 'function';
 const endpoint = browser ? self : (await import('node:worker_threads')).parentPort;
@@ -36,7 +37,7 @@ listen(async message => {
       timelinePolicy: message.timelinePolicy, nativeColorObservation: qualifyNativeColorObservation(message.nativeColorObservation, identity),
       onWindow: value => request('window', { value }),
       onChunk: ({ bytes, position, batchSize, batchEnd }) => request('chunk', { buffer: bytes.buffer, position, batchSize, batchEnd }, [bytes.buffer]) });
-  } catch (failure) { error = { message: /^(?:GENERAL|WORKER|Q1_EXACT|Q1_SOURCE|TIMING)_[A-Z_]+$/.test(failure.message) ? failure.message : 'GENERAL_PIPELINE_FAILED', cleanup: failure.cleanup, reads: failure.reads }; }
+  } catch (failure) { error = { message: isAllowedErrorCode(failure.message, ['GENERAL', 'WORKER', 'Q1_EXACT', 'Q1_SOURCE', 'TIMING']) ? failure.message : 'GENERAL_PIPELINE_FAILED', cleanup: failure.cleanup, reads: failure.reads }; }
   finally {
     // Original-source cleanup is owned by the page, and terminal is sent only
     // after that shared barrier (which may remain explicitly unsettled).

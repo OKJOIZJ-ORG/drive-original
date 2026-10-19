@@ -376,19 +376,7 @@ async function proxyDriveMedia(request, url, clientId) {
   const sizeValue = url.searchParams.get('size');
   if ((range != null && !parseRequestedByteRange(range))
     || (sizeValue != null && parsePositiveSafeInteger(sizeValue) == null)) {
-    notifyMediaTrace(context, 'range-error', {
-      status: 400,
-      reason: 'range-invalid',
-      rangeSatisfied: false,
-      terminal: true
-    });
-    await notifyMediaError(context, 400, ['rangeInvalid'], 0, {
-      category: 'range-invalid',
-      contentRange: null,
-      contentRangeInferred: false,
-      rangeSatisfied: false,
-      driveReason: 'rangeInvalid'
-    });
+    await notifyRangeInvalid(context, 400, null, false);
     return mediaErrorResponse('Invalid media byte range', 400);
   }
   let driveUrl = new URL(`https://www.googleapis.com/drive/v3/files/${fileId}`);
@@ -399,7 +387,7 @@ async function proxyDriveMedia(request, url, clientId) {
   }
   const headers = new Headers();
 
-  let resourceKey = url.searchParams.get('resourceKey');
+  const resourceKey = url.searchParams.get('resourceKey');
   if (resourceKey) {
     headers.set('X-Goog-Drive-Resource-Keys', `${fileId}/${resourceKey}`);
   }
@@ -432,8 +420,6 @@ async function proxyDriveMedia(request, url, clientId) {
         sessionId: scope.mediaSession, mediaSession: scope.mediaSession, resourceKey: reply.resourceKey || null,
         traceId: normalizeMediaTraceId(reply.traceId),
         acknowledgeAbuse: reply.acknowledgeAbuse === true });
-      resourceKey = context.resourceKey;
-      if (resourceKey) headers.set('X-Goog-Drive-Resource-Keys', `${fileId}/${resourceKey}`);
     }
     if (context.requireCurrentMedia && !await waitForQ1CleanupFence(clientId)) {
       return q1CleanupUnconfirmedResponse();
@@ -602,19 +588,7 @@ async function proxyDriveMedia(request, url, clientId) {
         await upstream.body?.cancel();
         upstreamFetch.release();
       }
-      notifyMediaTrace(context, 'range-error', {
-        status: upstream.status,
-        reason: 'range-invalid',
-        rangeSatisfied: false,
-        terminal: true
-      });
-      await notifyMediaError(context, upstream.status, ['rangeInvalid'], 0, {
-        category: 'range-invalid',
-        contentRange,
-        contentRangeInferred,
-        rangeSatisfied: false,
-        driveReason: 'rangeInvalid'
-      });
+      await notifyRangeInvalid(context, upstream.status, contentRange, contentRangeInferred);
       return mediaErrorResponse('Drive returned an invalid byte range', 502);
     }
 
@@ -1090,6 +1064,10 @@ function finalizeMediaResponseBody(body, upstreamFetch, owner = null) {
     upstreamFetch?.release?.();
     try { reader.releaseLock?.(); return true; } catch (_) { return false; }
   };
+  const settleAndComplete = () => {
+    const released = settle();
+    if (owner && !owner.retiring) owner.complete(released);
+  };
   if (owner) owner.cancelBody = createQ1BodyCancellation(owner, reader, upstreamFetch, () => {
     settled = true;
     try { downstream.error(new DOMException('Q1 transport retired', 'AbortError')); } catch (_) {}
@@ -1101,16 +1079,14 @@ function finalizeMediaResponseBody(body, upstreamFetch, owner = null) {
         const { done, value } = await reader.read();
         if (settled) return;
         if (done) {
-          const released = settle();
-          if (owner && !owner.retiring) owner.complete(released);
+          settleAndComplete();
           controller.close();
           return;
         }
         controller.enqueue(value);
       } catch (error) {
         if (!settled) {
-          const released = settle();
-          if (owner && !owner.retiring) owner.complete(released);
+          settleAndComplete();
           controller.error(error);
         }
       }
@@ -1160,6 +1136,14 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
     const lockReleased = !releaseLock || releaseReaderLock();
     if (owner && !owner.retiring && ['body-complete', 'body-error', 'request-cancelled'].includes(winner)) owner.complete(lockReleased);
     return true;
+  };
+  const timedOut = () => terminalWinner === 'first-byte-timeout' || terminalWinner === 'body-no-progress';
+  const settleClaimedTerminal = async (controller, error) => {
+    if (!owner?.retiring) releaseReaderLock();
+    if (timedOut()) {
+      await terminalNotificationPromise;
+      controller.error(terminalError || error);
+    }
   };
   if (owner) owner.cancelBody = createQ1BodyCancellation(owner, reader, upstreamFetch,
     () => {
@@ -1258,11 +1242,7 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
           const pendingRead = reader.read();
           const readResult = await Promise.race([pendingRead, deadlineResult]);
           if (terminalWinner) {
-            if (!owner?.retiring) releaseReaderLock();
-            if (terminalWinner === 'first-byte-timeout' || terminalWinner === 'body-no-progress') {
-              await terminalNotificationPromise;
-              controller.error(terminalError);
-            }
+            await settleClaimedTerminal(controller);
             return;
           }
           if (!readResult) return;
@@ -1316,11 +1296,7 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
         }
       } catch (error) {
         if (terminalWinner) {
-          if (!owner?.retiring) releaseReaderLock();
-          if (terminalWinner === 'first-byte-timeout' || terminalWinner === 'body-no-progress') {
-            await terminalNotificationPromise;
-            controller.error(terminalError || error);
-          }
+          await settleClaimedTerminal(controller, error);
           return;
         }
         const callerCancelled = requestSignal?.aborted || error?.name === 'AbortError';
@@ -1341,7 +1317,7 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
       if (owner) return owner.cancelBody(reason);
       const shouldTrace = claimTerminal('consumer-cancelled', false);
       if (!shouldTrace) {
-        if (terminalWinner === 'first-byte-timeout' || terminalWinner === 'body-no-progress') {
+        if (timedOut()) {
           await terminalNotificationPromise;
           try { await reader.cancel(reason); } catch (_) {}
           releaseReaderLock();
@@ -1615,55 +1591,54 @@ function doesContentRangeSatisfy(requestedValue, contentValue) {
   return true;
 }
 
+async function postMediaClientMessage(clientId, createMessage) {
+  try {
+    const client = await self.clients.get(clientId);
+    client?.postMessage(createMessage());
+  } catch (_) {
+    // Closing a client or failed diagnostics must never alter the media response.
+  }
+}
+
 async function notifyMediaStatus(context, details) {
   if (!context.clientId) return;
-  try {
-    const client = await self.clients.get(context.clientId);
-    client?.postMessage({
-      type: 'MEDIA_PROXY_STATUS',
-      requestId: context.requestId,
-      fileId: context.fileId,
-      sessionId: context.sessionId,
-      mediaSession: context.mediaSession,
-      ...(Number.isSafeInteger(context.sourceGeneration)
-        ? { sourceGeneration: context.sourceGeneration }
-        : {}),
-      status: details.status,
-      requestedRange: context.requestedRange || null,
-      contentRange: details.contentRange || null,
-      contentRangeInferred: Boolean(details.contentRangeInferred),
-      rangeSatisfied: Boolean(details.rangeSatisfied),
-      playbackMode: details.playbackMode
-    });
-  } catch (_) {
-    // Closing a client must not turn its media response into another error.
-  }
+  await postMediaClientMessage(context.clientId, () => ({
+    type: 'MEDIA_PROXY_STATUS',
+    requestId: context.requestId,
+    fileId: context.fileId,
+    sessionId: context.sessionId,
+    mediaSession: context.mediaSession,
+    ...(Number.isSafeInteger(context.sourceGeneration)
+      ? { sourceGeneration: context.sourceGeneration }
+      : {}),
+    status: details.status,
+    requestedRange: context.requestedRange || null,
+    contentRange: details.contentRange || null,
+    contentRangeInferred: Boolean(details.contentRangeInferred),
+    rangeSatisfied: Boolean(details.rangeSatisfied),
+    playbackMode: details.playbackMode
+  }));
 }
 
 async function notifyMediaProgress(context, stage, details = {}) {
   if (!context.clientId) return;
-  try {
-    const client = await self.clients.get(context.clientId);
-    client?.postMessage({
-      type: 'MEDIA_PROXY_PROGRESS',
-      requestId: context.requestId,
-      fileId: context.fileId,
-      sessionId: context.sessionId,
-      mediaSession: context.mediaSession,
-      ...(Number.isSafeInteger(context.sourceGeneration)
-        ? { sourceGeneration: context.sourceGeneration }
-        : {}),
-      stage: String(stage || ''),
-      status: Number(details.status) || 0,
-      requestedRange: context.requestedRange || null,
-      rangeSatisfied: details.rangeSatisfied === true,
-      playbackMode: String(details.playbackMode || ''),
-      bytes: Number(details.bytes) || 0,
-      totalBytes: Number(details.totalBytes) || 0
-    });
-  } catch (_) {
-    // Closing a client must not turn its media response into another error.
-  }
+  await postMediaClientMessage(context.clientId, () => ({
+    type: 'MEDIA_PROXY_PROGRESS',
+    requestId: context.requestId,
+    fileId: context.fileId,
+    sessionId: context.sessionId,
+    mediaSession: context.mediaSession,
+    ...(Number.isSafeInteger(context.sourceGeneration)
+      ? { sourceGeneration: context.sourceGeneration }
+      : {}),
+    stage: String(stage || ''),
+    status: Number(details.status) || 0,
+    requestedRange: context.requestedRange || null,
+    rangeSatisfied: details.rangeSatisfied === true,
+    playbackMode: String(details.playbackMode || ''),
+    bytes: Number(details.bytes) || 0,
+    totalBytes: Number(details.totalBytes) || 0
+  }));
 }
 
 function notifyMediaTrace(context, stage, details = {}) {
@@ -1692,18 +1667,27 @@ function notifyMediaTrace(context, stage, details = {}) {
   }
   const queueKey = context.requestId;
   const prior = mediaTraceDeliveryQueues.get(queueKey) || Promise.resolve();
-  const delivery = prior.catch(() => {}).then(async () => {
-    try {
-      const client = await self.clients.get(context.clientId);
-      client?.postMessage(message);
-    } catch (_) {
-      // Diagnostics must never alter the media response.
-    }
-  });
+  const delivery = prior.catch(() => {}).then(() => postMediaClientMessage(context.clientId, () => message));
   mediaTraceDeliveryQueues.set(queueKey, delivery);
   void delivery.finally(() => {
     if (mediaTraceDeliveryQueues.get(queueKey) === delivery) mediaTraceDeliveryQueues.delete(queueKey);
   }).catch(() => {});
+}
+
+function notifyRangeInvalid(context, status, contentRange, contentRangeInferred) {
+  notifyMediaTrace(context, 'range-error', {
+    status,
+    reason: 'range-invalid',
+    rangeSatisfied: false,
+    terminal: true
+  });
+  return notifyMediaError(context, status, ['rangeInvalid'], 0, {
+    category: 'range-invalid',
+    contentRange,
+    contentRangeInferred,
+    rangeSatisfied: false,
+    driveReason: 'rangeInvalid'
+  });
 }
 
 async function notifyMediaError(context, status, reasons = [], retryAfterMs = 0, details = {}) {
@@ -1715,24 +1699,19 @@ async function notifyMediaError(context, status, reasons = [], retryAfterMs = 0,
     : status === 403 ? 'permission'
     : status === 404 ? 'not-found'
     : status >= 500 ? 'server' : 'http');
-  try {
-    const client = await self.clients.get(context.clientId);
-    client?.postMessage({
-      type: 'MEDIA_PROXY_ERROR',
-      ...context,
-      status,
-      category,
-      reasons,
-      driveReason: details.driveReason || reasons[0] || null,
-      requestedRange: context.requestedRange || null,
-      contentRange: details.contentRange || null,
-      contentRangeInferred: Boolean(details.contentRangeInferred),
-      rangeSatisfied: Boolean(details.rangeSatisfied),
-      rejectedRevision: Number.isSafeInteger(details.rejectedRevision) ? details.rejectedRevision : null,
-      retryAfterMs,
-      sessionId: context.sessionId
-    });
-  } catch (_) {
-    // Closing a client must not turn its media response into another error.
-  }
+  await postMediaClientMessage(context.clientId, () => ({
+    type: 'MEDIA_PROXY_ERROR',
+    ...context,
+    status,
+    category,
+    reasons,
+    driveReason: details.driveReason || reasons[0] || null,
+    requestedRange: context.requestedRange || null,
+    contentRange: details.contentRange || null,
+    contentRangeInferred: Boolean(details.contentRangeInferred),
+    rangeSatisfied: Boolean(details.rangeSatisfied),
+    rejectedRevision: Number.isSafeInteger(details.rejectedRevision) ? details.rejectedRevision : null,
+    retryAfterMs,
+    sessionId: context.sessionId
+  }));
 }

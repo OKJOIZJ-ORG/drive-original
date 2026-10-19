@@ -43,6 +43,7 @@ const THUMBNAIL_WARM_LIMIT = 12;
 const FOLDER_MIME = 'application/vnd.google-apps.folder';
 const FILE_NAME_COLLATOR = new Intl.Collator('ko', { numeric: true });
 const DRIVE_PAGE_SIZE = 1000;
+const SOURCE_CLEANUP_UNCONFIRMED_MESSAGE = '이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.';
 const RENDER_WINDOW_MAX = 240;
 const RENDER_WINDOW_STEP_RATIO = 0.5;
 const MOVE_RESULT_BATCH = 200;
@@ -63,7 +64,28 @@ const ACCOUNT_STATE_SCHEMA_VERSION = 1;
 const ACCOUNT_STATE_SYNC_DELAY_MS = 650;
 const ACCOUNT_STATE_REFRESH_INTERVAL_MS = 15_000;
 const ACCOUNT_STATE_READ_TIMEOUT_MS = 30_000;
-const FAVORITE_FILE_FIELDS = 'id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),parents,videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation)';
+const MEDIA_FILE_FIELDS = 'id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),parents,videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation)';
+// Revision identity read that pins every original source to one exact Drive revision.
+async function readSourceRevisionMetadata(file, signal) {
+  const url = new URL(`${DRIVE_API}/files/${encodeURIComponent(file.id)}`);
+  url.searchParams.set('fields', 'id,headRevisionId,version,size,mimeType,modifiedTime,sha256Checksum,trashed,capabilities(canDownload)');
+  url.searchParams.set('supportsAllDrives', 'true');
+  const headers = file.resourceKey ? { 'X-Goog-Drive-Resource-Keys': `${file.id}/${file.resourceKey}` } : {};
+  return (await driveFetch(url.href, { signal, headers })).json();
+}
+
+// One page of a folder's direct children: subfolders and supported media.
+function folderListingParams(folderId) {
+  return new URLSearchParams({
+    pageSize: String(DRIVE_PAGE_SIZE),
+    orderBy: 'folder,modifiedTime desc',
+    q: `trashed = false and '${folderId}' in parents and (mimeType = '${FOLDER_MIME}' or mimeType contains 'video/' or mimeType contains 'image/')`,
+    spaces: 'drive',
+    supportsAllDrives: 'true',
+    includeItemsFromAllDrives: 'true',
+    fields: `nextPageToken,incompleteSearch,files(${MEDIA_FILE_FIELDS})`
+  });
+}
 const PLAYBACK_MODE = Object.freeze({
   RANGE: 'original-range',
   SEQUENTIAL: 'original-sequential',
@@ -572,7 +594,6 @@ const state = {
   renderWindowStart: 0,
   renderRowHeight: 250,
   renderColumnCount: 1,
-  renderScrollDirection: 'down',
   retryAfterAuth: false,
   authRetryContext: null,
   mediaAttempt: 'idle',
@@ -597,7 +618,6 @@ const state = {
   drivePreviewReason: '',
   lastProxyError: null,
   playbackSession: 0,
-  controlsTimeout: null,
   isSeeking: false,
   pendingPlay: false,
   resumePosition: null,
@@ -607,7 +627,6 @@ const state = {
   moveFolderRows: [],
   moveResultLimit: MOVE_RESULT_BATCH,
   folderRenderLimit: FOLDER_RENDER_MAX,
-  randomRequestGeneration: 0,
   treeCachePromise: null,
   authGeneration: 0,
   driveSessionGeneration: 0,
@@ -1390,20 +1409,7 @@ function bindEvents() {
         renderFiles({ resetWindow: true });
         return;
       }
-      const generation = state.listGeneration;
-      const filterAtStart = state.filter;
-      const statusToken = beginLibraryStatus('대상 폴더의 전체 미디어를 모아 무작위로 섞는 중…');
-      try {
-        await ensureAllPagesLoaded({ statusToken });
-        if (generation !== state.listGeneration || state.sort !== 'random' || state.filter !== filterAtStart) return;
-        shuffleCurrentFiles();
-        renderFiles({ resetWindow: true });
-        updateLibraryStatus(statusToken, '');
-      } catch (error) {
-        if (error?.name !== 'AbortError') {
-          updateLibraryStatus(statusToken, `전체 파일을 불러오지 못했습니다: ${humanizeDriveError(error)}`);
-        }
-      }
+      await shuffleWholeFolder(state.listGeneration);
     } else {
       renderFiles({ resetWindow: true });
     }
@@ -1428,44 +1434,19 @@ function bindEvents() {
   if (el.fullscreenButton) el.fullscreenButton.addEventListener('click', toggleFullscreen);
   if (el.pipButton) el.pipButton.addEventListener('click', togglePictureInPicture);
 
-  // Topbar and Controls Navigation Buttons (Robust Click Binding & Timer Resets)
-  if (el.topbarPrevBtn) {
-    el.topbarPrevBtn.addEventListener('click', (e) => {
+  // Topbar and control-bar navigation; control-bar presses also keep controls visible.
+  for (const [btn, navigate, keepsControls] of [
+    [el.topbarPrevBtn, () => playPrevFile('right'), false],
+    [el.topbarRandomBtn, () => playRandomFile('up'), false],
+    [el.topbarNextBtn, () => playNextFile('left'), false],
+    [el.ctrlPrevVideo, () => playPrevFile('right'), true],
+    [el.ctrlRandomShorts, () => playRandomFile('up'), true],
+    [el.ctrlNextVideo, () => playNextFile('left'), true]
+  ]) {
+    if (btn) btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      playPrevFile('right');
-    });
-  }
-  if (el.topbarRandomBtn) {
-    el.topbarRandomBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      playRandomFile('up');
-    });
-  }
-  if (el.topbarNextBtn) {
-    el.topbarNextBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      playNextFile('left');
-    });
-  }
-  if (el.ctrlPrevVideo) {
-    el.ctrlPrevVideo.addEventListener('click', (e) => {
-      e.stopPropagation();
-      resetControlsTimer();
-      playPrevFile('right');
-    });
-  }
-  if (el.ctrlRandomShorts) {
-    el.ctrlRandomShorts.addEventListener('click', (e) => {
-      e.stopPropagation();
-      resetControlsTimer();
-      playRandomFile('up');
-    });
-  }
-  if (el.ctrlNextVideo) {
-    el.ctrlNextVideo.addEventListener('click', (e) => {
-      e.stopPropagation();
-      resetControlsTimer();
-      playNextFile('left');
+      if (keepsControls) resetControlsTimer();
+      navigate();
     });
   }
 
@@ -1563,44 +1544,31 @@ function bindEvents() {
   // Folder navigation
   if (el.folderUpButton) el.folderUpButton.addEventListener('click', navigateToParentFolder);
 
-  // Delete flow (desktop topbar, desktop controls, mobile shorts chips)
-  [el.topbarDeleteBtn, el.ctrlDelete, el.shortsDeleteBtn].forEach((btn) => {
+  // Delete and move flows (desktop controls, mobile shorts chips)
+  for (const [buttons, request] of [
+    [[el.ctrlDelete, el.shortsDeleteBtn], () => requestDeleteFile()],
+    [[el.ctrlMove, el.shortsMoveBtn], () => requestMoveFile()]
+  ]) {
+    for (const btn of buttons) {
+      if (btn) btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        flashPressed(btn);
+        if (el.playerMoreMenu) el.playerMoreMenu.open = false;
+        request();
+      });
+    }
+  }
+  // Shorts chips sit above the stage; keep their taps out of stage gestures.
+  for (const [btn, action] of [
+    [el.shortsRotateBtn, () => toggleVideoRotation()], [el.shortsDriveBtn, () => openSelectedInDrive()],
+    [el.shortsPipBtn, () => togglePictureInPicture()], [el.shortsFullscreenBtn, () => toggleFullscreen()],
+    [el.shortsMoreBtn, () => toggleShortsExpand()]
+  ]) {
     if (btn) btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      flashPressed(btn);
-      if (el.playerMoreMenu) el.playerMoreMenu.open = false;
-      requestDeleteFile();
+      action();
     });
-  });
-  // Move flow (desktop topbar, desktop controls, mobile shorts chips)
-  [el.topbarMoveBtn, el.ctrlMove, el.shortsMoveBtn].forEach((btn) => {
-    if (btn) btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      flashPressed(btn);
-      if (el.playerMoreMenu) el.playerMoreMenu.open = false;
-      requestMoveFile();
-    });
-  });
-  if (el.shortsRotateBtn) el.shortsRotateBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleVideoRotation();
-  });
-  if (el.shortsDriveBtn) el.shortsDriveBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    openSelectedInDrive();
-  });
-  if (el.shortsPipBtn) el.shortsPipBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    togglePictureInPicture();
-  });
-  if (el.shortsFullscreenBtn) el.shortsFullscreenBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleFullscreen();
-  });
-  if (el.shortsMoreBtn) el.shortsMoreBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    toggleShortsExpand();
-  });
+  }
   if (el.deepScanToggle) el.deepScanToggle.addEventListener('click', toggleDeepScan);
   if (el.deepScanStopBtn) el.deepScanStopBtn.addEventListener('click', () => {
     flashPressed(el.deepScanStopBtn);
@@ -2189,6 +2157,7 @@ async function handleWorkerMessage(event) {
       && accountMatches
       && (!data.expectedAccount || data.expectedAccount === state.authAccountKey)
       && mediaMatches();
+    const granted = available && stillCurrent && hasUsableToken() && hasAuthCapability('driveRead');
     port.postMessage({
       type: 'TOKEN_RESPONSE',
       requestId: data.requestId,
@@ -2196,10 +2165,10 @@ async function handleWorkerMessage(event) {
       q1RetirementProtocol: data.requireCurrentMedia === true ? Q1_RETIRE_PROTOCOL : undefined,
       q0PinProtocol: data.mediaOwner === 'q0' ? globalThis.DriveRevisionPin?.PROTOCOL : undefined,
       credentialProtocol: AUTH_PROTOCOL,
-      token: available && stillCurrent && hasUsableToken() && hasAuthCapability('driveRead') ? state.token : null,
-      expiresAt: available && stillCurrent && hasUsableToken() && hasAuthCapability('driveRead') ? state.expiresAt : 0,
-      account: available && stillCurrent && hasUsableToken() && hasAuthCapability('driveRead') ? state.authAccountKey : null,
-      revision: available && stillCurrent && hasUsableToken() && hasAuthCapability('driveRead') ? state.tokenRevision : 0,
+      token: granted ? state.token : null,
+      expiresAt: granted ? state.expiresAt : 0,
+      account: granted ? state.authAccountKey : null,
+      revision: granted ? state.tokenRevision : 0,
       accountGeneration: state.driveSessionGeneration
     });
     port.close?.();
@@ -2293,7 +2262,8 @@ async function recoverFromMediaProxyError(data) {
   const retrySession = state.mediaSession;
   const retrySourceGeneration = mediaSourceGeneration;
   const isVideo = isVideoPresentation(retryFile);
-  if (classifyMediaProxyFailure(data) === 'source-pin') {
+  const cause = classifyMediaProxyFailure(data);
+  if (cause === 'source-pin') {
     retireQ0Playback();
     clearDirectMediaSources();
     state.mediaAttempt = 'failed';
@@ -2317,7 +2287,6 @@ async function recoverFromMediaProxyError(data) {
     el.bufferOriginalButton.hidden = false;
     return;
   }
-  const cause = classifyMediaProxyFailure(data);
   const action = decideMediaRecovery({
     cause,
     isVideo,
@@ -3131,18 +3100,7 @@ async function loadFiles({ append, statusToken = null }) {
   if (append) updateLibrarySummary();
   else renderFiles({ resetWindow: true });
 
-  const parentClause = state.currentFolderId === 'root'
-    ? `'root' in parents`
-    : `'${state.currentFolderId}' in parents`;
-  const params = new URLSearchParams({
-    pageSize: String(DRIVE_PAGE_SIZE),
-    orderBy: 'folder,modifiedTime desc',
-    q: `trashed = false and ${parentClause} and (mimeType = '${FOLDER_MIME}' or mimeType contains 'video/' or mimeType contains 'image/')`,
-    spaces: 'drive',
-    supportsAllDrives: 'true',
-    includeItemsFromAllDrives: 'true',
-    fields: 'nextPageToken,incompleteSearch,files(id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,parents,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation))'
-  });
+  const params = folderListingParams(state.currentFolderId);
   const requestedPageToken = append ? state.nextPageToken : null;
   if (requestedPageToken) params.set('pageToken', requestedPageToken);
 
@@ -3230,7 +3188,6 @@ function resetListingSession() {
   state.renderWindowStart = 0;
   state.renderRowHeight = 250;
   state.folderRenderLimit = FOLDER_RENDER_MAX;
-  state.randomRequestGeneration++;
   shuffledOrderMap.clear();
   thumbnailGeneration++;
   gifThumbnailObserver?.disconnect();
@@ -3253,13 +3210,29 @@ function navigateToFolder(folderId, folderName) {
   if (state.currentFolderId !== 'root') {
     state.folderStack.push({ id: state.currentFolderId, name: state.currentFolderName });
   }
+  enterFolder(folderId, folderName || '폴더', 'forward');
+}
+
+// Shared tail of every folder move after the folder stack is updated.
+function enterFolder(folderId, folderName, direction) {
   state.currentFolderId = folderId;
-  state.currentFolderName = folderName || '폴더';
+  state.currentFolderName = folderName;
   resetListingSession();
   scrollToLibraryTop();
   commitLibraryNavigation();
-  animateFolderTransition('forward');
+  animateFolderTransition(direction);
   applyFolderView();
+}
+
+function previousLibraryEntry() {
+  return libraryNavigation.entries.get(libraryNavigation.order[libraryNavigation.cursor - 1]);
+}
+
+// Reuse the owned history entry when the destination is exactly one step back.
+function completeLibraryBackTo(folderId) {
+  if (!hasOwnedLibraryBackEntry() || previousLibraryEntry()?.view.currentFolderId !== folderId) return false;
+  completeLibraryBackNavigation();
+  return true;
 }
 
 function buildBreadcrumbItems(folderStack, currentFolderId, currentFolderName) {
@@ -3280,41 +3253,21 @@ function navigateToFolderIndex(index) {
   const crumbs = buildBreadcrumbItems(state.folderStack, state.currentFolderId, state.currentFolderName);
   const target = crumbs[index];
   if (!target || target.id === state.currentFolderId) return;
-  if (state.bulkAction) return;
-  const previous = libraryNavigation.entries.get(libraryNavigation.order[libraryNavigation.cursor - 1]);
-  if (hasOwnedLibraryBackEntry() && previous?.view.currentFolderId === target.id) {
-    completeLibraryBackNavigation(); return;
-  }
+  if (state.bulkAction || completeLibraryBackTo(target.id)) return;
   beginLibraryNavigation();
   state.folderStack = crumbs.slice(1, index);
-  state.currentFolderId = target.id;
-  state.currentFolderName = target.name;
-  resetListingSession();
-  scrollToLibraryTop();
-  commitLibraryNavigation();
-  animateFolderTransition('back');
-  applyFolderView();
+  enterFolder(target.id, target.name, 'back');
 }
 
 function navigateToParentFolder() {
   if (state.bulkAction) return;
   if (!state.folderStack.length && state.currentFolderId === 'root') return;
-  const parentId = state.folderStack.at(-1)?.id || 'root';
-  const previous = libraryNavigation.entries.get(libraryNavigation.order[libraryNavigation.cursor - 1]);
-  if (hasOwnedLibraryBackEntry() && previous?.view.currentFolderId === parentId) {
-    completeLibraryBackNavigation(); return;
-  }
+  if (completeLibraryBackTo(state.folderStack.at(-1)?.id || 'root')) return;
   beginLibraryNavigation();
   const parent = state.folderStack.length
     ? state.folderStack.pop()
     : { id: 'root', name: '내 드라이브' };
-  state.currentFolderId = parent.id;
-  state.currentFolderName = parent.name;
-  resetListingSession();
-  scrollToLibraryTop();
-  commitLibraryNavigation();
-  animateFolderTransition('back');
-  applyFolderView();
+  enterFolder(parent.id, parent.name, 'back');
 }
 
 const libraryNavigation = {
@@ -3437,7 +3390,6 @@ async function restoreLibraryNavigation(target) {
   try {
     if (!el.playerSheet?.hidden) closePlayer();
     cancelFavoriteLoad(); resetListingSession();
-    if (el.refreshButton) el.refreshButton.disabled = false;
     state.currentFolderId = view.currentFolderId; state.currentFolderName = view.currentFolderName;
     state.folderStack = (view.folderStack || []).map((item) => ({ ...item }));
     state.filter = view.filter; state.query = view.query || ''; state.sort = view.sort || 'modifiedTime'; state.deepScan = Boolean(view.deepScan);
@@ -3579,7 +3531,7 @@ function completeLibraryBackNavigation() {
 function prepareLibraryEdgeVisual(gesture) {
   if (gesture.player) { gesture.cover = el.playerSheet; return; }
   const current = captureLibraryVisual();
-  const previous = libraryNavigation.entries.get(libraryNavigation.order[libraryNavigation.cursor - 1])?.visual;
+  const previous = previousLibraryEntry()?.visual;
   if (!current || !previous || previous.width !== window.innerWidth || previous.height !== window.innerHeight) return;
   const layer = document.createElement('div'); layer.className = 'library-edge-transition'; layer.inert = true; layer.setAttribute('aria-hidden','true');
   const top = document.querySelector('.topbar')?.getBoundingClientRect().bottom || 0;
@@ -3747,6 +3699,11 @@ async function applyFolderView() {
   const generation = state.listGeneration + 1;
   const loaded = await loadFiles({ append: false });
   if (!loaded || generation !== state.listGeneration || state.sort !== 'random') return;
+  await shuffleWholeFolder(generation);
+}
+
+// Random order needs the whole folder; a newer listing, sort or filter wins.
+async function shuffleWholeFolder(generation) {
   const filterAtStart = state.filter;
   const statusToken = beginLibraryStatus('대상 폴더의 전체 미디어를 모아 무작위로 섞는 중…');
   try {
@@ -3803,8 +3760,10 @@ async function collectTreeCache(folderId = state.currentFolderId) {
   };
   const scopeName = state.currentFolderName || '현재 폴더';
   if (el.deepScanToggle) el.deepScanToggle.disabled = true;
-  if (el.deepScanStopBtn) el.deepScanStopBtn.hidden = false;
-  if (el.deepScanStopBtn) el.deepScanStopBtn.setAttribute('aria-label', `${scopeName} 하위 폴더 탐색 중지`);
+  if (el.deepScanStopBtn) {
+    el.deepScanStopBtn.hidden = false;
+    el.deepScanStopBtn.setAttribute('aria-label', `${scopeName} 하위 폴더 탐색 중지`);
+  }
   const statusToken = beginLibraryStatus(`${scopeName} 및 하위 폴더를 탐색하는 중…`);
   try {
     const knownFolder = state.treeCache?.foldersById.get(folderId)
@@ -3833,16 +3792,8 @@ async function collectTreeCache(folderId = state.currentFolderId) {
       const seenPageTokens = new Set();
       do {
         assertCurrent();
-        const params = new URLSearchParams({
-          pageSize: String(DRIVE_PAGE_SIZE),
-          orderBy: 'folder,modifiedTime desc',
-          q: `trashed = false and '${folder.id}' in parents and (mimeType = '${FOLDER_MIME}' or mimeType contains 'video/' or mimeType contains 'image/')`,
-          spaces: 'drive',
-          supportsAllDrives: 'true',
-          includeItemsFromAllDrives: 'true',
-          corpora: folder.driveId || root.driveId ? 'drive' : 'user',
-          fields: 'nextPageToken,incompleteSearch,files(id,name,mimeType,size,modifiedTime,resourceKey,thumbnailLink,hasThumbnail,webViewLink,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),parents,videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation))'
-        });
+        const params = folderListingParams(folder.id);
+        params.set('corpora', folder.driveId || root.driveId ? 'drive' : 'user');
         if (folder.driveId || root.driveId) params.set('driveId', folder.driveId || root.driveId);
         if (pageToken) params.set('pageToken', pageToken);
         const keys = buildResourceKeysHeader([folder]);
@@ -4081,7 +4032,7 @@ async function performFavoriteLoad({ refreshState = true, preserveWindow = false
     const results = await runTaskPool(known.missingIds, async (fileId) => {
       const params = new URLSearchParams({
         supportsAllDrives: 'true',
-        fields: FAVORITE_FILE_FIELDS
+        fields: MEDIA_FILE_FIELDS
       });
       const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(fileId)}?${params.toString()}`, {
         signal: controller.signal,
@@ -5062,21 +5013,20 @@ function toggleFavoriteForSelected({ showFeedback = false } = {}) {
   return liked;
 }
 
+function applyFavoriteButtonState(button, liked) {
+  button.setAttribute('aria-pressed', String(liked));
+  button.setAttribute('aria-label', liked ? '좋아요 취소' : '좋아요 추가');
+  button.title = liked ? '좋아요 취소' : '좋아요';
+  button.classList.toggle('is-favorite', liked);
+}
+
 function refreshFavoritePresentation() {
   const selectedLiked = isFavoriteFileId(state.selected?.id);
   [el.topbarFavoriteBtn, el.ctrlFavorite, el.shortsFavoriteBtn].forEach((button) => {
-    if (!button) return;
-    button.setAttribute('aria-pressed', String(selectedLiked));
-    button.setAttribute('aria-label', selectedLiked ? '좋아요 취소' : '좋아요 추가');
-    button.title = selectedLiked ? '좋아요 취소' : '좋아요';
-    button.classList.toggle('is-favorite', selectedLiked);
+    if (button) applyFavoriteButtonState(button, selectedLiked);
   });
   document.querySelectorAll?.('.file-card-favorite').forEach((button) => {
-    const liked = isFavoriteFileId(button.dataset.fileId);
-    button.setAttribute('aria-pressed', String(liked));
-    button.setAttribute('aria-label', liked ? '좋아요 취소' : '좋아요 추가');
-    button.title = liked ? '좋아요 취소' : '좋아요';
-    button.classList.toggle('is-favorite', liked);
+    applyFavoriteButtonState(button, isFavoriteFileId(button.dataset.fileId));
   });
 }
 
@@ -5119,10 +5069,6 @@ async function fetchOriginalFileResponse(file, options = {}) {
     ...(requireRevisionPin ? { redirect: 'error', cache: 'no-store' } : {}),
     driveMaxRateAttempts: 1
   });
-}
-
-function tryQuietTokenRefresh() {
-  return requestSessionCredential({ background: true, force: true });
 }
 
 let renderWindowRaf = 0;
@@ -5171,7 +5117,6 @@ function scheduleRenderWindowUpdate() {
     const nextWindow = computeRenderWindow(files.length, requestedStart, columns);
     if (columns !== state.renderColumnCount || viewportOutsideWindow
       || Math.abs(nextWindow.start - state.renderWindowStart) >= threshold) {
-      state.renderScrollDirection = nextWindow.start > state.renderWindowStart ? 'down' : 'up';
       state.renderWindowStart = nextWindow.start;
       renderMediaGrid(files);
     }
@@ -5706,10 +5651,7 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
   favoriteButton.type = 'button';
   favoriteButton.className = 'file-card-favorite';
   favoriteButton.dataset.fileId = file.id;
-  favoriteButton.setAttribute('aria-pressed', String(isFavoriteFileId(file.id)));
-  favoriteButton.setAttribute('aria-label', isFavoriteFileId(file.id) ? '좋아요 취소' : '좋아요 추가');
-  favoriteButton.title = isFavoriteFileId(file.id) ? '좋아요 취소' : '좋아요';
-  favoriteButton.classList.toggle('is-favorite', isFavoriteFileId(file.id));
+  applyFavoriteButtonState(favoriteButton, isFavoriteFileId(file.id));
   favoriteButton.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>';
   favoriteButton.addEventListener('click', (event) => {
     event.stopPropagation();
@@ -5859,11 +5801,8 @@ function setPlayerChromeVisible(visible) {
   if (!visible) {
     clearTimeout(controlsHideTimer);
     controlsHideTimer = null;
-    if (el.playerMoreMenu) el.playerMoreMenu.open = false;
-    isPlayerMoreOpen = false;
-    isSpeedMenuOpen = false;
-    if (el.speedDropdown) el.speedDropdown.hidden = true;
-    el.ctrlSpeedButton?.setAttribute('aria-expanded', 'false');
+    closePlayerMoreMenu();
+    closeSpeedMenu();
     el.mobileShortsOverlay?.classList.remove('expanded');
     el.shortsMoreBtn?.setAttribute('aria-expanded', 'false');
   }
@@ -6416,16 +6355,10 @@ async function openPlayerTracks() {
   const readIdentity = async () => {
     const {openDriveQ1Source} = await awaitPlayerTrackModule(owner, import('./media/drive-source.mjs'));
     if (!owner.current()) throw new Error('Q1_SOURCE_STALE');
-    const metadataUrl = new URL(`${DRIVE_API}/files/${encodeURIComponent(file.id)}`);
-    metadataUrl.searchParams.set('fields', 'id,headRevisionId,version,size,mimeType,modifiedTime,sha256Checksum,trashed,capabilities(canDownload)');
-    metadataUrl.searchParams.set('supportsAllDrives', 'true');
     const source = await openDriveQ1Source({fileId: file.id, accountKey: account, accountGeneration,
       allowCorsHiddenRange: true,
       signal: controller.signal, isCurrent: owner.current,
-      readMetadata: async ({signal}) => {
-        const headers = file.resourceKey ? {'X-Goog-Drive-Resource-Keys': `${file.id}/${file.resourceKey}`} : {};
-        return (await driveFetch(metadataUrl.href, {signal, headers})).json();
-      },
+      readMetadata: ({signal}) => readSourceRevisionMetadata(file, signal),
       // This independent metadata/caption reader must survive a Q1 seek's SW
       // generation retirement without sharing or retiring its playback source.
       readRange: ({range, signal}) => {
@@ -7072,14 +7005,23 @@ function toggleSpeedMenu(event) {
   resetControlsTimer();
 }
 
+function closePlayerMoreMenu() {
+  if (el.playerMoreMenu) el.playerMoreMenu.open = false;
+  isPlayerMoreOpen = false;
+}
+
+function closeSpeedMenu() {
+  isSpeedMenuOpen = false;
+  if (el.speedDropdown) el.speedDropdown.hidden = true;
+  el.ctrlSpeedButton?.setAttribute('aria-expanded', 'false');
+}
+
 function setPlaybackSpeed(speed) {
   if (!el.videoPlayer) return;
   stopMobileHoldSpeed();
   el.videoPlayer.playbackRate = speed;
   updateSpeedUI();
-  isSpeedMenuOpen = false;
-  if (el.speedDropdown) el.speedDropdown.hidden = true;
-  el.ctrlSpeedButton?.setAttribute('aria-expanded', 'false');
+  closeSpeedMenu();
   showPlayerFeedback(`SPEED ${speed}X`);
   resetControlsTimer();
 }
@@ -7097,13 +7039,10 @@ function updateSpeedUI() {
 
 function onDocumentClickForSpeedMenu(event) {
   if (isSpeedMenuOpen && !el.speedMenuWrap?.contains(event.target)) {
-    isSpeedMenuOpen = false;
-    if (el.speedDropdown) el.speedDropdown.hidden = true;
-    el.ctrlSpeedButton?.setAttribute('aria-expanded', 'false');
+    closeSpeedMenu();
   }
   if (isPlayerMoreOpen && !el.playerMoreMenu?.contains(event.target)) {
-    el.playerMoreMenu.open = false;
-    isPlayerMoreOpen = false;
+    closePlayerMoreMenu();
     resetControlsTimer();
   }
 }
@@ -7123,15 +7062,12 @@ function onSpeedMenuKeyDown(event) {
       return;
     }
     if (isPlayerMoreOpen) {
-      if (el.playerMoreMenu) el.playerMoreMenu.open = false;
-      isPlayerMoreOpen = false;
+      closePlayerMoreMenu();
       resetControlsTimer();
       return;
     }
     event.preventDefault();
-    isSpeedMenuOpen = false;
-    el.speedDropdown.hidden = true;
-    el.ctrlSpeedButton?.setAttribute('aria-expanded', 'false');
+    closeSpeedMenu();
     el.ctrlSpeedButton?.focus();
     return;
   }
@@ -7357,22 +7293,16 @@ async function togglePictureInPicture() {
 }
 
 /* Mobile shorts bottom action chips — ⋯ 버튼 위 세로 스택으로 삭제/이동/PiP/Drive 노출 */
-let shortsExpandTimer = null;
-
 function toggleShortsExpand() {
   if (!el.mobileShortsOverlay) return;
   const expanded = el.mobileShortsOverlay.classList.toggle('expanded');
   if (el.shortsMoreBtn) el.shortsMoreBtn.setAttribute('aria-expanded', String(expanded));
-  clearTimeout(shortsExpandTimer);
-  shortsExpandTimer = null;
   // Keep menus available until an explicit dismissal or action. A timer must
   // not make an action disappear while it is being read or keyboard-focused.
   resetControlsTimer();
 }
 
 function collapseShortsExpand() {
-  clearTimeout(shortsExpandTimer);
-  shortsExpandTimer = null;
   if (el.mobileShortsOverlay) el.mobileShortsOverlay.classList.remove('expanded');
   if (el.shortsMoreBtn) el.shortsMoreBtn.setAttribute('aria-expanded', 'false');
   if (el.playerSheet && !el.playerSheet.hidden) resetControlsTimer();
@@ -7769,31 +7699,26 @@ function enqueuePlaybackNavigation(
   return playbackNavigationChain;
 }
 
+// Deck commits run only once navigation to the target is confirmed.
+function rebuildPlaybackDeck(target, list) {
+  state.playbackDeck = buildAccountPlaybackDeck(list, target.id);
+  state.playbackDeckComplete = hasCompletePlaybackPopulation();
+}
+
+function advancePlaybackDeck(direction, target, list) {
+  state.playbackDeck = advanceAccountPlaybackDeck(state.playbackDeck, direction, target.id, list);
+  if (!state.playbackOrderIds.includes(target.id)) state.playbackOrderIds.push(target.id);
+}
+
 function playNextFile(direction = 'left') {
-  const dir = typeof direction === 'string' ? direction : 'left';
   return enqueuePlaybackNavigation(
-    (list) => resolveSequentialPlaybackTarget('left', list),
-    dir,
-    undefined,
-    false,
-    (target, list) => {
-      state.playbackDeck = buildAccountPlaybackDeck(list, target.id);
-      state.playbackDeckComplete = hasCompletePlaybackPopulation();
-    }
+    (list) => resolveSequentialPlaybackTarget('left', list), direction, undefined, false, rebuildPlaybackDeck
   );
 }
 
 function playPrevFile(direction = 'right') {
-  const dir = typeof direction === 'string' ? direction : 'right';
   return enqueuePlaybackNavigation(
-    (list) => resolveSequentialPlaybackTarget('right', list),
-    dir,
-    undefined,
-    false,
-    (target, list) => {
-      state.playbackDeck = buildAccountPlaybackDeck(list, target.id);
-      state.playbackDeckComplete = hasCompletePlaybackPopulation();
-    }
+    (list) => resolveSequentialPlaybackTarget('right', list), direction, undefined, false, rebuildPlaybackDeck
   );
 }
 
@@ -7805,10 +7730,7 @@ function playRandomFile(direction = 'up') {
     dir,
     '랜덤 재생 준비 실패',
     needsCompletePopulation,
-    (target, list) => {
-      state.playbackDeck = advanceAccountPlaybackDeck(state.playbackDeck, dir, target.id, list);
-      if (!state.playbackOrderIds.includes(target.id)) state.playbackOrderIds.push(target.id);
-    }
+    (target, list) => advancePlaybackDeck(dir, target, list)
   );
 }
 
@@ -7819,15 +7741,7 @@ function playFrozenSwipeTarget(targetId, direction) {
     direction,
     vertical ? '랜덤 재생 준비 실패' : undefined,
     false,
-    (target, list) => {
-      if (vertical) {
-        state.playbackDeck = advanceAccountPlaybackDeck(state.playbackDeck, direction, target.id, list);
-        if (!state.playbackOrderIds.includes(target.id)) state.playbackOrderIds.push(target.id);
-      } else {
-        state.playbackDeck = buildAccountPlaybackDeck(list, target.id);
-        state.playbackDeckComplete = hasCompletePlaybackPopulation();
-      }
-    }
+    vertical ? (target, list) => advancePlaybackDeck(direction, target, list) : rebuildPlaybackDeck
   );
 }
 
@@ -7847,6 +7761,13 @@ let reservedEdgeTap = null;
 let mobileHoldSpeed = null;
 const MOBILE_HOLD_SPEED_DELAY = 450;
 const MOBILE_HOLD_SPEED_FEEDBACK = '2× 재생 중';
+
+function resetSwipeGesture() {
+  lockedAxis = null;
+  swipeGestureDirection = null;
+  swipeGestureTargetId = null;
+  swipeGestureAwaitingPopulation = false;
+}
 
 function isCurrentMobileHoldSpeed(owner) {
   return Boolean(owner && owner.video === el.videoPlayer && !owner.video.hidden
@@ -7969,10 +7890,6 @@ function handleStageTap(clientX, clientY) {
   lastTapZone = zone;
 
   if (isDoubleTap) {
-    if (singleTapTimer) {
-      clearTimeout(singleTapTimer);
-      singleTapTimer = null;
-    }
     // Consume the pair. A third rapid tap starts a new gesture instead of
     // chaining against the second tap and toggling the favorite repeatedly.
     cancelPendingStageTap();
@@ -7980,8 +7897,7 @@ function handleStageTap(clientX, clientY) {
     const doubleTapAction = resolveMediaDoubleTapAction(clientX, rect.left, rect.width, !el.videoPlayer?.hidden, zone);
     // Center likes, lateral edges seek. Top/bottom contacts do neither.
     if (doubleTapAction === 'seek-backward' || doubleTapAction === 'seek-forward') {
-      const seekZone = doubleTapAction === 'seek-backward' ? 'left' : 'right';
-      seekRelative(seekZone === 'left' ? -10 : 10);
+      seekRelative(doubleTapAction === 'seek-backward' ? -10 : 10);
     } else if (doubleTapAction === 'favorite') {
       toggleFavoriteForSelected({ showFeedback: true });
       navigator.vibrate?.(10);
@@ -8047,14 +7963,6 @@ function setupTouchGestures() {
     clearTimeout(singleTapTimer);
     singleTapTimer = null;
     clearMediaTransition();
-    const activeEl = getActiveMediaElement();
-    if (activeEl) {
-      activeEl.style.transform = '';
-      activeEl.className = activeEl.className.replace(/\banim-slide-[a-z-]+\b/g, '').trim();
-    }
-    el.mediaStage?.classList.remove('is-snapping');
-    if (snapBackTimer) clearTimeout(snapBackTimer);
-    snapBackTimer = null;
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
     touchStartTime = Date.now();
@@ -8063,10 +7971,7 @@ function setupTouchGestures() {
     swipeStageWidth = el.mediaStage?.clientWidth || window.innerWidth || 400;
     swipeStageHeight = el.mediaStage?.clientHeight || window.innerHeight || 600;
     isTouchActive = true;
-    lockedAxis = null;
-    swipeGestureDirection = null;
-    swipeGestureTargetId = null;
-    swipeGestureAwaitingPopulation = false;
+    resetSwipeGesture();
     startMobileHoldSpeed(e.touches[0]);
   }, { passive: false });
 
@@ -8198,10 +8103,7 @@ function setupTouchGestures() {
     if (lockedAxis === null && elapsed < 300 && Math.abs(rawDiffX) < 10 && Math.abs(rawDiffY) < 10) {
       e.preventDefault();
       handleStageTap(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
-      lockedAxis = null;
-      swipeGestureDirection = null;
-      swipeGestureTargetId = null;
-      swipeGestureAwaitingPopulation = false;
+      resetSwipeGesture();
       return;
     }
 
@@ -8228,10 +8130,7 @@ function setupTouchGestures() {
       snapBackSpring(activeEl);
     }
     cancelPendingStageTap();
-    lockedAxis = null;
-    swipeGestureDirection = null;
-    swipeGestureTargetId = null;
-    swipeGestureAwaitingPopulation = false;
+    resetSwipeGesture();
   }, { passive: false });
 
   modal.addEventListener('touchcancel', cancelActiveTouchGesture, { passive: true });
@@ -8258,10 +8157,7 @@ function clearActiveTouchGesture() {
   isTouchActive = false;
   touchContactId = null;
   touchSession = null;
-  lockedAxis = null;
-  swipeGestureDirection = null;
-  swipeGestureTargetId = null;
-  swipeGestureAwaitingPopulation = false;
+  resetSwipeGesture();
   el.mediaStage?.classList.remove('is-dragging');
   snapBackSpring(getActiveMediaElement());
 }
@@ -8323,15 +8219,12 @@ function handlePlayerKeyboard(event) {
     }
     if (isPlayerMoreOpen) {
       event.preventDefault();
-      if (el.playerMoreMenu) el.playerMoreMenu.open = false;
-      isPlayerMoreOpen = false;
+      closePlayerMoreMenu();
       resetControlsTimer();
       return;
     }
     if (isSpeedMenuOpen) {
-      isSpeedMenuOpen = false;
-      if (el.speedDropdown) el.speedDropdown.hidden = true;
-      el.ctrlSpeedButton?.setAttribute('aria-expanded', 'false');
+      closeSpeedMenu();
       return;
     }
     if (!document.fullscreenElement && !document.webkitFullscreenElement) {
@@ -8433,9 +8326,7 @@ function setNativeVideoActionsAvailable(available) {
     // that may still be open when the next item replaces a playing video.
     if (el.customVideoControls) el.customVideoControls.hidden = true;
     if (el.stageCenterPlayBtn) el.stageCenterPlayBtn.hidden = true;
-    isSpeedMenuOpen = false;
-    if (el.speedDropdown) el.speedDropdown.hidden = true;
-    el.ctrlSpeedButton?.setAttribute('aria-expanded', 'false');
+    closeSpeedMenu();
     clearTimeout(feedbackTimer);
     feedbackTimer = null;
     if (el.playerFeedback) {
@@ -8655,7 +8546,7 @@ async function startInitialOriginalPlayback(file, kind, session) {
   if (!current()) return;
   if (!retired.settled || !tracksRetired.settled) {
     state.mediaAttempt = 'failed';
-    showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
+    showMediaError(SOURCE_CLEANUP_UNCONFIRMED_MESSAGE);
     return;
   }
   const chosenSnapshot = state.resumePosition?.fileId === file.id ? state.resumePosition.snapshot : null;
@@ -8691,7 +8582,7 @@ function startOriginalRangePlayback(file, kind, session, message = 'Drive 원본
     return true;
   }
   if (!q1RetirementResult.settled || !playerTracksRetirementResult.settled) {
-    showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
+    showMediaError(SOURCE_CLEANUP_UNCONFIRMED_MESSAGE);
     return false;
   }
   if (navigator.serviceWorker && !hasQ0CapableController()) {
@@ -8873,16 +8764,10 @@ async function planPinnedOriginalAudio(owner, pin) {
     const [{openDriveQ1Source}, {probePinnedGeneralAudio}] = await Promise.all([
       import('./media/drive-source.mjs'), import('./media/audio-general-pipeline.mjs')]);
     if (!current()) return;
-    const file = state.selected, metadataUrl = new URL(`${DRIVE_API}/files/${encodeURIComponent(file.id)}`);
-    metadataUrl.searchParams.set('fields', 'id,headRevisionId,version,size,mimeType,modifiedTime,sha256Checksum,trashed,capabilities(canDownload)');
-    metadataUrl.searchParams.set('supportsAllDrives', 'true');
+    const file = state.selected;
     source = await openDriveQ1Source({fileId:file.id, accountKey:owner.account,
       accountGeneration:owner.accountGeneration, signal:owner.controller.signal, isCurrent:current,
-      readMetadata:async ({signal}) => {
-        const headers=file.resourceKey ? {'X-Goog-Drive-Resource-Keys':`${file.id}/${file.resourceKey}`} : {};
-        const response=await driveFetch(metadataUrl.href,{signal,headers});
-        return response.json();
-      },
+      readMetadata:({signal}) => readSourceRevisionMetadata(file, signal),
       readRange:({range,signal}) => {
         return fetch(buildPinnedMediaUrl(file),{signal,cache:'no-store',headers:{Range:range}});
       }});
@@ -9067,7 +8952,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
       || mediaSourceGeneration !== sourceGeneration || initialMediaRouteGeneration !== routeGeneration) return true;
     if (!retired.settled) {
       state.mediaAttempt = 'failed';
-      showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
+      showMediaError(SOURCE_CLEANUP_UNCONFIRMED_MESSAGE);
       return true;
     }
     state.mediaAttempt = oldAttempt;
@@ -9091,18 +8976,13 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
     owner.swGeneration = mediaSourceGeneration;
     const { openDriveQ1Source } = await import('./media/drive-source.mjs');
     if (!current()) return true;
-    const metadataUrl = new URL(`${DRIVE_API}/files/${encodeURIComponent(file.id)}`);
-    metadataUrl.searchParams.set('fields', 'id,headRevisionId,version,size,mimeType,modifiedTime,sha256Checksum,trashed,capabilities(canDownload)');
-    metadataUrl.searchParams.set('supportsAllDrives', 'true');
     let routeIdentity = null;
     const openSource = async ({ signal }) => {
       let sourceMetadata;
       const source = await openDriveQ1Source({
       fileId: file.id, accountKey: account, accountGeneration, signal, isCurrent: current,
       readMetadata: async ({ signal }) => {
-        const headers = file.resourceKey ? { 'X-Goog-Drive-Resource-Keys': `${file.id}/${file.resourceKey}` } : {};
-        const response = await driveFetch(metadataUrl.href, { signal, headers });
-        sourceMetadata = await response.json();
+        sourceMetadata = await readSourceRevisionMetadata(file, signal);
         return sourceMetadata;
       },
       readRange: ({ range, signal }) => {
@@ -9227,7 +9107,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
                 || initialMediaRouteGeneration !== routeGeneration) return;
               if (!retired.settled) {
                 state.mediaAttempt = 'failed';
-                showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
+                showMediaError(SOURCE_CLEANUP_UNCONFIRMED_MESSAGE);
                 return;
               }
               void tryOriginalTsPlayback(file, session, { general: true, audioCompatibility: true, nativeVideoRejected, snapshotOverride: snapshot });
@@ -9255,7 +9135,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
                 && navigator.serviceWorker?.controller===owner.swController;
               if(!choiceCurrent())return;
               state.mediaAttempt='failed';
-              if(!retired.settled) {showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.',{showRetry:false});return;}
+              if(!retired.settled) {showMediaError(SOURCE_CLEANUP_UNCONFIRMED_MESSAGE,{showRetry:false});return;}
               if(failure&&!/^Q3_[A-Z0-9_]*(?:UNQUALIFIED|REQUIRED)$/.test(failure.message)) {
                 showMediaError('원본 연결과 입력 정보 확인을 안전하게 완료하지 못했습니다. 연결을 확인한 뒤 다시 시도하세요.',{title:'원본 확인 실패',showRetry:true});return;
               }
@@ -9394,15 +9274,6 @@ async function handleMediaElementError(kind) {
       retryOriginalStream(file, session, '검증된 원본 스트림을 새로 만들어 다시 연결하는 중');
     } else if ((mediaErrorCode === 1 || mediaErrorCode === 2) && state.mediaRetryCount < 1) {
       retryOriginalStream(file, session, '원본 스트림 연결이 끊겨 자동으로 다시 연결하는 중');
-    } else if ([0, 1, 2, 3].includes(mediaErrorCode)) {
-      state.mediaAttempt = 'buffer-evaluating';
-      await offerOriginalBufferFallback(
-        file,
-        kind,
-        session,
-        describeVideoPlaybackFailure(mediaErrorCode),
-        sourceGeneration
-      );
     } else {
       state.mediaAttempt = 'buffer-evaluating';
       await offerOriginalBufferFallback(
@@ -9456,7 +9327,7 @@ function retryOriginalStream(file, expectedSession, message, { consumeRetry = tr
   }
   if (!q1RetirementResult?.settled) {
     state.mediaAttempt = 'failed';
-    showMediaError('이전 원본 연결 정리가 확인되지 않았습니다. 앱을 새로 열어 다시 시도하세요.');
+    showMediaError(SOURCE_CLEANUP_UNCONFIRMED_MESSAGE);
     return false;
   }
 
@@ -10248,15 +10119,15 @@ function clearDrivePreview() {
 
 function showDrivePreview(file, reason, { userInitiated = false } = {}) {
   if (!file || state.selected?.id !== file.id) return;
+  clearTimeout(mediaRecoveryTimer);
+  mediaRecoveryTimer = null;
+  state.mediaAbortController?.abort();
+  state.mediaAbortController = null;
+  clearDirectMediaSources();
+  clearDrivePreview();
   // An exhausted original path is a local failure, never permission to load
   // a third-party document or claim compatibility playback succeeded.
   if (!userInitiated) {
-    clearTimeout(mediaRecoveryTimer);
-    mediaRecoveryTimer = null;
-    state.mediaAbortController?.abort();
-    state.mediaAbortController = null;
-    clearDirectMediaSources();
-    clearDrivePreview();
     state.mediaAttempt = 'failed';
     state.pendingPlay = false;
     state.pendingOriginalBuffer = null;
@@ -10270,12 +10141,6 @@ function showDrivePreview(file, reason, { userInitiated = false } = {}) {
     updateQualityDisplay();
     return;
   }
-  clearTimeout(mediaRecoveryTimer);
-  mediaRecoveryTimer = null;
-  state.mediaAbortController?.abort();
-  state.mediaAbortController = null;
-  clearDirectMediaSources();
-  clearDrivePreview();
   emitMediaDiagnosticStage('compatibility-selected', {
     route: 'compatibility', reason, terminal: true
   });
@@ -11357,11 +11222,10 @@ async function moveDriveFile(file, targetRow, options) {
     error.status = 403;
     throw error;
   }
-  if (state.demo) {
-    await new Promise((resolve) => setTimeout(resolve, 180));
-    file.parents = [target];
-    return { skipped: false };
-  }
+  // Demo mode only: real moves returned above.
+  await new Promise((resolve) => setTimeout(resolve, 180));
+  file.parents = [target];
+  return { skipped: false };
 }
 
 async function performMoveFile() {
@@ -11645,41 +11509,26 @@ function updateQualityDisplay() {
         ? `가변 해상도 (저장 파일 정보: ${metaW}×${metaH} ${metaCat})`
         : 'Drive 호환 변환 해상도';
     }
-  } else if (playbackMode === PLAYBACK_MODE.OPFS || playbackMode === PLAYBACK_MODE.MEMORY) {
-    setStreamMode('buffer', qualityLabel);
-    if (el.qualityBadge) {
-      el.qualityBadge.hidden = !state.mediaTransportVerified;
-      el.qualityBadge.dataset.quality = state.mediaTransportVerified ? 'buffer' : 'pending';
-      el.qualityBadge.textContent = `· ${qualityLabel}`;
-    }
-    if (el.mediaResolution) {
-      if (effectiveW && effectiveH) {
-        el.mediaResolution.textContent = `${effectiveW} × ${effectiveH}${effectiveCat ? ` (${effectiveCat})` : ''}`;
-      } else {
-        el.mediaResolution.textContent = '원본 해상도 분석 중…';
-      }
-    }
   } else {
+    const buffered = playbackMode === PLAYBACK_MODE.OPFS || playbackMode === PLAYBACK_MODE.MEMORY;
     setStreamMode(
-      playbackMode === PLAYBACK_MODE.SEQUENTIAL ? 'sequential' : 'range',
+      buffered ? 'buffer' : playbackMode === PLAYBACK_MODE.SEQUENTIAL ? 'sequential' : 'range',
       qualityLabel
     );
     if (el.qualityBadge) {
       el.qualityBadge.hidden = !state.mediaTransportVerified;
       el.qualityBadge.dataset.quality = !state.mediaTransportVerified ? 'pending'
-        : playbackMode === PLAYBACK_MODE.VIDEO_COMPATIBILITY ? 'video-transformed'
-          : playbackMode === PLAYBACK_MODE.AUDIO_COMPATIBILITY ? 'audio-transformed' : 'original';
+        : buffered ? 'buffer'
+          : playbackMode === PLAYBACK_MODE.VIDEO_COMPATIBILITY ? 'video-transformed'
+            : playbackMode === PLAYBACK_MODE.AUDIO_COMPATIBILITY ? 'audio-transformed' : 'original';
       el.qualityBadge.textContent = `· ${qualityLabel}`;
     }
     if (el.mediaResolution) {
-      if (effectiveW && effectiveH) {
-        el.mediaResolution.textContent = `${effectiveW} × ${effectiveH}${effectiveCat ? ` (${effectiveCat})` : ''}`;
-      } else {
-        el.mediaResolution.textContent = '원본 해상도 분석 중…';
-      }
+      el.mediaResolution.textContent = effectiveW && effectiveH
+        ? `${effectiveW} × ${effectiveH}${effectiveCat ? ` (${effectiveCat})` : ''}`
+        : '원본 해상도 분석 중…';
     }
   }
-
 }
 
 function updatePlayerNavigationLabels(file) {
@@ -11813,8 +11662,7 @@ function closePlayer({ preserveHistory = false } = {}) {
   finishMediaDiagnosticTrace('closed');
   resetMediaElements();
   setPlayerMediaPriorityActive(false);
-  if (el.playerMoreMenu) el.playerMoreMenu.open = false;
-  isPlayerMoreOpen = false;
+  closePlayerMoreMenu();
   collapseShortsExpand();
   resetVideoRotation();
   setStageImmersive(false);
@@ -11988,6 +11836,17 @@ async function postAuthAction(path, body = {}) {
   }
 }
 
+// Shared local teardown once the server confirmed logout or disconnect.
+function returnToSetupWithoutAccount() {
+  clearStandaloneAuthAttempt();
+  clearToken(true, { preserveAccount: false });
+  invalidateDriveSessionData();
+  state.selected = null;
+  closePlayer();
+  if (el.settingsDialog.open) el.settingsDialog.close();
+  showSetup();
+}
+
 async function logout() {
   if (el.logoutButton) el.logoutButton.disabled = true;
   const result = await postAuthAction(AUTH_LOGOUT_PATH);
@@ -11996,13 +11855,7 @@ async function logout() {
     showToast('로그아웃하지 못했습니다. 연결 상태를 확인해 주세요.');
     return;
   }
-  clearStandaloneAuthAttempt();
-  clearToken(true, { preserveAccount: false });
-  invalidateDriveSessionData();
-  state.selected = null;
-  closePlayer();
-  if (el.settingsDialog.open) el.settingsDialog.close();
-  showSetup();
+  returnToSetupWithoutAccount();
   showToast('이 브라우저 세션에서 로그아웃했습니다.');
 }
 
@@ -12019,13 +11872,7 @@ async function disconnect() {
     showToast('연결을 해제하지 못했습니다. 연결 상태를 확인해 주세요.');
     return;
   }
-  clearStandaloneAuthAttempt();
-  clearToken(true, { preserveAccount: false });
-  invalidateDriveSessionData();
-  state.selected = null;
-  closePlayer();
-  if (el.settingsDialog.open) el.settingsDialog.close();
-  showSetup();
+  returnToSetupWithoutAccount();
   if (result.payload.revocation === 'confirmed') {
     showToast('앱 세션과 Google Drive 연결을 해제했습니다.');
   } else {
@@ -12457,16 +12304,6 @@ function formatBytes(value) {
   let unit = -1;
   do { size /= 1024; unit += 1; } while (size >= 1024 && unit < units.length - 1);
   return `${size >= 100 ? size.toFixed(0) : size >= 10 ? size.toFixed(1) : size.toFixed(2)} ${units[unit]}`;
-}
-
-function formatDuration(secondsValue) {
-  const total = Math.max(0, Math.round(Number(secondsValue) || 0));
-  const hours = Math.floor(total / 3600);
-  const minutes = Math.floor((total % 3600) / 60);
-  const seconds = total % 60;
-  return hours > 0
-    ? `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
-    : `${minutes}:${String(seconds).padStart(2, '0')}`;
 }
 
 function resolutionText(file) {

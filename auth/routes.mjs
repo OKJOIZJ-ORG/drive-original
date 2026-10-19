@@ -3,9 +3,9 @@ import { AuthError, ERROR_STATUS, fail, opaqueId } from './session-owner.mjs';
 
 export const SESSION_COOKIE = '__Host-drive_original_session';
 export const PREAUTH_COOKIE = '__Host-drive_original_oauth';
-const cookie = (name, value, maxAge) => `${name}=${value}; Secure; HttpOnly; SameSite=Lax; Path=/; Max-Age=${maxAge}`;
-const expire = name => cookie(name, '', 0);
-function readCookie(request, name) {
+export const cookie = (name, value, maxAge) => `${name}=${value}; Secure; HttpOnly; SameSite=Lax; Path=/; Max-Age=${maxAge}`;
+export const expire = name => cookie(name, '', 0);
+export function readCookie(request, name) {
   const found = (request.headers.get('Cookie') || '').split(';').map(p => p.trim()).filter(p => p.startsWith(`${name}=`));
   if (found.length !== 1) return null;
   const value = found[0].slice(name.length + 1);

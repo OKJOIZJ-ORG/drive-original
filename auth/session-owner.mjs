@@ -29,6 +29,26 @@ const sleepDefault = ms => new Promise(resolve => setTimeout(resolve, ms));
 const sessionEnd = s => Math.min(s.createdAt + SESSION_ABSOLUTE_MS, s.lastSeenAt + SESSION_IDLE_MS);
 const publicCredential = s => ({ accessToken: s.access.accessToken, expiresAt: s.access.expiresAt, account: s.account, revision: s.revision, capabilities: capabilitiesForScopes(s.access.grantedScopes) });
 
+// Shared by owners whose transact() reads a durable nextAlarmAt; callers queue it on their own alarm chain.
+export async function reconcileAlarmTarget(owner, candidate) {
+  let target = candidate ?? null;
+  for (let attempt = 0; attempt < 4; attempt++) {
+    try { await owner.scheduleAlarm(target); }
+    catch { continue; }
+    let current;
+    try { current = await owner.transact(s => s.nextAlarmAt ?? null); }
+    catch { return false; }
+    if (current === target) return true;
+    target = current;
+  }
+  // Never finish a contested reconciliation with an unchecked stale target:
+  // a short, conservative wake-up is safe for every retention state and
+  // gives alarm() another chance to install the exact durable deadline.
+  try { await owner.scheduleAlarm(owner.clock() + 1_000); }
+  catch { /* The durable nextAlarmAt remains the recovery source. */ }
+  return false;
+}
+
 export class AccountCredentialOwner {
   #flight = null;
   #alarmChain = Promise.resolve();
@@ -72,24 +92,7 @@ export class AccountCredentialOwner {
     } catch (error) { throw error instanceof AuthError ? error : new AuthError('auth_unavailable'); }
   }
   async reconcileAlarm(candidate) {
-    const run = async () => {
-      let target = candidate ?? null;
-      for (let attempt = 0; attempt < 4; attempt++) {
-        try { await this.scheduleAlarm(target); }
-        catch { continue; }
-        let current;
-        try { current = await this.transact(s => s.nextAlarmAt ?? null); }
-        catch { return false; }
-        if (current === target) return true;
-        target = current;
-      }
-      // Never finish a contested reconciliation with an unchecked stale target:
-      // a short, conservative wake-up is safe for every retention state and
-      // gives alarm() another chance to install the exact durable deadline.
-      try { await this.scheduleAlarm(this.clock() + 1_000); }
-      catch { /* The durable nextAlarmAt remains the recovery source. */ }
-      return false;
-    };
+    const run = () => reconcileAlarmTarget(this, candidate);
     const queued = this.#alarmChain.then(run, run);
     this.#alarmChain = queued.then(() => undefined, () => undefined);
     return queued;

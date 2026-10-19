@@ -6,6 +6,7 @@ import {openDriveQ1Source} from '../media/drive-source.mjs';
 import {probePinnedQ3Video,streamGeneralQ3} from '../media/video-q3-pipeline.mjs';
 import {probePinnedGeneralAudio} from '../media/audio-general-pipeline.mjs';
 import {streamGeneralQ1} from '../media/general-pipeline.mjs';
+import {isAllowedErrorCode} from '../media/general-timeline.mjs';
 const KiB=1024,policy={blockSize:512*KiB,maxCacheSize:512*KiB};
 const deferred=()=>{let resolve;const promise=new Promise(r=>resolve=r);return {promise,resolve};};
 function source(bytes){const ranges=[];let active=0,peak=0,aborts=0;return {identity:{size:bytes.length},ranges,
@@ -64,4 +65,10 @@ test('a rejected transport abort reports unsettled cleanup instead of throwing',
  const s={identity:{size:1024},read:async({start,end})=>new Uint8Array(end-start+1),abort:async()=>{throw new Error('WORKER_RPC_TIMEOUT');}};
  const rpc=createGeneralSource(s);
  assert.deepEqual(await rpc.cleanup(),{settled:false,transportFailed:true});
+});
+test('error-code allowlist keeps each caller prefix set exact',()=>{
+ const q1=['GENERAL','TIMING','Q1_EXACT','Q1_SOURCE'],q3=['GENERAL','Q3','TIMING'];
+ for(const code of ['GENERAL_PIPELINE_FAILED','TIMING_MOOV_NOT_FOUND','Q1_EXACT_CLOCK_UNREPRESENTABLE','Q1_SOURCE_DTS_REQUIRED','GENERAL_X264'])assert.equal(isAllowedErrorCode(code,q1),true,code);
+ for(const code of ['AUDIO_DECODE_FAILED','Q3_PIPELINE_FAILED','WORKER_X','GENERAL_','GENERAL_lower','xGENERAL_X','GENERAL_X'+String.fromCharCode(10)+'Y',undefined,null,'Drive failed'])assert.equal(isAllowedErrorCode(code,q1),false,String(code));
+ assert.equal(isAllowedErrorCode('Q3_PIPELINE_FAILED',q3),true);assert.equal(isAllowedErrorCode('Q1_SOURCE_READ_FAILED',q3),false);
 });

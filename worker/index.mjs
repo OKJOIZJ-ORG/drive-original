@@ -1,5 +1,5 @@
 import { AuthError, ERROR_STATUS, SESSION_ABSOLUTE_MS, opaqueId } from '../auth/session-owner.mjs';
-import { createAuthHandler, PREAUTH_COOKIE, SESSION_COOKIE } from '../auth/routes.mjs';
+import { cookie, createAuthHandler, expire, PREAUTH_COOKIE, readCookie, SESSION_COOKIE } from '../auth/routes.mjs';
 import { createAuthCrypto } from './crypto.mjs';
 import { buildGoogleAuthorizationUrl, exchangeGoogleAuthorizationCode } from './google.mjs';
 import { AuthObject } from './durable-object.mjs';
@@ -15,9 +15,6 @@ const AUTH_DIAGNOSTIC_STAGES = new Set([
   'google_id_token_invalid', 'account_key_failed', 'account_establish_failed', 'session_index_failed',
 ]);
 const SESSION_MAX_AGE = Math.floor(SESSION_ABSOLUTE_MS / 1000);
-const cookie = (name, value, maxAge) => `${name}=${value}; Secure; HttpOnly; SameSite=Lax; Path=/; Max-Age=${maxAge}`;
-const expire = name => cookie(name, '', 0);
-const encoder = new TextEncoder();
 
 function noStoreHeaders(extra = {}) {
   return new Headers({
@@ -40,13 +37,6 @@ function redirect(location, cookies = []) {
   const headers = noStoreHeaders({ Location: location });
   for (const value of cookies) headers.append('Set-Cookie', value);
   return new Response(null, { status: 303, headers });
-}
-
-function readCookie(request, name) {
-  const matches = (request.headers.get('Cookie') || '').split(';').map(value => value.trim()).filter(value => value.startsWith(`${name}=`));
-  if (matches.length !== 1) return null;
-  const value = matches[0].slice(name.length + 1);
-  return /^[A-Za-z0-9_-]{32,256}$/u.test(value) ? value : null;
 }
 
 function config(env) {
@@ -112,7 +102,6 @@ export function createWorkerHandler(env, {
   callObject = (name, payload) => callAuthObject(env, name, payload),
   authDiagnostic = null,
 } = {}) {
-  const object = (name, payload) => callObject(name, payload);
   const diagnostic = typeof authDiagnostic === 'function'
     ? authDiagnostic
     : env?.AUTH_DIAGNOSTICS === 'true'
@@ -128,14 +117,14 @@ export function createWorkerHandler(env, {
     const returnPath = returnPathOf(new URL(request.url), settings.origin);
     const state = random();
     const preauth = random();
-    const transaction = await object(`transaction:${state}`, {
+    const transaction = await callObject(`transaction:${state}`, {
       kind: 'transaction', operation: 'create', args: { state, cookieDigest: await crypt.digestCookie(preauth), returnPath },
     });
     let authorizationUrl;
     try {
       authorizationUrl = await buildGoogleAuthorizationUrl({ clientId: settings.clientId, redirectUri: settings.redirectUri, transaction });
     } catch {
-      await object(`transaction:${state}`, {
+      await callObject(`transaction:${state}`, {
         kind: 'transaction', operation: 'consume', args: { state, cookieDigest: transaction.cookieDigest },
       }).catch(() => {});
       throw new AuthError('auth_unavailable');
@@ -147,7 +136,7 @@ export function createWorkerHandler(env, {
     const url = new URL(request.url);
     const state = callbackState(url);
     const preauth = readCookie(request, PREAUTH_COOKIE);
-    const transaction = await object(`transaction:${state}`, {
+    const transaction = await callObject(`transaction:${state}`, {
       kind: 'transaction', operation: 'consume',
       args: { state, cookieDigest: preauth ? await crypt.digestCookie(preauth) : null },
     });
@@ -165,7 +154,7 @@ export function createWorkerHandler(env, {
     }
     let established;
     try {
-      established = await object(`account:${account}`, {
+      established = await callObject(`account:${account}`, {
         kind: 'account', operation: 'establish', args: {
           account,
           verified: { account, accessToken: verified.accessToken, expiresAt: verified.expiresAt, refreshToken: verified.refreshToken, grantedScopes: verified.grantedScopes },
@@ -177,12 +166,12 @@ export function createWorkerHandler(env, {
     }
     try {
       const sessionIndex = await crypt.sessionIndexKey(established.sessionId);
-      await object(`session:${sessionIndex}`, {
+      await callObject(`session:${sessionIndex}`, {
         kind: 'session-index', operation: 'set', args: { accountKey: account, expiresAt: clock() + SESSION_ABSOLUTE_MS },
       });
     } catch {
       diagnose('session_index_failed');
-      await object(`account:${account}`, {
+      await callObject(`account:${account}`, {
         kind: 'account', operation: 'logout', args: { account, input: { sessionId: established.sessionId } },
       }).catch(() => {});
       throw new AuthError('auth_unavailable');
@@ -196,12 +185,12 @@ export function createWorkerHandler(env, {
       resolveSession: async sessionId => {
         const indexKey = await crypt.sessionIndexKey(sessionId);
         const sessionMarker = await crypt.sessionClientMarker(sessionId);
-        const route = await object(`session:${indexKey}`, { kind: 'session-index', operation: 'get', args: {} });
+        const route = await callObject(`session:${indexKey}`, { kind: 'session-index', operation: 'get', args: {} });
         if (!route?.accountKey || !/^[A-Za-z0-9_-]{43}$/u.test(route.accountKey)) return null;
-        const invoke = (operation, input) => object(`account:${route.accountKey}`, {
+        const invoke = (operation, input) => callObject(`account:${route.accountKey}`, {
           kind: 'account', operation, args: { account: route.accountKey, input },
         });
-        const removeIndex = () => object(`session:${indexKey}`, { kind: 'session-index', operation: 'delete', args: {} }).catch(() => {});
+        const removeIndex = () => callObject(`session:${indexKey}`, { kind: 'session-index', operation: 'delete', args: {} }).catch(() => {});
         return {
           credential: async input => ({ ...await invoke('credential', input), sessionMarker }),
           logout: async input => { const result = await invoke('logout', input); await removeIndex(); return result; },

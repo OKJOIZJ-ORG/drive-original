@@ -1,5 +1,5 @@
 import { REQUESTED_GOOGLE_SCOPES, parseGrantedScopes } from '../auth/scope-policy.mjs';
-import { AuthError } from '../auth/session-owner.mjs';
+import { AuthError, fail } from '../auth/session-owner.mjs';
 import { base64urlDecode, sha256Base64url } from './crypto.mjs';
 
 export const GOOGLE_AUTHORIZATION_ENDPOINT = 'https://accounts.google.com/o/oauth2/v2/auth';
@@ -10,7 +10,6 @@ export const REQUIRED_GOOGLE_SCOPES = REQUESTED_GOOGLE_SCOPES;
 
 const encoder = new TextEncoder();
 const decoder = new TextDecoder('utf-8', { fatal: true });
-const fail = code => { throw new AuthError(code); };
 const report = (diagnostic, stage) => {
   if (typeof diagnostic !== 'function') return;
   try { diagnostic(stage); } catch {}

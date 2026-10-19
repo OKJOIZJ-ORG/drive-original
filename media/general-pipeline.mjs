@@ -3,7 +3,7 @@ import { Input, MP4, QTFF, MPEG_TS, EncodedPacketSink,
   StreamTarget } from './mediabunny-q1.mjs';
 import { createGeneralSource } from './general-source.mjs';
 import { admitGeneralInput } from './general-admission.mjs';
-import { resolveTimelinePolicy, validateInitialPresentationTime, resolveInitialPresentationTime } from './general-timeline.mjs';
+import { resolveTimelinePolicy, validateInitialPresentationTime, resolveInitialPresentationTime, isAllowedErrorCode } from './general-timeline.mjs';
 import { createAvcPacketGuard } from './general-codec.mjs';
 import { resolveObservedNativeOutputColor } from './native-color.mjs';
 import {GENERAL_AUDIO_CODECS, resolveGeneralAudioTrack, validateGeneralAudioSelection} from './general-tracks.mjs';
@@ -147,6 +147,6 @@ export async function streamGeneralQ1({ source, generation = 1, isCurrent = () =
     if (failure) { failure.cleanup = cleanup; failure.reads = rpc.metrics; }
     if (readyResult) { readyResult.cleanup = cleanup; readyResult.reads = rpc.metrics; }
   }
-  if (failure) { if (!/^(?:GENERAL|TIMING|Q1_EXACT|Q1_SOURCE)_[A-Z_]+$/.test(failure.message)) { const safe = new Error('GENERAL_PIPELINE_FAILED'); safe.cleanup = failure.cleanup; safe.reads = failure.reads; throw safe; } throw failure; }
+  if (failure) { if (!isAllowedErrorCode(failure.message, ['GENERAL', 'TIMING', 'Q1_EXACT', 'Q1_SOURCE'])) { const safe = new Error('GENERAL_PIPELINE_FAILED'); safe.cleanup = failure.cleanup; safe.reads = failure.reads; throw safe; } throw failure; }
   return readyResult;
 }

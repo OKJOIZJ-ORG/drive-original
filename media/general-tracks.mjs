@@ -20,13 +20,13 @@ export async function resolveGeneralAudioTrack(input, admission, selectedAudioTr
     throw new Error('GENERAL_AUDIO_SELECTION_MISSING');
   return audio;
 }
-export const qualifiedGeneralAac = config => config?.codec === 'mp4a.40.2'
+const qualifiedGeneralAac = config => config?.codec === 'mp4a.40.2'
   && [44100,48000].includes(config.sampleRate) && [1,2].includes(config.numberOfChannels);
 
 // Listing metadata has no sample-index allocation. Playback still uses its
 // stricter admission unchanged; a long film can have known tracks even when
 // this browser cannot safely construct a selectable playback index for it.
-export function inspectGeneralTrackDescriptions(bytes) {
+function inspectGeneralTrackDescriptions(bytes) {
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
   const require = (ok, code) => { if (!ok) throw new Error(`GENERAL_${code}`); };
   const type = p => String.fromCharCode(...bytes.subarray(p, p + 4));

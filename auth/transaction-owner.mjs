@@ -1,4 +1,4 @@
-import { AuthError, fail, opaqueId } from './session-owner.mjs';
+import { AuthError, fail, opaqueId, reconcileAlarmTarget } from './session-owner.mjs';
 
 export const TRANSACTION_TTL_MS = 600_000;
 export class PreAuthTransactionOwner {
@@ -12,21 +12,7 @@ export class PreAuthTransactionOwner {
     catch (error) { throw error instanceof AuthError ? error : new AuthError('auth_unavailable'); }
   }
   async reconcileAlarm(candidate) {
-    const run = async () => {
-      let target = candidate ?? null;
-      for (let attempt = 0; attempt < 4; attempt++) {
-        try { await this.scheduleAlarm(target); }
-        catch { continue; }
-        let current;
-        try { current = await this.transact(s => s.nextAlarmAt ?? null); }
-        catch { return false; }
-        if (current === target) return true;
-        target = current;
-      }
-      try { await this.scheduleAlarm(this.clock() + 1_000); }
-      catch { /* The durable nextAlarmAt remains the recovery source. */ }
-      return false;
-    };
+    const run = () => reconcileAlarmTarget(this, candidate);
     const queued = this.#alarmChain.then(run, run);
     this.#alarmChain = queued.then(() => undefined, () => undefined);
     return queued;

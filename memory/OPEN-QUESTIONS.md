@@ -152,3 +152,7 @@ LOCAL_DONE: mobile photos and video→photo transitions contain no video-only pa
 RESOLVED for authorized operating delivery: D093 explicitly approves prepared D091/D092 and minimal loading;1.23.5 runtime5f38160/Worker7c761d33 deployed with exact public/config/ordinary account update and one native clip proof. No remaining delivery decision. Previous D091/D092 new-deployment authority and operating-execution unknowns are closed in this finite scope.
 
 UNKNOWN remains: new physical Android/iOS/finger/OS-edge, sustained/all-format evidence and D089 controlled speed/acquisition attribution. RELEASE-1.23.5.md owns current proof; these limits create no unattended queue or automatic device work.
+
+## 2026-10-19 — Q3 pipeline error-code allowlist omits Q1_SOURCE
+
+UNKNOWN whether intended: media/video-q3-pipeline.mjs reports Q1_SOURCE_* read failures as Q3_PIPELINE_FAILED, while Q1/Q2 pipelines pass them through. D096 refactor preserved each allowlist exactly. Changing it alters user-visible error classification and the license-pinned Q3 product source (licenses/video-q3-source-manifest.json), so it needs an explicit decision and a re-packaged corresponding source.

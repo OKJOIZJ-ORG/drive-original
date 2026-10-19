@@ -1,4 +1,5 @@
 import { qualifyNativeColorObservation } from './native-color.mjs';
+import { isAllowedErrorCode } from './general-timeline.mjs';
 const requireThat = (condition, code) => { if (!condition) throw new Error(`WORKER_${code}`); };
 export function startGeneralWorker({ source, generation, isCurrent = () => true, signal,
   onWindow = () => {}, onChunk, targetTime = 0, initialPresentationTime, endTime = Infinity, limits = {}, selectedAudioTrackId, nativeColorObservation,
@@ -69,7 +70,7 @@ export function startGeneralWorker({ source, generation, isCurrent = () => true,
     } catch (error) {
       if (!current()) metrics.staleRepliesSuppressed++;
       else metrics.invalidMessages++;
-      if (!terminal && Number.isSafeInteger(message?.id)) reply(message.id, null, /^(?:GENERAL|WORKER|TIMING|Q1_EXACT|Q1_SOURCE|AUDIO|Q3)_[A-Z0-9_]+$/.test(error.message) ? error.message : 'GENERAL_CONSUMER_FAILED');
+      if (!terminal && Number.isSafeInteger(message?.id)) reply(message.id, null, isAllowedErrorCode(error.message, ['GENERAL', 'WORKER', 'TIMING', 'Q1_EXACT', 'Q1_SOURCE', 'AUDIO', 'Q3']) ? error.message : 'GENERAL_CONSUMER_FAILED');
       if (!current() || /CONCURRENCY|BOUNDS|GENERATION|REQUEST_ID|MESSAGE_LIMIT/.test(error.message)) void cancel();
     }
   }

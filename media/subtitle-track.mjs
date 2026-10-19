@@ -43,7 +43,7 @@ export function decodeTx3gSample(bytes) {
 
 // Bounded metadata tree. Sample tables of every track are checked before any
 // subtitle index expansion, including unrelated tracks with hostile counts.
-export function inspectSubtitleMoov(bytes,{size,mdatRanges=[]}={}) {
+function inspectSubtitleMoov(bytes,{size,mdatRanges=[]}={}) {
   demand(bytes instanceof Uint8Array&&bytes.length<=SUBTITLE_LIMITS.metadataBytes,'METADATA_LIMIT');
   demand(Number.isSafeInteger(size)&&size>0,'SOURCE_SIZE');
   let boxes=0,aggregateSamples=0,aggregateEntries=0;

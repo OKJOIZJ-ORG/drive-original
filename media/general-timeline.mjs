@@ -1,5 +1,7 @@
 import { MP4, QTFF, MATROSKA, WEBM } from './mediabunny-q1.mjs';
 const demand = (condition, code) => { if (!condition) throw new Error(`TIMING_${code}`); };
+// Error messages cross worker/page boundaries only as allowlisted codes; each caller owns its prefix set.
+export const isAllowedErrorCode = (message, prefixes) => new RegExp(`^(?:${prefixes.join('|')})_[A-Z0-9_]+$`).test(message);
 // Only initial movie-relative snapshots use this option. Public seeks remain
 // absolute source-clock values, and cannot be combined with this option.
 export function validateInitialPresentationTime(value, targetTime = 0) {
