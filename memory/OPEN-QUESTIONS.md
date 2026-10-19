@@ -160,3 +160,5 @@ UNKNOWN whether intended: media/video-q3-pipeline.mjs reports Q1_SOURCE_* read f
 ## 2026-10-19 — video-q3-codec.mjs manifest hash differs from the Git blob
 
 Observed during 1.23.9 delivery: licenses/video-q3-source-manifest.json pins media/video-q3-codec.mjs as sha256 32561bde… (13112 B, the Windows CRLF working-tree bytes), while the committed blob that materialize serves is 9f6f66f2… (13110 B, LF via .gitattributes eol=lf). Production now serves the Git blob, as 1.23.8 did. UNKNOWN which bytes the published corresponding source intends; resolving needs a decision (re-generate the manifest or pin the file -text) and must not be guessed.
+
+Closed 2026-10-19 by D099 (1.23.10): Q3 Q1_SOURCE allowlist — Q3 now passes Q1_SOURCE/Q1_EXACT causes like Q1, source package regenerated; video-q3-codec manifest vs Git blob — file pinned -text, blob equals the manifest (32561bde…). qa/release-1.23.10 owns evidence.

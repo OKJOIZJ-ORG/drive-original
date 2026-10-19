@@ -32,6 +32,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `RELEASE-1.23.10.md`, `../qa/release-1.23.10/README.md`: D099 root-cause fixes (Q3 codec -text = license manifest, Drive-upload hardlink-tolerant materializer, Q3 Q1_SOURCE causes) as Worker 02b55d4c; 947 tests, 65/65 Git-equal, actual Chrome.
+
 - `../qa/simple-ui-20261019/README.md`: D097 simple-is-best pass (badge only on problems, ring loader, volume, dialogs, card title/play disc, side seek hint, top 2× pill); local branch, 943 tests, native hold 19/19; not deployed.
 
 - `RELEASE-1.23.8.md`, `../qa/release-1.23.8/README.md`: D096 behavior-preserving refactor (app/sw/worker/auth/media) delivered as Worker b5aaf144; 940 tests, Git-equal served bytes, auth endpoints, actual signed-in Chrome refresh/likes/navigation/playback.
