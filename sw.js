@@ -11,6 +11,9 @@ const MEDIA_HEADERS_TIMEOUT_MS = 10_000;
 const Q1_REJECTED_BODY_CLEANUP_TIMEOUT_MS = 2_000;
 const MEDIA_FIRST_BYTE_TIMEOUT_MS = 15_000;
 const MEDIA_BODY_NO_PROGRESS_TIMEOUT_MS = 15_000;
+// D101: one parked Q0 head continuation per client, bounded in bytes and time.
+const Q0_CONTINUATION_MAX_BYTES = 4 * 1024 * 1024;
+const Q0_CONTINUATION_TTL_MS = 10_000;
 importScripts('./media/revision-pin.js');
 const SHELL_FILES = [
   './',
@@ -79,6 +82,7 @@ const q1TransportOwners = new Map();
 const q1RetiredThrough = new Map();
 const q0Pins = new Map();
 const q0Acquisitions = new Map();
+const q0Continuations = new Map();
 let requestSequence = 0;
 let mediaTraceSequence = 0;
 const MEDIA_TRACE_PROGRESS_INTERVAL_MS = 250;
@@ -472,7 +476,17 @@ async function proxyDriveMedia(request, url, clientId) {
       });
       return attempt;
     };
-    let upstreamFetch = await fetchMedia();
+    let upstreamFetch = pinnedNative && request.method === 'GET'
+      && adoptQ0Continuation(context, driveUrl, headers, pinnedSource, transportSignal);
+    if (upstreamFetch) {
+      if (owner) owner.upstream = upstreamFetch;
+      upstreamAttempt = 1;
+      notifyMediaTrace(context, 'request-start', { attempt: 1, reason: 'continuation' });
+      notifyMediaTrace(context, 'headers', { attempt: 1, status: 206,
+        totalBytes: Number(upstreamFetch.response.headers.get('Content-Length')) || 0 });
+    } else {
+      upstreamFetch = await fetchMedia();
+    }
     let upstream = upstreamFetch.response;
     if (upstream.status === 401) {
       // A page fetch abort does not reliably cancel an intercepted SW fetch.
@@ -623,9 +637,16 @@ async function proxyDriveMedia(request, url, clientId) {
     }
 
     if (request.method === 'HEAD') upstreamFetch.release();
+    const continuable = pinnedNative && owner && request.method === 'GET' && rangeSatisfied
+      && parseRequestedByteRange(range)?.end === null && satisfiedInterval.start === 0
+      && satisfiedInterval.end === satisfiedInterval.total - 1;
     const responseBody = request.method === 'HEAD'
       ? null
-      : instrumentMediaResponseBody(upstream.body, context, {
+      : instrumentMediaResponseBody(continuable ? tapQ0Continuation(upstream.body, {
+          context, owner, upstreamFetch, driveUrl: driveUrl.href,
+          resourceKeys: headers.get('X-Goog-Drive-Resource-Keys') || '',
+          size: satisfiedInterval.total, start: satisfiedInterval.start, headers: new Headers(upstream.headers)
+        }) : upstream.body, context, {
           totalBytes: rangeSatisfied ? expectedRangeBytes : Number(declaredLength) || 0,
           status: upstream.status,
           rangeSatisfied,
@@ -683,6 +704,172 @@ async function proxyDriveMedia(request, url, clientId) {
       owner.complete(settled);
     }
   }
+}
+
+// D101: Chrome plays a moov-at-end file as head (bytes=0-), tail, then cancels
+// the head and re-requests from ~32 KiB, paying a third serial Drive TTFB. The
+// tap records (copies) the first bounded bytes of an open-ended Q0 head
+// (bytes=0-; later seeks never park, so scrubbing cannot prefetch).
+// When the page abandons that one request, the still-live upstream reader is
+// parked under its own transport owner instead of cancelled, so one following
+// open-ended range of the same pinned source, owner and generation whose start
+// is already buffered is served from it. Explicit retirement, timeouts, length
+// errors and anything outside the window keep the ordinary cancellation.
+function tapQ0Continuation(body, source) {
+  if (!body || typeof body.getReader !== 'function') return body;
+  const reader = body.getReader();
+  let chunks = [], recorded = 0, pendingRead = null, detached = false;
+  return new ReadableStream({
+    async pull(controller) {
+      const read = pendingRead = reader.read();
+      let result;
+      try { result = await read; } catch (error) {
+        if (detached) return;
+        pendingRead = null; chunks = null; controller.error(error); return;
+      }
+      if (detached) return; // The parked continuation consumes this read.
+      pendingRead = null;
+      if (result.done) { chunks = null; controller.close(); return; }
+      const value = result.value;
+      if (chunks && value instanceof Uint8Array && recorded + value.byteLength <= Q0_CONTINUATION_MAX_BYTES) {
+        recorded += value.byteLength;
+        chunks.push(value.slice());
+      } else chunks = null;
+      controller.enqueue(value);
+    },
+    cancel(reason) {
+      const recordedChunks = chunks;
+      chunks = null;
+      if (recordedChunks && source.owner.pageDetached
+        && parkQ0Continuation(source, reader, pendingRead, recordedChunks, recorded)) {
+        detached = true;
+        return;
+      }
+      return reader.cancel(reason);
+    }
+  }, { highWaterMark: 0 });
+}
+
+function parkQ0Continuation(source, reader, pendingRead, chunks, recorded) {
+  const { context } = source;
+  if (context.sourceGeneration <= (q1RetiredThrough.get(context.clientId) ?? -1)) return false;
+  const park = { scope: q0Context(context), driveUrl: source.driveUrl, resourceKeys: source.resourceKeys,
+    size: source.size, start: source.start, end: source.start + recorded, headers: source.headers,
+    chunks, reader, upstreamFetch: source.upstreamFetch, pending: null, done: false, failed: false,
+    adopted: false, disposed: null, timer: null, owner: null };
+  if (pendingRead) trackQ0ContinuationRead(park, pendingRead);
+  // Registered before the page-side cancellation resolves: source retirement
+  // always finds, cancels and joins the parked upstream.
+  park.owner = registerQ1TransportOwner({ clientId: context.clientId, sourceGeneration: context.sourceGeneration,
+    requestId: `q0-continuation-${++requestSequence}` }, new AbortController().signal);
+  park.owner.cancelBody = () => disposeQ0Continuation(park, 'retired');
+  const previous = q0Continuations.get(context.clientId);
+  if (previous) void disposeQ0Continuation(previous, 'replaced');
+  q0Continuations.set(context.clientId, park);
+  park.timer = setTimeout(() => void disposeQ0Continuation(park, 'expired'), Q0_CONTINUATION_TTL_MS);
+  void (async () => {
+    try {
+      while (!park.adopted && !park.disposed && !park.done
+        && park.end - park.start < Q0_CONTINUATION_MAX_BYTES) await readQ0Continuation(park);
+    } catch (_) {
+      if (!park.adopted) void disposeQ0Continuation(park, 'error');
+    }
+  })();
+  return true;
+}
+
+function trackQ0ContinuationRead(park, read) {
+  park.pending = read;
+  read.then(result => {
+    if (park.pending !== read) return;
+    park.pending = null;
+    if (result.done) park.done = true;
+    else if (result.value?.byteLength) { park.chunks.push(result.value); park.end += result.value.byteLength; }
+  }, () => {
+    if (park.pending !== read) return;
+    park.pending = null;
+    park.failed = true;
+  });
+  return read;
+}
+
+function readQ0Continuation(park) {
+  // Filling and an adopted body share one in-flight read; each byte lands once.
+  return park.pending || trackQ0ContinuationRead(park, park.reader.read());
+}
+
+function disposeQ0Continuation(park, reason) {
+  if (park.disposed) return park.disposed;
+  clearTimeout(park.timer);
+  if (q0Continuations.get(park.scope.clientId) === park) q0Continuations.delete(park.scope.clientId);
+  park.chunks = [];
+  const release = () => {
+    park.upstreamFetch?.release?.();
+    try { park.reader.releaseLock(); return true; } catch (_) { return false; }
+  };
+  const settled = park.done || park.failed ? Promise.resolve(release())
+    : fenceQ1RejectedBody(park.scope.clientId, {
+        response: { body: { cancel: () => park.reader.cancel(reason) } },
+        abort: () => park.upstreamFetch?.abort?.(reason),
+        release
+      });
+  park.disposed = settled.then(value => { park.owner.complete(value); return value; });
+  return park.disposed;
+}
+
+function adoptQ0Continuation(context, driveUrl, headers, pinnedSource, transportSignal) {
+  const park = q0Continuations.get(context.clientId);
+  const requested = parseRequestedByteRange(context.requestedRange);
+  const start = requested?.start;
+  if (!park || park.disposed || park.failed || !Number.isSafeInteger(start) || requested.end !== null
+    || !sameQ0Context(park.scope, q0Context(context)) || park.driveUrl !== driveUrl.href
+    || park.resourceKeys !== (headers.get('X-Goog-Drive-Resource-Keys') || '')
+    || park.size !== Number(pinnedSource.descriptor.size)
+    || start < park.start || start > park.end || start >= park.size) return null;
+  park.adopted = true;
+  clearTimeout(park.timer);
+  q0Continuations.delete(context.clientId);
+  for (let skip = start - park.start; skip > 0;) {
+    const chunk = park.chunks[0];
+    if (chunk.byteLength <= skip) { park.chunks.shift(); skip -= chunk.byteLength; }
+    else { park.chunks[0] = chunk.subarray(skip); skip = 0; }
+  }
+  let downstream, released = false;
+  const body = new ReadableStream({
+    start(controller) { downstream = controller; },
+    async pull(controller) {
+      for (;;) {
+        if (park.chunks.length) { controller.enqueue(park.chunks.shift()); return; }
+        if (park.done) { controller.close(); return; }
+        await readQ0Continuation(park);
+      }
+    },
+    cancel(reason) { return park.reader.cancel(reason); }
+  }, { highWaterMark: 0 });
+  const responseHeaders = new Headers(park.headers);
+  responseHeaders.set('Content-Range', `bytes ${start}-${park.size - 1}/${park.size}`);
+  responseHeaders.set('Content-Length', String(park.size - start));
+  // Same lifetime link as a fresh fetch: caller abort until the body releases it.
+  const abortForCaller = () => attempt.abort(transportSignal.reason);
+  const attempt = {
+    response: new Response(body, { status: 206, statusText: 'Partial Content', headers: responseHeaders }),
+    abort(reason) {
+      try { downstream.error(reason || new DOMException('Cancelled', 'AbortError')); } catch (_) {}
+      park.reader.cancel(reason).catch(() => {});
+      park.upstreamFetch?.abort?.(reason);
+    },
+    release() {
+      if (released) return;
+      released = true;
+      transportSignal.removeEventListener('abort', abortForCaller);
+      park.upstreamFetch?.release?.();
+    }
+  };
+  transportSignal.addEventListener('abort', abortForCaller, { once: true });
+  // The adopting request's owner now holds the upstream; the park owner is done.
+  park.disposed = Promise.resolve(true);
+  park.owner.complete(true);
+  return attempt;
 }
 
 function q0Context(context) {
@@ -877,7 +1064,9 @@ function registerQ1TransportOwner(context, callerSignal) {
       resolve(settled === true);
     }
   };
-  const retired = () => owner.retire();
+  // The page abandoning this one request (not source retirement) may park a
+  // Q0 head continuation; explicit retirement and timeouts always cancel.
+  const retired = () => { owner.pageDetached = true; owner.retire(); };
   q1TransportOwners.set(context.requestId, owner);
   callerSignal.addEventListener('abort', retired, { once: true });
   if (callerSignal.aborted) retired();
@@ -1316,7 +1505,10 @@ function instrumentMediaResponseBody(body, context, details = {}, upstreamFetch 
       }
     },
     async cancel(reason) {
-      if (owner) return owner.cancelBody(reason);
+      if (owner) {
+        owner.pageDetached = true;
+        return owner.cancelBody(reason);
+      }
       const shouldTrace = claimTerminal('consumer-cancelled', false);
       if (!shouldTrace) {
         if (timedOut()) {

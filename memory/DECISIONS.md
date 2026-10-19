@@ -665,3 +665,9 @@ D097 결과 보고 후 사용자는 "1.23.9로 올리고 main 병합·push·운�
 직전 세션에서 사용자는 리팩토링보다 성능 작업을 먼저 하기로 동의했다(D096 이후). 위임 세션은 실제 로그인 Chrome에서 영상 시작 단계를 먼저 측정하고, 지배 단계만 줄이며, 원본 바이트 우선 계약·인증/보안 검사·기존 테스트를 유지한다. 측정 결과 매 열기마다 Q0 원본 고정(metadata→download POST→metadata 직렬,~1.45초)이 가장 큰 앱 측 단계였다. 결정: (1) 목록의 headRevisionId 힌트가 있으면 download POST를 첫 metadata 읽기와 병렬로 보내되 같은 revision·resourceKey 없음일 때만 채택하고, 마지막 metadata 확인은 원본 바이트 요청 전에 그대로 끝낸다. (2) 영상 카드의 마우스 hover(150ms)·누르기 시점에 페이지가 같은 고정을 미리 얻고, SW의 기존 retained-pin 'get' 절차가 파일·계정·세대가 같고 30초 이내인 것을 한 번만 채택한다(진행 중이면 최대1.5초 대기). SW 검증·bind·자격 재확인은 그대로다. 마지막 metadata 확인과 범위 요청을 겹치는 안은 기존 "원본 바이트 전에 실패" 계약 때문에 채택하지 않는다.
 
 브랜치 claude/video-startup-perf-20261019 로컬 커밋까지이며 병합·push·배포는 별도 명시 승인 대상(D090/D093 관례). 원본·인증/OAuth 설정·운영 주소·Notion·자동화 PAUSED 경계 유지. 수치와 검증은 qa/video-startup-20261019가 소유한다.
+
+## D-101 · moov-at-end 머리 스트림의 제한된 SW 이어받기 시제품 — 2026-10-19 (Session-delegated evaluation; not user-confirmed for release)
+
+D100 세션이 남긴 제안(OPEN-QUESTIONS 2026-10-19 D100 follow-ups)을 위임 세션이 평가했다. D089는 그 단위에서 새 캐시·전송 경로를 만들지 않았으므로 이 결정이 별도로 범위를 정한다. 결정: Q0 고정 원본의 byte 0부터 끝까지의 응답에 한해, 페이지가 그 요청 하나만 버린 경우(스트림 취소 또는 request.signal 중단) 살아 있는 상위 스트림을 메모리에만(≤4 MiB, ≤10초, 클라이언트당 1개) 보관하고, 같은 Q0 소유자·세대·고정 URI·크기의 다음 열린 범위 요청 시작점이 이미 받은 범위 안이면 그 스트림으로 응답한다. 소유자 확인·정리 울타리·고정 검증·자격 재확인·Range/Content-Range/길이 검사는 그대로 거친다. 보관분은 자체 q1TransportOwners 소유자로 등록되어 은퇴·만료·교체 시 fenceQ1RejectedBody로 취소된다. 명시적 은퇴·시간 초과·길이 오류는 계속 취소한다. 디스크 캐시나 재사용 캐시는 만들지 않는다.
+
+브랜치 claude/q0-moov-continuation-20261019 로컬 커밋까지이며 병합·push·배포는 실제 Chrome 확인 후 별도 명시 승인 대상(D090/D093 관례). 원본·인증/OAuth 설정·운영 주소·Notion·자동화 PAUSED 경계 유지. 근거와 위험은 qa/q0-continuation-20261019가 소유한다.

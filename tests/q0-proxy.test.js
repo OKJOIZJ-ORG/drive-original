@@ -362,3 +362,85 @@ test('card prewarm starts on press or mouse hover dwell, not on touch hover or a
   assert.deepEqual([...run(f.page,'__prewarms')],['video','video']);
   await f.retire();
 });
+// D101: a page-cancelled open-ended Q0 head parks its live upstream for one
+// matching follow-up range (moov-at-end head → tail → restart from ~32 KiB).
+function continuationFixture(size=64,{chunk=8,gateAt=-1,...options}={}){
+  const bytes=Uint8Array.from({length:size},(_,i)=>i%251),state={fetches:[],cancels:0,gate:deferred()};
+  const f=fixture({...options,metadata:m=>({...m,size:String(size)}),fetch:c=>{
+    if(!c.url.includes('alt=media'))return;
+    const m=/bytes=(\d*)-(\d*)/.exec(c.headers.get('range'));
+    const start=m[1]?Number(m[1]):size-Number(m[2]),end=m[1]&&m[2]?Number(m[2]):size-1;
+    const gated=!state.fetches.length;state.fetches.push(c.headers.get('range'));let pos=start,n=0;
+    return new Response(new ReadableStream({async pull(controller){
+      if(n++===gateAt&&gated)await state.gate.promise;
+      if(pos>end){controller.close();return;}
+      const next=Math.min(end+1,pos+chunk);controller.enqueue(bytes.slice(pos,next));pos=next;
+    },cancel(){state.cancels++;}},{highWaterMark:0}),{status:206,headers:{'content-range':`bytes ${start}-${end}/${size}`,
+      'content-length':String(end-start+1),'content-type':'video/mp4'}});
+  }});
+  return {f,bytes,state,parks:()=>run(f.worker,'q0Continuations.size'),owners:()=>run(f.worker,'q1TransportOwners.size')};
+}
+const settle=async(n=20)=>{for(let i=0;i<n;i++)await tick();};
+const readAll=async response=>new Uint8Array(await response.arrayBuffer());
+async function parkedHead(c,{reads=2,abort=false}={}){
+  const controller=new AbortController();const head=await c.f.request('bytes=0-',controller.signal);
+  assert.equal(head.status,206);const reader=head.body.getReader();
+  for(let i=0;i<reads;i++)assert.equal((await reader.read()).done,false);
+  if(abort)controller.abort();else await reader.cancel();
+  await settle();return reader;
+}
+test('a page-cancelled Q0 head serves the following restart range from its parked upstream',async()=>{
+  const c=continuationFixture();await parkedHead(c);
+  assert.equal(c.parks(),1);assert.equal(c.state.cancels,0);
+  const restart=await c.f.request('bytes=8-');assert.equal(restart.status,206);
+  assert.equal(restart.headers.get('content-range'),'bytes 8-63/64');assert.equal(restart.headers.get('content-type'),'video/mp4');
+  assert.deepEqual([...await readAll(restart)],[...c.bytes.slice(8)]);
+  assert.deepEqual(c.state.fetches,['bytes=0-']);assert.equal(c.parks(),0);await settle();assert.equal(c.owners(),0);
+  assert.equal((await c.f.retire()).settled,true);
+});
+test('caller abort of the head parks too, and a read pending at cancellation is consumed exactly once',async()=>{
+  const c=continuationFixture(64,{gateAt:2});const controller=new AbortController();
+  const head=await c.f.request('bytes=0-',controller.signal);const reader=head.body.getReader();
+  await reader.read();await reader.read();const pending=reader.read().catch(()=>({}));await settle(5);
+  controller.abort();await settle();c.state.gate.resolve();await pending;await settle();
+  assert.equal(c.parks(),1);const restart=await c.f.request('bytes=16-');
+  assert.deepEqual([...await readAll(restart)],[...c.bytes.slice(16)]);assert.deepEqual(c.state.fetches,['bytes=0-']);
+  assert.equal((await c.f.retire()).settled,true);
+});
+test('ranges outside the parked window or closed ranges fetch normally and leave the park bounded',async()=>{
+  const c=continuationFixture(64,{gateAt:3});await parkedHead(c);
+  const closed=await c.f.request('bytes=8-15');assert.deepEqual([...await readAll(closed)],[...c.bytes.slice(8,16)]);
+  const beyond=await c.f.request('bytes=40-');assert.deepEqual([...await readAll(beyond)],[...c.bytes.slice(40)]);
+  assert.deepEqual(c.state.fetches,['bytes=0-','bytes=8-15','bytes=40-']);assert.equal(c.parks(),1);
+  c.state.gate.resolve();assert.equal((await c.f.retire()).settled,true);
+  assert.equal(c.parks(),0);assert.equal(c.state.cancels,1);assert.equal(c.owners(),0);
+});
+test('source retirement cancels and joins a parked upstream; later ranges never adopt it',async()=>{
+  const c=continuationFixture(64,{gateAt:3});await parkedHead(c);assert.equal(c.owners(),1);
+  assert.equal((await c.f.retire()).settled,true);assert.equal(c.state.cancels,1);
+  assert.equal(c.parks(),0);assert.equal(c.owners(),0);
+});
+test('an unadopted park expires after its bounded lifetime and cancels the upstream',async()=>{
+  const c=continuationFixture(64,{gateAt:3,fastTimers:true});await parkedHead(c);
+  await new Promise(resolve=>setTimeout(resolve,40));assert.equal(c.parks(),0);assert.equal(c.state.cancels,1);
+  assert.equal(c.owners(),0);assert.equal(await run(c.f.worker,"waitForQ1CleanupFence('client')"),true);
+  const restart=await c.f.request('bytes=8-');await readAll(restart);assert.equal(c.state.fetches.length,2);
+  assert.equal((await c.f.retire()).settled,true);
+});
+test('explicit retirement during a live head cancels it instead of parking',async()=>{
+  const c=continuationFixture(64,{gateAt:3});const head=await c.f.request('bytes=0-');const reader=head.body.getReader();
+  await reader.read();const retired=c.f.retire();await settle();c.state.gate.resolve();
+  assert.equal((await retired).settled,true);assert.equal(c.state.cancels,1);assert.equal(c.parks(),0);
+});
+test('a head that already emitted more than the bound is cancelled normally',async()=>{
+  const size=4*1024*1024+64;const c=continuationFixture(size,{chunk:4*1024*1024+8,gateAt:2});await parkedHead(c,{reads:1});
+  assert.equal(c.parks(),0);assert.equal(c.state.cancels,1);
+  assert.equal((await c.f.retire()).settled,true);
+});
+test('closed, suffix and non-head ranges never park',async()=>{
+  for(const range of ['bytes=0-31','bytes=-32','bytes=8-']){
+    const c=continuationFixture(64,{gateAt:3});const head=await c.f.request(range);const reader=head.body.getReader();
+    await reader.read();await reader.cancel();await settle();assert.equal(c.parks(),0,range);assert.equal(c.state.cancels,1,range);
+    c.state.gate.resolve();await c.f.retire();
+  }
+});

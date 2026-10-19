@@ -166,3 +166,7 @@ Closed 2026-10-19 by D099 (1.23.10): Q3 Q1_SOURCE allowlist — Q3 now passes Q1
 ## 2026-10-19 — D100 follow-ups (not decided)
 
 UNKNOWN until deployed: the SW-side hinted acquisition (player next/previous, keyboard opens) was verified by unit tests and a page micro-benchmark only, not live. Proposal, not decided: moov-at-end files still pay two extra serial Drive range requests (~2 s); a bounded SW continuation of the cancelled head stream could save ~1 s but is a new transport path and needs its own decision. Owner: qa/video-startup-20261019/README.md.
+
+## 2026-10-19 — D101 head continuation live behavior
+
+UNKNOWN: whether actual Chrome signals the abandoned moov-at-end head to the SW (stream cancel or request.signal abort) before the ~32 KiB restart arrives. Without it the D101 park never forms (no harm, no saving). Expected saving ≈0.9–1.2 s per moov-at-end open is assumed, not measured. Resolve with an actual Chrome run of branch claude/q0-moov-continuation-20261019 watching `request-start` reason `continuation`. Owner: qa/q0-continuation-20261019/README.md. The D100 follow-up proposal above is now prototyped by D101; its release remains undecided.
