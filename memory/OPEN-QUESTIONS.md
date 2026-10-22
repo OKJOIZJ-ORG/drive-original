@@ -176,3 +176,7 @@ Resolved 2026-10-19 (D101 cancel propagation): in actual Chrome 155 against a lo
 ## 2026-10-20 — D102 follow-ups
 
 Resolved: the D101 continuation works on production Drive (15/15 restarts on the 0.9 MB/15 MB moov-at-end files; qa/release-1.23.12). Proposal, not decided: large moov-at-end files (#6, 807 MB) restart at ~8 MB, beyond the 4 MiB window. Widening it trades memory and an unadopted-transfer cap. Observed, not decided: the user's ~/.gitconfig core.autocrlf=false (2026-10-19 22:53) breaks the materializer hash check unless overridden per command. Whether that setting is intentional is UNKNOWN.
+
+## 2026-10-23 — D103 follow-ups
+
+Not decided: release of D103 (1.23.13). UNKNOWN until measured on real devices: the first-visit gain from overlapping the credential request with the SW install, and the touch-device topbar paint saving (both reasoned, not measured). Observed, not fixed: a small dash artifact left of the card resolution badge in demo mode exists identically before and after D103 (pre-existing UI detail).

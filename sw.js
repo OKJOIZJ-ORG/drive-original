@@ -268,8 +268,9 @@ self.addEventListener('fetch', (event) => {
 
   if (event.request.method !== 'GET' || !shellAssetCacheKey(event.request)) return;
 
-  // 3. For all local shell assets (HTML, JS, CSS, icons): Network-First, fallback to Cache!
-  event.respondWith(networkFirstAsset(event.request));
+  // 3. Local shell assets: this release's ?v= files from its own install
+  // batch, everything else network-first with the cache as fallback.
+  event.respondWith(currentReleaseAsset(event.request, event) || networkFirstAsset(event.request, event));
 });
 
 function workerScopeUrl() {
@@ -299,7 +300,26 @@ function withoutRedirectFlag(response) {
   });
 }
 
-async function networkFirstAsset(request) {
+function releaseQuery(request) {
+  try { return new URL(request.url).searchParams.get('v'); } catch (_) { return null; }
+}
+
+// A ?v= URL equal to this worker's VERSION names bytes this worker's install
+// batch already holds, so serve them without a revalidation round trip.
+// Anything missing or failing falls through to the network-first path.
+function currentReleaseAsset(request, event = null) {
+  const cacheKey = shellAssetCacheKey(request);
+  if (!cacheKey || request.mode === 'navigate' || releaseQuery(request) !== VERSION) return null;
+  return (async () => {
+    try {
+      const cached = await (await caches.open(SHELL_CACHE)).match(cacheKey);
+      if (cached) return withoutRedirectFlag(cached);
+    } catch (_) { /* Fall back to the network. */ }
+    return networkFirstAsset(request, event);
+  })();
+}
+
+async function networkFirstAsset(request, event = null) {
   const cacheKey = shellAssetCacheKey(request);
   if (!cacheKey) return fetch(request);
   let response;
@@ -308,10 +328,16 @@ async function networkFirstAsset(request) {
     // Let the browser follow the host's canonical redirect itself.
     if (response?.type === 'opaqueredirect') return response;
     if (response && response.ok) {
-      try {
-        const cache = await caches.open(SHELL_CACHE);
-        await cache.put(cacheKey, response.clone());
-      } catch (_) { /* Cache quota/private mode must not break a good network response. */ }
+      // Another release's ?v= bytes never enter this release's cache, where a
+      // canonical key would later answer this release's own URL with them.
+      const release = releaseQuery(request);
+      if (release == null || release === VERSION) {
+        // Hand the response to the page now; the cache copy finishes in the background.
+        const copy = response.clone();
+        const stored = caches.open(SHELL_CACHE).then((cache) => cache.put(cacheKey, copy))
+          .catch(() => { /* Cache quota/private mode must not break a good network response. */ });
+        try { event?.waitUntil?.(stored); } catch (_) { /* The event may already be settled. */ }
+      }
       return response;
     }
   } catch (_) { /* Recover network failures from this application's shell only. */ }

@@ -231,3 +231,33 @@ test('deep scan returning to a cached folder aborts a different pending scope be
   assert.deepEqual(value(c, 'state.files.map(f=>f.id)'), ['saved-A']);
   assert.equal(run(c, 'state.loadingTree'), false);
 });
+
+test('deep scan lists folders of one depth concurrently and keeps the breadth-first order', async () => {
+  const c = fixture();
+  const pages = {
+    'A:': { files: [folder('B', ['A']), folder('C', ['A']), folder('D', ['A']), media('a1', 'A')] },
+    'B:': { files: [folder('E', ['B']), media('b1', 'B')] },
+    'C:': { files: [media('c1', 'C')], nextPageToken: 'c2' }, 'C:c2': { files: [folder('F', ['C']), media('c2', 'C')] },
+    'D:': { files: [folder('E', ['D']), media('d1', 'D')] },
+    'E:': { files: [media('e1', 'E')] }, 'F:': { files: [media('f1', 'F')] }
+  };
+  const requests = provider(c, { A: folder('A', ['root']) }, pages);
+  const listing = c.driveFetch;
+  let active = 0, peak = 0;
+  // Earlier folders answer later, so completion order is the reverse of the queue.
+  // The expected order below is what the serial scan (before D103) produced.
+  const delay = { B: 30, C: 20, D: 5, E: 10, F: 0 };
+  c.driveFetch = async (url, options) => {
+    const parent = new URL(url).searchParams.get('q')?.match(/'([^']+)' in parents/)?.[1];
+    active += 1; peak = Math.max(peak, active);
+    try {
+      if (parent in delay) await new Promise(resolve => setTimeout(resolve, delay[parent]));
+      return await listing(url, options);
+    } finally { active -= 1; }
+  };
+  await run(c, 'applyFolderView()');
+  assert.deepEqual(value(c, 'state.files.map(f=>f.id)'), ['a1', 'b1', 'c1', 'c2', 'd1', 'f1', 'e1']);
+  assert.deepEqual(value(c, '[...state.treeCache.scannedFolderIds]'), ['A', 'B', 'C', 'D', 'E', 'F']);
+  assert.equal(requests.filter(request => /'E' in parents/.test(request.query)).length, 1, 'a folder reached twice is listed once');
+  assert.ok(peak >= 3, `sibling folders overlap (peak ${peak})`);
+});

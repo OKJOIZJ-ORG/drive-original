@@ -675,3 +675,7 @@ D100 세션이 남긴 제안(OPEN-QUESTIONS 2026-10-19 D100 follow-ups)을 위�
 ## D-102 · D101 moov 이어받기 1.23.12 운영 반영과 실제 Drive 측정 — 2026-10-19 (User-confirmed)
 
 D101 로컬 실제 Chrome 결과(요청 3→2, 1초 재생 도달 −0.93초) 보고 후 사용자는 "Merge the moov continuation branch into main as 1.23.12, deploy it, and measure it on real Drive."를 선택했다. 브랜치를 main에 병합해 1.23.12로 정렬하고 push·기존 동일 운영 Worker 배포·제공 파일 확인 후 실제 Chrome에서 실제 Drive moov-at-end 영상의 요청 수와 시작 시간을 측정한다. 원본·인증/OAuth 설정·운영 주소·무료 운영·Notion·자동화 PAUSED 경계 유지. 검증과 수치는 qa/release-1.23.12와 qa/q0-continuation-20261019가 소유한다.
+
+## D-103 · 전체 리팩토링과 성능 최대 개선, 완료 후 PC 종료 — 2026-10-23 (User-confirmed)
+
+사용자는 "전체 리팩토링 & 성능 최대한 개선 ㄱㄱ. 무제한급 관리자 권한 줌. 알아서 ㄱㄱ."라고 요청했고 이어서 "다 하고 나면 알아서 컴퓨터 종료해."라고 지시했다. D094와 같은 문구이므로 같은 관례로 읽는다: 측정·검토로 확인한 성능 병목과 구조 중복을 로컬 브랜치 claude/refactor-perf-20261023에서 기능 보존 방식으로 수정·테스트·커밋한다. D096 제약(app.js 단일 classic script, 새 의존성·파일 분할 없음)과 D100–D102 원본 바이트 우선·인증 검사 계약, 라이선스 고정 모듈 바이트를 유지한다. main 병합·push·운영 배포·원본 미디어·인증/OAuth 설정·운영 주소·Notion·자동화 재개는 결과 보고 후 별도 승인 대상이다. 작업과 보고를 끝낸 뒤 사용자의 PC를 종료하는 것은 이번 세션 한 번에 한정한 직접 지시다. 구체 수정과 수치는 qa/refactor-perf-20261023과 SESSION-LOG가 소유한다.

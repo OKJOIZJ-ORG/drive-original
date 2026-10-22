@@ -48,7 +48,9 @@ const RENDER_WINDOW_MAX = 240;
 const RENDER_WINDOW_STEP_RATIO = 0.5;
 const MOVE_RESULT_BATCH = 200;
 const FOLDER_RENDER_MAX = 200;
+const SEARCH_RENDER_DELAY_MS = 90;
 const BULK_ACTION_CONCURRENCY = 4;
+const DEEP_SCAN_CONCURRENCY = 4;
 const DEFAULT_FRAME_DURATION = 1 / 30;
 const MEDIA_ERROR_CLASSIFY_DELAY_MS = 180;
 const MEDIA_FRAME_NO_PROGRESS_TIMEOUT_MS = 15_000;
@@ -287,15 +289,24 @@ function mergeAccountMediaStates(first, second) {
   return merged;
 }
 
+// Same membership as normalizing the whole state first, without copying the
+// unbounded viewed history to answer a favorites or viewed-only question.
 function accountFavoriteIds(accountState) {
-  const normalized = normalizeAccountMediaState(accountState);
-  return new Set(Object.entries(normalized.favorites)
-    .filter(([, entry]) => entry.liked)
-    .map(([id]) => id));
+  const favorites = accountState?.favorites;
+  const ids = new Set();
+  Object.entries(favorites && typeof favorites === 'object' ? favorites : {}).forEach(([id, entry]) => {
+    if (id && (entry && typeof entry === 'object' ? entry.liked : entry)) ids.add(id);
+  });
+  return ids;
 }
 
 function accountViewedIds(accountState) {
-  return new Set(Object.keys(normalizeAccountMediaState(accountState).viewed));
+  const viewed = accountState?.viewed;
+  const ids = new Set();
+  Object.entries(viewed && typeof viewed === 'object' ? viewed : {}).forEach(([id, timestamp]) => {
+    if (id && normalizeStateTimestamp(timestamp)) ids.add(id);
+  });
+  return ids;
 }
 
 function prioritizeUnseenFiles(files, viewedIds, selectedId = null) {
@@ -648,6 +659,8 @@ const APP_SHELL_REFRESH_TIMEOUT_MS = 20000;
 let appShellRefreshPending = null;
 let appShellRefreshSequence = 0;
 let updateCheckGeneration = 0;
+let lastAppUpdateCheckAt = 0;
+const FOREGROUND_UPDATE_CHECK_MIN_INTERVAL_MS = 60_000;
 let updateCheckManualPending = false;
 const UPDATE_CHECK_TIMEOUT_MS = 15000;
 let controlsHideTimer = null;
@@ -1387,12 +1400,17 @@ async function init() {
   if (el.settingsAppVersion) el.settingsAppVersion.textContent = `v${APP_VERSION}`;
 
   setBootstrapAuthPending(true);
+  // The same-origin credential request does not need the worker. On a first
+  // visit, ready waits for the whole shell install, so overlap the two.
+  const credential = state.demo || location.protocol === 'file:'
+    ? null : requestSessionCredential({ background: true, force: true });
+  credential?.catch(() => {});
   await setupServiceWorker();
 
   if (state.demo) {
     setBootstrapAuthPending(false);
     startDemoMode();
-  } else if (await requestSessionCredential({ background: true, force: true })) {
+  } else if (await (credential || requestSessionCredential({ background: true, force: true }))) {
     setBootstrapAuthPending(false);
     showLibrary();
   } else {
@@ -1498,10 +1516,16 @@ function bindEvents() {
     if (state.filter === 'favorites') loadFavoriteFiles();
     else applyFolderView();
   });
+  // IME composition fires input per jamo; coalesce the grid render, not the query.
+  let searchRenderTimer = null;
   el.searchInput.addEventListener('input', (event) => {
     state.query = event.target.value.trim().toLocaleLowerCase('ko');
     state.folderRenderLimit = FOLDER_RENDER_MAX;
-    renderFiles({ resetWindow: true });
+    clearTimeout(searchRenderTimer);
+    searchRenderTimer = setTimeout(() => {
+      searchRenderTimer = null;
+      renderFiles({ resetWindow: true });
+    }, SEARCH_RENDER_DELAY_MS);
   });
   el.sortSelect.addEventListener('change', async (event) => {
     state.sort = event.target.value;
@@ -1776,7 +1800,8 @@ function bindEvents() {
       markStandaloneAuthorizationReturned();
       resumeStandaloneAuthorization();
       refreshForegroundCredential();
-      checkForAppUpdate({ manual: false });
+      // Quick app switches need not refetch version.json every time.
+      if (Date.now() - lastAppUpdateCheckAt >= FOREGROUND_UPDATE_CHECK_MIN_INTERVAL_MS) checkForAppUpdate({ manual: false });
       scheduleAccountStateRefresh(0);
       syncMediaSeekWatchdog();
       syncMediaFrameWatchdog();
@@ -1938,7 +1963,10 @@ async function setupServiceWorker() {
 
     // Initial check after 2 seconds, then every 5 minutes
     setTimeout(() => checkForAppUpdate({ manual: false }), 2000);
-    setInterval(() => checkForAppUpdate({ manual: false }), 5 * 60 * 1000);
+    // A hidden page is checked again when it becomes visible.
+    setInterval(() => {
+      if (document.visibilityState !== 'hidden') checkForAppUpdate({ manual: false });
+    }, 5 * 60 * 1000);
   } catch (error) {
     reportAppFailure('service-worker-registration', error, 'warn');
     if (!state.demo) showToast('원본 스트리밍 준비가 지연됩니다. 연결 상태를 확인한 뒤 새로고침하세요.');
@@ -2056,6 +2084,7 @@ function notifyUpdateAvailable(newVersion, summary) {
 }
 
 async function checkForAppUpdate({ manual = false } = {}) {
+  lastAppUpdateCheckAt = Date.now();
   const generation = ++updateCheckGeneration;
   if (manual) updateCheckManualPending = true;
   const manualFeedback = updateCheckManualPending;
@@ -2501,9 +2530,10 @@ function sendTokenToWorker() {
     revision: state.tokenRevision,
     accountGeneration: state.driveSessionGeneration
   };
-  if (navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage(message);
   const registration = state.serviceWorkerRegistration;
-  [registration?.active, registration?.waiting, registration?.installing].forEach((worker) => worker?.postMessage(message));
+  // The controller is usually also registration.active; post once per worker.
+  new Set([navigator.serviceWorker.controller, registration?.active, registration?.waiting, registration?.installing])
+    .forEach((worker) => worker?.postMessage(message));
 }
 
 function removeLegacyCredentialStorage() {
@@ -3065,11 +3095,47 @@ function extractVideoFrameThumbnail(file, imgElement, visualContainer) {
   processThumbnailQueue();
 }
 
-function processThumbnailQueue() {
-  if (playerMediaPriorityActive) return;
-  if (activeThumbnailExtractions >= MAX_CONCURRENT_EXTRACTIONS || thumbnailExtractionQueue.length === 0) {
+// Frame extraction loads original bytes, so it starts only for cards near the
+// viewport instead of for every card in the render window.
+let videoFrameThumbnailObserver = null;
+const pendingVideoFrameThumbnails = new Map();
+
+function requestVideoFrameThumbnail(file, imgElement, visualContainer) {
+  if (generatedThumbnailCache.has(file.id) || typeof IntersectionObserver !== 'function') {
+    extractVideoFrameThumbnail(file, imgElement, visualContainer);
     return;
   }
+  videoFrameThumbnailObserver ||= new IntersectionObserver((observations) => {
+    observations.forEach((observation) => {
+      if (!observation.isIntersecting) return;
+      const pending = pendingVideoFrameThumbnails.get(observation.target);
+      releaseVideoFrameThumbnailRequest(observation.target);
+      if (pending) extractVideoFrameThumbnail(pending.file, pending.imgElement, observation.target);
+    });
+  }, { rootMargin: '600px 0px' });
+  pendingVideoFrameThumbnails.set(visualContainer, { file, imgElement });
+  videoFrameThumbnailObserver.observe(visualContainer);
+}
+
+function releaseVideoFrameThumbnailRequest(visualContainer) {
+  pendingVideoFrameThumbnails.delete(visualContainer);
+  videoFrameThumbnailObserver?.unobserve(visualContainer);
+}
+
+function pruneVideoFrameThumbnailRequests() {
+  pendingVideoFrameThumbnails.forEach((_, visualContainer) => {
+    if (visualContainer?.isConnected === false) releaseVideoFrameThumbnailRequest(visualContainer);
+  });
+}
+
+function processThumbnailQueue() {
+  // Fill every free slot; resuming after player priority must not leave the
+  // queue running at a concurrency of one.
+  while (!playerMediaPriorityActive && activeThumbnailExtractions < MAX_CONCURRENT_EXTRACTIONS
+    && thumbnailExtractionQueue.length) startNextThumbnailExtraction();
+}
+
+function startNextThumbnailExtraction() {
 
   const { file, generation } = thumbnailExtractionQueue.shift();
   const waiters = thumbnailWaitersByFile.get(file.id) || [];
@@ -3294,6 +3360,9 @@ function resetListingSession() {
   thumbnailGeneration++;
   gifThumbnailObserver?.disconnect();
   gifThumbnailObserver = null;
+  videoFrameThumbnailObserver?.disconnect();
+  videoFrameThumbnailObserver = null;
+  pendingVideoFrameThumbnails.clear();
   gifThumbnailEntries.forEach((entry) => releaseStaticGifThumbnail(entry, { dispose: true }));
   gifThumbnailEntries.clear();
   [...activeThumbnailJobs].forEach((job) => job.cancel());
@@ -3885,11 +3954,10 @@ async function collectTreeCache(folderId = state.currentFolderId) {
     // A Drive root has no parent; keep its metadata outside the visible root
     // children rather than interpreting the missing parent as the 'root' alias.
     const items = [{ ...root, parents: root.parents?.length ? root.parents : ['__drive_tree_boundary__'] }];
-    const queue = [root], scannedFolderIds = new Set();
-    for (let cursor = 0; cursor < queue.length; cursor += 1) {
-      const folder = queue[cursor];
-      if (scannedFolderIds.has(folder.id)) continue;
-      scannedFolderIds.add(folder.id);
+    const scannedFolderIds = new Set();
+    let listedItems = 0;
+    const listFolder = async (folder) => {
+      const files = [];
       let pageToken = null;
       const seenPageTokens = new Set();
       do {
@@ -3908,8 +3976,7 @@ async function collectTreeCache(folderId = state.currentFolderId) {
           || data.files.some(item => !item?.id || !Array.isArray(item.parents) || !item.parents.includes(folder.id))) {
           throw new Error('Google Drive가 올바른 폴더 목록을 반환하지 않았습니다.');
         }
-        items.push(...data.files);
-        queue.push(...data.files.filter(item => item.mimeType === FOLDER_MIME));
+        files.push(...data.files);
         if (data.incompleteSearch) {
           throw new Error('Google Drive가 폴더 목록을 완전하게 반환하지 않았습니다. 잠시 후 다시 시도해 주세요.');
         }
@@ -3917,8 +3984,30 @@ async function collectTreeCache(folderId = state.currentFolderId) {
         if (next && seenPageTokens.has(next)) throw new Error('Drive가 같은 페이지 토큰을 반복했습니다.');
         if (next) seenPageTokens.add(next);
         pageToken = next;
-        updateLibraryStatus(statusToken, `${scopeName} 및 하위 폴더 탐색 중… ${(items.length - 1).toLocaleString('ko-KR')}개 항목 · ${scannedFolderIds.size.toLocaleString('ko-KR')}개 폴더 확인`);
+        listedItems += data.files.length;
+        updateLibraryStatus(statusToken, `${scopeName} 및 하위 폴더 탐색 중… ${listedItems.toLocaleString('ko-KR')}개 항목 · ${scannedFolderIds.size.toLocaleString('ko-KR')}개 폴더 확인`);
       } while (pageToken);
+      return files;
+    };
+    // Folders of one depth are listed concurrently. Their items and the next
+    // depth are assembled in the serial breadth-first order, so the result
+    // never depends on which response arrives first.
+    const stopped = Symbol('deep scan stopped after another folder failed');
+    let level = [root];
+    while (level.length) {
+      const folders = level.filter((folder) => !scannedFolderIds.has(folder.id) && scannedFolderIds.add(folder.id));
+      let failed = false;
+      const listings = await runTaskPool(folders, async (folder) => {
+        if (failed) throw stopped;
+        try { return await listFolder(folder); } catch (error) { failed = true; throw error; }
+      }, DEEP_SCAN_CONCURRENCY);
+      const failure = listings.find((listing) => listing.status === 'rejected' && listing.reason !== stopped);
+      if (failure) throw failure.reason;
+      level = [];
+      listings.forEach(({ value: files }) => {
+        items.push(...files);
+        level.push(...files.filter(item => item.mimeType === FOLDER_MIME));
+      });
     }
     assertCurrent();
     if (folderId === 'root') scannedFolderIds.add('root');
@@ -4414,12 +4503,18 @@ function accountStateCacheKey(accountId = state.accountId) {
   return accountId ? `${ACCOUNT_STATE_CACHE_PREFIX}${accountId}` : '';
 }
 
-function readCachedAccountMediaState(accountId) {
+// The cache text this context last wrote and a private normalized copy of it.
+// While the stored text is unchanged, persisting merges with that copy instead
+// of parsing and validating the whole (unbounded) viewed history again.
+let lastPersistedAccountState = null;
+
+function readCachedAccountMediaStateSnapshot(accountId) {
   const key = accountStateCacheKey(accountId);
   if (!key) return createEmptyAccountMediaState();
   try {
     const text = localStorage.getItem(key);
     if (text === null) return createEmptyAccountMediaState();
+    if (lastPersistedAccountState?.key === key && lastPersistedAccountState.text === text) return lastPersistedAccountState.value;
     return normalizeAccountMediaState(validateRawAccountMediaState(JSON.parse(text), true));
   } catch (_) {
     state.accountLocalStorageError = true;
@@ -4427,12 +4522,23 @@ function readCachedAccountMediaState(accountId) {
   }
 }
 
+function readCachedAccountMediaState(accountId) {
+  // Callers own and mutate the returned state; never hand out the shared snapshot.
+  const snapshot = readCachedAccountMediaStateSnapshot(accountId);
+  return snapshot === lastPersistedAccountState?.value ? normalizeAccountMediaState(snapshot) : snapshot;
+}
+
 function persistAccountMediaState() {
   const key = accountStateCacheKey();
   if (!key) return;
   try {
-    applyMergedAccountMediaState(mergeAccountMediaStates(readCachedAccountMediaState(state.accountId), state.accountMediaState));
-    localStorage.setItem(key, JSON.stringify(normalizeAccountMediaState(state.accountMediaState)));
+    const merged = mergeAccountMediaStates(readCachedAccountMediaStateSnapshot(state.accountId), state.accountMediaState);
+    applyMergedAccountMediaState(merged);
+    // A merge result is already normalized, so it serializes exactly like its normalized copy.
+    const text = JSON.stringify(merged);
+    lastPersistedAccountState = null;
+    localStorage.setItem(key, text);
+    lastPersistedAccountState = { key, text, value: normalizeAccountMediaState(merged) };
     state.accountLocalStorageError = false;
   } catch (_) { state.accountLocalStorageError = true; }
 }
@@ -5225,6 +5331,17 @@ function scheduleRenderWindowUpdate() {
   });
 }
 
+// Cards from the previous grid render, keyed by file id. A card is reused only
+// for the same file object and the same per-card inputs, so moving the render
+// window or re-rendering an unchanged range does not rebuild every card
+// (thumbnails would re-decode and GIF canvases would be redrawn).
+let renderedFileCards = new Map();
+
+function fileCardSignature(file) {
+  return [state.selectionMode, state.selectedFileIds.has(file.id), isFavoriteFileId(file.id),
+    file.name, file.size, file.__origin, file.thumbnailLink, file.capabilities?.canDownload].join('\u0000');
+}
+
 function renderMediaGrid(files) {
   if (!el.fileGrid) return;
   const columns = getGridColumnCount();
@@ -5233,14 +5350,33 @@ function renderMediaGrid(files) {
   state.renderWindowStart = windowRange.start;
   const topRows = Math.floor(windowRange.start / columns);
   const bottomRows = Math.ceil(Math.max(0, files.length - windowRange.end) / columns);
-  const fragment = document.createDocumentFragment();
-  files.slice(windowRange.start, windowRange.end).forEach((file, index) => {
-    fragment.appendChild(createFileCard(file, index, windowRange.start + index));
+  const deferLimit = isMobileDevice() ? 16 : 24;
+  const previousCards = renderedFileCards;
+  const nextCards = new Map();
+  const cards = files.slice(windowRange.start, windowRange.end).map((file, index) => {
+    const signature = fileCardSignature(file);
+    const previous = previousCards.get(file.id);
+    if (previous && previous.file === file && previous.signature === signature && !nextCards.has(file.id)) {
+      previous.card.classList?.toggle?.('defer-render', index >= deferLimit);
+      nextCards.set(file.id, previous);
+      return previous.card;
+    }
+    const card = createFileCard(file, index, windowRange.start + index);
+    if (!nextCards.has(file.id)) nextCards.set(file.id, { file, signature, card });
+    return card;
   });
+  renderedFileCards = nextCards;
   el.fileGrid.style.paddingTop = `${topRows * state.renderRowHeight}px`;
   el.fileGrid.style.paddingBottom = `${bottomRows * state.renderRowHeight}px`;
-  el.fileGrid.replaceChildren(fragment);
+  const mounted = el.fileGrid.children;
+  const unchanged = mounted?.length === cards.length && cards.every((card, index) => mounted[index] === card);
+  if (!unchanged) {
+    const fragment = document.createDocumentFragment();
+    cards.forEach((card) => fragment.appendChild(card));
+    el.fileGrid.replaceChildren(fragment);
+  }
   pruneStaticGifThumbnailEntries();
+  pruneVideoFrameThumbnailRequests();
   const firstCard = el.fileGrid.querySelector('.file-card');
   const gap = typeof getComputedStyle === 'function' ? parseFloat(getComputedStyle(el.fileGrid).rowGap) || 0 : 12;
   const measuredHeight = firstCard?.getBoundingClientRect?.().height || firstCard?.offsetHeight || 0;
@@ -5256,7 +5392,7 @@ function renderFiles({ resetWindow = false } = {}) {
   const loadingFavoriteView = state.filter === 'favorites' && state.loadingFavorites;
   if (resetWindow) state.renderWindowStart = 0;
   const visibleFolders = state.filter === 'all'
-    ? state.folders.filter((f) => !state.query || String(f.name || '').toLocaleLowerCase('ko').includes(state.query))
+    ? state.folders.filter(matchesLibraryQuery)
     : [];
   // Folders live in a compact navigation strip, clearly separated from media thumbnails.
   if (el.folderStrip) {
@@ -5384,6 +5520,19 @@ async function ensureAllPagesLoaded({ statusToken = state.libraryStatusToken } =
   }
 }
 
+// Search lowers each name once per name value instead of on every keystroke.
+const lowerCaseItemNames = new WeakMap();
+function matchesLibraryQuery(item) {
+  if (!state.query) return true;
+  const name = String(item.name || '');
+  let cached = lowerCaseItemNames.get(item);
+  if (cached?.name !== name) {
+    cached = { name, lower: name.toLocaleLowerCase('ko') };
+    lowerCaseItemNames.set(item, cached);
+  }
+  return cached.lower.includes(state.query);
+}
+
 function filteredAndSortedFiles() {
   const source = sortedPopulationFiles();
   if (filteredPopulationCache?.source === source && filteredPopulationCache.query === state.query
@@ -5392,7 +5541,7 @@ function filteredAndSortedFiles() {
     const isVideo = file.mimeType?.startsWith('video/');
     const typeMatch = state.filter === 'all' || state.filter === 'favorites'
       || (state.filter === 'video' && isVideo) || (state.filter === 'image' && !isVideo);
-    const queryMatch = !state.query || String(file.name || '').toLocaleLowerCase('ko').includes(state.query);
+    const queryMatch = matchesLibraryQuery(file);
     return typeMatch && queryMatch;
   });
   filteredPopulationCache = { source, query: state.query, filter: state.filter, files };
@@ -5428,11 +5577,11 @@ function sortedPopulationFiles() {
     }));
   }
 
-  return remember(files.sort((a, b) => {
-    if (state.sort === 'name') return FILE_NAME_COLLATOR.compare(String(a.name), String(b.name));
-    if (state.sort === 'size') return Number(b.size || 0) - Number(a.size || 0);
-    return new Date(b.modifiedTime || 0) - new Date(a.modifiedTime || 0);
-  }));
+  if (state.sort === 'name') return remember(files.sort((a, b) => FILE_NAME_COLLATOR.compare(String(a.name), String(b.name))));
+  if (state.sort === 'size') return remember(files.sort((a, b) => Number(b.size || 0) - Number(a.size || 0)));
+  // Parse each timestamp once instead of twice per comparison.
+  const modified = new Map(files.map((file) => [file, new Date(file.modifiedTime || 0).getTime()]));
+  return remember(files.sort((a, b) => modified.get(b) - modified.get(a)));
 }
 
 function getSelectedFiles() {
@@ -5586,11 +5735,13 @@ function installCardSelectionGestures(button, file) {
   });
 }
 
+const FILENAME_EPISODE_PATTERN = /(?:^|[\s._\-\[\]()])EP[.\s]*(\d{1,3})(?=$|[\s._\-\[\]()])/i;
+const FILENAME_PART_PATTERN = /(?:^|[\s._\-\[\]()])PART[.\s]*(VIII|VII|VI|IV|III|II|IX|X|V|I|\d{1,3})(?=$|[\s._\-\[\]()])/i;
+
 function filenamePartLabel(name) {
   const text = String(name || '');
-  const boundary = '(?=$|[\\s._\\-\\[\\]()])';
-  const episode = text.match(new RegExp('(?:^|[\\s._\\-\\[\\]()])EP[.\\s]*(\\d{1,3})' + boundary, 'i'));
-  const part = text.match(new RegExp('(?:^|[\\s._\\-\\[\\]()])PART[.\\s]*(VIII|VII|VI|IV|III|II|IX|X|V|I|\\d{1,3})' + boundary, 'i'));
+  const episode = text.match(FILENAME_EPISODE_PATTERN);
+  const part = text.match(FILENAME_PART_PATTERN);
   return [episode && `EP.${episode[1]}`, part && `PART${part[1].toUpperCase()}`].filter(Boolean).join(' · ');
 }
 
@@ -5652,7 +5803,7 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
 
     if (file.thumbnailLink) {
       thumbnail.addEventListener('error', () => {
-        if (isVideo) extractVideoFrameThumbnail(file, thumbnail, visual);
+        if (isVideo) requestVideoFrameThumbnail(file, thumbnail, visual);
         else thumbnail.remove();
       }, { once: true });
       if (playerMediaPriorityActive) thumbnail.dataset.playerDeferredSrc = file.thumbnailLink;
@@ -5660,7 +5811,7 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
       visual.appendChild(thumbnail);
     } else if (isVideo) {
       visual.appendChild(thumbnail);
-      extractVideoFrameThumbnail(file, thumbnail, visual);
+      requestVideoFrameThumbnail(file, thumbnail, visual);
     }
   }
 
@@ -5786,7 +5937,7 @@ function updateLibrarySummary(visibleCount, visibleFolderCount) {
     return;
   }
   const folderCount = Number.isFinite(visibleFolderCount) ? visibleFolderCount : state.filter === 'all'
-    ? state.folders.filter(folder => !state.query || String(folder.name || '').toLocaleLowerCase('ko').includes(state.query)).length : 0;
+    ? state.folders.filter(matchesLibraryQuery).length : 0;
   const parts = [];
   if (folderCount > 0) parts.push(`폴더 ${folderCount.toLocaleString('ko-KR')}개`);
   const ordinaryView = !state.deepScan;
