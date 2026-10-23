@@ -678,7 +678,7 @@ async function openPlayerTracks() {
   // metadata/range request. It never times a selected subtitle's playback life.
   let discoveryTimer;
   const readIdentity = async () => {
-    const {openDriveQ1Source} = await awaitPlayerTrackModule(owner, import('./media/drive-source.mjs'));
+    const {openDriveQ1Source} = await awaitPlayerTrackModule(owner, import('../media/drive-source.mjs'));
     if (!owner.current()) throw new Error('Q1_SOURCE_STALE');
     const source = await openDriveQ1Source({fileId: file.id, accountKey: account, accountGeneration,
       allowCorsHiddenRange: true,
@@ -709,7 +709,7 @@ async function openPlayerTracks() {
       if (!owner.current()) return;
       if (!retired.settled) throw new Error('GENERAL_TRACK_CLEANUP_UNSETTLED');
       discoveryTimer = setTimeout(() => { owner.timedOut = true; controller.abort(); }, 30000);
-      const {probePinnedGeneralTracks} = await awaitPlayerTrackModule(owner, import('./media/general-tracks.mjs'));
+      const {probePinnedGeneralTracks} = await awaitPlayerTrackModule(owner, import('../media/general-tracks.mjs'));
       owner.source = await readIdentity();
       owner.inventory = await probePinnedGeneralTracks(owner.source, {signal: controller.signal, isCurrent: owner.current});
       owner.reason = owner.inventory.reason || null;
@@ -753,7 +753,7 @@ async function openPlayerTracks() {
         return;
       }
       const [{createPinnedSubtitleTrack}, {createSubtitlePresentation}] = await awaitPlayerTrackModule(owner, Promise.all([
-        import('./media/subtitle-track.mjs'), import('./media/subtitle-presentation.mjs')]));
+        import('../media/subtitle-track.mjs'), import('../media/subtitle-presentation.mjs')]));
       owner.source = await readIdentity();
       owner.subtitles = await createPinnedSubtitleTrack(owner.source, {signal: controller.signal, isCurrent: owner.current,
         metadata: owner.inventory.subtitleMetadata});
@@ -830,7 +830,7 @@ async function observePinnedNativePlayerColor(file, session) {
     && video.currentSrc === buildPinnedMediaUrl(file));
   if (typeof globalThis.VideoFrame !== 'function' || !current()) return null;
   try {
-    const {observeNativeFrameColor} = await import('./media/native-color.mjs');
+    const {observeNativeFrameColor} = await import('../media/native-color.mjs');
     if (!current()) return null;
     // This records the native resource's observed interpretation, never a
     // guessed declaration about the original. The frame is closed immediately.

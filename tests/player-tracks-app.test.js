@@ -138,7 +138,7 @@ function nativeColorFixture() {
   const app = appSource;
   const observe = app.slice(app.indexOf('async function observePinnedNativePlayerColor('),
     app.indexOf('\nasync function selectPlayerAudioTrack('))
-    .replace("import('./media/native-color.mjs')", 'fakeColorModule');
+    .replace("import('../media/native-color.mjs')", 'fakeColorModule');
   c.fakeColorModule = {observeNativeFrameColor: ({identity, isCurrent}) => {
     c.captures++; assert.equal(isCurrent(), true); return {basis:'observed-native-frame',identity};
   }};
@@ -177,10 +177,10 @@ function discoveryFixture() {
   const c = fixture.exports();
   const app = appSource;
   const opening = app.slice(app.indexOf('async function openPlayerTracks()'), app.indexOf('\nasync function observePinnedNativePlayerColor('))
-    .replace("import('./media/drive-source.mjs')", 'fakeSourceModule')
-    .replace("import('./media/general-tracks.mjs')", 'fakeTracksModule')
-    .replace("import('./media/subtitle-track.mjs')", 'fakeSubtitleModule')
-    .replace("import('./media/subtitle-presentation.mjs')", 'fakePresentationModule');
+    .replace("import('../media/drive-source.mjs')", 'fakeSourceModule')
+    .replace("import('../media/general-tracks.mjs')", 'fakeTracksModule')
+    .replace("import('../media/subtitle-track.mjs')", 'fakeSubtitleModule')
+    .replace("import('../media/subtitle-presentation.mjs')", 'fakePresentationModule');
   run(c, opening);
   run(c, `state.selected={id:'fixture'};state.mediaSession=2;state.authAccountKey='a';state.driveSessionGeneration=7;
     navigator.serviceWorker={controller:{}};collapseShortsExpand=()=>{};

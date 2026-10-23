@@ -43,7 +43,7 @@ test('release version is synchronized across runtime, shell, HTML, and metadata'
   const metadata = JSON.parse(read('version.json'));
   const appVersion = app.match(/const APP_VERSION = '([^']+)'/)?.[1];
   const workerVersion = worker.match(/const VERSION = '([^']+)'/)?.[1];
-  assert.equal(metadata.version, '1.23.13');
+  assert.equal(metadata.version, '1.23.14');
   assert.equal(appVersion, metadata.version);
   assert.equal(workerVersion, metadata.version);
   assert.match(html, new RegExp(`styles\\.css\\?v=${metadata.version.replaceAll('.', '\\.')}`));
@@ -66,6 +66,24 @@ test('app scripts load in one order everywhere: index.html, shell cache, public 
   assert.equal((appSource.match(/const APP_VERSION = /g) || []).length, 1);
   // Strict mode is a per-script directive; every piece must keep it.
   for (const name of APP_SCRIPTS) assert.match(read(name), /^'use strict';\n/, `${name} keeps strict mode`);
+});
+
+test('dynamic imports in app scripts resolve from the script URL to published modules', () => {
+  // A classic script resolves import() against its own URL, not the document,
+  // so './media/x' inside app/*.js would request app/media/x.
+  const publicFiles = new Set(require('../scripts/public-files.cjs'));
+  const base = 'https://app.test/drive-original/';
+  let imports = 0;
+  for (const name of APP_SCRIPTS) {
+    for (const match of read(name).matchAll(/\bimport\(\s*(['"])([^'"]+)\1/g)) {
+      imports += 1;
+      const resolved = new URL(match[2], new URL(name, base)).href;
+      assert.ok(resolved.startsWith(base) && publicFiles.has(resolved.slice(base.length)), `${name}: import('${match[2]}') -> ${resolved}`);
+    }
+    // Worker and fetch URLs resolve against the document; keep them explicit.
+    assert.doesNotMatch(read(name), /new Worker\(\s*['"]/, `${name} builds Worker URLs from location.href`);
+  }
+  assert.ok(imports >= 9);
 });
 
 test('authentication setup feedback is a polite atomic live region', () => {

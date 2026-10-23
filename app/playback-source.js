@@ -429,7 +429,7 @@ async function planPinnedOriginalAudio(owner, pin) {
   };
   try {
     const [{openDriveQ1Source}, {probePinnedGeneralAudio}] = await Promise.all([
-      import('./media/drive-source.mjs'), import('./media/audio-general-pipeline.mjs')]);
+      import('../media/drive-source.mjs'), import('../media/audio-general-pipeline.mjs')]);
     if (!current()) return;
     const file = state.selected;
     source = await openDriveQ1Source({fileId:file.id, accountKey:owner.account,
@@ -641,7 +641,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
     // Retirement makes the previous generation permanently unavailable in SW.
     mediaSourceGeneration += 1;
     owner.swGeneration = mediaSourceGeneration;
-    const { openDriveQ1Source } = await import('./media/drive-source.mjs');
+    const { openDriveQ1Source } = await import('../media/drive-source.mjs');
     if (!current()) return true;
     let routeIdentity = null;
     const openSource = async ({ signal }) => {
@@ -696,8 +696,8 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
     routeIdentity = sniff.identity;
     owner.routeIdentity = routeIdentity;
     const createPlayer = ts
-      ? (await import('./media/ts-player.mjs')).createTsPlayer
-      : (await import('./media/general-player.mjs')).createGeneralPlayer;
+      ? (await import('../media/ts-player.mjs')).createTsPlayer
+      : (await import('../media/general-player.mjs')).createGeneralPlayer;
     owner.kind = ts ? 'ts' : 'general';
     if (!current()) return true;
     const resume = initial && state.resumePosition?.fileId === file.id ? state.resumePosition : null;
@@ -785,7 +785,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
             owner.q3ProbeDone=(async()=>{
               let decision, failure;
               try {
-                const {probePinnedQ3Video}=await import('./media/video-q3-pipeline.mjs');
+                const {probePinnedQ3Video}=await import('../media/video-q3-pipeline.mjs');
                 if(!current())return;
                 const source=await openSource({signal:controller.signal});
                 decision=await probePinnedQ3Video(source,{signal:controller.signal,isCurrent:current,nativeRejected:true});

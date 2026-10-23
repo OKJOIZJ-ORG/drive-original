@@ -59,7 +59,7 @@ function pinnedProbeFixture({iso=false, probeFailure=false,probeCode=null,bytes=
  // Keep the real planner/owner/barrier logic; replace only dynamic module loading
  // because this VM fixture intentionally has no module-loader callback.
  const planner=app.slice(app.indexOf('async function planPinnedOriginalAudio('),app.indexOf('\nasync function tryOriginalTsPlayback('))
-  .replace("await Promise.all([\n      import('./media/drive-source.mjs'), import('./media/audio-general-pipeline.mjs')])",'await Promise.all([fakeSourceModule, fakeProbeModule])');
+  .replace("await Promise.all([\n      import('../media/drive-source.mjs'), import('../media/audio-general-pipeline.mjs')])",'await Promise.all([fakeSourceModule, fakeProbeModule])');
  let readStarted,releaseRead,abortStarted,releaseAbort,rejectAbort;
  const reading=new Promise(r=>{readStarted=r;}),aborting=new Promise(r=>{abortStarted=r;});
  const read=new Promise(r=>{releaseRead=r;}),cleanup=new Promise((r,j)=>{releaseAbort=r;rejectAbort=j;});
