@@ -320,6 +320,14 @@ test('a card-intent prewarmed pin is adopted once by the SW without provider acq
   assert.equal(run(f.page,'q0Prewarm'),null);assert.equal(run(f.page,'q0PinnedSource.uri'),f.uri);
   await f.retire();
 });
+test('an image card prewarm is adopted by the SW the same way as a video prewarm',async()=>{
+  const {f,pageCalls}=prewarmFixture();run(f.page,"state.selected.mimeType='image/jpeg'");
+  const entry=run(f.page,'prewarmRevisionPin(state.selected)');assert.ok(await entry.promise);
+  assert.deepEqual(pageCalls.map(c=>c.method),['GET','POST','GET']);
+  const response=await f.request();assert.equal(response.status,206);await response.arrayBuffer();
+  assert.deepEqual(f.calls.map(c=>c.url),[f.uri]);assert.equal(run(f.page,'q0Prewarm'),null);
+  await f.retire();
+});
 test('an in-flight prewarm is joined by the SW handshake instead of a duplicate acquisition',async()=>{
   const {f,pageCalls}=prewarmFixture();const gate=deferred();const pageFetch=f.page.fetch;
   f.page.fetch=async(url,init)=>{if(String(url).includes('/download'))await gate.promise;return pageFetch(url,init);};
@@ -336,9 +344,10 @@ test(`a ${name} prewarm is never adopted and the SW acquires its own pin`,async(
   assert.equal(f.count('/download'),1);assert.equal(f.calls.filter(c=>!c.url.includes('alt=media')&&!c.url.includes('/download')).length,2);
   await f.retire();
 });
-test('prewarm is skipped for demo, images, download-restricted files and missing read capability',()=>{
+test('prewarm is skipped for demo, non-media, download-restricted files and missing read capability',()=>{
   const {f,pageCalls}=prewarmFixture();
-  for(const expression of ["prewarmRevisionPin({...state.selected,mimeType:'image/jpeg'})",
+  for(const expression of ["prewarmRevisionPin({...state.selected,mimeType:'application/pdf'})",
+    "prewarmRevisionPin({...state.selected,mimeType:'application/vnd.google-apps.folder'})",
     "prewarmRevisionPin({...state.selected,capabilities:{canDownload:false}})",
     "(()=>{state.demo=true;const r=prewarmRevisionPin(state.selected);state.demo=false;return r;})()",
     "(()=>{const c=state.authCapabilities;state.authCapabilities={...c,driveRead:false};const r=prewarmRevisionPin(state.selected);state.authCapabilities=c;return r;})()"])
@@ -352,7 +361,11 @@ test('card prewarm starts on press or mouse hover dwell, not on touch hover or a
     installCardPinPrewarm(__button,{id:'video',mimeType:'video/mp4'});
     globalThis.__image={handlers:{},addEventListener(type,fn){this.handlers[type]=fn;}};
     installCardPinPrewarm(__image,{id:'image',mimeType:'image/png'});`);
-  assert.equal(Object.keys(run(f.page,'__image.handlers')).length,0);
+  run(f.page,"globalThis.__pdf={handlers:{},addEventListener(type,fn){this.handlers[type]=fn;}};installCardPinPrewarm(__pdf,{id:'pdf',mimeType:'application/pdf'})");
+  assert.equal(Object.keys(run(f.page,'__pdf.handlers')).length,0);
+  run(f.page,"__image.handlers.pointerdown({button:0,pointerType:'touch'})");
+  assert.deepEqual([...run(f.page,'__prewarms')],['image'],'image cards prewarm like video cards');
+  run(f.page,'__prewarms.length=0');
   run(f.page,"__button.handlers.pointerenter({pointerType:'touch'})");await new Promise(r=>setTimeout(r,200));
   run(f.page,"__button.handlers.pointerenter({pointerType:'mouse'});__button.handlers.pointerleave({})");await new Promise(r=>setTimeout(r,200));
   assert.deepEqual([...run(f.page,'__prewarms')],[]);
@@ -360,6 +373,19 @@ test('card prewarm starts on press or mouse hover dwell, not on touch hover or a
   assert.deepEqual([...run(f.page,'__prewarms')],['video']);
   run(f.page,"__button.handlers.pointerdown({button:0,pointerType:'touch'});__button.handlers.pointerdown({button:2,pointerType:'mouse'})");
   assert.deepEqual([...run(f.page,'__prewarms')],['video','video']);
+  await f.retire();
+});
+test('the item the primary gesture opens next gets the prewarm slot only while the player shows the current item',async()=>{
+  const {f}=prewarmFixture();
+  run(f.page,`globalThis.__prewarms=[];prewarmRevisionPin=file=>{__prewarms.push(file.id);return null;};
+    globalThis.__list=['a','b','c','d'].map(id=>({id,mimeType:id==='c'?'image/jpeg':'video/mp4'}));
+    getPlaybackFileList=()=>__list;state.selected=__list[1];state.playbackOrderIds=['a','b','c','d'];
+    state.playbackDeck={anchorId:'b',above:['a'],below:['d']};state.playbackDeckComplete=hasCompletePlaybackPopulation();
+    el.playerSheet={hidden:false};isMobileDevice=()=>false;`);
+  run(f.page,'prewarmNextPlaybackPin()');
+  run(f.page,'isMobileDevice=()=>true;prewarmNextPlaybackPin()');
+  run(f.page,'el.playerSheet.hidden=true;prewarmNextPlaybackPin()');
+  assert.deepEqual([...run(f.page,'__prewarms')],['c','d'],'desktop sequential next, touch vertical deck, nothing when closed');
   await f.retire();
 });
 // D101: a page-cancelled open-ended Q0 head parks its live upstream for one

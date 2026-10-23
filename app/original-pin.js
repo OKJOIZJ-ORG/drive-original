@@ -144,9 +144,13 @@ async function fetchQ0PinJSON(url, { method = 'GET', resourceKey = null, signal 
   try { return JSON.parse(text); } catch (_) { throw DriveRevisionPin.error('JSON_INVALID'); }
 }
 
+function isPrewarmableMedia(file) {
+  return /^(video|image)\//.test(file?.mimeType || '');
+}
+
 function prewarmRevisionPin(file) {
   const account = state.authAccountKey, accountGeneration = state.driveSessionGeneration;
-  if (state.demo || !file?.id || !file.mimeType?.startsWith('video/') || file.capabilities?.canDownload === false
+  if (state.demo || !file?.id || !isPrewarmableMedia(file) || file.capabilities?.canDownload === false
     || !account || !hasUsableToken() || !hasAuthCapability('driveRead') || !globalThis.DriveRevisionPin
     || !navigator.serviceWorker?.controller) return null;
   const existing = q0Prewarm;
@@ -179,6 +183,18 @@ function prewarmRevisionPin(file) {
   return entry;
 }
 
+// Once the current item is on screen, the item the primary gesture opens next
+// (vertical deck on touch layouts, sequential next otherwise) gets its pin in
+// the same single slot, so that open skips the provider acquisition.
+function prewarmNextPlaybackPin() {
+  if (el.playerSheet?.hidden !== false || !state.selected || state.bulkAction) return null;
+  const list = getPlaybackFileList();
+  const deck = isMobileDevice() ? ensureVerticalPlaybackDeck(state.selected, list) : null;
+  const next = deck ? getPlaybackFileById(deck.below?.[0], list) : resolveSequentialPlaybackTarget('left', list);
+  if (!next || next.id === state.selected.id) return null;
+  return prewarmRevisionPin(next);
+}
+
 // Hands a matching prewarmed pin to the current Q0 owner at most once. An
 // in-flight prewarm is joined for a bounded time below the SW handshake limit.
 async function takePrewarmedRevisionPin(owner) {
@@ -195,7 +211,7 @@ async function takePrewarmedRevisionPin(owner) {
 }
 
 function installCardPinPrewarm(button, file) {
-  if (!file.mimeType?.startsWith('video/')) return;
+  if (!isPrewarmableMedia(file)) return;
   let timer = null;
   const cancel = () => { clearTimeout(timer); timer = null; };
   button.addEventListener('pointerenter', (event) => {

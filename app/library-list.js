@@ -249,9 +249,13 @@ async function loadFiles({ append, statusToken = null }) {
   if (append) updateLibrarySummary();
   else renderFiles({ resetWindow: true });
 
-  const params = folderListingParams(state.currentFolderId);
+  // The 'root' alias is not the id Drive reports in parents, so root keeps the field.
+  const listedFolderId = state.currentFolderId;
+  const listedParent = listedFolderId !== 'root';
+  const params = folderListingParams(listedFolderId, { listedParent });
   const requestedPageToken = append ? state.nextPageToken : null;
   if (requestedPageToken) params.set('pageToken', requestedPageToken);
+  else params.set('pageSize', String(DRIVE_FIRST_PAGE_SIZE));
 
   const request = (async () => {
    try {
@@ -267,6 +271,9 @@ async function loadFiles({ append, statusToken = null }) {
       throw new Error('Drive가 같은 페이지 토큰을 반복했습니다.');
     }
     const incoming = data.files;
+    if (listedParent) incoming.forEach((item) => {
+      if (item && typeof item === 'object' && !Array.isArray(item.parents)) item.parents = [listedFolderId];
+    });
     const incomingFolders = incoming.filter((f) => f.mimeType === FOLDER_MIME);
     const incomingMedia = incoming.filter((f) => f.mimeType?.startsWith('video/') || f.mimeType?.startsWith('image/'));
 

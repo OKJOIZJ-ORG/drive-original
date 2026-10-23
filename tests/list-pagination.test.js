@@ -295,3 +295,22 @@ test('empty-state stays hidden for an unmatched partial search until collection 
   const next=run(c,'loadFiles({append:true})');held.resolve({files:[media('last')]});await next;
   assert.equal(run(c,'el.emptyState.hidden'),false);
 });
+
+test('folder listings start with a short page, omit parents outside root and record the listed parent', async () => {
+  for (const folder of ['folder-A', 'root']) {
+    const f=fixture(),c=f.context,urls=[];
+    c.driveFetch=async(url)=>{const parsed=new URL(url);urls.push(parsed);const token=parsed.searchParams.get('pageToken');
+      const files=token?[media('later')]:[{...media('first'),parents:undefined},{...media('kept'),parents:['folder-A','other']}];
+      if(!token)files.forEach(file=>{if(file.parents===undefined)delete file.parents;});
+      return {json:async()=>({files:folder==='root'?files.map(file=>({...file,parents:file.parents||['root-id']})):files,nextPageToken:token?undefined:'B'})};};
+    run(c,`state.currentFolderId=${JSON.stringify(folder)}`);
+    await run(c,'loadFiles({append:false})');await f.settle();
+    assert.deepEqual(urls.map(u=>u.searchParams.get('pageSize')),['100','1000']);
+    const fields=urls.map(u=>u.searchParams.get('fields'));
+    assert(fields.every(value=>value.includes('incompleteSearch')&&value.includes('headRevisionId')));
+    assert.equal(fields.every(value=>/[,(]parents[,)]/.test(value)),folder==='root',folder);
+    const parents=value(c,'Object.fromEntries(state.files.map(file=>[file.id,file.parents]))');
+    if(folder==='root')assert.deepEqual(parents.first,['root-id'],'root keeps the parents Drive reports');
+    else{assert.deepEqual(parents.first,['folder-A']);assert.deepEqual(parents.kept,['folder-A','other'],'reported parents are kept');}
+  }
+});

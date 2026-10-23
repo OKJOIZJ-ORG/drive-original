@@ -31,6 +31,7 @@ function completeVideoFramePresentation(owner, confidence = 'decoded-frame') {
   el.mediaError.hidden = true;
   scheduleNextFilePage();
   warmPlaybackNeighborhood(state.selected, { loadPopulation: true });
+  prewarmNextPlaybackPin();
   updateQualityDisplay();
   hideSwipeNeighbor({ immediate: false });
   return true;
@@ -92,6 +93,7 @@ function onMediaReady() {
     el.imageViewer.classList.add('is-ready');
     scheduleNextFilePage();
     warmPlaybackNeighborhood(state.selected, { loadPopulation: true });
+    prewarmNextPlaybackPin();
     scheduleImageViewedPresentation(el.imageViewer);
     requestAnimationFrame(() => hideSwipeNeighbor({ immediate: false }));
   }

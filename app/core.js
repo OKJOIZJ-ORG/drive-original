@@ -83,7 +83,14 @@ async function readSourceRevisionMetadata(file, signal) {
 }
 
 // One page of a folder's direct children: subfolders and supported media.
-function folderListingParams(folderId) {
+// files.list returns at most 460 items per page when `parents` is requested
+// and 1000 without it (observed 2026-10-23). The query already names the
+// parent, so a listing that records it locally omits the field.
+const LISTED_FILE_FIELDS = MEDIA_FILE_FIELDS.replace(',parents,', ',');
+// A short first page paints a large folder sooner: about 1.0 s for 100 items
+// against 2.7 s for 1000 (observed 2026-10-23). Later pages use the full size.
+const DRIVE_FIRST_PAGE_SIZE = 100;
+function folderListingParams(folderId, { listedParent = false } = {}) {
   return new URLSearchParams({
     pageSize: String(DRIVE_PAGE_SIZE),
     orderBy: 'folder,modifiedTime desc',
@@ -91,7 +98,7 @@ function folderListingParams(folderId) {
     spaces: 'drive',
     supportsAllDrives: 'true',
     includeItemsFromAllDrives: 'true',
-    fields: `nextPageToken,incompleteSearch,files(${MEDIA_FILE_FIELDS})`
+    fields: `nextPageToken,incompleteSearch,files(${listedParent ? LISTED_FILE_FIELDS : MEDIA_FILE_FIELDS})`
   });
 }
 const PLAYBACK_MODE = Object.freeze({

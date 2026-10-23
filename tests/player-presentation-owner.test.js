@@ -34,7 +34,7 @@ test('same-session source replacement schedules a new presentation while stale f
     mediaSeekWatchdog: null,
     isCurrentMediaEvent: () => true, noteMediaFrameProgress() {},
     tryCaptureAmbientFrame() {}, updateQualityDisplay() {}, hideSwipeNeighbor() {},
-    scheduleNextFilePage() { backgroundResumes++; }, warmPlaybackNeighborhood() {}
+    scheduleNextFilePage() { backgroundResumes++; }, warmPlaybackNeighborhood() {}, prewarmNextPlaybackPin() {}
   };
   vm.createContext(context);
   vm.runInContext(seekOwnerSource + '\n' + presentationSource, context);

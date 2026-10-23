@@ -994,3 +994,7 @@ User confirmed the C:\DriveBackup\Projects-mirror hard-link mirror is theirs. Le
 ## 2026-10-23 — D107 initial library load root cause (1.23.15 local)
 
 Measured production 1.23.14 in the user's Chrome: root listing started only after the account sync (about → catalog → 16 writer downloads, pool 4), so the summary appeared at 6.1–7.3 s; an immediate duplicate about+catalog followed. Patched resumeAfterCredential (parallel first listing, no duplicate refresh), pool 16, persisted per-file read cache. 983/983. Injected patched functions on the production origin: summary 1.48–1.50 s, account state 3.0 s cold / 1.9 s warm with 0 downloads; 22 likes/397 viewed intact. Branch claude/initial-load-perf-20261023, not merged/pushed/deployed. qa/initial-load-20261023 owns numbers.
+
+## 2026-10-23 — D108 listing, photo and next-item loading (1.23.15 local)
+
+Measured production 1.23.14 in a 2158-item folder: `parents` caps files.list at 460/page; photo open 2.5–2.9 s (pin ~1.1–1.3 s + Drive TTFB); next item after swipe 2.3–3.0 s. Patched: non-root listings omit parents and record the listed parent, first page 100; photo cards prewarm pins; the next item is prewarmed once the current one is shown. 986/986. Injected on production: first page 0.95 s (was 1.5–2.3), request loop 6.5–7.2 s (was 7.5–8.9), photo hover open 1.8–1.9 s (was 2.8), next photo 1.15–1.21 s, next video 1.23–1.73 s (were 2.3–3.0). Thumbnail-preview-while-loading left for a user decision. qa/media-load-20261023 owns numbers.
