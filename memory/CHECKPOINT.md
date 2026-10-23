@@ -1,24 +1,26 @@
-# Checkpoint — D103 refactor/perf pass ready locally — 2026-10-23
+# Checkpoint — D104 1.23.14 delivered — 2026-10-23
 
 ## The story so far
-1.23.12 (D101/D102) is live: Worker bb66276a, main 8232669 (+ docs 0590de9). qa/release-1.23.12 owns those numbers.
+1.23.12 (D101/D102) was live as Worker bb66276a. D103 (performance pass) and D104 (app.js split into 18 ordered classic scripts under app/) were released together.
 
 ## Latest
-D103 (user: "전체 리팩토링 & 성능 최대한 개선 … 알아서 ㄱㄱ"), branch claude/refactor-perf-20261023, committed locally only. Grid card reuse/no-op mounts, search debounce + lowercase cache, one-parse date sort, viewport-gated frame thumbnails with full slot refill, level-parallel deep scan in serial BFS order, cheaper account-state persist (byte-identical), credential request overlapped with SW install, SW cache-first for this release's ?v= files with no cross-release pollution, non-blocking cache writes, lh3 preconnect fix, no topbar blur on touch. 977/977. Demo-mode Chrome: unchanged-range render 67–97 → ~3 ms, window move 73–93 → 41–48 ms, typing 0.5 s → 0.4 ms sync, persist(10k) 45 → 35 ms, repeat launch skips 3 shell revalidations. qa/refactor-perf-20261023 owns details.
+1.23.14 is live: Worker 10a444bb, main 482484b. 1.23.13 (f9f8ae36, 1ba6bf7) broke video opening because import('./media/…') inside app/*.js resolved to /app/media/; 1.23.14 uses ../media/ plus a static resolution test. 979/979; 81/81 served Git-equal; bindings 11/4 equal. Actual Chrome (user profile): v1.23.14, same account, 22 likes, 3 short liked videos play original-range (first progress 2.6–4.0 s), modules load from /media/. qa/release-1.23.14 owns numbers; qa/modularize-20261023 and qa/refactor-perf-20261023 own the code changes.
 
 ## Decided
-D094–D102 as before; D103 local refactor/perf. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
+D094–D103 as before; D104 supersedes the D096 no-file-split clause and authorized this delivery; D105 records the same-day 1.23.14 fix-forward. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
 
 ## Waiting on the user
-Whether to release D103 (version bump 1.23.13, merge, push, deploy:candidate, real-Drive check). Not decided: widening the 4 MiB moov window (#6 type).
+None for delivery. Not decided: the C:\DriveBackup\Projects-mirror hard-link mirror blocks `deploy:candidate` in place (see Tried); widening the 4 MiB moov window (#6 type).
 
 ## Next first action
-Read qa/refactor-perf-20261023/README.md; on approval follow the Tried deploy notes below.
+Read qa/release-1.23.14/README.md. App code now lives in app/ (map: app/README.md); the order is owned by scripts/public-files.cjs.
 
 ## Tried
-Deploy: `npm run deploy:candidate` (worker/); the materializer waits (≤120 s) for Google Drive for desktop's temporary upload hard link in C:\Projects\.tmp.driveupload. When the upload queue is long, wait for nlink=1 on all publication inputs and rerun. Never deploy if materialize exits non-zero.
-The user's ~/.gitconfig sets core.autocrlf=false (since 2026-10-19 22:53, not set by an agent). Run the deploy with GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=core.autocrlf GIT_CONFIG_VALUE_0=true.
+Deploy: while C:\DriveBackup\Projects-mirror hard-links the checkout, the materializer refuses linked inputs (not transient). Deploy from a clean detached worktree of the release commit in a scratch directory: `git worktree add --detach <dir> <commit>`; in <dir>/worker run `node ../scripts/build-pages.cjs && node ../scripts/materialize-committed-pages.cjs && <source>/worker/node_modules/.bin/wrangler deploy --config wrangler.jsonc` with GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=core.autocrlf GIT_CONFIG_VALUE_0=true; remove the worktree after. Never deploy if materialize exits non-zero.
+Transient Drive for desktop upload links (C:\Projects\.tmp.driveupload) still apply to freshly changed files in the main checkout.
 Wrangler login needs `npx wrangler login --scopes account:read user:read workers:write workers_scripts:write`; account ID cf830a3ca386bf7ee3592d15ef17242c.
 License-pinned modules (audio-general-*.mjs, video-q3-*.mjs) must stay byte-identical unless corresponding-source manifests are regenerated.
-Navigation preload must stay off: /auth/* navigations are not answered by the SW, so a preload would send the OAuth callback twice.
-Demo-mode perf harness: qa/refactor-perf-20261023/serve.cjs + bench-grid.js (no account or Drive access).
+Navigation preload must stay off (/auth/* navigations are not answered by the SW).
+Under D103 the SW serves ?v=<its VERSION> app scripts from its install batch: any change to public bytes needs a version bump to reach updated clients.
+Classic scripts resolve import() against their own URL; app/*.js imports use ../media/. Demo mode never loads media modules, so verify module paths with a real playback or the static test.
+Measuring startup: set `__driveOriginalMediaTraceSink`; app scripts are classic scripts with replaceable globals (tests/app-loader.cjs loads them in order).

@@ -180,3 +180,7 @@ Resolved: the D101 continuation works on production Drive (15/15 restarts on the
 ## 2026-10-23 — D103 follow-ups
 
 Not decided: release of D103 (1.23.13). UNKNOWN until measured on real devices: the first-visit gain from overlapping the credential request with the SW install, and the touch-device topbar paint saving (both reasoned, not measured). Observed, not fixed: a small dash artifact left of the card resolution badge in demo mode exists identically before and after D103 (pre-existing UI detail).
+
+## 2026-10-23 — D104 delivery follow-ups
+
+Observed, not decided: C:\DriveBackup\Projects-mirror\Drive-Original\source hard-links nearly every file of the checkout (not created by an agent session as far as recorded). It makes `npm run deploy:candidate` fail in place by design. Whether it is intentional and whether the deploy procedure should permanently use a clean worktree is UNKNOWN; CHECKPOINT Tried records the working procedure. The D103 follow-ups (first-visit credential overlap and touch topbar savings unmeasured; pre-existing card badge dash) remain open.
