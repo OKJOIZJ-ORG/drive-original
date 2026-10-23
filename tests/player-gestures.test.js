@@ -4,8 +4,9 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const { appSource, loadApp } = require('./app-loader.cjs');
 const vm = require('node:vm');
-const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+const source = appSource;
 
 function fixture() {
   const timers = new Map(); let nextTimer = 0;
@@ -21,7 +22,7 @@ function fixture() {
   context.window = { addEventListener() {}, removeEventListener() {}, innerWidth: 400, innerHeight: 800,
     location: context.location, matchMedia: () => ({ matches: false }) };
   context.matchMedia = context.window.matchMedia;
-  vm.createContext(context); vm.runInContext(source, context);
+  vm.createContext(context); loadApp(context);
   const run = script => vm.runInContext(script, context);
   run(`let clock=1000;Date.now=()=>clock;
     const classes=new Set(['controls-idle']);

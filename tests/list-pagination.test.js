@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const { appSource, loadApp } = require('./app-loader.cjs');
 const vm = require('node:vm');
 const media = id => ({ id, name: `${id}.mp4`, mimeType: 'video/mp4', parents: ['root'] });
 function deferred(){let resolve;const promise=new Promise(done=>{resolve=done;});return {resolve,promise};}
@@ -21,7 +22,7 @@ function fixture() {
   context.IntersectionObserver = class { constructor(callback) { this.callback=callback; context.observer=this; } observe() {} disconnect() {} };
   vm.createContext(context);
   vm.runInContext(fs.readFileSync(path.join(__dirname, '../media/revision-pin.js'), 'utf8'), context);
-  vm.runInContext(fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8'), context);
+  loadApp(context);
   vm.runInContext(`hasUsableToken=()=>true;reportAppFailure=()=>{};showLibrary=()=>{};showToast=()=>{};showReconnectState=()=>{};updateConnectionBadge=()=>{};
     globalThis.actualRenderFiles=renderFiles;renderFiles=()=>updateLibrarySummary();el.libraryStatus={textContent:''};el.librarySummary={textContent:''};el.libraryView={hidden:false,style:{}};
     el.refreshButton={disabled:false};el.infiniteScrollSpinner={hidden:true};el.loadMoreButton={hidden:true,disabled:false,textContent:'다시 불러오기'};`, context);

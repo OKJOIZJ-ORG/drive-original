@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const { appSource, loadApp } = require('./app-loader.cjs');
 const vm = require('node:vm');
 
 function client() {
@@ -16,7 +17,7 @@ function client() {
   c.window = { addEventListener() {}, removeEventListener() {}, innerWidth: 390, matchMedia: () => ({ matches: false }), location: c.location };
   c.matchMedia = c.window.matchMedia;
   vm.createContext(c);
-  vm.runInContext(fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8'), c);
+  loadApp(c);
   c.run = code => vm.runInContext(code, c);
   c.paint = () => { for (const fn of frames.splice(0)) fn(); };
   c.run(`state.selected={id:'fixture'};state.accountId='account-A';state.authAccountKey='account-A';

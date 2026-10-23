@@ -9,7 +9,7 @@ const { chromium } = require('playwright');
 const root = path.resolve(__dirname, '../..');
 const out = path.resolve(root, '../maintenance/tools/video-startup');
 fs.mkdirSync(out, { recursive: true });
-const hashes = Object.fromEntries(['app.js','styles.css','index.html'].map(name => [name,
+const hashes = Object.fromEntries([...require('../../scripts/app-scripts.cjs'),'styles.css','index.html'].map(name => [name,
   crypto.createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex')]));
 const media = fs.readFileSync(path.join(root,'qa/faststart-h264-aac.mp4'));
 const held = new Set();

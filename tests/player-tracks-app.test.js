@@ -1,4 +1,5 @@
 'use strict';
+const { appSource, loadApp } = require('./app-loader.cjs');
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm');
 const test = require('node:test'), assert = require('node:assert/strict');
 const fixture = {exports: {}};
@@ -134,7 +135,7 @@ test('unavailable observation keeps the already qualified same-lifetime observat
 function nativeColorFixture() {
   const c = fixture.exports();
   c.VideoFrame = function() {};
-  const app = fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8');
+  const app = appSource;
   const observe = app.slice(app.indexOf('async function observePinnedNativePlayerColor('),
     app.indexOf('\nasync function selectPlayerAudioTrack('))
     .replace("import('./media/native-color.mjs')", 'fakeColorModule');
@@ -174,7 +175,7 @@ test('native color read uses the live pinned original only and rechecks after mo
 
 function discoveryFixture() {
   const c = fixture.exports();
-  const app = fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8');
+  const app = appSource;
   const opening = app.slice(app.indexOf('async function openPlayerTracks()'), app.indexOf('\nasync function observePinnedNativePlayerColor('))
     .replace("import('./media/drive-source.mjs')", 'fakeSourceModule')
     .replace("import('./media/general-tracks.mjs')", 'fakeTracksModule')

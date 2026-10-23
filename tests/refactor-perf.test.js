@@ -5,10 +5,10 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const { appSource, loadApp } = require('./app-loader.cjs');
 const vm = require('node:vm');
 
 const root = path.join(__dirname, '..');
-const appSource = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 
 function miniDom() {
   class Node {
@@ -46,7 +46,7 @@ function appContext(storage = new Map()) {
   c.window.location = c.location;
   c.matchMedia = c.window.matchMedia;
   vm.createContext(c);
-  vm.runInContext(appSource, c);
+  loadApp(c);
   c.run = (code) => vm.runInContext(code, c);
   c.storage = storage;
   return c;
@@ -204,9 +204,9 @@ async function dispatch(sw, url) {
 test('this release\'s ?v= shell assets come from its install batch without a network round trip', async () => {
   let fetches = 0;
   const stored = [];
-  const cache = { match: async (key) => (key.endsWith('/app.js') ? new Response('installed bytes') : undefined), put: async (key) => { stored.push(key); } };
+  const cache = { match: async (key) => (key.endsWith('/app/core.js') ? new Response('installed bytes') : undefined), put: async (key) => { stored.push(key); } };
   const sw = serviceWorker(async () => { fetches += 1; return new Response('network bytes'); }, cache);
-  const current = await dispatch(sw, `https://app.test/drive-original/app.js?v=${sw.version}`);
+  const current = await dispatch(sw, `https://app.test/drive-original/app/core.js?v=${sw.version}`);
   assert.equal(await current.response.text(), 'installed bytes');
   assert.equal(fetches, 0);
   // Missing from the batch: fall back to the network and keep a copy.
@@ -220,7 +220,7 @@ test('another release\'s ?v= bytes stay network-first and never enter this relea
   const stored = [];
   const cache = { match: async () => new Response('installed bytes'), put: async (key) => { stored.push(key); } };
   const sw = serviceWorker(async () => new Response('next release'), cache);
-  const next = await dispatch(sw, 'https://app.test/drive-original/app.js?v=99.0.0');
+  const next = await dispatch(sw, 'https://app.test/drive-original/app/core.js?v=99.0.0');
   assert.equal(await next.response.text(), 'next release');
   await Promise.all(next.pending);
   assert.deepEqual(stored, []);

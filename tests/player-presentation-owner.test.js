@@ -4,10 +4,11 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const { appSource, loadApp } = require('./app-loader.cjs');
 const vm = require('node:vm');
 
 // Execute the actual presentation owner without unrelated app startup effects.
-const app = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+const app = appSource;
 const start = app.indexOf('function completeVideoFramePresentation(');
 const end = app.indexOf('\nfunction onMediaReady()', start);
 assert.ok(start >= 0 && end > start);

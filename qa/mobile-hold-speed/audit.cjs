@@ -9,7 +9,7 @@ const { chromium } = require('playwright');
 const root = path.resolve(__dirname, '../..');
 const types = { '.html':'text/html', '.js':'text/javascript', '.mjs':'text/javascript', '.css':'text/css',
   '.json':'application/json', '.svg':'image/svg+xml', '.png':'image/png', '.webmanifest':'application/manifest+json', '.mp4':'video/mp4' };
-const hashes = Object.fromEntries(['app.js','styles.css','index.html'].map(name => [name,
+const hashes = Object.fromEntries([...require('../../scripts/app-scripts.cjs'),'styles.css','index.html'].map(name => [name,
   crypto.createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex')]));
 const server = http.createServer((req,res) => {
   const name = new URL(req.url,'http://localhost').pathname.slice(1) || 'index.html';

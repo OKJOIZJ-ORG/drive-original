@@ -1,7 +1,8 @@
 # Public bytes and their maintained Q1 producers must survive a Windows checkout
 # unchanged so producer manifests and committed candidate verification agree.
 /.gitattributes text eol=lf
-/app.js text eol=lf
+/app/*.js text eol=lf
+/scripts/app-scripts.cjs text eol=lf
 /index.html text eol=lf
 /styles.css text eol=lf
 /runtime-config.js text eol=lf

@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const { appSource, loadApp } = require('./app-loader.cjs');
 const vm = require('node:vm');
 
 function loadAppContext(initialStorage = {}, runtimeConfig = { driveMutationsEnabled: true }) {
@@ -60,8 +61,7 @@ function loadAppContext(initialStorage = {}, runtimeConfig = { driveMutationsEna
   context.matchMedia = context.window.matchMedia;
   vm.createContext(context);
   vm.runInContext(fs.readFileSync(path.join(__dirname, '../media/revision-pin.js'), 'utf8'), context);
-  const appPath = path.join(__dirname, '..', 'app.js');
-  vm.runInContext(fs.readFileSync(appPath, 'utf8'), context, { filename: appPath });
+  loadApp(context);
   // Existing fixtures represent a verified full-grant credential. Partial/unknown tests override this explicitly.
   vm.runInContext('state.authCapabilities = { version: 1, driveRead: true, driveWrite: true, appData: true };', context);
   return context;
@@ -4766,7 +4766,7 @@ test('native-only initial startup assigns its source synchronously before immedi
 });
 
 test('a native sniff fallback retirement reply cannot mutate a later file, session, account or source', async () => {
-  const app=fs.readFileSync(path.join(__dirname,'..','app.js'),'utf8');
+  const app=appSource;
   const fallback=app.slice(app.indexOf('  const resumeNative = async () => {'),app.indexOf('  const stopFailure = code => {'));
   for(const settled of [true,false])for(const change of ['none','file','session','account','source','route','owner']){
     const context=loadAppContext();context.retired={settled};

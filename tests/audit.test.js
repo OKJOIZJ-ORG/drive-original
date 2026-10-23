@@ -3,8 +3,8 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const { appSource, loadApp } = require('./app-loader.cjs');
 const vm = require('node:vm');
-const appSource = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 
 function app() {
   const storage = new Map();
@@ -17,7 +17,7 @@ function app() {
     requestAnimationFrame: callback => setTimeout(callback, 0) };
   c.window = { addEventListener() {}, removeEventListener() {}, matchMedia: () => ({ matches: false }), location: c.location, isSecureContext: true };
   c.matchMedia = c.window.matchMedia;
-  vm.createContext(c); vm.runInContext(appSource, c);
+  vm.createContext(c); loadApp(c);
   c.run = s => vm.runInContext(s, c);
   // Synthetic credentials in these fixtures represent verified full grants.
   c.run('state.authCapabilities={version:1,driveRead:true,driveWrite:true,appData:true}');

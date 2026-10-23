@@ -3,8 +3,9 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const { appSource, loadApp } = require('./app-loader.cjs');
 const vm = require('node:vm');
-const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+const source = appSource;
 
 function client() {
   const timers = new Map(); let next = 0;
@@ -19,7 +20,7 @@ function client() {
   c.window = {addEventListener(){},removeEventListener(){},innerWidth:390,innerHeight:844,
     matchMedia:()=>({matches:false}),location:c.location};
   c.matchMedia=c.window.matchMedia;
-  vm.createContext(c); vm.runInContext(source,c);
+  vm.createContext(c); loadApp(c);
   c.run=s=>vm.runInContext(s,c); c.timers=timers;
   c.run(`function classes(){const s=new Set();return {add:(...n)=>n.forEach(x=>s.add(x)),remove:(...n)=>n.forEach(x=>s.delete(x)),contains:n=>s.has(n),toggle:(n,v)=>{if(v)s.add(n);else s.delete(n);}};}`);
   // Synthetic credentials in these fixtures represent verified full grants.

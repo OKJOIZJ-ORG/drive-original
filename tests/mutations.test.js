@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const { appSource, loadApp } = require('./app-loader.cjs');
 const vm = require('node:vm');
 
 function client(storage = new Map(), locks = new Map(), runtime = { driveMutationsEnabled: true }) {
@@ -22,7 +23,7 @@ function client(storage = new Map(), locks = new Map(), runtime = { driveMutatio
   c.window = { addEventListener() {}, removeEventListener() {}, innerWidth: 390, matchMedia: () => ({ matches: false }), location: c.location };
   c.matchMedia = c.window.matchMedia;
   vm.createContext(c);
-  vm.runInContext(fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8'), c);
+  loadApp(c);
   c.run = code => vm.runInContext(code, c);
   c.run(`state.accountId='drive-account-A';state.authAccountKey='server-account-A';state.accountIdentityPending=false;
     state.token='synthetic-token';state.expiresAt=Date.now()+3600000;

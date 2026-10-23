@@ -14,7 +14,7 @@ function worker(fetchImpl, cacheImpl={}) {
 }
 test('shell cache normalizes versioned asset URLs but excludes version checks and sibling routes',()=>{
   const w=worker();
-  assert.equal(w.run(`shellAssetCacheKey(new Request('https://app.test/drive-original/app.js?v=1.20.0'))`),'https://app.test/drive-original/app.js');
+  assert.equal(w.run(`shellAssetCacheKey(new Request('https://app.test/drive-original/app/core.js?v=1.20.0'))`),'https://app.test/drive-original/app/core.js');
   for(const url of ['https://app.test/drive-original/version.json','https://app.test/sibling/app.js','https://app.test/drive-original/memory/private.md']){
     assert.equal(w.c.shellAssetCacheKey(new Request(url)),null);
   }
@@ -25,8 +25,8 @@ test('shell cache normalizes versioned asset URLs but excludes version checks an
 test('offline first launch resolves canonical preinstalled assets',async()=>{
   const seen=[];
   const w=worker(async()=>{throw new TypeError('offline');},{match:async key=>{seen.push(key);return new Response('cached shell');}});
-  const r=await w.run(`networkFirstAsset(new Request('https://app.test/drive-original/app.js?v=1.20.0'))`);
-  assert.equal(await r.text(),'cached shell');assert.deepEqual(seen,['https://app.test/drive-original/app.js']);
+  const r=await w.run(`networkFirstAsset(new Request('https://app.test/drive-original/app/core.js?v=1.20.0'))`);
+  assert.equal(await r.text(),'cached shell');assert.deepEqual(seen,['https://app.test/drive-original/app/core.js']);
 });
 test('cache quota errors do not discard valid network bytes',async()=>{
   const w=worker(async()=>new Response('fresh shell'),{put:async()=>{throw new Error('quota');}});
@@ -56,7 +56,7 @@ test('public deployment allowlist excludes internal memory, workflows and test f
   const files=require('../scripts/public-files.cjs');
   vm.runInNewContext(build,{require:name=>name==='node:fs'?mock:name==='./public-files.cjs'?files:require(name),__dirname:path.join(root,'scripts'),console:{log(){}}});
   assert.deepEqual(copies.map(file=>file.replaceAll('\\','/')).sort(),[...files].sort());
-  assert(copies.includes('app.js'));assert(copies.includes('sw.js'));assert(copies.includes('runtime-config.js'));
+  assert(copies.includes(path.join('app','core.js')));assert(copies.includes('sw.js'));assert(copies.includes('runtime-config.js'));
   assert(copies.includes(path.join('media','revision-pin.js')));
   assert(copies.every(file=>!/(?:memory|tests|\.github|\.agents|AGENTS)/.test(file)));
   const publish=fs.readFileSync(path.join(root,'scripts/publish-pages.cjs'),'utf8');

@@ -154,8 +154,9 @@ python3 -m http.server 8080
 ```text
 index.html
 styles.css
-app.js
+app/            앱 코드: 순서가 정해진 classic script 18개 (app/README.md)
 sw.js
+media/
 manifest.webmanifest
 icons/
 README.md

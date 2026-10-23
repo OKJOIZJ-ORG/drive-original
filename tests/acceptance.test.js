@@ -3,9 +3,10 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const { appSource, loadApp } = require('./app-loader.cjs');
 const vm = require('node:vm');
 
-const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+const source = appSource;
 function client() {
   const timers = new Map(); const storage = new Map(); let sequence = 0;
   const c = { AbortController, Blob, DOMException, Headers, Map, Math, Promise, Response, Set, URL, URLSearchParams,
@@ -20,7 +21,7 @@ function client() {
     requestAnimationFrame() {} };
   c.window = { addEventListener() {}, removeEventListener() {}, matchMedia: () => ({ matches: false }), location: c.location, isSecureContext: true };
   c.matchMedia = c.window.matchMedia;
-  vm.createContext(c); vm.runInContext(source, c);
+  vm.createContext(c); loadApp(c);
   c.run = s => vm.runInContext(s, c); c.timers = timers;
   c.run(`state.token='fixture-token';state.expiresAt=Date.now()+3600000;
     state.accountId='same-account';state.accountIdentityPending=false;

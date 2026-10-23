@@ -1,12 +1,12 @@
 'use strict';
 const test = require('node:test');
+const { appSource, loadApp } = require('./app-loader.cjs');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const root = path.join(__dirname, '..');
 const helper = fs.readFileSync(path.join(root, 'media/revision-pin.js'), 'utf8');
-const appSource = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const swSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
 const run = (context, expression) => vm.runInContext(expression, context);
 const tick = () => new Promise(resolve => setImmediate(resolve));
@@ -41,7 +41,7 @@ function fixture(options = {}) {
     requestAnimationFrame:callback=>setTimeout(callback,0),document:{addEventListener(){},querySelectorAll(){return [];}}};
   page.window={addEventListener(){},removeEventListener(){},isSecureContext:true,location:page.location,matchMedia:()=>({matches:false}),setTimeout};
   page.matchMedia=page.window.matchMedia;
-  vm.createContext(page);vm.runInContext(helper,page);vm.runInContext(appSource,page);
+  vm.createContext(page);vm.runInContext(helper,page);loadApp(page);
   run(page,`el.videoPlayer={hidden:true};
     state.authCapabilities={version:1,driveRead:true,driveWrite:false,appData:false};
     state.token='synthetic-1';state.expiresAt=Date.now()+3600000;state.tokenRevision=1;state.authAccountKey='account';

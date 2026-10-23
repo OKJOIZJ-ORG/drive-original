@@ -4,9 +4,10 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const { appSource, loadApp } = require('./app-loader.cjs');
 const vm = require('node:vm');
 
-const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+const source = appSource;
 
 function render(mode, verified, width = 0) {
   const node = () => ({ hidden: false, dataset: {}, textContent: '' });
@@ -20,7 +21,7 @@ function render(mode, verified, width = 0) {
   };
   c.window.location = c.location;
   vm.createContext(c);
-  vm.runInContext(source, c);
+  loadApp(c);
   c.mode = mode; c.verified = verified; c.width = width;
   return JSON.parse(vm.runInContext(`
     updatePlayerNavigationLabels = () => {};

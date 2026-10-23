@@ -1,4 +1,5 @@
 'use strict';
+const { appSource, loadApp } = require('./app-loader.cjs');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),test=require('node:test'),assert=require('node:assert/strict');
 // Reuse the app VM fixture without executing its existing tests.
 const fixtureModule={exports:{}};
@@ -6,7 +7,6 @@ vm.runInNewContext(fs.readFileSync(path.join(__dirname,'app.test.js'),'utf8').sp
 const run=(c,s)=>vm.runInContext(s,c);
 // Execute the actual player construction/event branch with only player and UI
 // boundaries replaced. The changed positive snapshot must never seek again.
-const appSource=fs.readFileSync(path.join(__dirname,'../app.js'),'utf8');
 const initialPlayerBranch=appSource.slice(appSource.indexOf('    owner.player = createPlayer('),appSource.indexOf('    owner.player.ready.catch',appSource.indexOf('    owner.player = createPlayer(')));
 for(const [name,ts,time,paused,pendingPlay,resume,expectedPlay] of [
  ['paused positive general',false,.75,true,false,false,false],
@@ -55,7 +55,7 @@ for(const [name,change,expected] of [
 
 function pinnedProbeFixture({iso=false, probeFailure=false,probeCode=null,bytes=null}={}) {
  const c=fixtureModule.exports();c.queueMicrotask=queueMicrotask;
- const app=fs.readFileSync(path.join(__dirname,'../app.js'),'utf8').replace(/\r\n/g,'\n');
+ const app=appSource.replace(/\r\n/g,'\n');
  // Keep the real planner/owner/barrier logic; replace only dynamic module loading
  // because this VM fixture intentionally has no module-loader callback.
  const planner=app.slice(app.indexOf('async function planPinnedOriginalAudio('),app.indexOf('\nasync function tryOriginalTsPlayback('))

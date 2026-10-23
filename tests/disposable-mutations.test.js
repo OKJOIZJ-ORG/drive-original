@@ -3,8 +3,9 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const { appSource, loadApp } = require('./app-loader.cjs');
 const vm = require('node:vm');
-const source = fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8');
+const source = appSource;
 const run = '11111111-1111-4111-8111-111111111111';
 const ledgerKey = `drive-original.qa.disposable.${run}.recovery`;
 const clone = value => JSON.parse(JSON.stringify(value));
@@ -58,7 +59,7 @@ function client() {
     }
     return Response.json(files.get(id));
   };
-  vm.createContext(c); vm.runInContext(source, c);
+  vm.createContext(c); loadApp(c);
   c.run = text => vm.runInContext(text, c);
   c.run(`state.accountId='account-id';state.authAccountKey='account-key';state.accountIdentityPending=false;
     showToast=()=>{};

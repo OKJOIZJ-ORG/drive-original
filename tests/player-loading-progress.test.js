@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const { appSource, loadApp } = require('./app-loader.cjs');
 const vm = require('node:vm');
 
 function fixture() {
@@ -15,7 +16,7 @@ function fixture() {
   c.window = { location:c.location,addEventListener(){},matchMedia:()=>({matches:false}) };
   c.matchMedia = c.window.matchMedia;
   vm.createContext(c);
-  vm.runInContext(fs.readFileSync(path.join(__dirname,'..','app.js'),'utf8'),c);
+  loadApp(c);
   const run = code=>vm.runInContext(code,c);
   run(`state.selected={id:'video'};state.mediaSession=3;state.mediaAttempt='range';
     el.mediaLoading={hidden:false,classList:{toggle(){}}};el.mediaError={hidden:true};el.mediaLoadingPercent={};

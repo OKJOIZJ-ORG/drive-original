@@ -4,7 +4,7 @@ const fixtureModule={exports:{}};
 vm.runInNewContext(fs.readFileSync(path.join(__dirname,'app.test.js'),'utf8').split('\ntest(')[0]+'\nmodule.exports=loadAppContext;', {require,__dirname,module:fixtureModule,AbortController,Blob,DOMException,Headers,Map,Math,Promise,Response,Set,URL,URLSearchParams,clearInterval,clearTimeout,console,fetch,performance,setInterval,setTimeout});
 const run=(c,s)=>vm.runInContext(s,c);
 const existing=fs.readFileSync(path.join(__dirname,'general-app-routing.test.js'),'utf8');
-const fixture=vm.runInNewContext(existing.slice(existing.indexOf('function pinnedProbeFixture('),existing.indexOf('\nfor(const change of ["mediaSourceGeneration++"'))+'\npinnedProbeFixture', {fixtureModule,run,fs,path,__dirname,queueMicrotask,Promise,Uint8Array});
+const fixture=vm.runInNewContext(existing.slice(existing.indexOf('function pinnedProbeFixture('),existing.indexOf('\nfor(const change of ["mediaSourceGeneration++"'))+'\npinnedProbeFixture', {fixtureModule,run,fs,path,__dirname,queueMicrotask,Promise,Uint8Array,appSource:require('./app-loader.cjs').appSource});
 const png=fs.readFileSync(path.join(__dirname,'../qa/rc16-image-format/alpha.png'));
 const turn=()=>new Promise(setImmediate);
 function imageFixture(bytes=png){const f=fixture({bytes});const reads=[];let finishRetirement;

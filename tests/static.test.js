@@ -5,6 +5,7 @@ const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const { APP_SCRIPTS, appSource } = require('./app-loader.cjs');
 
 const root = path.join(__dirname, '..');
 const read = (name) => fs.readFileSync(path.join(root, name), 'utf8');
@@ -36,7 +37,7 @@ function parseIsoBmffTopLevelBoxes(bytes) {
 }
 
 test('release version is synchronized across runtime, shell, HTML, and metadata', () => {
-  const app = read('app.js');
+  const app = appSource;
   const worker = read('sw.js');
   const html = read('index.html');
   const metadata = JSON.parse(read('version.json'));
@@ -46,9 +47,25 @@ test('release version is synchronized across runtime, shell, HTML, and metadata'
   assert.equal(appVersion, metadata.version);
   assert.equal(workerVersion, metadata.version);
   assert.match(html, new RegExp(`styles\\.css\\?v=${metadata.version.replaceAll('.', '\\.')}`));
-  assert.match(html, new RegExp(`app\\.js\\?v=${metadata.version.replaceAll('.', '\\.')}`));
+  for (const name of APP_SCRIPTS) assert.ok(html.includes(`<script src="./${name}?v=${metadata.version}" defer></script>`), name);
   assert.match(html, new RegExp(`runtime-config\\.js\\?v=${metadata.version.replaceAll('.', '\\.')}`));
   assert.equal((html.match(new RegExp(`v${metadata.version.replaceAll('.', '\\.')}`, 'g')) || []).length, 2);
+});
+
+test('app scripts load in one order everywhere: index.html, shell cache, public allowlist and test loader', () => {
+  const html = read('index.html');
+  const worker = read('sw.js');
+  const tagged = [...html.matchAll(/<script src="\.\/(app\/[^"?]+)\?v=[^"]+" defer><\/script>/g)].map((match) => match[1]);
+  assert.deepEqual(tagged, [...APP_SCRIPTS]);
+  const shellBlock = worker.match(/const SHELL_FILES = \[([\s\S]*?)\];/)?.[1] || '';
+  const shell = [...shellBlock.matchAll(/'\.\/(app\/[^']+)'/g)].map((match) => match[1]);
+  assert.deepEqual(shell, [...APP_SCRIPTS]);
+  const publicFiles = require('../scripts/public-files.cjs');
+  assert.deepEqual(publicFiles.filter((name) => name.startsWith('app/')), [...APP_SCRIPTS]);
+  assert.equal(publicFiles.includes('app.js'), false);
+  assert.equal((appSource.match(/const APP_VERSION = /g) || []).length, 1);
+  // Strict mode is a per-script directive; every piece must keep it.
+  for (const name of APP_SCRIPTS) assert.match(read(name), /^'use strict';\n/, `${name} keeps strict mode`);
 });
 
 test('authentication setup feedback is a polite atomic live region', () => {
@@ -70,7 +87,7 @@ test('first paint cannot restart OAuth while the existing session is still being
 });
 
 test('every bound element ID exists once in index.html', () => {
-  const app = read('app.js');
+  const app = appSource;
   const html = read('index.html');
   const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
   assert.equal(new Set(ids).size, ids.length, 'index.html contains a duplicate id');
@@ -129,7 +146,7 @@ test('resource keys remain raw in the service-worker header', () => {
 });
 
 test('privacy documentation and shell use the same-origin memory-only credential contract', () => {
-  const app = read('app.js');
+  const app = appSource;
   const html = read('index.html');
   const readme = read('README.md');
   const routes = read('auth/routes.mjs');
@@ -242,11 +259,11 @@ test('seek-range MP4 QA seed is bounded, immutable and keeps moov ahead of mdat'
 });
 
 test('production runtime config precedes app code without bypassing permission ownership', () => {
-  const app = read('app.js');
+  const app = appSource;
   const html = read('index.html');
   const runtime = read('runtime-config.js');
   const worker = read('sw.js');
-  assert.ok(html.indexOf('runtime-config.js') < html.indexOf('app.js'));
+  assert.ok(html.indexOf('runtime-config.js') < html.indexOf('app/core.js'));
   assert.match(runtime, /candidate:\s*false/);
   assert.match(runtime, /driveMutationsEnabled:\s*true/);
   assert.match(app, /globalThis\.__DRIVE_ORIGINAL_RUNTIME__\?\.driveMutationsEnabled === true/);
@@ -256,7 +273,7 @@ test('production runtime config precedes app code without bypassing permission o
 });
 
 test('player controls, in-app preview, and selection toolbar remain bound in the shell', () => {
-  const app = read('app.js');
+  const app = appSource;
   const html = read('index.html');
   for (const id of ['ctrlFramePrev', 'ctrlFrameNext', 'drivePreview', 'selectionToolbar']) {
     assert.match(html, new RegExp(`\\bid="${id}"`));
@@ -270,7 +287,7 @@ test('player controls, in-app preview, and selection toolbar remain bound in the
 });
 
 test('account-synced favorites and viewed history are wired into the existing library and player surfaces', () => {
-  const app = read('app.js');
+  const app = appSource;
   const html = read('index.html');
   const styles = read('styles.css');
   assert.match(app, /const ACCOUNT_STATE_FILE_NAME = 'drive-original-account-state\.json'/);
@@ -294,7 +311,7 @@ test('account-synced favorites and viewed history are wired into the existing li
 });
 
 test('mobile overflow actions stack above the trigger and favorite feedback is visually icon-only', () => {
-  const app = read('app.js');
+  const app = appSource;
   const html = read('index.html');
   const styles = read('styles.css');
   const shortsExpand = styles.match(/\.shorts-expand-row\s*\{([^}]+)\}/)?.[1] || '';
@@ -314,7 +331,7 @@ test('mobile overflow actions stack above the trigger and favorite feedback is v
 });
 
 test('video adaptively chooses exact-original transport and exhausts original paths before compatibility playback', () => {
-  const app = read('app.js');
+  const app = appSource;
   const html = read('index.html');
   const readme = read('README.md');
   const productTruth = read('memory/PRODUCT-TRUTH.md');
@@ -348,7 +365,7 @@ test('video adaptively chooses exact-original transport and exhausts original pa
 });
 
 test('playback quality starts unverified and documents only evidence-backed original labels', () => {
-  const app = read('app.js');
+  const app = appSource;
   const html = read('index.html');
   const readme = read('README.md');
 
@@ -375,7 +392,7 @@ test('playback quality starts unverified and documents only evidence-backed orig
 });
 
 test('player chrome hides as one mobile layer and high-frequency motion stays transform based', () => {
-  const app = read('app.js');
+  const app = appSource;
   const html = read('index.html');
   const styles = read('styles.css');
 

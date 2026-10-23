@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const { appSource, loadApp } = require('./app-loader.cjs');
 const vm = require('node:vm');
 
 const folderMime = 'application/vnd.google-apps.folder';
@@ -23,7 +24,7 @@ function fixture() {
   context.requestAnimationFrame = callback => setTimeout(callback, 0);
   vm.createContext(context);
   vm.runInContext(fs.readFileSync(path.join(__dirname, '../media/revision-pin.js'), 'utf8'), context);
-  vm.runInContext(fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8'), context);
+  loadApp(context);
   vm.runInContext(`hasUsableToken=()=>true; reportAppFailure=()=>{}; renderFiles=()=>{}; updateLibrarySummary=()=>{};
     showToast=()=>{}; showReconnectState=()=>{}; state.deepScan=true; state.currentFolderId='A'; state.currentFolderName='A';
     el.libraryStatus={textContent:''}; el.deepScanToggle={setAttribute(){},classList:{toggle(){}}};

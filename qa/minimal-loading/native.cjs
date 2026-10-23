@@ -3,7 +3,7 @@
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),crypto=require('node:crypto'),assert=require('node:assert/strict');
 const {chromium}=require('playwright');
 const root=path.resolve(__dirname,'../..'),out=path.resolve(root,'../maintenance/tools/minimal-loading');fs.mkdirSync(out,{recursive:true});
-const hashes=Object.fromEntries(['app.js','styles.css','index.html'].map(n=>[n,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,n))).digest('hex')]));
+const hashes=Object.fromEntries([...require('../../scripts/app-scripts.cjs'),'styles.css','index.html'].map(n=>[n,crypto.createHash('sha256').update(fs.readFileSync(path.join(root,n))).digest('hex')]));
 const types={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.webmanifest':'application/manifest+json'};
 const server=http.createServer((req,res)=>{const n=new URL(req.url,'http://localhost').pathname.slice(1)||'index.html',f=path.resolve(root,n);if(!f.startsWith(root+path.sep)||/^(qa|memory|worker|node_modules)\//.test(n)||!types[path.extname(n)]||!fs.existsSync(f))return res.writeHead(404).end();res.writeHead(200,{'Content-Type':types[path.extname(n)],'Cache-Control':'no-store'});res.end(fs.readFileSync(f));});
 const rows=[];

@@ -1,7 +1,13 @@
 'use strict';
 // Exact public runtime and corresponding-source assets only; no QA/build/account state.
 module.exports=Object.freeze([
-  'index.html','runtime-config.js','app.js','styles.css','sw.js','version.json','manifest.webmanifest',
+  'index.html','runtime-config.js','styles.css',
+  // The page's classic scripts in load order (scripts/app-scripts.cjs reads them from here).
+  'app/core.js','app/state.js','app/original-pin.js','app/diagnostics.js','app/boot.js',
+  'app/auth.js','app/library-list.js','app/library-navigation.js','app/drive-api.js',
+  'app/account-state.js','app/library-grid.js','app/player-controls.js','app/player-navigation.js',
+  'app/playback-source.js','app/original-buffer.js','app/drive-actions.js',
+  'app/player-presentation.js','app/session-ui.js','sw.js','version.json','manifest.webmanifest',
   'icons/app-icon.svg','icons/icon-192.png','icons/icon-512.png','icons/maskable-512.png','icons/apple-touch-icon.png',
   'media/drive-source.mjs','media/revision-pin.js','media/ts-player.mjs','media/q1-core.mjs',
   'media/transmux-worker.mjs','media/mux-mp4.min.js','media/mux-LICENSE.txt',
