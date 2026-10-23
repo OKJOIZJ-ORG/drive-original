@@ -10,13 +10,13 @@
 D094–D103 as before; D104 supersedes the D096 no-file-split clause and authorized this delivery; D105 records the same-day 1.23.14 fix-forward. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
 
 ## Waiting on the user
-None for delivery. Not decided: the C:\DriveBackup\Projects-mirror hard-link mirror blocks `deploy:candidate` in place (see Tried); widening the 4 MiB moov window (#6 type).
+None. Not decided: widening the 4 MiB moov window (#6 type).
 
 ## Next first action
 Read qa/release-1.23.14/README.md. App code now lives in app/ (map: app/README.md); the order is owned by scripts/public-files.cjs.
 
 ## Tried
-Deploy: while C:\DriveBackup\Projects-mirror hard-links the checkout, the materializer refuses linked inputs (not transient). Deploy from a clean detached worktree of the release commit in a scratch directory: `git worktree add --detach <dir> <commit>`; in <dir>/worker run `node ../scripts/build-pages.cjs && node ../scripts/materialize-committed-pages.cjs && <source>/worker/node_modules/.bin/wrangler deploy --config wrangler.jsonc` with GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=core.autocrlf GIT_CONFIG_VALUE_0=true; remove the worktree after. Never deploy if materialize exits non-zero.
+Deploy (D106): from source/worker run `npm run deploy:release` (validate first with `npm run deploy:release -- --dry-run`). It requires committed publication inputs, deploys HEAD from a temporary detached worktree under %TEMP% and removes it. The user's C:\DriveBackup\Projects-mirror hard-link backup is intentional (D106): never modify it, and do not use `deploy:candidate` in the checkout (the materializer refuses its linked inputs). Never deploy if materialize exits non-zero.
 Transient Drive for desktop upload links (C:\Projects\.tmp.driveupload) still apply to freshly changed files in the main checkout.
 Wrangler login needs `npx wrangler login --scopes account:read user:read workers:write workers_scripts:write`; account ID cf830a3ca386bf7ee3592d15ef17242c.
 License-pinned modules (audio-general-*.mjs, video-q3-*.mjs) must stay byte-identical unless corresponding-source manifests are regenerated.

@@ -184,3 +184,5 @@ Not decided: release of D103 (1.23.13). UNKNOWN until measured on real devices: 
 ## 2026-10-23 — D104 delivery follow-ups
 
 Observed, not decided: C:\DriveBackup\Projects-mirror\Drive-Original\source hard-links nearly every file of the checkout (not created by an agent session as far as recorded). It makes `npm run deploy:candidate` fail in place by design. Whether it is intentional and whether the deploy procedure should permanently use a clean worktree is UNKNOWN; CHECKPOINT Tried records the working procedure. The D103 follow-ups (first-visit credential overlap and touch topbar savings unmeasured; pre-existing card badge dash) remain open.
+
+Resolved 2026-10-23 by D106: the user created the C:\DriveBackup\Projects-mirror hard-link mirror intentionally ("ㅇㅇ 내가 직접 만든게 맞아."). It stays untouched; `npm run deploy:release` (clean temporary worktree) is the standard deploy path, verified by a full dry run from bf22383.
