@@ -7,6 +7,7 @@
     "build:committed-assets": "npm run build:assets && node ../scripts/materialize-committed-pages.cjs",
     "check": "wrangler deploy --dry-run --config wrangler.jsonc --outdir .wrangler/dry-run",
     "deploy:candidate": "npm run build:committed-assets && wrangler deploy --config wrangler.jsonc",
+    "deploy:release": "node ../scripts/deploy-clean-worktree.cjs",
     "dev": "npm run build:assets && wrangler dev --config wrangler.jsonc",
     "test": "node --test ../tests/cloudflare-auth-worker.test.mjs"
   },

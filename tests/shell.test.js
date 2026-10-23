@@ -205,3 +205,32 @@ test('a persistent hardlink still fails after the wait with no write, and aliasi
   assert.throws(()=>materializeCommittedPages({...g,hardlinkWaitMs:3000,now:()=>0,sleep:()=>slept++}),/linked/i);
   assert.equal(slept,0);assert.equal(g.writes.length,0);
 });
+
+// D106: the release path deploys committed HEAD from a temporary detached worktree.
+const {deployFromCleanWorktree}=require('../scripts/deploy-clean-worktree.cjs');
+function deployFixture({dirty='',fail=null}={}){
+  const calls=[];const read=(file,args)=>{calls.push(['read',file,...args]);return args[0]==='status'?dirty:'c'.repeat(40)+'\n';};
+  const run=(file,args,options)=>{calls.push(['run',path.basename(file),...args.map(a=>path.basename(a)),path.basename(options.cwd)]);if(fail&&args.some(a=>String(a).includes(fail)))throw new Error('step failed');};
+  return {calls,options:{repoRoot:root,tmpRoot:'T',read,run,makeTempDir:prefix=>prefix+'x',log(){}}};
+}
+test('clean-worktree release refuses uncommitted publication inputs before creating a worktree',()=>{
+  const f=deployFixture({dirty:' M app/core.js\n'});
+  assert.throws(()=>deployFromCleanWorktree(f.options),/Commit publication inputs/);
+  assert.deepEqual(f.calls.filter(c=>c[0]==='run'),[]);
+  const status=f.calls.find(c=>c[2]==='status');
+  for(const input of ['.gitattributes','scripts','worker','index.html','app/core.js','sw.js'])assert(status.includes(input),input);
+});
+test('clean-worktree release builds, materializes and deploys HEAD inside the worktree, then always removes it',()=>{
+  const f=deployFixture();
+  assert.equal(deployFromCleanWorktree({...f.options,dryRun:true}),'c'.repeat(40));
+  const runs=f.calls.filter(c=>c[0]==='run').map(c=>c.slice(1).join(' '));
+  assert.equal(runs[0],`git worktree add --detach drive-original-deploy-x ${'c'.repeat(40)} source`);
+  assert.match(runs[1],/build-pages\.cjs worker$/);assert.match(runs[2],/materialize-committed-pages\.cjs worker$/);
+  assert.match(runs[3],/wrangler\.js deploy --config wrangler\.jsonc --dry-run --outdir dry-run worker$/);
+  assert.equal(runs[4],'git worktree remove --force drive-original-deploy-x source');
+  const failed=deployFixture({fail:'materialize'});
+  assert.throws(()=>deployFromCleanWorktree(failed.options),/step failed/);
+  const failedRuns=failed.calls.filter(c=>c[0]==='run').map(c=>c.slice(1).join(' '));
+  assert(!failedRuns.some(r=>/wrangler/.test(r)),'a failed materialization never deploys');
+  assert.match(failedRuns.at(-1),/^git worktree remove --force/);
+});

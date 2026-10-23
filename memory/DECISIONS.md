@@ -687,3 +687,7 @@ D103 보고 후 사용자는 "D096 제약을 바꿔서 app.js를 기능별 파�
 ## D-105 · 1.23.13 재생 회귀의 같은 날 1.23.14 수정 배포 — 2026-10-23 (Session-delegated under D104 "배포까지 완료")
 
 D104 배포(1.23.13) 직후 실제 Chrome에서 좋아요 영상이 "원본 형식 확인 필요"로 열렸다. 분할된 classic script 안의 `import('./media/…')`가 스크립트 주소 기준 `/app/media/…`로 해석된 회귀다. D104의 "기존 동작 유지·배포 완료" 범위 안에서 롤백 대신 지정자를 `../media/…`로 바로잡고(분할 전과 같은 URL), 스크립트별 import 해석을 검사하는 정적 테스트를 더해 1.23.14로 main push·동일 운영 Worker 배포·실제 재생 확인까지 진행했다. 버전 상승은 D103 cache-first 때문에 필수다. 원본·인증/OAuth 설정·운영 주소·무료 운영·Notion·자동화 PAUSED 경계 유지. qa/release-1.23.14가 근거를 소유한다.
+
+## D-106 · DriveBackup 하드링크 미러는 사용자 의도, 운영 배포는 깨끗한 worktree에서 — 2026-10-23 (User-confirmed)
+
+D104 보고의 질문에 사용자는 "ㅇㅇ 내가 직접 만든게 맞아."라고 답했다. `C:\DriveBackup\Projects-mirror`의 하드링크 미러는 사용자가 의도적으로 만든 백업이며 에이전트는 이를 변경·해제하지 않는다. materializer의 링크 거부 안전장치도 그대로 둔다. 대신 표준 운영 배포 경로를 "커밋된 HEAD를 동기화·미러 밖 임시 폴더의 detached worktree로 꺼내 그 안에서 build→materialize→wrangler deploy, 끝나면 worktree 제거"로 정하고 스크립트로 고정한다(공개 바이트·Worker 코드 변경 없음). 운영 배포 자체는 계속 요청별 명시 승인 대상이다.
