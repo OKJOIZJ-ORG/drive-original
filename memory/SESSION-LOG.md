@@ -990,3 +990,7 @@ User: "D096 제약을 바꿔서 app.js를 기능별 파일로 모듈화해줘. �
 ## 2026-10-23 — D106 backup mirror confirmed; clean-worktree deploy script
 
 User confirmed the C:\DriveBackup\Projects-mirror hard-link mirror is theirs. Left it untouched and kept the materializer's link guard. Added scripts/deploy-clean-worktree.cjs and `npm run deploy:release` (worker/): refuses uncommitted publication inputs, adds a detached worktree of HEAD under %TEMP%, runs build-pages → materializer → pinned wrangler there, always removes the worktree; `-- --dry-run` validates without publishing. 981/981 (2 new tests with an injected runner). Real dry run from bf22383: 81 assets materialized, wrangler dry run OK, worktree removed. No production deploy (no public bytes changed).
+
+## 2026-10-23 — D107 initial library load root cause (1.23.15 local)
+
+Measured production 1.23.14 in the user's Chrome: root listing started only after the account sync (about → catalog → 16 writer downloads, pool 4), so the summary appeared at 6.1–7.3 s; an immediate duplicate about+catalog followed. Patched resumeAfterCredential (parallel first listing, no duplicate refresh), pool 16, persisted per-file read cache. 983/983. Injected patched functions on the production origin: summary 1.48–1.50 s, account state 3.0 s cold / 1.9 s warm with 0 downloads; 22 likes/397 viewed intact. Branch claude/initial-load-perf-20261023, not merged/pushed/deployed. qa/initial-load-20261023 owns numbers.

@@ -386,15 +386,25 @@ function installSessionCredential(value, { generation, rejectedRevision = null }
 function resumeAfterCredential(generation) {
   setTimeout(async () => {
     if (generation !== state.authGeneration || !hasUsableToken()) return;
-    if (!state.accountStateLoaded) {
+    const initializing = !state.accountStateLoaded;
+    // The document's first credential has no earlier account whose files the
+    // identity check could clear, so the listing does not wait for the
+    // watched/liked sync (about, appData catalog and one read per writer).
+    const listedEarly = initializing && !state.accountId && !state.previousAccountId
+      && !state.retryAfterAuth && !state.files.length && hasAuthCapability('driveRead');
+    if (listedEarly) void loadFiles({ append: false });
+    if (initializing) {
       await initializeAccountMediaState().catch((error) => {
         reportAppFailure('account-state-sync', error, 'warn');
       });
     }
     if (generation !== state.authGeneration || state.accountIdentityPending) return;
     state.accountStateRefreshBlocked = !hasAuthCapability('appData');
-    scheduleAccountStateRefresh(0);
-    if (!hasAuthCapability('driveRead')) return;
+    // A completed initialization just read the catalog and scheduled the next
+    // periodic refresh; repeating the reads now only delays other requests.
+    if (initializing && state.accountStateLoaded) void refreshSyncedFavoriteFiles()?.catch?.(() => {});
+    else scheduleAccountStateRefresh(0);
+    if (!hasAuthCapability('driveRead') || listedEarly) return;
     const retryContext = state.authRetryContext;
     if (
       state.retryAfterAuth && retryContext && state.selected?.id === retryContext.fileId

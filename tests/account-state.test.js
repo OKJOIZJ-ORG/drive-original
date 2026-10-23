@@ -109,8 +109,8 @@ test('stalled successful account-state body has bounded failure, preserves nine 
   } finally {release?.(local());await pending;}
 });
 
-test('ten stalled account reads settle in three bounded waves with at most four child owners', async () => {
-  const files=Array.from({length:10},(_,i)=>writerFile(`blocked-${i}`,`reader-${i}`,local()));
+test('twenty stalled account reads settle in two bounded waves with at most sixteen child owners', async () => {
+  const files=Array.from({length:20},(_,i)=>writerFile(`blocked-${i}`,`reader-${i}`,local()));
   const d=drive(files),c=client(d.request);c.run('state.accountStateLoaded=false');
   const before=clone(status(c).projection);let active=0,peak=0,settled=false;
   d.hook=call=>{
@@ -122,13 +122,14 @@ test('ten stalled account reads settle in three bounded waves with at most four 
   };
   const pending=c.run('initializeAccountMediaState()').then(()=>{settled=true},error=>{settled=true;return error});
   await settleReads();
-  for(const expected of [4,4,2]){
+  assert.equal(c.run('ACCOUNT_STATE_READ_CONCURRENCY'),16);
+  for(const expected of [16,4]){
     assert.equal(active,expected);assert.equal(settled,false);
     const reads=[...c.timers].filter(([,timer])=>timer.delay===30000);assert.equal(reads.length,expected);
     for(const [id,timer]of reads){c.timers.delete(id);timer.fn();}
     await settleReads();
   }
-  const error=await pending;assert.equal(error.code,'account_state_read_timeout');assert.equal(peak,4);assert.equal(active,0);
+  const error=await pending;assert.equal(error.code,'account_state_read_timeout');assert.equal(peak,16);assert.equal(active,0);
   assert.equal(c.run('state.accountStateLoadingPromise'),null);assert.equal(c.run('state.accountStateLoaded'),false);
   assert.equal(c.run('state.accountStateReadCache.size'),0);assert.deepEqual(status(c).projection,before);
   assert.equal(d.writes().length,0);assert.equal(c.timers.size,1,'all child deadline timers release; only refresh backoff remains');
@@ -296,4 +297,64 @@ test('AUTH-05 appData-only token retains scoped state writes under the ordinary 
   assert.ok(c.run('state.accountStateFileId'));
   await assert.rejects(c.run(`driveFetch('https://www.googleapis.com/drive/v3/files/media',{method:'PATCH'})`),
     error => error.code === 'candidate_read_only');
+});
+
+test('a reload reuses unchanged writer reads from storage and downloads only changed, new or malformed entries', async () => {
+  const files = ['a', 'b', 'c'].map(id => writerFile(`writer-${id}`, `device-${id}`, local()));
+  const d = drive(files); const storage = new Map();
+  const media = () => d.calls.filter(call => call.url.searchParams.get('alt') === 'media').map(call => call.id).sort();
+  const boot = async () => {
+    const c = client(d.request, { storage });
+    c.run('state.accountStateLoaded=false;state.accountId=null;state.accountMediaState=createEmptyAccountMediaState()');
+    await c.run('initializeAccountMediaState()');
+    return c;
+  };
+  await boot();
+  assert.deepEqual(media(), ['writer-a', 'writer-b', 'writer-c']);
+  const key = 'drive-original.account-state-reads.account-a';
+  assert.deepEqual(Object.keys(JSON.parse(storage.get(key))).sort(), ['writer-a', 'writer-b', 'writer-c']);
+  d.calls.length = 0;
+  const warm = await boot();
+  assert.deepEqual(media(), [], 'unchanged modifiedTime needs no download');
+  assert.deepEqual(status(warm).projection.viewed, local().viewed);
+  d.calls.length = 0;
+  Object.assign(d.files.get('writer-b'), { modifiedTime: 'changed', data: { ...local(), viewed: { watched: 20, later: 30 } } });
+  d.files.delete('writer-c');
+  d.files.set('writer-d', writerFile('writer-d', 'device-d', local()));
+  const stored = JSON.parse(storage.get(key)); stored['writer-a'].data = { viewed: 'broken' }; storage.set(key, JSON.stringify(stored));
+  const changed = await boot();
+  assert.deepEqual(media(), ['writer-a', 'writer-b', 'writer-d']);
+  assert.equal(status(changed).projection.viewed.later, 30);
+  assert.deepEqual(Object.keys(JSON.parse(storage.get(key))).sort(), ['writer-a', 'writer-b', 'writer-d'], 'deleted writers leave storage');
+  storage.set(key, '{not json'); d.calls.length = 0;
+  await boot();
+  assert.deepEqual(media(), ['writer-a', 'writer-b', 'writer-d'], 'unreadable storage falls back to Drive');
+});
+
+test('the first credential lists the folder while account state loads, once, without an immediate second catalog read', async () => {
+  const run = async ({ accountId = null, previousAccountId = null, initFails = false } = {}) => {
+    const c = client(drive().request);
+    c.run(`state.accountStateLoaded=false;state.accountId=${JSON.stringify(accountId)};state.previousAccountId=${JSON.stringify(previousAccountId)};
+      state.files=[];globalThis.log=[];let finish;globalThis.finishInit=()=>finish();
+      loadFiles=()=>{log.push('list:'+state.accountStateLoaded);return Promise.resolve(true)};
+      scheduleAccountStateRefresh=delay=>log.push('refresh:'+delay);
+      refreshSyncedFavoriteFiles=()=>{log.push('favorites')};
+      initializeAccountMediaState=()=>{log.push('init');return new Promise((resolve,reject)=>{finish=()=>{
+        state.accountIdentityPending=false;state.accountId='account-a';
+        if(${initFails})reject(new Error('sync'));else{state.accountStateLoaded=true;resolve();}
+      }})};`);
+    c.run('resumeAfterCredential(state.authGeneration)');
+    const [[id, timer]] = [...c.timers].filter(([, t]) => t.delay === 0); c.timers.delete(id);
+    const pending = timer.fn(); await settleReads();
+    const early = clone(c.run('log'));
+    c.run('finishInit()'); await pending;
+    return { early, all: clone(c.run('log')) };
+  };
+  const first = await run();
+  assert.deepEqual(first.early, ['list:false', 'init'], 'listing is requested before the sync settles');
+  assert.deepEqual(first.all, ['list:false', 'init', 'favorites'], 'no second listing and no immediate refresh');
+  const failed = await run({ initFails: true });
+  assert.deepEqual(failed.all, ['list:false', 'init', 'refresh:0'], 'a failed sync keeps the normal retry');
+  const switched = await run({ previousAccountId: 'account-old' });
+  assert.deepEqual(switched.all, ['init', 'favorites', 'list:true'], 'a possible account switch still waits for identity');
 });

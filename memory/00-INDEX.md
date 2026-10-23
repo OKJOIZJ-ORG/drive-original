@@ -32,6 +32,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `../qa/initial-load-20261023/README.md`: D107 first-load root cause (listing waited for the 16-writer account sync); local branch claude/initial-load-perf-20261023 as 1.23.15, 983 tests; injected actual Chrome: summary 6.1–7.3 s → 1.5 s, warm sync 0 downloads; not deployed.
+
 - `../qa/release-1.23.12/README.md`: D102 1.23.12 (D101 moov-at-end head continuation) as Worker bb66276a; 967 tests, 64/64 Git-equal, real Drive 15/15 restarts served by continuation, press→frame medians 3.74–3.75 s.
 
 - `../qa/q0-continuation-20261019/README.md`: D101 bounded SW continuation of a page-cancelled moov-at-end Q0 head (≤4 MiB, ≤10 s, retirement-owned); local branch claude/q0-moov-continuation-20261019 on 1.23.11, 967 tests; local actual Chrome 155 with Drive-like server: 3→2 requests, −0.93 s to 1 s of playback; not deployed.

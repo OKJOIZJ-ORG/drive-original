@@ -3,7 +3,7 @@
 // Shared constants and pure helpers (account-state merge, playback deck, render window, buffer policy).
 // One of the ordered classic scripts listed in scripts/app-scripts.cjs; all share one global scope.
 
-const APP_VERSION = '1.23.14';
+const APP_VERSION = '1.23.15';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -65,6 +65,9 @@ const ACCOUNT_STATE_FILE_NAME = 'drive-original-account-state.json';
 const ACCOUNT_STATE_WRITER_PREFIX = 'drive-original-account-state-v2-';
 const ACCOUNT_WRITER_STORAGE_KEY = 'drive-original.account-writer';
 const ACCOUNT_STATE_CACHE_PREFIX = 'drive-original.account-state.';
+const ACCOUNT_STATE_READ_CACHE_PREFIX = 'drive-original.account-state-reads.';
+// Writer files are small; each read costs one Drive round trip, so read them together.
+const ACCOUNT_STATE_READ_CONCURRENCY = 16;
 const ACCOUNT_STATE_SCHEMA_VERSION = 1;
 const ACCOUNT_STATE_SYNC_DELAY_MS = 650;
 const ACCOUNT_STATE_REFRESH_INTERVAL_MS = 15_000;

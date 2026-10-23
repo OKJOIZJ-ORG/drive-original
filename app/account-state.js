@@ -316,9 +316,49 @@ async function readAccountStateFile(fileId, options = {}, legacy = false) {
   return normalizeAccountMediaState(validateRawAccountMediaState(data, legacy));
 }
 
+function accountStateReadCacheKey(accountId = state.accountId) {
+  return accountId ? `${ACCOUNT_STATE_READ_CACHE_PREFIX}${accountId}` : '';
+}
+
+// Writer files are read again only when their Drive modifiedTime changes, so a
+// reload reuses the copies this browser already read instead of downloading
+// every device's file. Storage is a best-effort shortcut, never a source.
+function restoreAccountStateReadCache(accountId) {
+  const key = accountStateReadCacheKey(accountId);
+  if (!key) return;
+  try {
+    const stored = JSON.parse(localStorage.getItem(key) || 'null');
+    if (!stored || typeof stored !== 'object' || Array.isArray(stored)) return;
+    Object.entries(stored).forEach(([fileId, entry]) => {
+      if (!/^[A-Za-z0-9_-]{1,200}$/.test(fileId) || typeof entry?.modifiedTime !== 'string' || !entry.modifiedTime) return;
+      try {
+        const data = normalizeAccountMediaState(validateRawAccountMediaState(entry.data, true));
+        state.accountStateReadCache.set(fileId, { modifiedTime: entry.modifiedTime, data });
+      } catch (_) {}
+    });
+  } catch (_) {}
+}
+
+function persistAccountStateReadCache(accountId) {
+  const key = accountStateReadCacheKey(accountId);
+  if (!key || accountId !== state.accountId) return;
+  const entries = {};
+  state.accountStateReadCache.forEach((entry, fileId) => {
+    if (entry?.modifiedTime) entries[fileId] = { modifiedTime: entry.modifiedTime, data: entry.data };
+  });
+  try { localStorage.setItem(key, JSON.stringify(entries)); }
+  catch (_) { try { localStorage.removeItem(key); } catch (__) {} }
+}
+
 async function readRemoteAccountMediaState(catalog, options = {}) {
   const files = Array.isArray(catalog?.files) ? catalog.files : (catalog?.id ? [catalog] : []);
   const cache = state.accountStateReadCache;
+  const accountId = state.accountId;
+  let changed = false;
+  if (Array.isArray(catalog?.files)) {
+    const listed = new Set(files.map(file => file.id));
+    [...cache.keys()].forEach((fileId) => { if (!listed.has(fileId)) changed = cache.delete(fileId) || changed; });
+  }
   const results = await runTaskPool(files, async (file) => {
     if (options.signal?.aborted) throw new DOMException('Account request aborted', 'AbortError');
     const cached = cache.get(file.id);
@@ -327,12 +367,14 @@ async function readRemoteAccountMediaState(catalog, options = {}) {
       const data = await readAccountStateFile(file.id, options, file.name === ACCOUNT_STATE_FILE_NAME);
       if (options.signal?.aborted) throw new DOMException('Account request aborted', 'AbortError');
       cache.set(file.id, { modifiedTime: file.modifiedTime, data });
+      changed = true;
       return data;
     } catch (error) {
       if (error?.status === 404) cache.delete(file.id);
       throw error;
     }
-  }, 4);
+  }, ACCOUNT_STATE_READ_CONCURRENCY);
+  if (changed) persistAccountStateReadCache(accountId);
   const failure = results.find((entry) => entry.status === 'rejected');
   if (failure) throw failure.reason;
   return results.reduce((merged, entry) => mergeAccountMediaStates(merged, entry.value), createEmptyAccountMediaState());
@@ -418,6 +460,7 @@ async function initializeAccountMediaState({ refresh = false } = {}) {
       state.accountMediaState = createEmptyAccountMediaState();
       state.accountMediaState = readCachedAccountMediaState(accountId);
     }
+    if (!state.accountStateReadCache.size) restoreAccountStateReadCache(accountId);
     if (!hasAuthCapability('appData')) {
       state.accountStateSyncError = missingScopeError('appData');
       state.accountStateRefreshBlocked = true;
