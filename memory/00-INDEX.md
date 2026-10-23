@@ -32,6 +32,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `../qa/release-1.23.15/README.md`: D109 1.23.15 (D107+D108) as Worker 75f98a18, main 38047e3; 986 tests, 81/81 Git-equal; actual Chrome first-load summary 1.55 s, big-folder first page 0.98 s, next photo/video ~1.2 s, liked videos original-range.
+
 - `../qa/media-load-20261023/README.md`: D108 on the same 1.23.15 branch: parents capped listing pages at 460, photo pin prewarm, next-item prewarm; 986 tests; injected actual Chrome: first page 0.95 s, next photo/video 1.2–1.7 s (were 2.3–3.0 s); not deployed.
 
 - `../qa/initial-load-20261023/README.md`: D107 first-load root cause (listing waited for the 16-writer account sync); local branch claude/initial-load-perf-20261023 as 1.23.15, 983 tests; injected actual Chrome: summary 6.1–7.3 s → 1.5 s, warm sync 0 downloads; not deployed.

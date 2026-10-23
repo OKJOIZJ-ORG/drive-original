@@ -998,3 +998,7 @@ Measured production 1.23.14 in the user's Chrome: root listing started only afte
 ## 2026-10-23 — D108 listing, photo and next-item loading (1.23.15 local)
 
 Measured production 1.23.14 in a 2158-item folder: `parents` caps files.list at 460/page; photo open 2.5–2.9 s (pin ~1.1–1.3 s + Drive TTFB); next item after swipe 2.3–3.0 s. Patched: non-root listings omit parents and record the listed parent, first page 100; photo cards prewarm pins; the next item is prewarmed once the current one is shown. 986/986. Injected on production: first page 0.95 s (was 1.5–2.3), request loop 6.5–7.2 s (was 7.5–8.9), photo hover open 1.8–1.9 s (was 2.8), next photo 1.15–1.21 s, next video 1.23–1.73 s (were 2.3–3.0). Thumbnail-preview-while-loading left for a user decision. qa/media-load-20261023 owns numbers.
+
+## 2026-10-23 — D109 1.23.15 delivered
+
+main fast-forwarded to 38047e3 and pushed; `npm run deploy:release` → Worker 75f98a18 (9 assets changed). 986/986; 81/81 served equal (first fetch caught the old edge index.html once), private 404, anonymous credential 403 no-store, 11 bindings equal. Actual Chrome (user profile, own tab closed): v1.23.15, only the 1.23.15 cache, 22 likes; first-load summary 1.55 s with 0 writer downloads; 2158-item folder first page 0.98 s; photo hover open 1.82 s; next photo 1.21 s / next video 1.16 s; 3 liked videos original-range; no console errors; filter restored. qa/release-1.23.15 owns receipts.
