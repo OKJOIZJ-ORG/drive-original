@@ -186,3 +186,7 @@ Not decided: release of D103 (1.23.13). UNKNOWN until measured on real devices: 
 Observed, not decided: C:\DriveBackup\Projects-mirror\Drive-Original\source hard-links nearly every file of the checkout (not created by an agent session as far as recorded). It makes `npm run deploy:candidate` fail in place by design. Whether it is intentional and whether the deploy procedure should permanently use a clean worktree is UNKNOWN; CHECKPOINT Tried records the working procedure. The D103 follow-ups (first-visit credential overlap and touch topbar savings unmeasured; pre-existing card badge dash) remain open.
 
 Resolved 2026-10-23 by D106: the user created the C:\DriveBackup\Projects-mirror hard-link mirror intentionally ("ㅇㅇ 내가 직접 만든게 맞아."). It stays untouched; `npm run deploy:release` (clean temporary worktree) is the standard deploy path, verified by a full dry run from bf22383.
+
+## 2026-10-26 — D110/D111 follow-ups
+
+Not decided: version alignment (1.23.16), main merge, push and production deploy of D110 + D111 (branch claude/sort-and-home-20261026). Observed, not changed: `media/video-q3-input.mjs` treats the QuickTime 4-byte list terminator as `GENERAL_BOX_HEADER` too; it is license-pinned (licenses/video-q3-source-manifest.json), so fixing it needs a regenerated corresponding-source manifest. It affects only the Q3 software-decode route, not the "원본 형식 확인 필요" dialog. Assumed: QuickTime sound description v1/v2 parsing in the Q2 AC-3 streaming path is handled by the bundled demuxer (no actual v1 AC-3 file was available to test).

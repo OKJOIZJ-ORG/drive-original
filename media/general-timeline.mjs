@@ -22,6 +22,7 @@ const integer64 = (bytes, offset, signed = false) => {
 const type = (bytes, offset) => String.fromCharCode(...bytes.subarray(offset, offset + 4));
 function children(bytes) {
   const result = []; for (let offset = 0; offset < bytes.length;) {
+    if (bytes.length - offset === 4 && u32(bytes, offset) === 0) break; // QuickTime list terminator
     demand(offset + 8 <= bytes.length, 'BOX_HEADER'); let size = u32(bytes, offset), header = 8;
     if (size === 1) { demand(offset + 16 <= bytes.length, 'BOX_HEADER'); size = integer64(bytes, offset + 8); header = 16; }
     else if (size === 0) size = bytes.length - offset;

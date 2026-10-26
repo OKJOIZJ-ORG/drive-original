@@ -34,6 +34,7 @@ function inspectGeneralTrackDescriptions(bytes) {
   const children = (start, end, depth = 0) => {
     require(depth <= 8, 'BOX_DEPTH'); const out = [];
     for (let p = start; p < end;) {
+      if (end - p === 4 && view.getUint32(p) === 0) break; // QuickTime list terminator
       require(p + 8 <= end && ++boxes <= GENERAL_LIMITS.boxes, 'BOX_HEADER');
       let n = view.getUint32(p), header = 8;
       if (n === 1) { require(p + 16 <= end, 'BOX_HEADER'); const raw = view.getBigUint64(p + 8); require(raw <= BigInt(Number.MAX_SAFE_INTEGER), 'BOX_INTEGER'); n = Number(raw); header = 16; }
@@ -73,6 +74,8 @@ async function readTrackMetadata(rpc) {
   for (let n = 0; p < rpc.size; n++) {
     if (n >= 256) throw new Error('GENERAL_BOX_COUNT');
     const b = await rpc.exact(p, Math.min(16, rpc.size - p));
+    // A few zero bytes of padding after the last box are not another box.
+    if (b.length < 8 && rpc.size - p < 8 && b.length === rpc.size - p && b.every(x => x === 0)) break;
     if (b.length < 8) throw new Error('GENERAL_BOX_HEADER');
     const view = new DataView(b.buffer, b.byteOffset, b.byteLength); let length = view.getUint32(0), header = 8;
     if (length === 1) { if (b.length < 16 || view.getBigUint64(8) > BigInt(Number.MAX_SAFE_INTEGER)) throw new Error('GENERAL_BOX_INTEGER'); length = Number(view.getBigUint64(8)); header = 16; }

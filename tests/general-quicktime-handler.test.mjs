@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import {fixture} from './general-q1-fixture.mjs';
 import {inspectGeneralMoov} from '../media/general-admission.mjs';
 
@@ -42,4 +43,42 @@ test('self-contained QuickTime alias reference retains exact sample admission',(
 });
 for(const [type,flags] of [['alis',0],['url ',0],['alis',2],['rsrc',1]])test(`external/unqualified data reference stays rejected: ${type}/${flags}`,()=>{
  assert.throws(()=>inspectGeneralMoov(dataReference(type,flags)),/GENERAL_EXTERNAL_REFERENCE_UNQUALIFIED/);
+});
+
+// Rewrites the one sample entry of every stsd whose entry fourcc matches.
+function sampleEntry(fourcc,rewrite,source=moov){return modify(source,(t,b)=>{
+ if(t!=='minf')return b;
+ return box('minf',Buffer.concat(children(b.subarray(8)).map(x=>{
+  if(kind(x)!=='stbl')return x;
+  return box('stbl',Buffer.concat(children(x.subarray(8)).map(y=>{
+   if(kind(y)!=='stsd'||kind(y.subarray(16))!==fourcc)return y;
+   const entry=rewrite(Buffer.from(y.subarray(16)));entry.writeUInt32BE(entry.length);
+   return box('stsd',Buffer.concat([y.subarray(8,16),entry]));
+  })));
+ })));
+});}
+
+test('QuickTime zero terminator after sample entry extensions is not a box',()=>{
+ const baseline=inspectGeneralMoov(moov);
+ const terminated=sampleEntry('avc1',e=>Buffer.concat([e,Buffer.alloc(4)]));
+ assert.notDeepEqual(terminated,moov);
+ assert.deepEqual(inspectGeneralMoov(terminated).trackInfo,baseline.trackInfo);
+ const garbage=sampleEntry('avc1',e=>Buffer.concat([e,Buffer.from([0,0,0,1])]));
+ assert.throws(()=>inspectGeneralMoov(garbage),/GENERAL_BOX_HEADER/);
+});
+
+const ac3Moov=children(fs.readFileSync(new URL('../qa/q2-audio-compatibility/synthetic-avc-ac3.mp4',import.meta.url))).find(b=>kind(b)==='moov');
+const ac3=['ac-3'];
+const soundVersion=(version,length)=>sampleEntry('ac-3',e=>{const out=Buffer.concat([e.subarray(0,36),Buffer.alloc(length-36),e.subarray(36)]);out.writeUInt16BE(version,16);return out;},ac3Moov);
+
+for(const [version,fixed] of [[1,52],[2,72]])test(`QuickTime sound description v${version} is admitted`,()=>{
+ const baseline=inspectGeneralMoov(ac3Moov,{audioCodecs:ac3});
+ assert.ok(baseline.trackInfo.some(t=>t.codec==='ac-3'));
+ assert.deepEqual(inspectGeneralMoov(soundVersion(version,fixed),{audioCodecs:ac3}).trackInfo,baseline.trackInfo);
+ const short=sampleEntry('ac-3',e=>{const out=Buffer.from(e.subarray(0,fixed-1));out.writeUInt16BE(version,16);return out;},ac3Moov);
+ assert.throws(()=>inspectGeneralMoov(short,{audioCodecs:ac3}),/GENERAL_SAMPLE_DESCRIPTION_BOUNDS/);
+});
+
+test('an unknown sound description version stays unqualified',()=>{
+ assert.throws(()=>inspectGeneralMoov(soundVersion(3,36),{audioCodecs:ac3}),/GENERAL_AUDIO_DESCRIPTION_UNQUALIFIED/);
 });

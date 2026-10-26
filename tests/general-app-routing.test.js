@@ -134,6 +134,28 @@ test('settled probe transport/content/malformed failures still stop Q0: '+code,a
  assert.equal(f.c.probeFailures,1);assert.equal(f.c.probeClears,1);
 });
 
+for(const code of ['GENERAL_AUDIO_DESCRIPTION_UNQUALIFIED','GENERAL_SAMPLE_DESCRIPTION_UNQUALIFIED',
+ 'GENERAL_COMPACT_SIZES_UNQUALIFIED','GENERAL_EXTERNAL_REFERENCE_UNQUALIFIED'])
+test('settled optional Q2 unsupported layout preserves native Q0: '+code,async()=>{
+ const f=pinnedProbeFixture({iso:true,probeCode:code});await f.reading;f.releaseRead();await f.aborting;f.releaseAbort({settled:true});
+ await run(f.c,'probeOwner.setupDone');assert.equal(run(f.c,'state.mediaAttempt'),'range');
+ assert.equal(f.c.probeFailures,0);assert.equal(f.c.probeClears,0);
+});
+
+test('a raster prefix with an invalid image header still stops Q0',async()=>{
+ const f=pinnedProbeFixture({iso:true,probeCode:'GENERAL_IMAGE_HEADER_UNQUALIFIED'});await f.reading;f.releaseRead();await f.aborting;f.releaseAbort({settled:true});
+ await run(f.c,'probeOwner.setupDone');assert.equal(run(f.c,'state.mediaAttempt'),'failed');assert.equal(f.c.probeFailures,1);
+});
+
+for(const code of ['GENERAL_READ_TIMEOUT','Q1_SOURCE_READ_FAILED'])
+test('a dropped optional probe read retries once on a fresh source and keeps Q0: '+code,async()=>{
+ const f=pinnedProbeFixture({iso:true});let calls=0;
+ f.c.fakeProbeModule={probePinnedGeneralAudio:async()=>{if(++calls===1)throw new Error(code);return {route:'native'};}};
+ await f.reading;f.releaseRead();await f.aborting;f.releaseAbort({settled:true});
+ await run(f.c,'probeOwner.setupDone');assert.equal(calls,2);assert.equal(run(f.c,'state.mediaAttempt'),'range');
+ assert.equal(f.c.probeFailures,0);assert.equal(f.c.probeClears,0);
+});
+
 test('Q2 index budget with unsettled source abort remains terminal and sticky',async()=>{
  const f=pinnedProbeFixture({iso:true,probeCode:'GENERAL_EXPANDED_INDEX_LIMIT'});await f.reading;f.releaseRead();await f.aborting;f.releaseAbort({settled:false});
  await run(f.c,'probeOwner.setupDone');assert.equal(run(f.c,'state.mediaAttempt'),'failed');

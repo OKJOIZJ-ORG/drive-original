@@ -410,7 +410,42 @@ function decideUnsupportedFormatRecovery({
   return 'buffer-original';
 }
 
-async function planPinnedOriginalAudio(owner, pin) {
+// The optional Q2 audio probe runs beside a Q0 playback that may already be
+// showing frames. Only a verdict about the original itself may stop it: a
+// layout the probe does not support leaves Q0 to its own decoder outcome, and
+// a dropped read gets one fresh source before it counts.
+const PINNED_AUDIO_PROBE_BUDGET_CODES = new Set(['GENERAL_MOOV_LIMIT','GENERAL_TRACK_LIMIT',
+  'GENERAL_EXPANDED_INDEX_LIMIT','GENERAL_TABLE_ENTRIES_LIMIT','GENERAL_BOX_COUNT','GENERAL_DISCOVERY_LIMIT',
+  'GENERAL_PACKET_LIMIT','GENERAL_METADATA_LIMIT','GENERAL_INPUT_SPAN_LIMIT']);
+const PINNED_AUDIO_PROBE_TRANSIENT_CODES = new Set(['GENERAL_READ_TIMEOUT','GENERAL_READ_BODY',
+  'GENERAL_READ_QUEUE_LIMIT','Q1_SOURCE_READ_FAILED','Q1_SOURCE_HTTP_UNAVAILABLE']);
+const PINNED_AUDIO_PROBE_RETRY_DELAY_MS = 400;
+
+function classifyPinnedAudioProbeFailure(code) {
+  if (PINNED_AUDIO_PROBE_BUDGET_CODES.has(code)) return 'keep-native';
+  // Every *_UNQUALIFIED verdict names a supported-subset boundary, not damage.
+  if (/^GENERAL_[A-Z0-9_]+_UNQUALIFIED$/.test(code) && code !== 'GENERAL_IMAGE_HEADER_UNQUALIFIED') return 'keep-native';
+  if (PINNED_AUDIO_PROBE_TRANSIENT_CODES.has(code)) return 'transient';
+  return 'terminal';
+}
+
+// Says what actually stopped playback; reopening the app only helps when a
+// probe reader could not be confirmed closed.
+function describePinnedAudioProbeFailure(code, failure, cleanupSettled) {
+  if (!cleanupSettled || code === 'GENERAL_PROBE_CLEANUP_UNSETTLED')
+    return {message:'원본 형식을 안전하게 확인하지 못했습니다. 앱을 새로 연 뒤 다시 시도하세요.', retry:false};
+  if (failure === 'transient')
+    return {message:'원본 형식을 확인하는 중 Drive 연결이 끊겼습니다. 연결 상태를 확인한 뒤 다시 시도하세요.', retry:true};
+  if (/CONTENT_DRIFT|IDENTITY/.test(code || ''))
+    return {message:'재생을 준비하는 동안 Drive의 원본 파일이 바뀌었습니다. 다시 시도해 주세요.', retry:true};
+  if (code === 'Q1_SOURCE_PERMISSION')
+    return {title:'원본 접근 권한 필요', message:'이 계정으로 원본 파일을 내려받을 수 없습니다. Drive에서 파일 권한을 확인하세요.', retry:false};
+  if (code === 'AUDIO_NATIVE_GATE_UNAVAILABLE')
+    return {title:'지원하지 않는 오디오 형식', message:'이 영상의 AC-3/E-AC-3 오디오를 이 브라우저에서 재생할 수 없습니다.', retry:false};
+  return {message:'원본 파일의 구조를 안전하게 읽지 못했습니다. 파일이 손상되었거나 이 앱이 아직 지원하지 않는 구조일 수 있습니다.', retry:false};
+}
+
+async function planPinnedOriginalAudio(owner, pin, attempt = 0) {
   const current = () => isCurrentQ0Playback(owner, owner.fileId, owner.swGeneration)
     && navigator.serviceWorker?.controller === owner.swController && q0PinnedSource === pin;
   if (!current()) return;
@@ -475,20 +510,24 @@ async function planPinnedOriginalAudio(owner, pin) {
     if (error?.cleanup && error.cleanup.settled !== true) owner.cleanupOk = false;
     cleanup=source ? await closeSource() : error?.cleanup;
     if (!current()) return;
-    // A bounded optional Q2 inspection cannot disqualify native Q0 merely
-    // because its metadata/index exceeds the stricter general-player budget.
-    // Source, malformed-input and uncertain-cleanup errors remain terminal.
-    if (cleanup?.settled===true && ['GENERAL_CONTAINER_UNQUALIFIED','GENERAL_CODEC_UNQUALIFIED',
-      'GENERAL_ISO_FEATURE_UNQUALIFIED','GENERAL_MOOV_LIMIT','GENERAL_TRACK_LIMIT',
-      'GENERAL_FRAGMENTED_INPUT_UNQUALIFIED','GENERAL_EXPANDED_INDEX_LIMIT',
-      'GENERAL_TABLE_ENTRIES_LIMIT','GENERAL_BOX_COUNT','GENERAL_DISCOVERY_LIMIT',
-      'GENERAL_PACKET_LIMIT','GENERAL_METADATA_LIMIT','GENERAL_INPUT_SPAN_LIMIT'].includes(error?.message)) return;
+    // Content drift, malformed input and uncertain cleanup remain terminal.
+    const failure = cleanup?.settled===true ? classifyPinnedAudioProbeFailure(error?.message) : 'terminal';
+    if (failure==='keep-native') return;
+    if (failure==='transient' && attempt===0) {
+      emitMediaDiagnosticStage('q1-retry',{reason:error.message},owner.session);
+      await new Promise(resolve => {
+        const timer = setTimeout(resolve, PINNED_AUDIO_PROBE_RETRY_DELAY_MS);
+        owner.controller.signal.addEventListener('abort', () => { clearTimeout(timer); resolve(); }, {once:true});
+      });
+      if (!current()) return;
+      return planPinnedOriginalAudio(owner, pin, attempt + 1);
+    }
     emitMediaDiagnosticStage('q1-failed',{reason:/^(?:GENERAL|Q1_SOURCE|AUDIO)_[A-Z0-9_]+$/.test(error?.message)
       ? error.message : 'GENERAL_AUDIO_PROBE_FAILED',terminal:true},owner.session);
     clearDirectMediaSources();
     state.mediaAttempt='failed';
-    showMediaError('원본 형식을 안전하게 확인하지 못했습니다. 앱을 새로 연 뒤 다시 시도하세요.',
-      {title:'원본 형식 확인 필요',showRetry:false});
+    const {title='원본 형식 확인 필요',message,retry}=describePinnedAudioProbeFailure(error?.message,failure,cleanup?.settled===true);
+    showMediaError(message,{title,showRetry:retry});
   }
 }
 

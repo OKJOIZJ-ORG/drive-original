@@ -7,7 +7,9 @@ export const GENERAL_LIMITS=Object.freeze({moovBytes:4*1024*1024,tableSamplesPer
 // Read every allocation-driving count before constructing the library Input.
 // A small run-length table can otherwise expand to billions of objects.
 export function inspectGeneralMoov(bytes,{audioCodecs=["mp4a"]}={}){demand(Array.isArray(audioCodecs)&&audioCodecs.length>0&&audioCodecs.every(c=>["mp4a","ac-3","ec-3"].includes(c)),"AUDIO_ADMISSION_OPTIONS");demand(bytes.length<=GENERAL_LIMITS.moovBytes,'MOOV_LIMIT');const view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength),read32=p=>view.getUint32(p),read64=p=>{const n=view.getBigUint64(p);demand(n<=BigInt(Number.MAX_SAFE_INTEGER),'BOX_INTEGER');return Number(n);};let boxes=0,tracks=0;const samples=[],entries={};
- function walk(start,end,depth,track,parent){demand(depth<=8,'BOX_DEPTH');for(let p=start;p<end;){demand(p+8<=end,'BOX_HEADER');let n=read32(p),h=8;if(n===1){demand(p+16<=end,'BOX_HEADER');n=read64(p+8);h=16;}else if(n===0)n=end-p;demand(n>=h&&p+n<=end,'BOX_BOUNDS');demand(++boxes<=GENERAL_LIMITS.boxes,'BOX_COUNT');const t=type(bytes,p),body=p+h,limit=p+n;
+ // QuickTime may close an atom list with a 32-bit zero (e.g. after avc1's colr/fiel/chrm).
+ const isListTerminator=(p,end)=>end-p===4&&read32(p)===0;
+ function walk(start,end,depth,track,parent){demand(depth<=8,'BOX_DEPTH');for(let p=start;p<end;){if(isListTerminator(p,end))break;demand(p+8<=end,'BOX_HEADER');let n=read32(p),h=8;if(n===1){demand(p+16<=end,'BOX_HEADER');n=read64(p+8);h=16;}else if(n===0)n=end-p;demand(n>=h&&p+n<=end,'BOX_BOUNDS');demand(++boxes<=GENERAL_LIMITS.boxes,'BOX_COUNT');const t=type(bytes,p),body=p+h,limit=p+n;
   if(['mvex','moof','sinf','senc','saiz','saio','cmov'].includes(t))fail('ISO_FEATURE_UNQUALIFIED');
   if(t==='trak'){demand(++tracks<=GENERAL_LIMITS.tracks,'TRACK_LIMIT');track={stts:null,ctts:null,stsz:null,stsd:false,dref:false,trackId:null,handler:null,codec:null,reordered:false,seen:new Set()};samples.push(track);walk(body,limit,depth+1,track,'trak');}
   else if(['moov','mdia','minf','stbl','edts','dinf'].includes(t))walk(body,limit,depth+1,track,t);
@@ -24,10 +26,13 @@ export function inspectGeneralMoov(bytes,{audioCodecs=["mp4a"]}={}){demand(Array
   else if(t==='stsd'){
    demand(track&&!track.stsd&&body+16<=limit&&read32(body+4)===1,'SAMPLE_DESCRIPTION_UNQUALIFIED');
    const entry=body+8,n=read32(entry),codec=type(bytes,entry),video=codec==='avc1'||codec==='avc3',subtitle=codec==='tx3g';
-   demand(video||subtitle||audioCodecs.includes(codec),'CODEC_UNQUALIFIED');const fixed=video?86:subtitle?46:36;demand(n>=fixed&&entry+n===limit,'SAMPLE_DESCRIPTION_BOUNDS');
+   demand(video||subtitle||audioCodecs.includes(codec),'CODEC_UNQUALIFIED');
+   // QuickTime sound descriptions v1/v2 append 16/36 bytes to the v0 fields;
+   // their extensions (wave, chan) are left to the demuxer.
+   const audioVersion=video||subtitle?0:(bytes[entry+16]<<8)|bytes[entry+17];demand([0,1,2].includes(audioVersion),'AUDIO_DESCRIPTION_UNQUALIFIED');
+   const fixed=video?86:subtitle?46:[36,52,72][audioVersion];demand(n>=fixed&&entry+n===limit,'SAMPLE_DESCRIPTION_BOUNDS');
    demand(bytes[entry+14]===0&&bytes[entry+15]===1,'DATA_REFERENCE');
-   if(!video&&!subtitle)demand(bytes[entry+16]===0&&bytes[entry+17]===0,'AUDIO_DESCRIPTION_UNQUALIFIED');
-   walk(entry+fixed,limit,depth+1,track);track.stsd=true;track.codec=codec;
+   if(!audioVersion)walk(entry+fixed,limit,depth+1,track);track.stsd=true;track.codec=codec;
   }
   else if(['stts','ctts','stsz','stz2','stsc','stco','co64','stss'].includes(t)){
    demand(track&&body+8<=limit,'TABLE_HEADER');demand(t!=='stz2','COMPACT_SIZES_UNQUALIFIED');

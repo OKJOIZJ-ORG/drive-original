@@ -50,6 +50,7 @@ function inspectSubtitleMoov(bytes,{size,mdatRanges=[]}={}) {
   function children(start,end,depth=0) {
     demand(depth<=8,'BOX_DEPTH'); const result=[];
     for(let p=start;p<end;) {
+      if(end-p===4&&u32(bytes,p)===0) break; // QuickTime list terminator
       demand(p+8<=end,'BOX_HEADER'); let n=u32(bytes,p),header=8;
       if(n===1) { demand(p+16<=end,'BOX_HEADER'); n=u64(bytes,p+8); header=16; }
       else if(n===0) n=end-p;
@@ -162,7 +163,9 @@ export async function createPinnedSubtitleTrack(source,{signal,isCurrent=()=>tru
           .every(key => metadata.identity?.[key] === source.identity[key]), 'METADATA_IDENTITY');
       moov=metadata.moov; mdatRanges.push(...metadata.mdatRanges); p=rpc.size;
     }
-    for(let n=0;p<rpc.size;n++) { demand(n<256,'TOP_BOX_LIMIT'); const b=await rpc.exact(p,Math.min(16,rpc.size-p)); demand(b.length>=8,'BOX_HEADER'); let length=u32(b,0),header=8;
+    for(let n=0;p<rpc.size;n++) { demand(n<256,'TOP_BOX_LIMIT'); const b=await rpc.exact(p,Math.min(16,rpc.size-p));
+      if(b.length<8&&rpc.size-p<8&&b.length===rpc.size-p&&b.every(x=>x===0)) break; // zero padding after the last box
+      demand(b.length>=8,'BOX_HEADER'); let length=u32(b,0),header=8;
       if(length===1) { demand(b.length>=16,'BOX_HEADER'); length=u64(b,8); header=16; } else if(!length) length=rpc.size-p;
       const end=safe(p+length); demand(length>=header&&end<=rpc.size,'BOX_BOUNDS'); const type=fourcc(b,4); demand(!FORBIDDEN.includes(type),'FEATURE_UNSUPPORTED');
       if(type==='moov') { demand(!moov&&length<=SUBTITLE_LIMITS.metadataBytes,'METADATA_LIMIT'); moov=await rpc.exact(p,length); }

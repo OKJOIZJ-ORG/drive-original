@@ -356,3 +356,17 @@ test('the brand button returns to My Drive root with every file type and no sear
   c.run(`state.query='x';navigateToLibraryHome();`);
   assert.equal(c.run(`entered===null && renders===1 && state.query===''`),true);
 });
+
+test('pinned audio probe failures are classified by what they say about the original', () => {
+  const c=app();
+  const cls=(code)=>c.run(`classifyPinnedAudioProbeFailure(${JSON.stringify(code)})`);
+  for (const code of ['GENERAL_AUDIO_DESCRIPTION_UNQUALIFIED','GENERAL_CODEC_UNQUALIFIED','GENERAL_MOOV_LIMIT','GENERAL_TRACK_LIMIT']) assert.equal(cls(code),'keep-native',code);
+  for (const code of ['GENERAL_READ_TIMEOUT','Q1_SOURCE_READ_FAILED','Q1_SOURCE_HTTP_UNAVAILABLE']) assert.equal(cls(code),'transient',code);
+  for (const code of ['GENERAL_BOX_HEADER','GENERAL_IMAGE_HEADER_UNQUALIFIED','Q1_SOURCE_CONTENT_DRIFT','AUDIO_NATIVE_GATE_UNAVAILABLE',undefined]) assert.equal(cls(code),'terminal',String(code));
+  const say=(code,failure,settled)=>c.run(`JSON.stringify(describePinnedAudioProbeFailure(${JSON.stringify(code)},${JSON.stringify(failure)},${settled}))`);
+  assert.match(say('GENERAL_BOX_HEADER','terminal',false),/앱을 새로 연 뒤/);
+  assert.match(say('GENERAL_READ_TIMEOUT','transient',true),/"retry":true/);
+  assert.match(say('Q1_SOURCE_CONTENT_DRIFT','terminal',true),/원본 파일이 바뀌었습니다/);
+  assert.match(say('AUDIO_NATIVE_GATE_UNAVAILABLE','terminal',true),/AC-3/);
+  assert.doesNotMatch(say('GENERAL_BOX_HEADER','terminal',true),/앱을 새로 연 뒤/);
+});
