@@ -189,7 +189,7 @@ function settleSelectionAfterBulk(failedFiles) {
 
 function requestDeleteFile() {
   const files = getActionFiles();
-  if (!files.length || state.deleting || state.bulkAction) return;
+  if (!files.length) return;
   state.pendingActionFiles = [...files];
   if (el.deleteDialog && el.deleteFileName) {
     el.deleteFileName.textContent = formatActionTarget(files);
@@ -686,70 +686,129 @@ async function trashDriveFile(file, options) {
   return executeDriveMutation(file, 'trash', null, options);
 }
 
-async function performDeleteFile() {
-  const files = actionFilesSnapshot();
-  if (!files.length || state.deleting || state.bulkAction) return;
-  const owner = captureAccountStateRequest();
-  state.deleting = true;
-  state.bulkAction = true;
-  updateSelectionUI();
-  if (el.deleteConfirmButton) el.deleteConfirmButton.disabled = true;
-  setButtonLoading(el.deleteConfirmButton, true, files.length > 1 ? `${files.length}개 삭제 중…` : '삭제 중…');
+/* 뒤에서 도는 휴지통·이동 — 확인하면 창을 바로 닫고 대상 파일을 목록과 재생 순서에서 숨긴 뒤
+   작업을 하나씩 차례로 처리한다. 그동안 탐색·재생·다음 작업은 막지 않는다.
+   끝나면 성공한 파일만 목록에서 빼고, 실패한 파일은 다시 보인다. */
+const driveActionJobs = [];
+let driveActionQueue = Promise.resolve();
+
+function hasPendingDriveActions() {
+  return driveActionJobs.length > 0;
+}
+
+function setHiddenActionFiles(ids, hidden) {
+  if (!ids.size) return;
+  // A new Set identity invalidates the filtered-population cache.
+  const next = new Set(state.hiddenActionFileIds);
+  ids.forEach((id) => { if (hidden) next.add(id); else next.delete(id); });
+  state.hiddenActionFileIds = next;
+}
+
+function renderDriveActionStatus() {
+  const node = el.driveActionStatus;
+  if (!node) return;
+  const job = driveActionJobs[0];
+  node.hidden = !job;
+  if (!job) return;
+  const verb = job.action === 'trash' ? '휴지통으로 이동 중' : `'${job.targetRow.name || '폴더'}'(으)로 이동 중`;
+  const queued = driveActionJobs.length - 1;
+  const text = `${verb} ${job.done.toLocaleString('ko-KR')}/${job.files.length.toLocaleString('ko-KR')}`
+    + (queued ? ` · 대기 ${queued.toLocaleString('ko-KR')}건` : '');
+  if (el.driveActionStatusText) el.driveActionStatusText.textContent = text;
+  else node.textContent = text;
+}
+
+function renderLibraryAfterDriveAction() {
+  if (libraryNavigation.restoring) return;
+  if (state.deepScan && state.treeCache) computeAndRenderSubtree();
+  else renderFiles();
+}
+
+function queueDriveActionJob(job) {
+  const ids = new Set(job.files.map((file) => file.id));
+  const order = getPlaybackFileList();
+  const currentId = state.selected?.id || null;
+  Object.assign(job, { ids, owner: captureAccountStateRequest(), done: 0, playerFollows: false });
+  settleSelectionAfterBulk([]);
+  collapseShortsExpand();
+  if (job.hide) {
+    setHiddenActionFiles(ids, true);
+    renderFiles();
+    if (currentId && ids.has(currentId)) {
+      playNextAfterRemoval(order, order.findIndex((file) => file.id === currentId), ids);
+    }
+  } else {
+    // A file that may stay in view keeps playing until its move is confirmed.
+    job.playerFollows = Boolean(currentId && ids.has(currentId));
+  }
+  driveActionJobs.push(job);
+  renderDriveActionStatus();
+  const run = () => runDriveActionJob(job);
+  driveActionQueue = driveActionQueue.then(run, run);
+  return driveActionQueue;
+}
+
+async function runDriveActionJob(job) {
+  const { owner } = job;
+  const options = { retryUnchanged: true };
   try {
-    const order = getPlaybackFileList();
-    const currentId = state.selected?.id || null;
-    const removedIndex = currentId ? order.findIndex((file) => file.id === currentId) : -1;
-    const results = await runTaskPool(files, async (file) => {
-      owner.assert();
-      return trashDriveFile(file, { retryUnchanged: true });
+    const results = await runTaskPool(job.files, async (file) => {
+      try {
+        owner.assert();
+        return await (job.action === 'trash' ? trashDriveFile(file, options) : moveDriveFile(file, job.targetRow, options));
+      } finally {
+        job.done += 1;
+        renderDriveActionStatus();
+      }
     });
-    owner.assert();
-    const succeeded = results.filter((result) => result.status === 'fulfilled').map((result) => result.item);
-    const failed = results.filter((result) => result.status === 'rejected');
-    const removedIds = new Set(succeeded.map((file) => file.id));
-    if (removedIds.size) invalidateLibraryNavigationData();
-
-    state.files = state.files.filter((file) => !removedIds.has(file.id));
-    markFilesRemovedFromAccountState(removedIds);
-    succeeded.forEach((file) => {
-      shuffledOrderMap.delete(file.id);
-      generatedThumbnailCache.delete(file.id);
-    });
-    if (state.treeCache) {
-      state.treeCache = buildTreeIndexes(state.treeCache.items.filter((file) => !removedIds.has(file.id)), state.treeCache.scannedFolderIds);
-    }
-    if (el.deleteDialog?.open) el.deleteDialog.close();
-    collapseShortsExpand();
-    if (state.deepScan && state.treeCache) computeAndRenderSubtree();
-    else renderFiles();
-
-    settleSelectionAfterBulk(failed.map((result) => result.item));
-    if (currentId && removedIds.has(currentId)) playNextAfterRemoval(order, removedIndex, removedIds);
-
-    if (!failed.length) {
-      const suffix = state.demo ? ' (데모 시뮬레이션)' : ' Drive 휴지통에서 복구할 수 있습니다.';
-      showToast(`${succeeded.length.toLocaleString('ko-KR')}개 파일을 휴지통으로 이동했습니다.${suffix}`);
-    } else {
-      const firstError = failed[0]?.reason;
-      failed.forEach(result => clearRejectedToken(result.reason));
-      showToast(`${succeeded.length.toLocaleString('ko-KR')}개 휴지통 이동, ${summarizeDriveMutationFailures(failed)}: ${humanizeDriveError(firstError)}`);
-    }
+    // Another account or session owns the list now; its own listing is authoritative.
+    if (!owner.current()) return;
+    if (job.action === 'trash') settleTrashJob(results);
+    else settleMoveJob(job, results);
   } catch (error) {
     if (!owner.current() || error?.name === 'AbortError') return;
-    reportAppFailure('bulk-delete', error);
-    if (el.deleteDialog?.open) el.deleteDialog.close();
-    settleSelectionAfterBulk(files);
-    if (error?.status === 401) {
-      clearRejectedToken(error);
-    }
-    showToast(`삭제하지 못했습니다: ${humanizeDriveError(error)}`);
+    reportAppFailure(job.action === 'trash' ? 'bulk-delete' : 'bulk-move', error);
+    if (error?.status === 401) clearRejectedToken(error);
+    showToast(`${job.action === 'trash' ? '삭제' : '이동'}하지 못했습니다: ${humanizeDriveError(error)}`);
   } finally {
-    state.deleting = false;
-    state.bulkAction = false;
-    if (el.deleteConfirmButton) el.deleteConfirmButton.disabled = false;
-    setButtonLoading(el.deleteConfirmButton, false);
-    updateSelectionUI();
+    driveActionJobs.splice(driveActionJobs.indexOf(job), 1);
+    setHiddenActionFiles(job.ids, false);
+    renderDriveActionStatus();
+    if (owner.current()) renderLibraryAfterDriveAction();
   }
+}
+
+function settleTrashJob(results) {
+  const succeeded = results.filter((result) => result.status === 'fulfilled').map((result) => result.item);
+  const failed = results.filter((result) => result.status === 'rejected');
+  const removedIds = new Set(succeeded.map((file) => file.id));
+  if (removedIds.size) invalidateLibraryNavigationData();
+
+  state.files = state.files.filter((file) => !removedIds.has(file.id));
+  markFilesRemovedFromAccountState(removedIds);
+  succeeded.forEach((file) => {
+    shuffledOrderMap.delete(file.id);
+    generatedThumbnailCache.delete(file.id);
+  });
+  if (state.treeCache) {
+    state.treeCache = buildTreeIndexes(state.treeCache.items.filter((file) => !removedIds.has(file.id)), state.treeCache.scannedFolderIds);
+  }
+
+  if (!failed.length) {
+    const suffix = state.demo ? ' (데모 시뮬레이션)' : ' Drive 휴지통에서 복구할 수 있습니다.';
+    showToast(`${succeeded.length.toLocaleString('ko-KR')}개 파일을 휴지통으로 이동했습니다.${suffix}`);
+  } else {
+    const firstError = failed[0]?.reason;
+    failed.forEach(result => clearRejectedToken(result.reason));
+    showToast(`${succeeded.length.toLocaleString('ko-KR')}개 휴지통 이동, ${summarizeDriveMutationFailures(failed)}: ${humanizeDriveError(firstError)}`);
+  }
+}
+
+function performDeleteFile() {
+  const files = actionFilesSnapshot().filter((file) => !state.hiddenActionFileIds.has(file.id));
+  if (el.deleteDialog?.open) el.deleteDialog.close();
+  if (!files.length) return;
+  return queueDriveActionJob({ action: 'trash', files, hide: true });
 }
 
 /* 삭제/이동으로 현재 파일이 목록에서 사라져도 플레이어를 유지하고
@@ -776,7 +835,7 @@ function playNextAfterRemoval(order, removedIndex, removedIdOrIds) {
 /* 폴더 이동 — 최근 이동 폴더와 서버 검색은 바로 보이고, 전체 폴더 목록은 뒤에서 1회 수집한다 */
 async function requestMoveFile() {
   const files = getActionFiles();
-  if (!files.length || state.moving || state.bulkAction) return;
+  if (!files.length) return;
   const generation = ++moveRequestGeneration;
   moveParentsAbortController?.abort();
   const parentsController = new AbortController();
@@ -1307,14 +1366,14 @@ async function moveDriveFile(file, targetRow, options) {
   return { skipped: false };
 }
 
-async function performMoveFile() {
-  const files = actionFilesSnapshot();
-  const targetRowId = state.moveTargetFolderId;
-  if (!files.length || !targetRowId || state.moving || state.bulkAction) return;
-  const owner = captureAccountStateRequest();
-  const targetRow = findMoveTargetRow(targetRowId);
-  const target = targetRow?.id;
-  if (!target) {
+function performMoveFile() {
+  const files = actionFilesSnapshot().filter((file) => !state.hiddenActionFileIds.has(file.id));
+  const targetRow = findMoveTargetRow(state.moveTargetFolderId);
+  if (!files.length) {
+    if (el.moveDialog?.open) el.moveDialog.close();
+    return;
+  }
+  if (!targetRow?.id) {
     showToast('이동할 폴더를 다시 선택해 주세요.');
     return;
   }
@@ -1323,67 +1382,40 @@ async function performMoveFile() {
     showToast(`이 폴더로 이동할 수 없습니다: ${blockReason}`);
     return;
   }
-  state.moving = true;
-  state.bulkAction = true;
-  updateSelectionUI();
-  if (el.moveConfirmButton) el.moveConfirmButton.disabled = true;
-  setButtonLoading(el.moveConfirmButton, true, files.length > 1 ? `${files.length}개 이동 중…` : '이동 중…');
-  try {
+  // Closing cancels the folder index and clears the dialog's target, so both are captured first.
+  if (el.moveDialog?.open) el.moveDialog.close();
+  // Deep scan may still show a file moved inside the scanned subtree; elsewhere it leaves the view.
+  return queueDriveActionJob({ action: 'move', files, targetRow, hide: !state.deepScan });
+}
+
+function settleMoveJob(job, results) {
+  const { targetRow } = job;
+  const moved = results.filter((result) => result.status === 'fulfilled' && !result.value?.skipped).map((result) => result.item);
+  const skipped = results.filter((result) => result.status === 'fulfilled' && result.value?.skipped).map((result) => result.item);
+  const failed = results.filter((result) => result.status === 'rejected');
+  const movedIds = new Set(moved.map((file) => file.id));
+  if (movedIds.size) invalidateLibraryNavigationData();
+  if (moved.length || skipped.length) rememberRecentMoveFolder(targetRow);
+
+  if (!state.deepScan) state.files = state.files.filter((file) => !movedIds.has(file.id));
+  moved.forEach((file) => shuffledOrderMap.delete(file.id));
+  if (state.treeCache) state.treeCache = buildTreeIndexes(state.treeCache.items, state.treeCache.scannedFolderIds);
+
+  const currentId = state.selected?.id || null;
+  if (job.playerFollows && currentId && movedIds.has(currentId)) {
     const order = getPlaybackFileList();
-    const currentId = state.selected?.id || null;
-    const removedIndex = currentId ? order.findIndex((file) => file.id === currentId) : -1;
-    const results = await runTaskPool(files, async (file) => {
-      owner.assert();
-      return moveDriveFile(file, targetRow, { retryUnchanged: true });
-    });
-    owner.assert();
-    const moved = results.filter((result) => result.status === 'fulfilled' && !result.value?.skipped).map((result) => result.item);
-    const skipped = results.filter((result) => result.status === 'fulfilled' && result.value?.skipped).map((result) => result.item);
-    const failed = results.filter((result) => result.status === 'rejected');
-    const movedIds = new Set(moved.map((file) => file.id));
-    if (movedIds.size) invalidateLibraryNavigationData();
-    if (moved.length || skipped.length) rememberRecentMoveFolder(targetRow);
+    playNextAfterRemoval(order, order.findIndex((file) => file.id === currentId), movedIds);
+  }
 
-    if (!state.deepScan) state.files = state.files.filter((file) => !movedIds.has(file.id));
-    moved.forEach((file) => shuffledOrderMap.delete(file.id));
-    if (state.treeCache) state.treeCache = buildTreeIndexes(state.treeCache.items, state.treeCache.scannedFolderIds);
-    if (el.moveDialog?.open) el.moveDialog.close();
-    collapseShortsExpand();
-    if (state.deepScan && state.treeCache) computeAndRenderSubtree();
-    else renderFiles();
-
-    settleSelectionAfterBulk(failed.map((result) => result.item));
-    if (currentId && movedIds.has(currentId)) playNextAfterRemoval(order, removedIndex, movedIds);
-
-    if (!failed.length) {
-      const skippedText = skipped.length ? ` · ${skipped.length.toLocaleString('ko-KR')}개는 이미 해당 위치` : '';
-      const demoText = state.demo ? ' (데모 시뮬레이션)' : '';
-      showToast(`${moved.length.toLocaleString('ko-KR')}개 파일을 이동했습니다${skippedText}.${demoText}`);
-    } else {
-      failed.forEach(result => clearRejectedToken(result.reason));
-      const skippedText = skipped.length ? `, ${skipped.length.toLocaleString('ko-KR')}개 이미 해당 위치` : '';
-      showToast(`${moved.length.toLocaleString('ko-KR')}개 이동${skippedText}, ${summarizeDriveMutationFailures(failed)}: ${humanizeDriveError(failed[0]?.reason)}`);
-      if (failed.some((result) => result.reason?.status === 403)) openPermissionGuide();
-    }
-  } catch (error) {
-    if (!owner.current() || error?.name === 'AbortError') return;
-    reportAppFailure('bulk-move', error);
-    if (el.moveDialog?.open) el.moveDialog.close();
-    settleSelectionAfterBulk(files);
-    if (error?.status === 401) {
-      clearRejectedToken(error);
-      showToast('Google 인증이 만료됐습니다. 다시 연결해 주세요.');
-    } else if (error?.status === 403) {
-      openPermissionGuide();
-    } else {
-      showToast(`이동하지 못했습니다: ${humanizeDriveError(error)}`);
-    }
-  } finally {
-    state.moving = false;
-    state.bulkAction = false;
-    if (el.moveConfirmButton) el.moveConfirmButton.disabled = !state.moveTargetFolderId;
-    setButtonLoading(el.moveConfirmButton, false);
-    updateSelectionUI();
+  if (!failed.length) {
+    const skippedText = skipped.length ? ` · ${skipped.length.toLocaleString('ko-KR')}개는 이미 해당 위치` : '';
+    const demoText = state.demo ? ' (데모 시뮬레이션)' : '';
+    showToast(`${moved.length.toLocaleString('ko-KR')}개 파일을 이동했습니다${skippedText}.${demoText}`);
+  } else {
+    failed.forEach(result => clearRejectedToken(result.reason));
+    const skippedText = skipped.length ? `, ${skipped.length.toLocaleString('ko-KR')}개 이미 해당 위치` : '';
+    showToast(`${moved.length.toLocaleString('ko-KR')}개 이동${skippedText}, ${summarizeDriveMutationFailures(failed)}: ${humanizeDriveError(failed[0]?.reason)}`);
+    if (failed.some((result) => result.reason?.status === 403)) openPermissionGuide();
   }
 }
 

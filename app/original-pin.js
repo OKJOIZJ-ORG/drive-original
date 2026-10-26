@@ -187,7 +187,7 @@ function prewarmRevisionPin(file) {
 // (vertical deck on touch layouts, sequential next otherwise) gets its pin in
 // the same single slot, so that open skips the provider acquisition.
 function prewarmNextPlaybackPin() {
-  if (el.playerSheet?.hidden !== false || !state.selected || state.bulkAction) return null;
+  if (el.playerSheet?.hidden !== false || !state.selected) return null;
   const list = getPlaybackFileList();
   const deck = isMobileDevice() ? ensureVerticalPlaybackDeck(state.selected, list) : null;
   const next = deck ? getPlaybackFileById(deck.below?.[0], list) : resolveSequentialPlaybackTarget('left', list);
@@ -222,7 +222,7 @@ function installCardPinPrewarm(button, file) {
   button.addEventListener('pointerleave', cancel);
   button.addEventListener('pointerdown', (event) => {
     cancel();
-    if (event.button === 0 && !state.selectionMode && !state.bulkAction) prewarmRevisionPin(file);
+    if (event.button === 0 && !state.selectionMode) prewarmRevisionPin(file);
   });
 }
 

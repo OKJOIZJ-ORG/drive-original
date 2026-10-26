@@ -4,7 +4,9 @@
 // One of the ordered classic scripts listed in scripts/app-scripts.cjs; all share one global scope.
 
 function getPlaybackFileList() {
-  return sortedPopulationFiles();
+  const files = sortedPopulationFiles();
+  const hidden = state.hiddenActionFileIds;
+  return hidden.size ? files.filter((file) => !hidden.has(file.id)) : files;
 }
 
 function getPlaybackFileById(fileId, list = getPlaybackFileList()) {

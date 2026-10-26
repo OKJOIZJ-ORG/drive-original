@@ -1022,3 +1022,7 @@ Cause of the slow dialog: the folder index (2,300 folders plus shared drives) ha
 ## 2026-10-26 — D114 1.23.17 delivered
 
 Version aligned to 1.23.17, main fast-forwarded to cd18847 and pushed; dry-run then `npm run deploy:release` → Worker 5a6bd648 (8 assets changed). 1006/1006; 81/81 served Git-equal, private 404, anonymous credential 403 no-store. Actual Chrome (user profile, own tab closed): v1.23.17; the move index is really 43,860 folders and took ~150 s; typing 추억 during loading showed the folder ~1.1 s later; a recorded 추억 appeared at once after reload and was selectable while loading. No file moved; the test recent entry was removed. qa/release-1.23.17 owns receipts.
+
+## 2026-10-26 — D116 background trash/move (local)
+
+The confirm dialog stayed open with a spinner until every file was verified, and `state.bulkAction` also froze folder navigation, selection and swipes for the whole job. Change: confirm closes the dialog at once, hides the target files from the grid and playback order, advances the player if needed, and queues the job; jobs run one at a time behind a bottom status pill ("휴지통으로 이동 중 n/N · 대기 k건"); confirmed files leave the list, failed ones reappear; the blocking flags are gone; beforeunload asks while a job is pending. Tests 1009/1009 (3 new in tests/background-drive-actions.test.js). Demo-mode browser check with Drive calls slowed to 3–4 s: dialog closed at once, pill showed progress, navigating to the parent folder worked mid-move, pill cleared with the result toast, no console errors. Not merged/pushed/deployed.

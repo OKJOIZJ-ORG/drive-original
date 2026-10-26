@@ -362,7 +362,7 @@ function resetListingSession() {
 }
 
 function navigateToFolder(folderId, folderName) {
-  if (!folderId || state.bulkAction) return;
+  if (!folderId) return;
   if (folderId === state.currentFolderId) return;
   beginLibraryNavigation();
   // The breadcrumb always renders root as the first crumb; keep it out of the stack.
@@ -412,7 +412,7 @@ function navigateToFolderIndex(index) {
   const crumbs = buildBreadcrumbItems(state.folderStack, state.currentFolderId, state.currentFolderName);
   const target = crumbs[index];
   if (!target || target.id === state.currentFolderId) return;
-  if (state.bulkAction || completeLibraryBackTo(target.id)) return;
+  if (completeLibraryBackTo(target.id)) return;
   beginLibraryNavigation();
   state.folderStack = crumbs.slice(1, index);
   enterFolder(target.id, target.name, 'back');
@@ -421,7 +421,6 @@ function navigateToFolderIndex(index) {
 // The brand button's home: My Drive root with every file type and no search.
 // Sort and subfolder preferences are kept.
 function navigateToLibraryHome() {
-  if (state.bulkAction) return;
   const atRoot = state.currentFolderId === 'root' && !state.folderStack.length;
   if (atRoot && state.filter === 'all' && !state.query) { scrollToLibraryTop(); return; }
   beginLibraryNavigation();
@@ -441,7 +440,6 @@ function navigateToLibraryHome() {
 }
 
 function navigateToParentFolder() {
-  if (state.bulkAction) return;
   if (!state.folderStack.length && state.currentFolderId === 'root') return;
   if (completeLibraryBackTo(state.folderStack.at(-1)?.id || 'root')) return;
   beginLibraryNavigation();

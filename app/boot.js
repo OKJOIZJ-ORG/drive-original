@@ -110,7 +110,7 @@ function bindElements() {
     'updateStatusText', 'checkUpdateButton', 'applyUpdateButton', 'forceReloadButton',
     'logoutButton', 'disconnectButton', 'setupHelpSection', 'settingsAdvanced',
     'fileNameDialog', 'fileNameText',
-    'currentOrigin', 'copyOriginButton', 'appVersion', 'toast',
+    'currentOrigin', 'copyOriginButton', 'appVersion', 'toast', 'driveActionStatus', 'driveActionStatusText',
     'deleteDialog', 'deleteFileName', 'deleteCancelButton', 'deleteConfirmButton',
     'permissionDialog', 'permissionReconnectButton', 'permissionCloseButton',
     'seekHintLeft', 'seekHintRight'
@@ -127,7 +127,7 @@ function bindDialogLightDismiss(dialog) {
     startedOnBackdrop = event.target === dialog;
   });
   dialog.addEventListener('click', (event) => {
-    if (!startedOnBackdrop || event.target !== dialog || state.deleting || state.moving || state.bulkAction) return;
+    if (!startedOnBackdrop || event.target !== dialog) return;
     startedOnBackdrop = false;
     dialog.close();
   });
@@ -360,10 +360,7 @@ function bindEvents() {
     el.deleteDialog.close();
   });
   if (el.deleteConfirmButton) el.deleteConfirmButton.addEventListener('click', performDeleteFile);
-  if (el.deleteDialog) el.deleteDialog.addEventListener('cancel', (event) => {
-    if (state.deleting || state.bulkAction) event.preventDefault();
-    else state.pendingActionFiles = [];
-  });
+  if (el.deleteDialog) el.deleteDialog.addEventListener('cancel', () => { state.pendingActionFiles = []; });
 
   // Move dialog
   if (el.moveCancelButton) el.moveCancelButton.addEventListener('click', () => {
@@ -372,13 +369,8 @@ function bindEvents() {
     el.moveDialog.close();
   });
   if (el.moveConfirmButton) el.moveConfirmButton.addEventListener('click', performMoveFile);
-  if (el.moveDialog) el.moveDialog.addEventListener('cancel', (event) => {
-    if (state.moving || state.bulkAction) event.preventDefault();
-    else cancelMoveFolderLoading();
-  });
-  if (el.moveDialog) el.moveDialog.addEventListener('close', () => {
-    if (!state.moving && !state.bulkAction) cancelMoveFolderLoading();
-  });
+  if (el.moveDialog) el.moveDialog.addEventListener('cancel', cancelMoveFolderLoading);
+  if (el.moveDialog) el.moveDialog.addEventListener('close', cancelMoveFolderLoading);
   if (el.moveSearchInput) el.moveSearchInput.addEventListener('input', (event) => handleMoveSearchInput(event.target.value));
 
   // Permission guide dialog
@@ -408,6 +400,12 @@ function bindEvents() {
     updateAccountSyncStatus();
   });
   window.addEventListener('pagehide', stopAccountStateRefresh);
+  // Leaving mid-job is safe (the mutation journal re-verifies on the next load), but the browser asks first.
+  window.addEventListener('beforeunload', (event) => {
+    if (!hasPendingDriveActions()) return;
+    event.preventDefault();
+    event.returnValue = '';
+  });
   window.addEventListener('pageshow', () => {
     refreshForegroundCredential();
     resumeMediaViewObservation();

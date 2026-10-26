@@ -249,7 +249,7 @@ function invalidateLibraryNavigationData() {
 
 function completeLibraryBackNavigation() {
   clearLibraryEdgeBackVisuals();
-  if (libraryNavigation.pending || state.bulkAction) return;
+  if (libraryNavigation.pending) return;
   if (hasOwnedLibraryBackEntry()) {
     rememberLibraryView();
     libraryNavigation.pending = true;
@@ -303,7 +303,7 @@ function settleLibraryEdgeBack(commit, gesture = edgeBackGesture) {
   const finish = () => {
     if (generation !== libraryNavigation.generation || libraryNavigation.edgeTransition !== transition) return;
     clearLibraryEdgeBackVisuals();
-    if (commit && !state.bulkAction && !document.querySelector('dialog[open]')) {
+    if (commit && !document.querySelector('dialog[open]')) {
       if (gesture.player && !el.playerSheet?.hidden && gesture.playbackSession === state.playbackSession) requestClosePlayer();
       else if (!gesture.player && el.playerSheet?.hidden) completeLibraryBackNavigation();
     }
@@ -331,7 +331,7 @@ function settleLibraryEdgeBack(commit, gesture = edgeBackGesture) {
 function setupLibraryEdgeBackGesture() {
   const valid = (gesture) => gesture && gesture.generation === libraryNavigation.generation
     && gesture.listGeneration === state.listGeneration && gesture.folder === state.currentFolderId
-    && gesture.filter === state.filter && !state.bulkAction
+    && gesture.filter === state.filter
     && (gesture.player ? !el.playerSheet?.hidden && gesture.playbackSession === state.playbackSession : el.playerSheet?.hidden)
     && !el.libraryView?.hidden && !document.querySelector('dialog[open]');
   const findTouch = (touches, id) => Array.from(touches || []).find((touch) => (touch.identifier ?? 0) === id);
@@ -346,7 +346,7 @@ function setupLibraryEdgeBackGesture() {
     if (!edgeBackGesture && !libraryNavigation.animations.length) libraryNavigation.suppressClickUntil = 0;
     if (event.touches.length !== 1) { if(edgeBackGesture) settleLibraryEdgeBack(false); return; }
     if (edgeBackGesture || libraryNavigation.animations.length || libraryNavigation.pending || libraryNavigation.restoring) return;
-    if (!isMobileDevice() || !el.libraryView || el.libraryView.hidden || state.bulkAction || playerHistoryPending) return;
+    if (!isMobileDevice() || !el.libraryView || el.libraryView.hidden || playerHistoryPending) return;
     const player = !el.playerSheet?.hidden;
     if ((!player && !canNavigateLibraryBack()) || document.querySelector('dialog[open]')) return;
     const touch = event.touches[0];
@@ -707,7 +707,6 @@ function computeAndRenderSubtree() {
 }
 
 async function setLibraryFilter(filter) {
-  if (state.bulkAction) return;
   const next = ['all', 'video', 'image', 'favorites'].includes(filter) ? filter : 'all';
   if (next !== state.filter) {
     beginLibraryNavigation();

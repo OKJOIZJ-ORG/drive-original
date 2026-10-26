@@ -267,7 +267,7 @@ function scheduleAccountStateRefresh(delay = ACCOUNT_STATE_REFRESH_INTERVAL_MS) 
 }
 
 function refreshSyncedFavoriteFiles() {
-  if (state.filter !== 'favorites' || state.loadingFavorites || state.bulkAction
+  if (state.filter !== 'favorites' || state.loadingFavorites
     || libraryNavigation.restoring || edgeBackGesture || libraryNavigation.animations.length) return;
   const desired = accountFavoriteIds(state.accountMediaState);
   if (desired.size === state.favoriteFiles.length && state.favoriteFiles.every((file) => desired.has(file.id))) return;

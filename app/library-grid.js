@@ -280,16 +280,18 @@ function matchesLibraryQuery(item) {
 
 function filteredAndSortedFiles() {
   const source = sortedPopulationFiles();
+  const hidden = state.hiddenActionFileIds;
   if (filteredPopulationCache?.source === source && filteredPopulationCache.query === state.query
-    && filteredPopulationCache.filter === state.filter) return filteredPopulationCache.files;
+    && filteredPopulationCache.filter === state.filter && filteredPopulationCache.hidden === hidden) return filteredPopulationCache.files;
   const files = source.filter((file) => {
+    if (hidden.has(file.id)) return false;
     const isVideo = file.mimeType?.startsWith('video/');
     const typeMatch = state.filter === 'all' || state.filter === 'favorites'
       || (state.filter === 'video' && isVideo) || (state.filter === 'image' && !isVideo);
     const queryMatch = matchesLibraryQuery(file);
     return typeMatch && queryMatch;
   });
-  filteredPopulationCache = { source, query: state.query, filter: state.filter, files };
+  filteredPopulationCache = { source, query: state.query, filter: state.filter, hidden, files };
   return files;
 }
 
@@ -383,7 +385,7 @@ function toggleFileSelection(file) {
 }
 
 async function selectAllVisibleFiles() {
-  if (!state.selectionMode || state.bulkAction) return;
+  if (!state.selectionMode) return;
   const context = [state.selectionGeneration, state.listGeneration, state.filter, state.query];
   const stillCurrent = () => state.selectionMode && context.every((value, index) =>
     value === [state.selectionGeneration, state.listGeneration, state.filter, state.query][index]);
@@ -408,9 +410,8 @@ function updateSelectionUI() {
     el.selectionModeButton.classList.toggle('active', state.selectionMode);
   }
   if (el.selectionCountText) el.selectionCountText.textContent = `${count.toLocaleString('ko-KR')}개`;
-  if (el.selectionDeleteBtn) el.selectionDeleteBtn.disabled = count === 0 || state.bulkAction;
-  if (el.selectionMoveBtn) el.selectionMoveBtn.disabled = count === 0 || state.bulkAction;
-  if (el.selectionSelectAllBtn) el.selectionSelectAllBtn.disabled = state.bulkAction;
+  if (el.selectionDeleteBtn) el.selectionDeleteBtn.disabled = count === 0;
+  if (el.selectionMoveBtn) el.selectionMoveBtn.disabled = count === 0;
   el.fileGrid?.classList.toggle('selection-mode', state.selectionMode);
   el.fileGrid?.querySelectorAll?.('.file-card').forEach((card) => {
     const selected = state.selectedFileIds.has(card.dataset.fileId);
@@ -442,7 +443,7 @@ function installCardSelectionGestures(button, file) {
   };
   button.addEventListener('pointerdown', (event) => {
     cancelPendingCardPress?.();
-    if (event.isPrimary === false || event.button !== 0 || state.bulkAction || isReservedBackStart(event.clientX)) return;
+    if (event.isPrimary === false || event.button !== 0 || isReservedBackStart(event.clientX)) return;
     suppressClick = false;
     startX = event.clientX;
     startY = event.clientY;
@@ -464,7 +465,7 @@ function installCardSelectionGestures(button, file) {
     timer = setTimeout(() => {
       const connected = button.isConnected !== false;
       clear();
-      if (!connected || state.bulkAction || (el.playerSheet && !el.playerSheet.hidden)) return;
+      if (!connected || (el.playerSheet && !el.playerSheet.hidden)) return;
       suppressClick = true;
       enterSelectionMode(file);
       navigator.vibrate?.(12);
@@ -481,7 +482,7 @@ function installCardSelectionGestures(button, file) {
     event.preventDefault();
     clear();
     suppressClick = true;
-    if (!state.selectionMode && !state.bulkAction) enterSelectionMode(file);
+    if (!state.selectionMode) enterSelectionMode(file);
   });
   button.addEventListener('click', (event) => {
     if (suppressClick) {

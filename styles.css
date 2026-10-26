@@ -2119,6 +2119,49 @@ dialog::backdrop {
   animation: appleToastPop var(--duration-normal) var(--ease-spring);
 }
 
+.drive-action-status {
+  position: fixed;
+  bottom: calc(68px + var(--safe-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  max-width: calc(100vw - 32px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: var(--radius-pill);
+  background: rgba(30, 30, 32, 0.92);
+  backdrop-filter: var(--blur-ultra-thin);
+  -webkit-backdrop-filter: var(--blur-ultra-thin);
+  border: var(--hairline-border);
+  box-shadow: var(--shadow-popover);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--label-primary);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.drive-action-status[hidden] {
+  display: none;
+}
+
+#driveActionStatusText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.drive-action-spinner {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-pill);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  animation: appleSpin 600ms linear infinite;
+}
+
 @keyframes appleToastPop {
   from { opacity: 0; transform: translate(-50%, 12px) scale(0.94); }
   to { opacity: 1; transform: translate(-50%, 0) scale(1); }
