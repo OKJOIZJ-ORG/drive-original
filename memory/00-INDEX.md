@@ -230,4 +230,5 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 - `AUTH-BODY-DEADLINE-20261001.md`: successful auth body timeout/transport recovery and terminal/cancel distinctions, local24 qualification.
 - `TS-SHORT-EOF-20261001.md`: actual29 singleton EOF cause, local30 original-frame correction and pendingPlay lifecycle fix; actual30 replay remains pending.
+- `../qa/release-1.23.19/README.md`: D120 1.23.19 (D118 pinch zoom/lock, keyboard-only focus rings, card name popup; D119 subfolder picker, one progress line, app dropdowns) as Worker 96dd5a1a, main e9df1ec; 1018 tests, 81/81 Git-equal; actual Chrome: picker listed only 3 folders for 추억/영상, zoom lock and reset, one loading message.
 - `../qa/release-1.23.18/README.md`: D117 1.23.18 (D116 background trash/move) as Worker 706fec6e, main b35fa8c; 1009 tests, 81/81 Git-equal; actual Chrome with Drive writes stubbed: dialog closes in 14 ms, status pill, navigation during a move, files return on failure.

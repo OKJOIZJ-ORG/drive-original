@@ -208,3 +208,5 @@ Assumed (not asked): "확대 잠금" freezes the current view (pinch/pan off, sw
 ## 2026-10-26 — D119 follow-ups
 
 Assumed (not asked): a hand-picked subfolder set belongs to the folder it was made in (turns off when entering another folder, restored by back), while "모든 하위 폴더" follows navigation as before. Not verified with a real Drive account: the picker's folder-only Drive listing (shared drives, resource keys, >1000 subfolders) and the selective scan against real latency; checked by unit tests and the demo tree only. Not checked on a real phone: the custom dropdown and the picker sheet (emulated 390×844 touch only).
+
+D120 (1.23.19 in production) narrows the D118/D119 rows: the picker's Drive folder listing and the selective scan were verified on the real account (추억/영상). Still not verified: physical-phone pinch, real trackpad pinch, mouse-drag pan and video zoom in production, real clipboard copy, shared drives and >1,000 subfolders in the picker.

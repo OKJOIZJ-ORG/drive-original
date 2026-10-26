@@ -1,19 +1,19 @@
-# Checkpoint — D117 1.23.18 delivered — 2026-10-26
+# Checkpoint — D120 1.23.19 delivered — 2026-10-26
 
 ## The story so far
-1.23.17 (D113 move dialog recent folders and server search) was live as Worker 5a6bd648. The user asked that trash and move stop holding the dialog until done; D116 closes the dialog at once, hides the target files, and runs the work as a background queue with a bottom status. Released as 1.23.18 (D117).
+1.23.18 (D116 background trash/move) was live as Worker 706fec6e. The user then asked for pinch zoom with a lock, no focus rings, a copyable full-name popup on the card's lower part (D118), and for picking which subfolders to include, one loading message and app-styled dropdowns (D119). Both were released together as 1.23.19 (D120).
 
 ## Latest
-1.23.18 is live: Worker 706fec6e, main b35fa8c. 1009/1009; 81/81 served Git-equal. Actual Chrome (user profile) with Drive writes stubbed in that tab: dialogs closed in 14 ms, status showed progress, parent-folder navigation worked during a move, files came back on failure. No user file changed. qa/release-1.23.18 owns numbers.
+1.23.19 is live: Worker 96dd5a1a, main e9df1ec. 1018/1018; 81/81 served Git-equal. Actual Chrome (user profile): one loading message; sort dropdown; picker chose 추억/영상 only and Drive listed just 3 folders (285 media in 0.54 s); name popup; photo zoom 2.6×, lock, reset. Settings restored, no file changed. qa/release-1.23.19 owns numbers.
 
 ## Decided
-D094–D115 as before; D116 background trash/move; D117 authorized this delivery. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
+D094–D117 as before; D118 zoom/focus/name popup; D119 subfolder picker/progress line/dropdowns; D120 authorized this delivery. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
 
 ## Waiting on the user
-None. Not verified in production: a real successful background trash/move. Not decided: thumbnail preview while a photo original loads (D108); widening the 4 MiB moov window; the license-pinned video-q3-input.mjs terminator weakness.
+None. Not verified: physical-phone pinch, real trackpad pinch, real clipboard copy, shared drives in the picker. Not decided: thumbnail preview while a photo original loads (D108); widening the 4 MiB moov window; the license-pinned video-q3-input.mjs terminator weakness.
 
 ## Next first action
-Read qa/release-1.23.18/README.md. App code lives in app/ (map: app/README.md); the order is owned by scripts/public-files.cjs.
+Read qa/release-1.23.19/README.md. App code lives in app/ (map: app/README.md); the order is owned by scripts/public-files.cjs.
 
 ## Tried
 Deploy (D106): from source/worker run `npm run deploy:release` (validate first with `npm run deploy:release -- --dry-run`). It requires committed publication inputs, deploys HEAD from a temporary detached worktree under %TEMP% and removes it. The user's C:\DriveBackup\Projects-mirror hard-link backup is intentional (D106): never modify it, and do not use `deploy:candidate` in the checkout. Never deploy if materialize exits non-zero. Right after a deploy the edge may serve the previous index.html for a few seconds; re-fetch before judging a mismatch.
