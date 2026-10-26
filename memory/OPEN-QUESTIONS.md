@@ -194,3 +194,5 @@ Resolved by D112: D110 + D111 shipped as 1.23.16 (Worker 8c48f820, main a42d82c)
 ## 2026-10-26 — D113/D114 follow-ups
 
 Observed (qa/release-1.23.17): the move index is 43,860 folders and takes ~150 s per session (460 per page); recent folders and server search make it optional for the common case, but browsing the full tree or middle-of-word search still waits for it. Not decided: persisting the index (IndexedDB) with background refresh, which D113 left out of scope. Not verified in production: a real move recording its target (unit/demo only).
+
+Resolved 2026-10-26 by D115: persisting the move folder index is not wanted for now ("지금은 최근 폴더랑 검색으로 충분해. 목록 저장은 안 해도 돼."). Still not verified in production: a real move recording its target.

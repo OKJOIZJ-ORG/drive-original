@@ -7,10 +7,10 @@
 1.23.17 is live: Worker 5a6bd648, main cd18847. 1006/1006; 81/81 served Git-equal. Actual Chrome (user profile): the account's move index is 43,860 folders (~150 s); typing 추억 during loading showed it in ~1.1 s; a remembered 추억 appeared at once after reload and was selectable while loading. No user file was moved. qa/release-1.23.17 owns numbers.
 
 ## Decided
-D094–D113 as before; D114 authorized this delivery. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
+D094–D113 as before; D114 authorized this delivery; D115 keeps the move index in memory only. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
 
 ## Waiting on the user
-None. Not decided: persisting the 43,860-folder move index (IndexedDB); thumbnail preview while a photo original loads (D108); widening the 4 MiB moov window; the license-pinned video-q3-input.mjs terminator weakness.
+None. Declined by D115: persisting the 43,860-folder move index. Not decided: thumbnail preview while a photo original loads (D108); widening the 4 MiB moov window; the license-pinned video-q3-input.mjs terminator weakness.
 
 ## Next first action
 Read qa/release-1.23.17/README.md. App code lives in app/ (map: app/README.md); the order is owned by scripts/public-files.cjs.
