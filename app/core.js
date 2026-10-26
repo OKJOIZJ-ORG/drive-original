@@ -3,7 +3,7 @@
 // Shared constants and pure helpers (account-state merge, playback deck, render window, buffer policy).
 // One of the ordered classic scripts listed in scripts/app-scripts.cjs; all share one global scope.
 
-const APP_VERSION = '1.23.18';
+const APP_VERSION = '1.23.19';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
