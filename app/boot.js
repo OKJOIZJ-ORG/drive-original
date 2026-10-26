@@ -379,10 +379,7 @@ function bindEvents() {
   if (el.moveDialog) el.moveDialog.addEventListener('close', () => {
     if (!state.moving && !state.bulkAction) cancelMoveFolderLoading();
   });
-  if (el.moveSearchInput) el.moveSearchInput.addEventListener('input', (event) => {
-    state.moveResultLimit = MOVE_RESULT_BATCH;
-    renderMoveFolderList(event.target.value);
-  });
+  if (el.moveSearchInput) el.moveSearchInput.addEventListener('input', (event) => handleMoveSearchInput(event.target.value));
 
   // Permission guide dialog
   if (el.permissionCloseButton) el.permissionCloseButton.addEventListener('click', () => el.permissionDialog.close());

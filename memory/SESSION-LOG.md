@@ -1014,3 +1014,7 @@ Reproduced on production 1.23.15 (user-profile Chrome, own tab, closed): Q0 play
 ## 2026-10-26 — D112 1.23.16 delivered
 
 Version aligned to 1.23.16, main fast-forwarded to a42d82c and pushed; dry-run then `npm run deploy:release` → Worker 8c48f820 (13 assets changed). 1000/1000; 81/81 served Git-equal, private 404, anonymous credential 403 no-store. Actual Chrome (user profile, own tab closed): v1.23.16; x_20260820_5e365a54.mov played original-range to its end (15.67 s) with no q1-failed or dialog; all sort orders monotonic on 240 cards (restored to 수정일 최신순); brand click from Samsung_Videos landed on 내 드라이브 root. qa/release-1.23.16 owns receipts.
+
+## 2026-10-26 — D113 move dialog recent folders and server search (local)
+
+Cause of the slow dialog: the folder index (2,300 folders plus shared drives) had to finish before any row or search appeared, and it lives only in memory, so every reload or refresh rebuilt it. Change: remembered destinations per account show at once; while the index loads, typing searches Drive directly (debounced, superseded searches aborted, failures fall back to the index); progress text no longer wipes the list. Tests 1006/1006 (6 new in tests/move-recent-search.test.js). Demo-mode browser check with the index held 2.5–6 s: recent row shown during loading, move remembered, search showed "검색 중…" → server result + loading note → local result. Not merged/pushed/deployed.

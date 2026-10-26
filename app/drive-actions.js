@@ -773,7 +773,7 @@ function playNextAfterRemoval(order, removedIndex, removedIdOrIds) {
   animateMediaTransition('left', () => openMediaSource(next));
 }
 
-/* 폴더 이동 — 전체 폴더 목록을 1회 수집해 순수 폴더명 목록으로 선택 UI 제공 */
+/* 폴더 이동 — 최근 이동 폴더와 서버 검색은 바로 보이고, 전체 폴더 목록은 뒤에서 1회 수집한다 */
 async function requestMoveFile() {
   const files = getActionFiles();
   if (!files.length || state.moving || state.bulkAction) return;
@@ -784,6 +784,7 @@ async function requestMoveFile() {
   state.pendingActionFiles = [...files];
   state.moveTargetFolderId = null;
   state.moveResultLimit = MOVE_RESULT_BATCH;
+  resetMoveFolderSearch();
   if (el.moveFileName) el.moveFileName.textContent = formatActionTarget(files);
   if (el.moveConfirmButton) el.moveConfirmButton.disabled = true;
   if (el.moveSearchInput) el.moveSearchInput.value = '';
@@ -796,6 +797,8 @@ async function requestMoveFile() {
     }
     const parentFailure = parentResults.find((result) => result.status === 'rejected');
     if (parentFailure) throw parentFailure.reason;
+    // Known parents mark a remembered folder as 현재 위치 before the index arrives.
+    if (el.moveDialog?.open) renderMoveFolderList(el.moveSearchInput?.value || '');
     await ensureFolderIndex();
     if (generation !== moveRequestGeneration || parentsController.signal.aborted) {
       throw new DOMException('Move request superseded', 'AbortError');
@@ -844,12 +847,147 @@ function cancelMoveFolderLoading() {
   state.loadingFolderIndex = false;
   state.moveTargetFolderId = null;
   state.pendingActionFiles = [];
+  resetMoveFolderSearch();
+}
+
+/* 최근 이동 폴더 — 계정별로 마지막 대상 몇 개를 기억해 전체 목록을 받기 전에도 바로 고르게 한다.
+   권한은 저장하지 않는다: 실제 이동은 대상 폴더 메타데이터를 다시 읽어 확인한다. */
+function moveRecentStorageKey() {
+  if (state.demo) return `${MOVE_RECENT_PREFIX}demo`;
+  if (!state.accountId || state.accountIdentityPending) return '';
+  return `${MOVE_RECENT_PREFIX}${encodeURIComponent(state.accountId)}`;
+}
+
+function readRecentMoveFolders() {
+  const key = moveRecentStorageKey();
+  if (!key) return [];
+  try {
+    const stored = JSON.parse(localStorage.getItem(key) || '[]');
+    if (!Array.isArray(stored)) return [];
+    return stored
+      .filter((item) => typeof item?.id === 'string' && /^[A-Za-z0-9_-]{1,200}$/.test(item.id) && typeof item.name === 'string')
+      .slice(0, MOVE_RECENT_LIMIT)
+      .map((item) => ({
+        id: item.id,
+        name: item.name,
+        driveId: typeof item.driveId === 'string' ? item.driveId : null,
+        resourceKey: typeof item.resourceKey === 'string' ? item.resourceKey : null,
+        isRoot: item.isRoot === true
+      }));
+  } catch (_) {
+    return [];
+  }
+}
+
+function rememberRecentMoveFolder(row) {
+  const key = moveRecentStorageKey();
+  if (!key || !row?.id) return;
+  const entry = {
+    id: row.id,
+    name: String(row.name || ''),
+    driveId: row.driveId || null,
+    resourceKey: row.resourceKey || null,
+    isRoot: row.isRoot === true
+  };
+  const next = [entry, ...readRecentMoveFolders().filter((item) => item.id !== row.id)].slice(0, MOVE_RECENT_LIMIT);
+  try { localStorage.setItem(key, JSON.stringify(next)); } catch (_) {}
+}
+
+// Once the full index exists its rows carry fresh capabilities, and a
+// remembered folder that is no longer in Drive drops out of the list.
+function recentMoveRows() {
+  const recent = readRecentMoveFolders();
+  if (!state.folderIndex) return recent.map((item) => ({ ...item, depth: 0 }));
+  const byId = new Map(state.moveFolderRows.map((row) => [row.id, row]));
+  return recent.map((item) => byId.get(item.id)).filter(Boolean).map((row) => ({ ...row, depth: 0 }));
+}
+
+function findMoveTargetRow(id) {
+  if (!id) return null;
+  return state.moveFolderRows.find((row) => row.id === id)
+    || state.moveSearch?.rows?.find((row) => row.id === id)
+    || recentMoveRows().find((row) => row.id === id)
+    || null;
+}
+
+function normalizeMoveFilter(value) {
+  return String(value || '').trim().toLocaleLowerCase('ko');
+}
+
+function moveRowMatches(row, filter) {
+  return String(row?.name || '').toLocaleLowerCase('ko').includes(filter);
+}
+
+function resetMoveFolderSearch() {
+  clearTimeout(state.moveSearch?.timer);
+  state.moveSearch?.controller?.abort();
+  state.moveSearch = null;
+}
+
+function setMoveFolderLoadingText(text) {
+  state.moveLoadingText = text;
+  const note = el.moveFolderList?.querySelector?.('[data-move-loading]');
+  if (note) note.textContent = text;
+}
+
+/* 서버 검색 — 전체 폴더 목록을 받는 동안 검색어는 Drive에 바로 물어본다.
+   Drive의 name contains는 단어 앞부분만 맞추므로, 중간 글자 일치는 전체 목록이 끝나면 채워진다. */
+async function searchMoveFoldersOnServer(query, signal) {
+  if (state.demo) {
+    await ensureTreeCache();
+    return [...(state.treeCache?.foldersById?.values() || [])];
+  }
+  const params = new URLSearchParams({
+    pageSize: '100',
+    q: `trashed = false and mimeType = '${FOLDER_MIME}' and name contains '${escapeDriveQueryLiteral(query)}'`,
+    corpora: 'allDrives',
+    supportsAllDrives: 'true',
+    includeItemsFromAllDrives: 'true',
+    fields: 'files(id,name,parents,driveId,resourceKey,capabilities(canAddChildren))'
+  });
+  const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, { signal });
+  const data = await response.json();
+  return Array.isArray(data.files) ? data.files : [];
+}
+
+function handleMoveSearchInput(value) {
+  state.moveResultLimit = MOVE_RESULT_BATCH;
+  const query = String(value || '').trim();
+  const filter = normalizeMoveFilter(query);
+  if (state.moveSearch?.filter !== filter) {
+    resetMoveFolderSearch();
+    if (filter && !state.folderIndex) {
+      const search = { filter, status: 'pending', rows: [], controller: new AbortController(), timer: null };
+      state.moveSearch = search;
+      search.timer = setTimeout(() => { void runMoveFolderSearch(search, query); }, MOVE_SEARCH_DEBOUNCE_MS);
+    }
+  }
+  renderMoveFolderList(value);
+}
+
+async function runMoveFolderSearch(search, query) {
+  const current = () => state.moveSearch === search && !search.controller.signal.aborted;
+  try {
+    const folders = await searchMoveFoldersOnServer(query, search.controller.signal);
+    if (!current()) return;
+    search.rows = dedupeFiles(folders)
+      .filter((folder) => moveRowMatches(folder, search.filter))
+      .sort((a, b) => String(a.name || '').localeCompare(String(b.name || ''), 'ko', { numeric: true }))
+      .map((folder) => ({ ...folder, depth: 0 }));
+    search.status = 'done';
+  } catch (error) {
+    if (!current() || error?.name === 'AbortError') return;
+    // Auth and other failures surface through the full index load.
+    search.status = 'error';
+  }
+  if (el.moveDialog?.open && !state.folderIndex) renderMoveFolderList(el.moveSearchInput?.value || '');
 }
 
 async function ensureFolderIndex() {
   if (state.folderIndex) return state.folderIndex;
   if (state.folderIndexPromise) return state.folderIndexPromise;
   state.loadingFolderIndex = true;
+  state.moveLoadingText = '';
   const controller = new AbortController();
   state.folderIndexAbortController = controller;
   const promise = (async () => {
@@ -892,9 +1030,7 @@ async function ensureFolderIndex() {
     }, {
       signal: controller.signal,
       onPage: ({ count }) => {
-        if (el.moveFolderList) {
-          el.moveFolderList.textContent = `폴더 목록을 불러오는 중… ${count.toLocaleString('ko-KR')}개`;
-        }
+        setMoveFolderLoadingText(`폴더 목록을 불러오는 중… ${count.toLocaleString('ko-KR')}개`);
       }
     });
     if (collected.incompleteSearch) {
@@ -971,9 +1107,7 @@ async function collectSharedDriveFolders(sharedDrives, signal) {
       }
       results[index] = collected.items;
       collectedCount += collected.items.length;
-      if (el.moveFolderList) {
-        el.moveFolderList.textContent = `공유 드라이브 폴더 확인 중… ${collectedCount.toLocaleString('ko-KR')}개`;
-      }
+      setMoveFolderLoadingText(`공유 드라이브 폴더 확인 중… ${collectedCount.toLocaleString('ko-KR')}개`);
     }
   };
   await Promise.all(Array.from({ length: Math.min(2, drives.length) }, () => worker()));
@@ -1007,60 +1141,63 @@ async function resolveRootFolderId() {
 function renderMoveFolderList(filterRaw) {
   if (!el.moveFolderList) return;
   el.moveFolderList.replaceChildren();
+  const filter = normalizeMoveFilter(filterRaw);
+  const files = actionFilesSnapshot();
+  const fragment = document.createDocumentFragment();
+  const appendNote = (text, { loading = false, compact = false } = {}) => {
+    const note = document.createElement('div');
+    note.className = compact ? 'move-folder-empty compact' : 'move-folder-empty';
+    if (loading) note.dataset.moveLoading = '';
+    note.textContent = text;
+    fragment.appendChild(note);
+  };
+  const appendHeading = (text) => {
+    const heading = document.createElement('div');
+    heading.className = 'move-folder-section';
+    heading.textContent = text;
+    fragment.appendChild(heading);
+  };
+  const appendRows = (rows) => rows.forEach((row) => fragment.appendChild(createMoveFolderRow(row, files)));
+  const loadingText = state.moveLoadingText || '폴더 목록을 불러오는 중…';
+
   if (!state.folderIndex) {
-    const loading = document.createElement('div');
-    loading.className = 'move-folder-empty';
-    loading.textContent = '폴더 목록을 불러오는 중…';
-    el.moveFolderList.appendChild(loading);
+    const recent = recentMoveRows();
+    if (!filter) {
+      if (recent.length) {
+        appendHeading('최근 이동한 폴더');
+        appendRows(recent);
+      }
+      appendNote(loadingText, { loading: true, compact: recent.length > 0 });
+    } else {
+      const search = state.moveSearch?.filter === filter ? state.moveSearch : null;
+      const seen = new Set();
+      const rows = [...recent.filter((row) => moveRowMatches(row, filter)), ...(search?.rows || [])]
+        .filter((row) => !seen.has(row.id) && seen.add(row.id));
+      appendRows(rows);
+      if (!search || search.status === 'pending') appendNote('검색 중…', { compact: rows.length > 0 });
+      else if (search.status === 'error') appendNote(`검색하지 못했습니다. ${loadingText}`, { loading: true, compact: rows.length > 0 });
+      else if (!rows.length) appendNote(`아직 일치하는 폴더가 없습니다. ${loadingText}`, { loading: true });
+      else appendNote(loadingText, { loading: true, compact: true });
+    }
+    el.moveFolderList.appendChild(fragment);
     return;
   }
-  const filter = String(filterRaw || '').trim().toLocaleLowerCase('ko');
-  const files = actionFilesSnapshot();
+
   const filtered = filter
-    ? state.moveFolderRows.filter((row) => String(row.name || '').toLocaleLowerCase('ko').includes(filter))
+    ? state.moveFolderRows.filter((row) => moveRowMatches(row, filter))
     : state.moveFolderRows;
   if (!filtered.length) {
-    const empty = document.createElement('div');
-    empty.className = 'move-folder-empty';
-    empty.textContent = '일치하는 폴더가 없습니다.';
-    el.moveFolderList.appendChild(empty);
+    appendNote('일치하는 폴더가 없습니다.');
+    el.moveFolderList.appendChild(fragment);
     return;
   }
-  const fragment = document.createDocumentFragment();
-  filtered.slice(0, state.moveResultLimit).forEach((row) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'move-folder-row';
-    button.setAttribute('aria-pressed', String(state.moveTargetFolderId === row.id));
-    const blockReason = getBulkMoveBlockReason(files, row);
-    const isCurrent = blockReason === '현재 위치';
-    if (isCurrent) button.classList.add('current');
-    if (blockReason) button.disabled = true;
-    if (state.moveTargetFolderId === row.id) button.classList.add('selected');
-    button.style.setProperty('--depth', String(row.depth));
-
-    const name = document.createElement('span');
-    name.className = 'move-folder-name';
-    name.textContent = row.name;
-    button.appendChild(name);
-    if (blockReason) {
-      const badge = document.createElement('span');
-      badge.className = 'move-folder-current';
-      badge.textContent = blockReason;
-      button.appendChild(badge);
-    }
-    button.addEventListener('click', () => {
-      state.moveTargetFolderId = row.id;
-      el.moveFolderList.querySelectorAll('.move-folder-row').forEach((item) => {
-        item.classList.remove('selected');
-        item.setAttribute('aria-pressed', 'false');
-      });
-      button.classList.add('selected');
-      button.setAttribute('aria-pressed', 'true');
-      if (el.moveConfirmButton) el.moveConfirmButton.disabled = false;
-    });
-    fragment.appendChild(button);
-  });
+  const recent = filter ? [] : recentMoveRows();
+  if (recent.length) {
+    appendHeading('최근 이동한 폴더');
+    appendRows(recent);
+    appendHeading('모든 폴더');
+  }
+  appendRows(filtered.slice(0, state.moveResultLimit));
   el.moveFolderList.appendChild(fragment);
   if (filtered.length > state.moveResultLimit) {
     const more = document.createElement('button');
@@ -1073,6 +1210,42 @@ function renderMoveFolderList(filterRaw) {
     });
     el.moveFolderList.appendChild(more);
   }
+}
+
+function createMoveFolderRow(row, files) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'move-folder-row';
+  button.dataset.folderId = row.id;
+  const selected = state.moveTargetFolderId === row.id;
+  button.setAttribute('aria-pressed', String(selected));
+  const blockReason = getBulkMoveBlockReason(files, row);
+  if (blockReason === '현재 위치') button.classList.add('current');
+  if (blockReason) button.disabled = true;
+  if (selected) button.classList.add('selected');
+  button.style.setProperty('--depth', String(row.depth || 0));
+
+  const name = document.createElement('span');
+  name.className = 'move-folder-name';
+  name.textContent = row.name;
+  button.appendChild(name);
+  if (blockReason) {
+    const badge = document.createElement('span');
+    badge.className = 'move-folder-current';
+    badge.textContent = blockReason;
+    button.appendChild(badge);
+  }
+  // The same folder can appear under 최근 and in the tree; both show selection.
+  button.addEventListener('click', () => {
+    state.moveTargetFolderId = row.id;
+    el.moveFolderList.querySelectorAll('.move-folder-row').forEach((item) => {
+      const match = item.dataset.folderId === row.id;
+      item.classList.toggle('selected', match);
+      item.setAttribute('aria-pressed', String(match));
+    });
+    if (el.moveConfirmButton) el.moveConfirmButton.disabled = false;
+  });
+  return button;
 }
 
 function normalizedDriveId(item) {
@@ -1139,7 +1312,7 @@ async function performMoveFile() {
   const targetRowId = state.moveTargetFolderId;
   if (!files.length || !targetRowId || state.moving || state.bulkAction) return;
   const owner = captureAccountStateRequest();
-  const targetRow = state.moveFolderRows.find((row) => row.id === targetRowId);
+  const targetRow = findMoveTargetRow(targetRowId);
   const target = targetRow?.id;
   if (!target) {
     showToast('이동할 폴더를 다시 선택해 주세요.');
@@ -1169,6 +1342,7 @@ async function performMoveFile() {
     const failed = results.filter((result) => result.status === 'rejected');
     const movedIds = new Set(moved.map((file) => file.id));
     if (movedIds.size) invalidateLibraryNavigationData();
+    if (moved.length || skipped.length) rememberRecentMoveFolder(targetRow);
 
     if (!state.deepScan) state.files = state.files.filter((file) => !movedIds.has(file.id));
     moved.forEach((file) => shuffledOrderMap.delete(file.id));

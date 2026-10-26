@@ -107,6 +107,8 @@ const state = {
   folderIndexAbortController: null,
   moveFolderRows: [],
   moveResultLimit: MOVE_RESULT_BATCH,
+  moveLoadingText: '',
+  moveSearch: null,
   folderRenderLimit: FOLDER_RENDER_MAX,
   treeCachePromise: null,
   authGeneration: 0,

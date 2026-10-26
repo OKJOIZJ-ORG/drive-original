@@ -2086,6 +2086,19 @@ dialog::backdrop {
   color: var(--label-secondary);
 }
 
+.move-folder-empty.compact {
+  padding: 10px 12px;
+  font-size: 12px;
+}
+
+.move-folder-section {
+  flex-shrink: 0;
+  padding: 10px 12px 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--label-secondary);
+}
+
 /* Global Floating Toast (Apple Dynamic Island Style) */
 .toast {
   position: fixed;
