@@ -418,6 +418,28 @@ function navigateToFolderIndex(index) {
   enterFolder(target.id, target.name, 'back');
 }
 
+// The brand button's home: My Drive root with every file type and no search.
+// Sort and subfolder preferences are kept.
+function navigateToLibraryHome() {
+  if (state.bulkAction) return;
+  const atRoot = state.currentFolderId === 'root' && !state.folderStack.length;
+  if (atRoot && state.filter === 'all' && !state.query) { scrollToLibraryTop(); return; }
+  beginLibraryNavigation();
+  if (state.filter !== 'all') { exitSelectionMode(); shuffledOrderMap.clear(); cancelFavoriteLoad(); }
+  state.filter = 'all';
+  el.filterButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.filter === 'all')));
+  state.query = '';
+  if (el.searchInput) el.searchInput.value = '';
+  state.folderRenderLimit = FOLDER_RENDER_MAX;
+  clearLibraryStatus();
+  state.folderStack = [];
+  if (!atRoot) { enterFolder('root', '내 드라이브', 'back'); return; }
+  scrollToLibraryTop();
+  commitLibraryNavigation();
+  if (state.deepScan && !state.loadingTree) void applyFolderView();
+  else renderFiles({ resetWindow: true });
+}
+
 function navigateToParentFolder() {
   if (state.bulkAction) return;
   if (!state.folderStack.length && state.currentFolderId === 'root') return;

@@ -336,3 +336,23 @@ test('forward deck promotes remaining unseen neighbors without changing reverse 
   ))`));
   assert.equal(result.above[0],'a');assert.ok(['c','f'].includes(result.below[0]));
 });
+
+test('the brand button returns to My Drive root with every file type and no search', () => {
+  const c=app();
+  c.run(`let entered=null,renders=0,favoriteCancels=0;enterFolder=(id,name,dir)=>{entered=[id,name,dir];};renderFiles=()=>renders++;
+    cancelFavoriteLoad=()=>favoriteCancels++;beginLibraryNavigation=()=>{};commitLibraryNavigation=()=>{};let scrolls=0;scrollToLibraryTop=()=>scrolls++;
+    el.filterButtons=['all','favorites'].map((filter)=>({dataset:{filter},attrs:{},setAttribute(k,v){this.attrs[k]=v;}}));
+    el.searchInput={value:'abc'};state.currentFolderId='child';state.currentFolderName='Child';
+    state.folderStack=[{id:'parent',name:'Parent'}];state.filter='favorites';state.query='abc';state.sort='size';
+    navigateToLibraryHome();`);
+  assert.equal(c.run("entered.join('|')"),'root|내 드라이브|back');
+  assert.equal(c.run(`state.filter+'|'+state.query+'|'+el.searchInput.value+'|'+state.folderStack.length+'|'+state.sort`),'all|||0|size');
+  assert.equal(c.run(`favoriteCancels`),1);
+  assert.equal(c.run(`el.filterButtons.map(b=>b.attrs['aria-pressed']).join()`),'true,false');
+  // Already home: only scroll back to the top.
+  c.run(`entered=null;state.currentFolderId='root';navigateToLibraryHome();`);
+  assert.equal(c.run('entered'),null);assert.equal(c.run('renders'),0);assert.equal(c.run('scrolls'),1);
+  // Root with a search: clear it in place.
+  c.run(`state.query='x';navigateToLibraryHome();`);
+  assert.equal(c.run(`entered===null && renders===1 && state.query===''`),true);
+});

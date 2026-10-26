@@ -115,7 +115,7 @@ test('account cache persistence writes the same bytes as the parse-every-time al
   assert.equal(fast.run("readCachedAccountMediaState(state.accountId).viewed.mutated"), undefined);
 });
 
-test('date sort parses each timestamp once and keeps the comparator order', () => {
+test('date sort parses each timestamp once and keeps undated files last in listing order', () => {
   const c = appContext();
   const files = Array.from({ length: 60 }, (_, index) => ({
     id: String(index), name: `f${index}`, mimeType: 'image/jpeg',
@@ -124,8 +124,32 @@ test('date sort parses each timestamp once and keeps the comparator order', () =
   c.files = files;
   const sorted = JSON.parse(c.run(`state.filter='all';state.query='';state.sort='modified';state.files=files;
     JSON.stringify(sortedPopulationFiles().map(f => f.id))`));
-  const expected = [...files].sort((a, b) => new Date(b.modifiedTime || 0) - new Date(a.modifiedTime || 0)).map((f) => f.id);
+  const time = (file) => new Date(file.modifiedTime).getTime();
+  const dated = files.filter((file) => Number.isFinite(time(file)));
+  const undated = files.filter((file) => !Number.isFinite(time(file)));
+  const expected = [...dated.sort((a, b) => time(b) - time(a)), ...undated].map((f) => f.id);
   assert.deepEqual(sorted, expected);
+});
+
+test('library sort options order by date, name, size and duration in both directions', () => {
+  const c = appContext();
+  c.files = [
+    { id: 'a', name: 'b2', size: '30', modifiedTime: '2026-01-03T00:00:00Z', createdTime: '2025-01-01T00:00:00Z', mimeType: 'video/mp4', videoMediaMetadata: { durationMillis: '5000' } },
+    { id: 'b', name: 'a10', size: '10', modifiedTime: '2026-01-01T00:00:00Z', createdTime: '2025-03-01T00:00:00Z', mimeType: 'image/jpeg' },
+    { id: 'c', name: 'a9', size: '20', modifiedTime: '2026-01-02T00:00:00Z', createdTime: '2025-02-01T00:00:00Z', mimeType: 'video/mp4', videoMediaMetadata: { durationMillis: '9000' } },
+    { id: 'd', name: 'c', modifiedTime: '2026-01-04T00:00:00Z', mimeType: 'image/png' }
+  ];
+  const order = (sort) => c.run(`state.filter='all';state.query='';state.sort='${sort}';state.files=files.slice();
+    sortedPopulationFiles().map(f => f.id).join('')`);
+  assert.equal(order('modifiedTime'), 'dacb');
+  assert.equal(order('modifiedTimeAsc'), 'bcad');
+  assert.equal(order('createdTime'), 'bcad');
+  assert.equal(order('createdTimeAsc'), 'acbd');
+  assert.equal(order('name'), 'cbad');
+  assert.equal(order('nameDesc'), 'dabc');
+  assert.equal(order('size'), 'acbd');
+  assert.equal(order('sizeAsc'), 'bcad');
+  assert.equal(order('duration'), 'cabd');
 });
 
 test('library search lowers a name once and follows renamed items', () => {

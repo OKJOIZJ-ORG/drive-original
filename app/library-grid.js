@@ -323,11 +323,28 @@ function sortedPopulationFiles() {
   }
 
   if (state.sort === 'name') return remember(files.sort((a, b) => FILE_NAME_COLLATOR.compare(String(a.name), String(b.name))));
-  if (state.sort === 'size') return remember(files.sort((a, b) => Number(b.size || 0) - Number(a.size || 0)));
-  // Parse each timestamp once instead of twice per comparison.
-  const modified = new Map(files.map((file) => [file, new Date(file.modifiedTime || 0).getTime()]));
-  return remember(files.sort((a, b) => modified.get(b) - modified.get(a)));
+  if (state.sort === 'nameDesc') return remember(files.sort((a, b) => FILE_NAME_COLLATOR.compare(String(b.name), String(a.name))));
+  const [key, ascending] = LIBRARY_SORT_KEYS[state.sort] || LIBRARY_SORT_KEYS.modifiedTime;
+  // Compute each key once instead of twice per comparison. Files without the
+  // value (an image's duration, say) stay after those that have it.
+  const values = new Map(files.map((file) => [file, key(file)]));
+  return remember(files.sort((a, b) => {
+    const x = values.get(a); const y = values.get(b);
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return Number(Number.isFinite(y)) - Number(Number.isFinite(x));
+    return ascending ? x - y : y - x;
+  }));
 }
+
+const fileTimeSortKey = (field) => (file) => (file[field] ? new Date(file[field]).getTime() : NaN);
+const LIBRARY_SORT_KEYS = Object.freeze({
+  modifiedTime: [fileTimeSortKey('modifiedTime'), false],
+  modifiedTimeAsc: [fileTimeSortKey('modifiedTime'), true],
+  createdTime: [fileTimeSortKey('createdTime'), false],
+  createdTimeAsc: [fileTimeSortKey('createdTime'), true],
+  size: [(file) => (file.size == null ? NaN : Number(file.size)), false],
+  sizeAsc: [(file) => (file.size == null ? NaN : Number(file.size)), true],
+  duration: [(file) => (file.videoMediaMetadata?.durationMillis == null ? NaN : Number(file.videoMediaMetadata.durationMillis)), false]
+});
 
 function getSelectedFiles() {
   return currentPopulationFiles().filter((file) => state.selectedFileIds.has(file.id));

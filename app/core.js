@@ -72,7 +72,7 @@ const ACCOUNT_STATE_SCHEMA_VERSION = 1;
 const ACCOUNT_STATE_SYNC_DELAY_MS = 650;
 const ACCOUNT_STATE_REFRESH_INTERVAL_MS = 15_000;
 const ACCOUNT_STATE_READ_TIMEOUT_MS = 30_000;
-const MEDIA_FILE_FIELDS = 'id,name,mimeType,size,modifiedTime,headRevisionId,resourceKey,thumbnailLink,hasThumbnail,webViewLink,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),parents,videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation)';
+const MEDIA_FILE_FIELDS = 'id,name,mimeType,size,modifiedTime,createdTime,headRevisionId,resourceKey,thumbnailLink,hasThumbnail,webViewLink,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),parents,videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation)';
 // Revision identity read that pins every original source to one exact Drive revision.
 async function readSourceRevisionMetadata(file, signal) {
   const url = new URL(`${DRIVE_API}/files/${encodeURIComponent(file.id)}`);

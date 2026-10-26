@@ -49,7 +49,7 @@
   <!-- Top Navigation Bar -->
   <header class="topbar">
     <div class="topbar-inner">
-      <button class="brand" id="brandButton" type="button" title="라이브러리로 이동">
+      <button class="brand" id="brandButton" type="button" title="홈으로 이동">
         <span class="brand-icon" aria-hidden="true">
           <img src="./icons/icon-192.png" alt="" width="32" height="32">
         </span>
@@ -220,9 +220,15 @@
 
         <div class="sort-select">
           <select id="sortSelect" aria-label="정렬 기준">
-            <option value="modifiedTime">최근 수정순</option>
+            <option value="modifiedTime">수정일 최신순</option>
+            <option value="modifiedTimeAsc">수정일 오래된순</option>
+            <option value="createdTime">생성일 최신순</option>
+            <option value="createdTimeAsc">생성일 오래된순</option>
             <option value="name">이름순 (A-Z)</option>
+            <option value="nameDesc">이름 역순 (Z-A)</option>
             <option value="size">용량 큰 순</option>
+            <option value="sizeAsc">용량 작은 순</option>
+            <option value="duration">재생 시간 긴 순</option>
             <option value="random">랜덤 셔플 (무작위)</option>
           </select>
         </div>

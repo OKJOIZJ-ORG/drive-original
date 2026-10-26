@@ -1002,3 +1002,7 @@ Measured production 1.23.14 in a 2158-item folder: `parents` caps files.list at 
 ## 2026-10-23 — D109 1.23.15 delivered
 
 main fast-forwarded to 38047e3 and pushed; `npm run deploy:release` → Worker 75f98a18 (9 assets changed). 986/986; 81/81 served equal (first fetch caught the old edge index.html once), private 404, anonymous credential 403 no-store, 11 bindings equal. Actual Chrome (user profile, own tab closed): v1.23.15, only the 1.23.15 cache, 22 likes; first-load summary 1.55 s with 0 writer downloads; 2158-item folder first page 0.98 s; photo hover open 1.82 s; next photo 1.21 s / next video 1.16 s; 3 liked videos original-range; no console errors; filter restored. qa/release-1.23.15 owns receipts.
+
+## 2026-10-26 — D110 sort options and brand-to-home (local)
+
+Added Drive `createdTime` to listed media fields and nine sort orders plus shuffle (modified/created both directions, name A-Z/Z-A, size both directions, duration longest); files lacking the key sort last in listing order (previously invalid dates gave an inconsistent comparator). Brand button now closes the player and returns to My Drive root with filter all and an empty search, keeping sort and deep-scan; already-home only scrolls to top. Tests 723/723 (one sort test re-pinned to the defined order, two new). Demo-mode browser check: options listed, created/duration orders correct, brand from a subfolder with a search lands on root with filter all, browser back returns to the folder and search. Branch claude/sort-and-home-20261026, not merged/pushed/deployed.

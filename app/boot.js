@@ -156,7 +156,9 @@ function bindEvents() {
   el.settingsButton.addEventListener('click', () => openSettings(false));
   el.brandButton.addEventListener('click', () => {
     closePlayer();
-    if (state.token || state.demo) showLibrary();
+    if (!state.token && !state.demo) return;
+    showLibrary();
+    navigateToLibraryHome();
   });
   el.refreshButton.addEventListener('click', () => {
     void recoverDriveMutations({ notifyResult: true }).catch(() => {});
