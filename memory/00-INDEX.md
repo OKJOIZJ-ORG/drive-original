@@ -230,3 +230,4 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 - `AUTH-BODY-DEADLINE-20261001.md`: successful auth body timeout/transport recovery and terminal/cancel distinctions, local24 qualification.
 - `TS-SHORT-EOF-20261001.md`: actual29 singleton EOF cause, local30 original-frame correction and pendingPlay lifecycle fix; actual30 replay remains pending.
+- `../qa/release-1.23.18/README.md`: D117 1.23.18 (D116 background trash/move) as Worker 706fec6e, main b35fa8c; 1009 tests, 81/81 Git-equal; actual Chrome with Drive writes stubbed: dialog closes in 14 ms, status pill, navigation during a move, files return on failure.
