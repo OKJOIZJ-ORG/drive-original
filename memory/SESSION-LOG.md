@@ -1010,3 +1010,7 @@ Added Drive `createdTime` to listed media fields and nine sort orders plus shuff
 ## 2026-10-26 — D111 probe false-malformed fix (local)
 
 Reproduced on production 1.23.15 (user-profile Chrome, own tab, closed): Q0 played, then at 9.3 s the optional Q2 audio probe failed `GENERAL_BOX_HEADER` and stopped it. Cause: QuickTime 4-byte zero list terminator after avc1 extensions; the same file's mp4a is a QuickTime sound description v1. Survey of 1122 videos (same folder + likes): 30 (2.7%) were terminal before, 0 after; full patched probe over 400: no terminal outcome; injected patch played the reported file to its end. App now keeps Q0 for budget/unqualified verdicts, retries dropped probe reads once, and names the real cause in the dialog. 1000/1000 tests. qa/probe-quicktime-20261026 owns numbers.
+
+## 2026-10-26 — D112 1.23.16 delivered
+
+Version aligned to 1.23.16, main fast-forwarded to a42d82c and pushed; dry-run then `npm run deploy:release` → Worker 8c48f820 (13 assets changed). 1000/1000; 81/81 served Git-equal, private 404, anonymous credential 403 no-store. Actual Chrome (user profile, own tab closed): v1.23.16; x_20260820_5e365a54.mov played original-range to its end (15.67 s) with no q1-failed or dialog; all sort orders monotonic on 240 cards (restored to 수정일 최신순); brand click from Samsung_Videos landed on 내 드라이브 root. qa/release-1.23.16 owns receipts.

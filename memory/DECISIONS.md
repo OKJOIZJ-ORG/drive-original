@@ -711,3 +711,7 @@ D108 보고 후 사용자는 "1.23.15(D107+D108)로 main 병합·push·운영 �
 ## D-111 · 재생 중 "원본 형식 확인 필요" 근본 원인 수정(로컬) — 2026-10-26 (User-confirmed direction; session-delegated scope)
 
 D110 보고 뒤 사용자는 "ㄴㄴ 이거까지 하고."라며 `x_20260820_5e365a54.mov`가 몇 초 재생 후 "원본 형식 확인 필요"로 멈추는 문제의 근본 원인 파악·패치와 같은 창을 띄울 수 있는 다른 근본 원인 수정을 요청했다(배포는 아직 아님으로 읽는다). 원인: 재생 중 함께 도는 선택적 Q2 오디오 프로브가 QuickTime 정상 구조(원자 목록 4바이트 0 종료 표시, 사운드 설명 v1/v2)를 손상으로 판정해 재생 중인 Q0를 끊었다. 결정: (1) 검사기는 이 두 QuickTime 구조를 받아들인다(general-admission/tracks/timeline, subtitle-track; 라이선스 고정 video-q3-input은 손대지 않음). (2) 프로브 판정을 분류한다: 예산 한도와 모든 `GENERAL_*_UNQUALIFIED`(이미지 헤더 검사 제외)는 원본 Q0 재생을 유지하고, 끊긴 읽기는 새 소스로 1회 재시도하며, 손상 입력·원본 변경·권한·AC-3 불가·정리 불확실만 종료하되 원인에 맞는 문구를 보인다. 기존 "malformed-input은 종료" 원칙은 유지한다(진짜 손상만 종료). 로컬 브랜치 claude/sort-and-home-20261026에 D110과 함께 커밋, 버전 정렬·병합·push·운영 배포는 별도 승인 대상. 근거는 qa/probe-quicktime-20261026.
+
+## D-112 · 1.23.16(D110+D111) 운영 배포 승인 — 2026-10-26 (User-confirmed)
+
+D111 보고 후 사용자는 "D110+D111을 1.23.16으로 버전 올려서 main 병합·push·운영 배포하고, 실제 Chrome에서 x_20260820_5e365a54.mov 재생과 정렬·홈 이동까지 확인해줘."라고 요청했다. 브랜치를 1.23.16으로 정렬해 main에 fast-forward 병합·push하고 D106 절차(`npm run deploy:release`)로 기존 동일 운영 Worker에 배포한 뒤 제공 파일과 실제 Chrome을 확인한다. 라이선스 고정 video-q3-input의 종료 표시 약점 수정은 이 승인에 포함되지 않는다. 원본·인증/OAuth 설정·운영 주소·무료 운영·Notion·자동화 PAUSED 경계 유지. qa/release-1.23.16이 근거를 소유한다.

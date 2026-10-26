@@ -1,19 +1,19 @@
-# Checkpoint — D109 1.23.15 delivered — 2026-10-23
+# Checkpoint — D112 1.23.16 delivered — 2026-10-26
 
 ## The story so far
-1.23.14 (D104/D105) was live as Worker 10a444bb. D107 (first-load: listing no longer waits for the account sync; writer read cache and pool 16) and D108 (listing without `parents`, first page 100, photo and next-item pin prewarm) were released together as 1.23.15.
+1.23.15 (D107/D108) was live as Worker 75f98a18. D110 (created-date/size/duration/name sort orders, brand button returns home) and D111 (the optional Q2 audio probe no longer stops Q0 playback on QuickTime list terminators or sound description v1/v2; probe verdicts classified, transient reads retried once, cause-specific dialog text) were released together as 1.23.16.
 
 ## Latest
-1.23.15 is live: Worker 75f98a18, main 38047e3. 986/986; 81/81 served Git-equal; bindings 11 equal. Actual Chrome (user profile): v1.23.15, 22 likes, first-load summary 1.55 s (was 6.1–7.3 s), big-folder first page 0.98 s, next photo/video ~1.2 s (was 2.3–3.0 s), liked videos play original-range. qa/release-1.23.15 owns numbers; qa/initial-load-20261023 and qa/media-load-20261023 own the code changes.
+1.23.16 is live: Worker 8c48f820, main a42d82c. 1000/1000; 81/81 served Git-equal. Actual Chrome (user profile): x_20260820_5e365a54.mov plays original-range to its end; all sort orders verified on 240 cards; brand click lands on 내 드라이브 root. qa/release-1.23.16 owns numbers; qa/probe-quicktime-20261026 owns the D111 root cause.
 
 ## Decided
-D094–D106 as before; D107/D108 changes; D109 authorized this delivery. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
+D094–D111 as before; D112 authorized this delivery. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
 
 ## Waiting on the user
-None. Not decided: showing a large Drive thumbnail while a photo original loads (D108, original-viewer principle); widening the 4 MiB moov window (#6 type).
+None. Not decided: thumbnail preview while a photo original loads (D108); widening the 4 MiB moov window; fixing the same terminator weakness in license-pinned video-q3-input.mjs (needs a regenerated corresponding-source manifest; Q3 route only).
 
 ## Next first action
-Read qa/release-1.23.15/README.md. App code lives in app/ (map: app/README.md); the order is owned by scripts/public-files.cjs.
+Read qa/release-1.23.16/README.md. App code lives in app/ (map: app/README.md); the order is owned by scripts/public-files.cjs.
 
 ## Tried
 Deploy (D106): from source/worker run `npm run deploy:release` (validate first with `npm run deploy:release -- --dry-run`). It requires committed publication inputs, deploys HEAD from a temporary detached worktree under %TEMP% and removes it. The user's C:\DriveBackup\Projects-mirror hard-link backup is intentional (D106): never modify it, and do not use `deploy:candidate` in the checkout. Never deploy if materialize exits non-zero. Right after a deploy the edge may serve the previous index.html for a few seconds; re-fetch before judging a mismatch.

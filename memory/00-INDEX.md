@@ -32,6 +32,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `../qa/release-1.23.16/README.md`: D112 1.23.16 (D110 sort/home + D111 QuickTime probe) as Worker 8c48f820, main a42d82c; 1000 tests, 81/81 Git-equal; actual Chrome: x_20260820_5e365a54.mov original-range to its end, sort orders and brand-to-home confirmed.
+- `../qa/probe-quicktime-20261026/README.md`: D111 root cause (QuickTime list terminator, sound description v1) and the 1122-video survey.
 - `../qa/release-1.23.15/README.md`: D109 1.23.15 (D107+D108) as Worker 75f98a18, main 38047e3; 986 tests, 81/81 Git-equal; actual Chrome first-load summary 1.55 s, big-folder first page 0.98 s, next photo/video ~1.2 s, liked videos original-range.
 
 - `../qa/media-load-20261023/README.md`: D108 on the same 1.23.15 branch: parents capped listing pages at 460, photo pin prewarm, next-item prewarm; 986 tests; injected actual Chrome: first page 0.95 s, next photo/video 1.2–1.7 s (were 2.3–3.0 s); not deployed.
