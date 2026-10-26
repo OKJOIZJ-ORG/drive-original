@@ -251,7 +251,7 @@ async function ensureAllPagesLoaded({ statusToken = state.libraryStatusToken } =
         if (generation !== state.listGeneration) throw new DOMException('Collection aborted', 'AbortError');
         throw new Error('Drive 파일 페이지를 끝까지 불러오지 못했습니다.');
       }
-      updateLibraryStatus(statusToken, `대상 폴더 전체 미디어 수집 중… ${state.files.length.toLocaleString('ko-KR')}개`);
+      updateLibraryStatus(statusToken, `대상 폴더 전체 미디어 수집 중… ${state.files.length.toLocaleString('ko-KR')}개`, { progress: true });
     }
     if (generation !== state.listGeneration) throw new DOMException('Collection aborted', 'AbortError');
     state.populationComplete = true;
@@ -693,6 +693,10 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
 
 function updateLibrarySummary(visibleCount, visibleFolderCount) {
   updateListLoadingUI();
+  if (state.libraryProgressText) {
+    el.librarySummary.textContent = state.libraryProgressText;
+    return;
+  }
   const mediaCount = Number.isFinite(visibleCount) ? visibleCount : filteredAndSortedFiles().length;
   if (state.filter === 'favorites') {
     el.librarySummary.textContent = `좋아요 미디어 ${mediaCount.toLocaleString('ko-KR')}개 · 모든 폴더`;
@@ -714,7 +718,7 @@ function updateLibrarySummary(visibleCount, visibleFolderCount) {
     if (state.listLoadError) parts.push('목록 수집 중단');
     else if (partial && (state.loadingFiles || state.nextPageToken)) parts.push('목록 확인 중…');
   }
-  if (state.deepScan && state.treeCache) parts.push('하위 폴더 전체 포함');
+  if (state.deepScan && state.treeCache) parts.push(state.subfolderSummary || '하위 폴더 전체 포함');
   el.librarySummary.textContent = parts.join(' · ');
 }
 

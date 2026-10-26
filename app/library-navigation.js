@@ -16,6 +16,7 @@ function libraryViewConfig() {
     currentFolderId: state.currentFolderId, currentFolderName: state.currentFolderName,
     folderStack: state.folderStack.map((item) => ({ ...item })), filter: state.filter,
     query: state.query, sort: state.sort, deepScan: state.deepScan,
+    subfolderSelection: cloneSubfolderSelection(state.subfolderSelection),
     scrollY: Math.max(0, window.scrollY || 0), renderWindowStart: state.renderWindowStart,
     renderRowHeight: state.renderRowHeight, folderRenderLimit: state.folderRenderLimit
   };
@@ -126,6 +127,7 @@ async function restoreLibraryNavigation(target) {
     state.currentFolderId = view.currentFolderId; state.currentFolderName = view.currentFolderName;
     state.folderStack = (view.folderStack || []).map((item) => ({ ...item }));
     state.filter = view.filter; state.query = view.query || ''; state.sort = view.sort || 'modifiedTime'; state.deepScan = Boolean(view.deepScan);
+    state.subfolderSelection = cloneSubfolderSelection(view.subfolderSelection);
     state.folderRenderLimit = view.folderRenderLimit || FOLDER_RENDER_MAX;
     if (el.searchInput) el.searchInput.value = state.query;
     if (el.sortSelect) el.sortSelect.value = state.sort;
@@ -417,8 +419,86 @@ function setupLibraryEdgeBackGesture() {
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')cancelLibraryEdgeBack();});
 }
 
-/* Deep Scan — 현재 폴더 + 모든 하위 폴더의 미디어를 한 번에 로딩 */
+/* Subfolder inclusion (D119) — the current folder's media plus the subfolders
+   the user chose. A choice covers that folder's whole subtree unless a deeper
+   folder is chosen differently; `all` is the default for direct children.
+   marks: folderId -> { on, path } where path lists the ancestors between the
+   chosen root and that folder, so a deeper choice can be reached. */
+function cloneSubfolderSelection(selection) {
+  if (!selection) return null;
+  return {
+    rootId: selection.rootId,
+    all: Boolean(selection.all),
+    marks: new Map([...(selection.marks || [])].map(([id, mark]) => [id, { on: Boolean(mark.on), path: [...(mark.path || [])] }]))
+  };
+}
+
+function isWholeSubfolderSelection(selection) {
+  return !selection || (selection.all && !selection.marks.size);
+}
+
+// A whole-subtree choice follows the user into other folders; a hand-picked
+// one belongs to the folder it was made in.
+function subfolderSelectionFor(folderId = state.currentFolderId) {
+  if (!state.deepScan) return null;
+  const selection = state.subfolderSelection;
+  if (isWholeSubfolderSelection(selection)) return { rootId: folderId, all: true, marks: new Map() };
+  return selection.rootId === folderId ? selection : null;
+}
+
+function subfolderSelectionKey(selection) {
+  if (!selection) return '';
+  const marks = [...selection.marks].map(([id, mark]) => `${id}:${mark.on ? 1 : 0}`).sort();
+  return `${selection.all ? 'all' : 'some'}|${marks.join(',')}`;
+}
+
+function subfolderIncluded(selection, folderId, inherited) {
+  const mark = selection.marks.get(folderId);
+  return mark ? mark.on : inherited;
+}
+
+function subfolderLeadsToSelection(selection, folderId) {
+  for (const mark of selection.marks.values()) if (mark.on && mark.path.includes(folderId)) return true;
+  return false;
+}
+
+// Visits the root and every folder the selection needs, breadth first.
+function walkSubfolderSelection(cache, rootIds, selection, visit) {
+  const queue = [...rootIds].map((id) => ({ id, included: true, childDefault: selection.all, root: true }));
+  const seen = new Set();
+  while (queue.length) {
+    const entry = queue.shift();
+    if (seen.has(entry.id)) continue;
+    seen.add(entry.id);
+    visit(entry);
+    (cache.foldersByParent.get(entry.id) || []).forEach((folder) => {
+      const on = subfolderIncluded(selection, folder.id, entry.childDefault);
+      if (on || subfolderLeadsToSelection(selection, folder.id)) queue.push({ id: folder.id, included: on, childDefault: on, root: false });
+    });
+  }
+}
+
+function currentRootIds(folderId = state.currentFolderId) {
+  const rootIds = new Set([folderId === 'root' ? (state.rootFolderId || 'root') : folderId]);
+  if (folderId === 'root') rootIds.add('root');
+  return rootIds;
+}
+
+function treeCacheCoversSelection(cache, folderId = state.currentFolderId, selection = subfolderSelectionFor(folderId)) {
+  if (!treeCacheCoversFolder(cache, folderId)) return false;
+  if (!cache.scannedFolderIds || !selection) return true;
+  let covered = true;
+  walkSubfolderSelection(cache, currentRootIds(folderId), selection, ({ id, root }) => {
+    if (!root && !cache.scannedFolderIds.has(id)) covered = false;
+  });
+  return covered;
+}
+
 async function applyFolderView() {
+  if (state.deepScan && !subfolderSelectionFor()) {
+    state.deepScan = false;
+    syncDeepScanToggle();
+  }
   if (state.demo) {
     startDemoMode();
     return;
@@ -438,7 +518,7 @@ async function applyFolderView() {
 // Random order needs the whole folder; a newer listing, sort or filter wins.
 async function shuffleWholeFolder(generation) {
   const filterAtStart = state.filter;
-  const statusToken = beginLibraryStatus('대상 폴더의 전체 미디어를 모아 무작위로 섞는 중…');
+  const statusToken = beginLibraryStatus('대상 폴더의 전체 미디어를 모아 무작위로 섞는 중…', { progress: true });
   try {
     await ensureAllPagesLoaded({ statusToken });
     if (generation !== state.listGeneration || state.sort !== 'random' || state.filter !== filterAtStart) return;
@@ -458,16 +538,19 @@ function treeCacheCoversFolder(cache, folderId = state.currentFolderId) {
 }
 
 async function ensureTreeCache(folderId = state.currentFolderId) {
-  if (state.treeCachePromise && (state.treeCachePromise.folderId !== folderId || state.treeAbort?.signal.aborted)) {
+  const selectionKey = subfolderSelectionKey(subfolderSelectionFor(folderId));
+  if (state.treeCachePromise && (state.treeCachePromise.folderId !== folderId
+    || state.treeCachePromise.selectionKey !== selectionKey || state.treeAbort?.signal.aborted)) {
     state.treeAbort?.abort();
     await state.treeCachePromise;
     if (folderId !== state.currentFolderId) return;
     return ensureTreeCache(folderId);
   }
-  if (treeCacheCoversFolder(state.treeCache, folderId)) return state.treeCache;
+  if (treeCacheCoversSelection(state.treeCache, folderId)) return state.treeCache;
   if (state.treeCachePromise) return state.treeCachePromise;
   const promise = collectTreeCache(folderId);
   promise.folderId = folderId;
+  promise.selectionKey = selectionKey;
   state.treeCachePromise = promise;
   try {
     return await promise;
@@ -487,7 +570,10 @@ async function collectTreeCache(folderId = state.currentFolderId) {
   state.treeAbort = controller;
   const accountGeneration = state.driveSessionGeneration, listingGeneration = state.listGeneration;
   const ownsAccount = () => accountGeneration === state.driveSessionGeneration && state.treeAbort === controller;
-  const ownsView = () => ownsAccount() && folderId === state.currentFolderId && listingGeneration === state.listGeneration;
+  const selection = subfolderSelectionFor(folderId) || { rootId: folderId, all: true, marks: new Map() };
+  const selectionKey = subfolderSelectionKey(selection);
+  const ownsView = () => ownsAccount() && folderId === state.currentFolderId && listingGeneration === state.listGeneration
+    && (!state.deepScan || selectionKey === subfolderSelectionKey(subfolderSelectionFor(folderId)));
   const assertCurrent = () => {
     if (controller.signal.aborted || !ownsAccount()) throw new DOMException('Folder scan cancelled', 'AbortError');
   };
@@ -497,7 +583,7 @@ async function collectTreeCache(folderId = state.currentFolderId) {
     el.deepScanStopBtn.hidden = false;
     el.deepScanStopBtn.setAttribute('aria-label', `${scopeName} 하위 폴더 탐색 중지`);
   }
-  const statusToken = beginLibraryStatus(`${scopeName} 및 하위 폴더를 탐색하는 중…`);
+  const statusToken = beginLibraryStatus(`${scopeName} 및 하위 폴더를 탐색하는 중…`, { progress: true });
   try {
     const knownFolder = state.treeCache?.foldersById.get(folderId)
       || state.folderIndex?.folders?.find(folder => folder.id === folderId)
@@ -547,17 +633,24 @@ async function collectTreeCache(folderId = state.currentFolderId) {
         if (next) seenPageTokens.add(next);
         pageToken = next;
         listedItems += data.files.length;
-        updateLibraryStatus(statusToken, `${scopeName} 및 하위 폴더 탐색 중… ${listedItems.toLocaleString('ko-KR')}개 항목 · ${scannedFolderIds.size.toLocaleString('ko-KR')}개 폴더 확인`);
+        updateLibraryStatus(statusToken, `${scopeName} 및 하위 폴더 탐색 중… ${listedItems.toLocaleString('ko-KR')}개 항목 · ${scannedFolderIds.size.toLocaleString('ko-KR')}개 폴더 확인`, { progress: true });
       } while (pageToken);
       return files;
     };
     // Folders of one depth are listed concurrently. Their items and the next
     // depth are assembled in the serial breadth-first order, so the result
-    // never depends on which response arrives first.
+    // never depends on which response arrives first. Only folders the
+    // selection needs are descended into; folders an earlier scan already
+    // listed are reused from the cache.
     const stopped = Symbol('deep scan stopped after another folder failed');
-    let level = [root];
+    const previous = state.treeCache;
+    const visited = new Set();
+    let level = [{ folder: root, childDefault: selection.all }];
     while (level.length) {
-      const folders = level.filter((folder) => !scannedFolderIds.has(folder.id) && scannedFolderIds.add(folder.id));
+      const entries = level.filter(({ folder }) => !visited.has(folder.id) && visited.add(folder.id));
+      const folders = entries.map(({ folder }) => folder)
+        .filter((folder) => folder.id === root.id || !previous?.scannedFolderIds?.has(folder.id));
+      folders.forEach((folder) => scannedFolderIds.add(folder.id));
       let failed = false;
       const listings = await runTaskPool(folders, async (folder) => {
         if (failed) throw stopped;
@@ -565,15 +658,20 @@ async function collectTreeCache(folderId = state.currentFolderId) {
       }, DEEP_SCAN_CONCURRENCY);
       const failure = listings.find((listing) => listing.status === 'rejected' && listing.reason !== stopped);
       if (failure) throw failure.reason;
+      const listed = new Map(folders.map((folder, index) => [folder.id, listings[index].value]));
       level = [];
-      listings.forEach(({ value: files }) => {
-        items.push(...files);
-        level.push(...files.filter(item => item.mimeType === FOLDER_MIME));
+      entries.forEach(({ folder, childDefault }) => {
+        const files = listed.get(folder.id);
+        if (files) items.push(...files);
+        const children = files ? files.filter(item => item.mimeType === FOLDER_MIME) : (previous.foldersByParent.get(folder.id) || []);
+        children.forEach((child) => {
+          const on = subfolderIncluded(selection, child.id, childDefault);
+          if (on || subfolderLeadsToSelection(selection, child.id)) level.push({ folder: child, childDefault: on });
+        });
       });
     }
     assertCurrent();
     if (folderId === 'root') scannedFolderIds.add('root');
-    const previous = state.treeCache;
     const retained = (previous?.items || []).filter(item => !scannedFolderIds.has(item.parents?.[0]) && item.id !== root.id);
     const coverage = previous && !previous.scannedFolderIds ? null : new Set([...(previous?.scannedFolderIds || []), ...scannedFolderIds]);
     state.treeCache = buildTreeIndexes(dedupeFiles([...retained, ...items]), coverage);
@@ -591,7 +689,7 @@ async function collectTreeCache(folderId = state.currentFolderId) {
     }
     if (!ownsView()) return;
     reportAppFailure('library-tree', error);
-    updateLibraryStatus(statusToken, `하위 폴더 전체를 불러오지 못했습니다: ${humanizeDriveError(error)}`);
+    updateLibraryStatus(statusToken, `하위 폴더를 불러오지 못했습니다: ${humanizeDriveError(error)}`);
     if (error.status === 401) {
       clearRejectedToken(error);
       showReconnectState();
@@ -673,22 +771,20 @@ function effectiveRootId() {
 
 function computeAndRenderSubtree() {
   const cache = state.treeCache;
-  if (!treeCacheCoversFolder(cache)) return;
+  if (!treeCacheCoversSelection(cache)) return;
   // 'root' 별칭과 실제 루트 폴더 ID 양쪽에서 직계 자식이 붙어 있을 수 있어 둘 다 탐색
-  const rootIds = new Set([effectiveRootId()]);
-  if (state.currentFolderId === 'root') rootIds.add('root');
-  const queue = [...rootIds];
-  const visited = new Set();
+  const rootIds = currentRootIds();
+  const selection = subfolderSelectionFor() || { all: false, marks: new Map() };
   const media = [];
-  while (queue.length) {
-    const folderId = queue.shift();
-    if (visited.has(folderId)) continue;
-    visited.add(folderId);
-    (cache.mediaByParent.get(folderId) || []).forEach((file) => media.push(file));
-    if (state.deepScan) {
-      (cache.foldersByParent.get(folderId) || []).forEach((folder) => queue.push(folder.id));
-    }
-  }
+  let includedFolders = 0;
+  walkSubfolderSelection(cache, rootIds, selection, ({ id, included, root }) => {
+    if (!included) return;
+    if (!root) includedFolders += 1;
+    (cache.mediaByParent.get(id) || []).forEach((file) => media.push(file));
+  });
+  state.subfolderSummary = !state.deepScan ? ''
+    : isWholeSubfolderSelection(state.subfolderSelection) ? '하위 폴더 전체 포함'
+      : `하위 폴더 ${includedFolders.toLocaleString('ko-KR')}개 포함`;
   media.forEach((file) => {
     const parent = file.parents?.[0] || 'root';
     const origin = cache.foldersById.get(parent);
@@ -756,7 +852,7 @@ async function performFavoriteLoad({ refreshState = true, preserveWindow = false
   state.favoriteAbortController = controller;
   state.loadingFavorites = true;
   renderFiles({ resetWindow: !preserveWindow });
-  const statusToken = beginLibraryStatus('계정의 좋아요 항목을 모든 폴더에서 모으는 중…');
+  const statusToken = beginLibraryStatus('계정의 좋아요 항목을 모든 폴더에서 모으는 중…', { progress: true });
   let nextFiles = [];
   let nextStatus = '';
   // An abort from another owner (credential loss, account-state reset) keeps
@@ -825,16 +921,17 @@ async function performFavoriteLoad({ refreshState = true, preserveWindow = false
   }
 }
 
-function toggleDeepScan() {
-  if (state.loadingTree) return;
-  state.deepScan = !state.deepScan;
+// Applies the picker's choice; nothing chosen turns subfolder inclusion off.
+function applySubfolderSelection(selection) {
+  if (state.loadingTree) state.treeAbort?.abort();
+  const any = Boolean(selection) && (selection.all || [...selection.marks.values()].some((mark) => mark.on));
+  const wasOn = state.deepScan;
+  state.deepScan = any;
+  state.subfolderSelection = any ? cloneSubfolderSelection({ ...selection, rootId: state.currentFolderId }) : null;
   syncDeepScanToggle();
   resetListingSession();
   scrollToLibraryTop();
-  animateFolderTransition(state.deepScan ? 'forward' : 'back');
-  if (state.deepScan) {
-    showToast('현재 폴더와 모든 하위 폴더의 미디어를 함께 불러옵니다.');
-  }
+  animateFolderTransition(any || !wasOn ? 'forward' : 'back');
   applyFolderView();
 }
 
@@ -842,6 +939,230 @@ function syncDeepScanToggle() {
   if (!el.deepScanToggle) return;
   el.deepScanToggle.setAttribute('aria-pressed', String(state.deepScan));
   el.deepScanToggle.classList.toggle('active', state.deepScan);
+  const label = el.deepScanToggle.querySelector?.('.deep-scan-state');
+  if (!label) return;
+  const selection = state.deepScan ? state.subfolderSelection : null;
+  const chosen = selection ? [...selection.marks.values()].filter((mark) => mark.on).length : 0;
+  label.textContent = !state.deepScan ? '' : isWholeSubfolderSelection(selection) ? '전체'
+    : selection.all ? '일부 제외' : `${chosen}개`;
+}
+
+// Subfolder picker (D119): a lazily expanded tree of the current folder's
+// subfolders. Checking a folder covers everything under it; an expanded folder
+// can still exclude or add deeper folders individually.
+const subfolderPicker = { draft: null, rootId: null, children: new Map(), failed: new Set(), expanded: new Set(), abort: null };
+
+function sortFoldersByName(folders) {
+  return [...folders].sort((a, b) => String(a.name || '').localeCompare(String(b.name || ''), 'ko', { numeric: true }));
+}
+
+function knownChildFolders(folderId) {
+  if (subfolderPicker.children.has(folderId)) return subfolderPicker.children.get(folderId);
+  const isRoot = folderId === subfolderPicker.rootId;
+  const ids = isRoot ? [...currentRootIds(folderId)] : [folderId];
+  const cache = state.treeCache;
+  if (cache && (!cache.scannedFolderIds || ids.some((id) => cache.scannedFolderIds.has(id)))) {
+    return sortFoldersByName(dedupeFiles(ids.flatMap((id) => cache.foldersByParent.get(id) || [])));
+  }
+  // A complete ordinary listing of this folder already holds its subfolders.
+  if (isRoot && !state.deepScan && state.populationComplete && state.filter !== 'favorites') return sortFoldersByName(state.folders);
+  return null;
+}
+
+function knownFolderRecord(folderId) {
+  return state.treeCache?.foldersById?.get(folderId)
+    || state.folderIndex?.folders?.find((folder) => folder.id === folderId)
+    || [...subfolderPicker.children.values()].flat().find((folder) => folder.id === folderId)
+    || [...libraryNavigation.entries.values()].flatMap((entry) => entry.data?.folders || []).find((folder) => folder.id === folderId)
+    || null;
+}
+
+async function fetchChildFolders(folderId, signal) {
+  let folder = knownFolderRecord(folderId);
+  if (!folder || (folderId === 'root' && !folder.id)) {
+    const params = new URLSearchParams({ supportsAllDrives: 'true', fields: 'id,name,mimeType,driveId,resourceKey' });
+    const response = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(folderId)}?${params}`, { signal });
+    folder = await response.json();
+  }
+  const parentId = folderId === 'root' ? (folder.id || 'root') : folderId;
+  const keys = buildResourceKeysHeader([folder]);
+  const folders = [];
+  const seenTokens = new Set();
+  let pageToken = null;
+  do {
+    const params = new URLSearchParams({
+      pageSize: '1000', orderBy: 'name', spaces: 'drive', supportsAllDrives: 'true', includeItemsFromAllDrives: 'true',
+      q: `trashed = false and '${parentId}' in parents and mimeType = '${FOLDER_MIME}'`,
+      fields: 'nextPageToken,files(id,name,mimeType,parents,driveId,resourceKey)'
+    });
+    if (folder.driveId) { params.set('corpora', 'drive'); params.set('driveId', folder.driveId); }
+    if (pageToken) params.set('pageToken', pageToken);
+    const response = await driveFetch(`${DRIVE_API}/files?${params}`, { signal, headers: keys ? { 'X-Goog-Drive-Resource-Keys': keys } : {} });
+    const data = await response.json();
+    if (!Array.isArray(data.files)) throw new Error('Google Drive가 올바른 폴더 목록을 반환하지 않았습니다.');
+    folders.push(...data.files.filter((item) => item?.id && item.mimeType === FOLDER_MIME));
+    pageToken = data.nextPageToken || null;
+    if (pageToken && seenTokens.has(pageToken)) throw new Error('Drive가 같은 페이지 토큰을 반복했습니다.');
+    if (pageToken) seenTokens.add(pageToken);
+  } while (pageToken);
+  return sortFoldersByName(folders);
+}
+
+async function loadSubfolderChildren(folderId) {
+  if (knownChildFolders(folderId) || state.demo) return;
+  const controller = subfolderPicker.abort;
+  subfolderPicker.failed.delete(folderId);
+  try {
+    const folders = await fetchChildFolders(folderId, controller?.signal);
+    if (controller !== subfolderPicker.abort || controller?.signal.aborted) return;
+    subfolderPicker.children.set(folderId, folders);
+  } catch (error) {
+    if (controller !== subfolderPicker.abort || controller?.signal.aborted || error?.name === 'AbortError') return;
+    reportAppFailure('subfolder-picker', error, 'warn');
+    subfolderPicker.failed.add(folderId);
+  }
+  renderSubfolderPicker();
+}
+
+function openSubfolderPicker() {
+  if (!el.subfolderDialog || state.filter === 'favorites') return;
+  if (el.libraryOptions) el.libraryOptions.open = false;
+  subfolderPicker.abort?.abort();
+  subfolderPicker.abort = new AbortController();
+  subfolderPicker.rootId = state.currentFolderId;
+  subfolderPicker.expanded = new Set();
+  subfolderPicker.failed = new Set();
+  const current = subfolderSelectionFor();
+  subfolderPicker.draft = current ? cloneSubfolderSelection(current) : { rootId: state.currentFolderId, all: false, marks: new Map() };
+  if (el.subfolderDialogText) el.subfolderDialogText.textContent = `${state.currentFolderName || '현재 폴더'}의 미디어와 함께 볼 하위 폴더를 고르세요.`;
+  if (el.subfolderOffButton) el.subfolderOffButton.hidden = !state.deepScan;
+  renderSubfolderPicker();
+  if (!el.subfolderDialog.open) el.subfolderDialog.showModal();
+  void loadSubfolderChildren(subfolderPicker.rootId);
+}
+
+function closeSubfolderPicker() {
+  subfolderPicker.abort?.abort();
+  subfolderPicker.abort = null;
+  if (el.subfolderDialog?.open) el.subfolderDialog.close();
+}
+
+function setSubfolderMark(folderId, path, on, inherited) {
+  const { marks } = subfolderPicker.draft;
+  // A new choice covers the whole subtree, so deeper choices are dropped.
+  for (const [id, mark] of [...marks]) if (mark.path.includes(folderId)) marks.delete(id);
+  if (on === inherited) marks.delete(folderId);
+  else marks.set(folderId, { on, path: [...path] });
+}
+
+function subfolderHasDifferentDescendant(folderId, on) {
+  for (const mark of subfolderPicker.draft.marks.values()) if (mark.path.includes(folderId) && mark.on !== on) return true;
+  return false;
+}
+
+function buildSubfolderRows(parentId, path, inherited, level) {
+  const children = knownChildFolders(parentId);
+  const message = (text, retry) => {
+    const row = document.createElement('div');
+    row.className = 'subfolder-message';
+    row.style.setProperty('--level', String(level));
+    row.textContent = text;
+    if (retry) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'text-button';
+      button.textContent = '다시 시도';
+      button.addEventListener('click', () => { renderSubfolderPicker(); void loadSubfolderChildren(parentId); });
+      row.append(button);
+    }
+    return row;
+  };
+  if (!children) {
+    return [subfolderPicker.failed.has(parentId) ? message('폴더 목록을 불러오지 못했습니다.', true) : message('폴더 목록을 불러오는 중…')];
+  }
+  if (!children.length) return level === 1 ? [message('하위 폴더가 없습니다.')] : [];
+  return children.flatMap((folder) => {
+    const on = subfolderIncluded(subfolderPicker.draft, folder.id, inherited);
+    const expanded = subfolderPicker.expanded.has(folder.id);
+    const known = knownChildFolders(folder.id);
+    const row = document.createElement('div');
+    row.className = 'subfolder-row';
+    row.setAttribute('role', 'treeitem');
+    row.setAttribute('aria-level', String(level));
+    row.setAttribute('aria-selected', String(on));
+    if (!known || known.length) row.setAttribute('aria-expanded', String(expanded));
+    row.style.setProperty('--level', String(level));
+    const expand = document.createElement('button');
+    expand.type = 'button';
+    expand.className = 'subfolder-expand';
+    expand.setAttribute('aria-label', `${folder.name || '폴더'} ${expanded ? '접기' : '펼치기'}`);
+    expand.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
+    // A leaf keeps the chevron's space so checkboxes stay aligned per level.
+    if (known && !known.length) { expand.classList.add('is-leaf'); expand.tabIndex = -1; expand.setAttribute('aria-hidden', 'true'); }
+    expand.addEventListener('click', () => {
+      if (subfolderPicker.expanded.has(folder.id)) subfolderPicker.expanded.delete(folder.id);
+      else subfolderPicker.expanded.add(folder.id);
+      renderSubfolderPicker({ focusId: folder.id, focusExpand: true });
+      void loadSubfolderChildren(folder.id);
+    });
+    const label = document.createElement('label');
+    label.className = 'subfolder-check';
+    const box = document.createElement('input');
+    box.type = 'checkbox';
+    box.className = 'custom-checkbox';
+    box.dataset.folderId = folder.id;
+    box.checked = on;
+    box.indeterminate = subfolderHasDifferentDescendant(folder.id, on);
+    box.addEventListener('change', () => {
+      setSubfolderMark(folder.id, path, box.checked, inherited);
+      renderSubfolderPicker({ focusId: folder.id });
+    });
+    const name = document.createElement('span');
+    name.textContent = folder.name || '이름 없는 폴더';
+    label.append(box, name);
+    row.append(expand, label);
+    return expanded ? [row, ...buildSubfolderRows(folder.id, [...path, folder.id], on, level + 1)] : [row];
+  });
+}
+
+function renderSubfolderPicker({ focusId = null, focusExpand = false } = {}) {
+  const draft = subfolderPicker.draft;
+  if (!draft || !el.subfolderTree) return;
+  el.subfolderTree.replaceChildren(...buildSubfolderRows(subfolderPicker.rootId, [], draft.all, 1));
+  const marks = [...draft.marks.values()];
+  const anyOn = marks.some((mark) => mark.on);
+  const anyOff = marks.some((mark) => !mark.on);
+  if (el.subfolderAllCheckbox) {
+    el.subfolderAllCheckbox.checked = draft.all && !anyOff;
+    el.subfolderAllCheckbox.indeterminate = draft.all ? anyOff : anyOn;
+  }
+  if (el.subfolderApplyButton) el.subfolderApplyButton.textContent = draft.all || anyOn ? '적용' : '하위 폴더 없이 보기';
+  if (focusId) {
+    const box = [...(el.subfolderTree.querySelectorAll?.('input[data-folder-id]') || [])].find((node) => node.dataset.folderId === focusId);
+    (focusExpand ? box?.closest('.subfolder-row')?.querySelector('.subfolder-expand') : box)?.focus();
+  }
+}
+
+function setupSubfolderPicker() {
+  el.deepScanToggle?.addEventListener('click', openSubfolderPicker);
+  el.subfolderAllCheckbox?.addEventListener('change', () => {
+    subfolderPicker.draft.all = el.subfolderAllCheckbox.checked;
+    subfolderPicker.draft.marks.clear();
+    renderSubfolderPicker();
+  });
+  el.subfolderApplyButton?.addEventListener('click', () => {
+    const draft = cloneSubfolderSelection(subfolderPicker.draft);
+    closeSubfolderPicker();
+    applySubfolderSelection(draft);
+  });
+  el.subfolderOffButton?.addEventListener('click', () => {
+    closeSubfolderPicker();
+    applySubfolderSelection(null);
+  });
+  el.subfolderDialog?.addEventListener('close', () => {
+    subfolderPicker.abort?.abort();
+    subfolderPicker.abort = null;
+  });
 }
 
 function scrollToLibraryTop() {

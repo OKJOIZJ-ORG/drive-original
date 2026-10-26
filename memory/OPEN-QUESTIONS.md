@@ -204,3 +204,7 @@ Not verified in production: a real successful background trash/move and the befo
 ## 2026-10-26 — D118 follow-ups
 
 Assumed (not asked): "확대 잠금" freezes the current view (pinch/pan off, swipes work) rather than carrying a zoom across files; zoom resets on every file change. Assumed: the photo viewer gets the same zoom as videos. Not verified on real devices: iPhone Safari and Android Chrome two-finger pinch (synthetic touches in the browser pane only), a real trackpad pinch, and the copy button with a real clipboard (the pane blocks clipboard writes; the button falls back to selecting the name). The demo video cannot play locally, so video zoom was checked by unit tests and photo-path browser checks.
+
+## 2026-10-26 — D119 follow-ups
+
+Assumed (not asked): a hand-picked subfolder set belongs to the folder it was made in (turns off when entering another folder, restored by back), while "모든 하위 폴더" follows navigation as before. Not verified with a real Drive account: the picker's folder-only Drive listing (shared drives, resource keys, >1000 subfolders) and the selective scan against real latency; checked by unit tests and the demo tree only. Not checked on a real phone: the custom dropdown and the picker sheet (emulated 390×844 touch only).

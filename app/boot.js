@@ -44,6 +44,7 @@ async function init() {
   setupTouchGestures();
   setupMediaZoom();
   setupInputModality();
+  document.querySelectorAll('select').forEach(enhanceSelect);
   setupLibraryEdgeBackGesture();
   cleanupStaleOriginalBuffers().catch(() => {});
   removeLegacyCredentialStorage();
@@ -112,6 +113,7 @@ function bindElements() {
     'updateStatusText', 'checkUpdateButton', 'applyUpdateButton', 'forceReloadButton',
     'logoutButton', 'disconnectButton', 'setupHelpSection', 'settingsAdvanced',
     'fileNameDialog', 'fileNameText', 'fileNameCopyButton',
+    'subfolderDialog', 'subfolderDialogText', 'subfolderAllCheckbox', 'subfolderTree', 'subfolderOffButton', 'subfolderApplyButton',
     'currentOrigin', 'copyOriginButton', 'appVersion', 'toast', 'driveActionStatus', 'driveActionStatusText',
     'deleteDialog', 'deleteFileName', 'deleteCancelButton', 'deleteConfirmButton',
     'permissionDialog', 'permissionReconnectButton', 'permissionCloseButton',
@@ -360,7 +362,7 @@ function bindEvents() {
       action();
     });
   }
-  if (el.deepScanToggle) el.deepScanToggle.addEventListener('click', toggleDeepScan);
+  setupSubfolderPicker();
   if (el.deepScanStopBtn) el.deepScanStopBtn.addEventListener('click', () => {
     flashPressed(el.deepScanStopBtn);
     if (state.treeAbort) state.treeAbort.abort();
@@ -394,7 +396,7 @@ function bindEvents() {
     state.authRetryContext = null;
     beginAuthorization();
   });
-  [el.settingsDialog, el.fileNameDialog, el.deleteDialog, el.moveDialog, el.permissionDialog].forEach((dialog) => bindDialogLightDismiss(dialog));
+  [el.settingsDialog, el.fileNameDialog, el.deleteDialog, el.moveDialog, el.permissionDialog, el.subfolderDialog].forEach((dialog) => bindDialogLightDismiss(dialog));
   window.addEventListener('online', () => {
     refreshForegroundCredential();
     updateConnectionBadge();

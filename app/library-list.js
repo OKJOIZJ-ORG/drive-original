@@ -9,7 +9,7 @@ function updateListLoadingUI() {
   const ordinaryView = state.filter !== 'favorites' && !state.deepScan;
   const collecting = ordinaryView && !state.listLoadError && (state.loadingFiles || Boolean(state.nextPageToken));
   if (ordinaryView && el.fileGrid) el.fileGrid.setAttribute('aria-busy', String(state.loadingFiles));
-  if (el.infiniteScrollSpinner) el.infiniteScrollSpinner.hidden = !collecting;
+  if (el.infiniteScrollSpinner) el.infiniteScrollSpinner.hidden = !collecting && !state.libraryProgressText;
   if (el.loadMoreButton) {
     el.loadMoreButton.hidden = !ordinaryView || !state.listLoadError;
     el.loadMoreButton.disabled = state.loadingFiles;
@@ -241,9 +241,8 @@ async function loadFiles({ append, statusToken = null }) {
   state.loadingFiles = true;
   state.listLoadError = false;
   showLibrary();
-  const requestStatusToken = statusToken ?? beginLibraryStatus(
-    append ? '' : 'Drive에서 폴더와 원본 파일 목록을 불러오는 중…'
-  );
+  // The summary line already says the list is loading; no second message.
+  const requestStatusToken = statusToken ?? beginLibraryStatus('');
   el.refreshButton.disabled = true;
   updateListLoadingUI();
   if (append) updateLibrarySummary();

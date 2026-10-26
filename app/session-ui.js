@@ -210,6 +210,201 @@ function reportFileNameCopy(copied) {
   button.resetTimer = setTimeout(() => { button.textContent = '복사'; }, 1600);
 }
 
+// Custom dropdown (D119) over a native <select>. The hidden select stays the
+// value owner, so existing `select.value` writes, option rebuilds and change
+// listeners keep working; the button and list only mirror and drive it.
+function enhanceSelect(select) {
+  if (!select || select.dataset.customSelect || typeof HTMLSelectElement === 'undefined') return;
+  select.dataset.customSelect = 'true';
+  const wrap = document.createElement('div');
+  wrap.className = 'custom-select';
+  select.before(wrap);
+  wrap.append(select);
+  select.classList.add('custom-select-native');
+  select.tabIndex = -1;
+  select.setAttribute('aria-hidden', 'true');
+
+  const baseId = select.id || `select-${Math.random().toString(36).slice(2)}`;
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'custom-select-button';
+  button.id = `${baseId}Button`;
+  button.setAttribute('aria-haspopup', 'listbox');
+  button.setAttribute('aria-expanded', 'false');
+  if (select.getAttribute('aria-label')) button.setAttribute('aria-label', select.getAttribute('aria-label'));
+  if (select.getAttribute('aria-describedby')) button.setAttribute('aria-describedby', select.getAttribute('aria-describedby'));
+  document.querySelectorAll(`label[for="${baseId}"]`).forEach((label) => { label.htmlFor = button.id; });
+  const value = document.createElement('span');
+  value.className = 'custom-select-value';
+  button.append(value);
+  button.insertAdjacentHTML('beforeend', '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>');
+  const list = document.createElement('div');
+  list.className = 'custom-select-list';
+  list.id = `${baseId}List`;
+  list.setAttribute('role', 'listbox');
+  list.hidden = true;
+  // The top layer keeps the list above dialogs and outside clipping parents.
+  const usesPopover = typeof list.showPopover === 'function';
+  if (usesPopover) list.setAttribute('popover', 'manual');
+  button.setAttribute('aria-controls', list.id);
+  wrap.append(button, list);
+
+  let open = false;
+  let active = -1;
+  let typed = '';
+  let typedTimer = null;
+  const options = () => [...select.options];
+  const usable = (index) => {
+    const option = select.options[index];
+    return Boolean(option) && !option.disabled && !option.hidden;
+  };
+
+  const sync = () => {
+    const selected = select.options[select.selectedIndex];
+    value.textContent = selected ? selected.textContent : '';
+    const name = select.getAttribute('aria-label');
+    if (name) button.setAttribute('aria-label', `${name}: ${value.textContent}`);
+    button.disabled = select.disabled;
+    if (select.disabled && open) close();
+    if (open) renderList();
+  };
+
+  const renderList = () => {
+    list.replaceChildren(...options().map((option, index) => {
+      const item = document.createElement('div');
+      item.className = 'custom-select-option';
+      item.id = `${list.id}-${index}`;
+      item.setAttribute('role', 'option');
+      item.setAttribute('aria-selected', String(index === select.selectedIndex));
+      if (!usable(index)) item.setAttribute('aria-disabled', 'true');
+      item.classList.toggle('active', index === active);
+      item.textContent = option.textContent;
+      item.hidden = option.hidden;
+      item.addEventListener('pointerdown', (event) => event.preventDefault());
+      item.addEventListener('click', () => choose(index));
+      return item;
+    }));
+    if (active >= 0) {
+      button.setAttribute('aria-activedescendant', `${list.id}-${active}`);
+      list.children[active]?.scrollIntoView?.({ block: 'nearest' });
+    } else button.removeAttribute('aria-activedescendant');
+  };
+
+  const place = () => {
+    const rect = button.getBoundingClientRect();
+    list.style.minWidth = `${Math.round(rect.width)}px`;
+    list.style.maxHeight = '';
+    const desired = Math.min(list.scrollHeight, 480);
+    const below = window.innerHeight - rect.bottom - 12;
+    const above = rect.top - 12;
+    const up = below < desired && above > below;
+    const room = Math.max(120, Math.min(480, up ? above : below));
+    list.style.maxHeight = `${room}px`;
+    const height = Math.min(desired, room);
+    const width = list.offsetWidth || rect.width;
+    list.style.left = `${Math.round(Math.max(8, Math.min(rect.left, window.innerWidth - width - 8)))}px`;
+    list.style.top = `${Math.round(up ? rect.top - 6 - height : rect.bottom + 6)}px`;
+    list.classList.toggle('drop-up', up);
+  };
+
+  const outside = (event) => { if (!wrap.contains(event.target)) close(); };
+  const reposition = (event) => { if (!list.contains(event.target)) close(); };
+
+  function openList() {
+    if (open || select.disabled) return;
+    open = true;
+    active = select.selectedIndex;
+    button.setAttribute('aria-expanded', 'true');
+    wrap.classList.add('open');
+    list.hidden = false;
+    if (usesPopover) { try { list.showPopover(); } catch (_) {} }
+    renderList();
+    place();
+    document.addEventListener('pointerdown', outside, true);
+    window.addEventListener('scroll', reposition, true);
+    window.addEventListener('resize', close);
+  }
+
+  function close() {
+    if (!open) return;
+    open = false;
+    button.setAttribute('aria-expanded', 'false');
+    button.removeAttribute('aria-activedescendant');
+    wrap.classList.remove('open');
+    if (usesPopover) { try { list.hidePopover(); } catch (_) {} }
+    list.hidden = true;
+    document.removeEventListener('pointerdown', outside, true);
+    window.removeEventListener('scroll', reposition, true);
+    window.removeEventListener('resize', close);
+  }
+
+  function choose(index) {
+    if (!usable(index)) return;
+    const changed = select.selectedIndex !== index;
+    // Close first: a re-render while open would detach the clicked option and
+    // outside-click handlers (the library options popover) would misread it.
+    close();
+    select.selectedIndex = index;
+    button.focus();
+    if (changed) select.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  const step = (from, delta) => {
+    const count = select.options.length;
+    for (let index = from + delta; index >= 0 && index < count; index += delta) if (usable(index)) return index;
+    return from;
+  };
+
+  button.addEventListener('click', () => (open ? close() : openList()));
+  button.addEventListener('keydown', (event) => {
+    const key = event.key;
+    if (!open) {
+      if (key === 'ArrowDown' || key === 'ArrowUp' || key === 'Enter' || key === ' ') {
+        event.preventDefault();
+        openList();
+      }
+      return;
+    }
+    if (key === 'Escape' || key === 'Tab') {
+      if (key === 'Escape') { event.preventDefault(); event.stopPropagation(); }
+      close();
+      return;
+    }
+    if (key === 'Enter' || key === ' ') { event.preventDefault(); choose(active); return; }
+    let next = active;
+    if (key === 'ArrowDown') next = step(active, 1);
+    else if (key === 'ArrowUp') next = step(active, -1);
+    else if (key === 'Home') next = step(-1, 1);
+    else if (key === 'End') next = step(select.options.length, -1);
+    else if (key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      clearTimeout(typedTimer);
+      typed += key.toLowerCase();
+      typedTimer = setTimeout(() => { typed = ''; }, 600);
+      const match = options().findIndex((option, index) => usable(index) && option.textContent.trim().toLowerCase().startsWith(typed));
+      if (match >= 0) next = match;
+    } else return;
+    event.preventDefault();
+    active = next;
+    renderList();
+  });
+  button.addEventListener('blur', () => setTimeout(() => {
+    if (open && !wrap.contains(document.activeElement)) close();
+  }, 0));
+
+  // Programmatic value writes and option rebuilds reach the mirror too.
+  for (const property of ['value', 'selectedIndex']) {
+    const native = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, property);
+    Object.defineProperty(select, property, {
+      configurable: true,
+      get() { return native.get.call(this); },
+      set(next) { native.set.call(this, next); sync(); }
+    });
+  }
+  new MutationObserver(sync).observe(select, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['disabled', 'selected', 'hidden', 'label'] });
+  select.addEventListener('change', sync);
+  sync();
+}
+
 function clearRejectedToken(error) {
   if (error?.status !== 401 || error.rejectedTokenRevision == null) return;
   if (error.rejectedTokenRevision === (state.tokenRevision || 0)
@@ -494,17 +689,26 @@ function showToast(message) {
   toastTimer = setTimeout(() => { el.toast.hidden = true; }, 3600);
 }
 
-function beginLibraryStatus(message) {
+function beginLibraryStatus(message, { progress = false } = {}) {
   const token = state.libraryStatusToken + 1;
   state.libraryStatusToken = token;
-  if (el.libraryStatus) el.libraryStatus.textContent = message || '';
+  showLibraryStatusMessage(message, progress);
   return token;
 }
 
-function updateLibraryStatus(token, message) {
+function updateLibraryStatus(token, message, { progress = false } = {}) {
   if (token !== state.libraryStatusToken) return false;
-  if (el.libraryStatus) el.libraryStatus.textContent = message || '';
+  showLibraryStatusMessage(message, progress);
   return true;
+}
+
+// Work in flight speaks once, in the summary line beside its spinner; the line
+// under the toolbar keeps only results, errors and notices (D119).
+function showLibraryStatusMessage(message, progress) {
+  const previous = state.libraryProgressText || '';
+  state.libraryProgressText = progress ? (message || '') : '';
+  if (el.libraryStatus) el.libraryStatus.textContent = progress ? '' : (message || '');
+  if (previous !== state.libraryProgressText && el.librarySummary) updateLibrarySummary();
 }
 
 function clearLibraryStatus() {

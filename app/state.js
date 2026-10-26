@@ -18,6 +18,8 @@ const state = {
   folderStack: [],
   deepScan: false,
   treeCache: null,
+  subfolderSelection: null,
+  libraryProgressText: '',
   loadingTree: false,
   rootFolderId: null,
   videoRotated: false,
