@@ -1018,3 +1018,7 @@ Version aligned to 1.23.16, main fast-forwarded to a42d82c and pushed; dry-run t
 ## 2026-10-26 — D113 move dialog recent folders and server search (local)
 
 Cause of the slow dialog: the folder index (2,300 folders plus shared drives) had to finish before any row or search appeared, and it lives only in memory, so every reload or refresh rebuilt it. Change: remembered destinations per account show at once; while the index loads, typing searches Drive directly (debounced, superseded searches aborted, failures fall back to the index); progress text no longer wipes the list. Tests 1006/1006 (6 new in tests/move-recent-search.test.js). Demo-mode browser check with the index held 2.5–6 s: recent row shown during loading, move remembered, search showed "검색 중…" → server result + loading note → local result. Not merged/pushed/deployed.
+
+## 2026-10-26 — D114 1.23.17 delivered
+
+Version aligned to 1.23.17, main fast-forwarded to cd18847 and pushed; dry-run then `npm run deploy:release` → Worker 5a6bd648 (8 assets changed). 1006/1006; 81/81 served Git-equal, private 404, anonymous credential 403 no-store. Actual Chrome (user profile, own tab closed): v1.23.17; the move index is really 43,860 folders and took ~150 s; typing 추억 during loading showed the folder ~1.1 s later; a recorded 추억 appeared at once after reload and was selectable while loading. No file moved; the test recent entry was removed. qa/release-1.23.17 owns receipts.

@@ -190,3 +190,7 @@ Resolved 2026-10-23 by D106: the user created the C:\DriveBackup\Projects-mirror
 ## 2026-10-26 — D110/D111 follow-ups
 
 Resolved by D112: D110 + D111 shipped as 1.23.16 (Worker 8c48f820, main a42d82c). Observed, not changed: `media/video-q3-input.mjs` treats the QuickTime 4-byte list terminator as `GENERAL_BOX_HEADER` too; it is license-pinned (licenses/video-q3-source-manifest.json), so fixing it needs a regenerated corresponding-source manifest. It affects only the Q3 software-decode route, not the "원본 형식 확인 필요" dialog. Assumed: QuickTime sound description v1/v2 parsing in the Q2 AC-3 streaming path is handled by the bundled demuxer (no actual v1 AC-3 file was available to test).
+
+## 2026-10-26 — D113/D114 follow-ups
+
+Observed (qa/release-1.23.17): the move index is 43,860 folders and takes ~150 s per session (460 per page); recent folders and server search make it optional for the common case, but browsing the full tree or middle-of-word search still waits for it. Not decided: persisting the index (IndexedDB) with background refresh, which D113 left out of scope. Not verified in production: a real move recording its target (unit/demo only).
