@@ -419,6 +419,7 @@ function resetSwipeGesture() {
   swipeGestureDirection = null;
   swipeGestureTargetId = null;
   swipeGestureAwaitingPopulation = false;
+  zoomPan = null;
 }
 
 function isCurrentMobileHoldSpeed(owner) {
@@ -487,7 +488,7 @@ function stopMobileHoldSpeed() {
 }
 
 function isPlayerGestureControl(target) {
-  return Boolean(target?.closest?.('.player-chrome, .custom-video-controls, .mobile-shorts-overlay, .seek-bar-container, .mobile-shorts-progress-track, .shorts-expand-row, .speed-dropdown, .volume-slider-wrap, .stage-center-btn, .media-error, .media-loading, button, a, input, select, textarea, summary, [role="button"], [role="slider"]'));
+  return Boolean(target?.closest?.('.player-chrome, .custom-video-controls, .mobile-shorts-overlay, .seek-bar-container, .mobile-shorts-progress-track, .shorts-expand-row, .speed-dropdown, .volume-slider-wrap, .stage-center-btn, .media-zoom-hud, .media-error, .media-loading, button, a, input, select, textarea, summary, [role="button"], [role="slider"]'));
 }
 
 function cancelPendingStageTap() {
@@ -581,7 +582,16 @@ function setupTouchGestures() {
   modal.addEventListener('touchstart', (e) => {
     // Controls retain their native click/seek handling and cannot inherit a
     // preceding stage contact or its deferred pause action.
-    if (isPlayerGestureControl(e.target)) { cancelActiveTouchGesture(); return; }
+    // A fresh single contact can never belong to an earlier pinch.
+    if (e.touches.length === 1) touchPinchDraining = false;
+    if (isPlayerGestureControl(e.target) && !touchPinchDraining) { cancelActiveTouchGesture(); return; }
+    if (e.touches.length >= 2 && (touchPinchDraining || el.mediaStage?.contains(e.target))) {
+      if (!beginTouchPinch(e)) {
+        cancelActiveTouchGesture();
+        if (touchPinchDraining && e.cancelable) e.preventDefault();
+      }
+      return;
+    }
     // Reservation happens before either recognizer locks intent. Even a
     // cancelled OS/back gesture cannot be reinterpreted as previous video.
     if (e.touches.length === 1 && isReservedBackStart(e.touches[0].clientX)) {
@@ -625,9 +635,12 @@ function setupTouchGestures() {
     isTouchActive = true;
     resetSwipeGesture();
     startMobileHoldSpeed(e.touches[0]);
+    // A zoomed, unlocked view pans under one finger instead of swiping.
+    if (isMediaZoomed() && canAdjustMediaZoom()) zoomPan = { x: mediaZoom.x, y: mediaZoom.y, active: false };
   }, { passive: false });
 
   modal.addEventListener('touchmove', (e) => {
+    if (touchPinchDraining) { updateTouchPinch(e); return; }
     if (reservedEdgeTap) {
       const contact = e.touches[0];
       if (e.touches.length !== 1 || e.cancelable === false || reservedEdgeTap.session !== state.mediaSession
@@ -650,7 +663,15 @@ function setupTouchGestures() {
       cancelActiveTouchGesture(); return;
     }
     if (Math.hypot(rawX, rawY) >= 10) cancelPendingStageTap();
-    
+    if (zoomPan) {
+      e.preventDefault();
+      if (!zoomPan.active && Math.hypot(rawX, rawY) < 10) return;
+      if (!zoomPan.active) el.mediaStage?.classList.remove('zoom-settling');
+      zoomPan.active = true;
+      applyMediaZoom({ scale: mediaZoom.scale, x: zoomPan.x + rawX, y: zoomPan.y + rawY });
+      return;
+    }
+
     // Lock only after a deliberate, clearly dominant direction emerges.
     if (lockedAxis === null) {
       const absX = Math.abs(rawX);
@@ -688,8 +709,10 @@ function setupTouchGestures() {
       if (activeEl) {
         // 90도 회전 상태에선 요소 좌표계가 화면과 어긋난다(요소 X→화면 아래, 요소 Y→화면 왼쪽).
         // 화면 방향 그대로 따라오게 드래그 변위를 요소 공간으로 치환해 적용한다.
-        const tx = state.videoRotated ? 0 : dragX;
-        const ty = state.videoRotated ? -dragX : 0;
+        // A locked zoom keeps its scale; divide so the picture still tracks the finger 1:1.
+        const zoomScale = mediaZoom.scale || 1;
+        const tx = state.videoRotated ? 0 : dragX / zoomScale;
+        const ty = state.videoRotated ? -dragX / zoomScale : 0;
         activeEl.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
         activeEl.style.opacity = '1';
       }
@@ -707,8 +730,9 @@ function setupTouchGestures() {
       el.mediaStage?.classList.add('is-dragging');
       if (target) renderSwipeNeighbor(direction, target, 0, dragY);
       if (activeEl) {
-        const tx = state.videoRotated ? dragY : 0;
-        const ty = state.videoRotated ? 0 : dragY;
+        const zoomScale = mediaZoom.scale || 1;
+        const tx = state.videoRotated ? dragY / zoomScale : 0;
+        const ty = state.videoRotated ? 0 : dragY / zoomScale;
         activeEl.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
         activeEl.style.opacity = '1';
       }
@@ -716,6 +740,7 @@ function setupTouchGestures() {
   }, { passive: false });
 
   modal.addEventListener('touchend', (e) => {
+    if (touchPinchDraining) { endTouchPinch(e); return; }
     if (stopMobileHoldSpeed()) {
       if (e.cancelable) e.preventDefault();
       cancelActiveTouchGesture(); return;
@@ -759,6 +784,12 @@ function setupTouchGestures() {
       return;
     }
 
+    if (zoomPan) {
+      cancelPendingStageTap();
+      resetSwipeGesture();
+      return;
+    }
+
     if (lockedAxis === 'x') {
       const axisSize = el.mediaStage?.clientWidth || window.innerWidth || 400;
       const directionalDelta = swipeGestureDirection === 'left' ? -rawDiffX : rawDiffX;
@@ -785,7 +816,13 @@ function setupTouchGestures() {
     resetSwipeGesture();
   }, { passive: false });
 
-  modal.addEventListener('touchcancel', cancelActiveTouchGesture, { passive: true });
+  modal.addEventListener('touchcancel', (e) => {
+    if (touchPinchDraining) {
+      touchPinchDraining = false;
+      if (touchPinch) { touchPinch = null; settleMediaZoom(); }
+    }
+    cancelActiveTouchGesture(e);
+  }, { passive: true });
   modal.addEventListener('pointercancel', () => {
     if (mobileHoldSpeed) cancelActiveTouchGesture();
   }, { passive: true });
@@ -986,5 +1023,300 @@ function setNativeVideoActionsAvailable(available) {
       el.playerFeedback.hidden = true;
     }
   }
+}
+
+// Pinch zoom (D117): two fingers, a trackpad pinch or Ctrl+wheel scale the
+// current photo or video around the gesture. Double taps keep their seek and
+// like meanings and never zoom. The lock freezes the current view, so pinches
+// change nothing and one-finger drags swipe instead of panning.
+const MEDIA_ZOOM_MAX = 5;
+const MEDIA_ZOOM_LOCK_KEY = 'drive-original.zoom-locked';
+let mediaZoom = { scale: 1, x: 0, y: 0 };
+let mediaZoomLocked = readMediaZoomLock();
+let touchPinch = null;
+let touchPinchDraining = false;
+let zoomPan = null;
+let mousePan = null;
+let suppressZoomPanClick = false;
+let safariPinch = null;
+let zoomSettleTimer = null;
+let wheelZoomSettleTimer = null;
+
+function readMediaZoomLock() {
+  try { return localStorage.getItem(MEDIA_ZOOM_LOCK_KEY) === '1'; } catch { return false; }
+}
+
+function isMediaZoomable() {
+  if (el.playerSheet?.hidden || String(state.mediaAttempt || '').startsWith('drive-preview')) return false;
+  const node = getActiveMediaElement();
+  return Boolean(node) && (node === el.videoPlayer || node === el.imageViewer);
+}
+
+function isMediaZoomed() {
+  return mediaZoom.scale > 1;
+}
+
+function canAdjustMediaZoom() {
+  return !mediaZoomLocked && isMediaZoomable();
+}
+
+// Displayed media size in screen orientation, before zoom. object-fit:
+// contain letterboxes inside the element box, so panning stops at the picture.
+function mediaZoomContentSize(node) {
+  const boxW = node.offsetWidth || 0;
+  const boxH = node.offsetHeight || 0;
+  const naturalW = node === el.videoPlayer ? node.videoWidth : node.naturalWidth;
+  const naturalH = node === el.videoPlayer ? node.videoHeight : node.naturalHeight;
+  let width = boxW;
+  let height = boxH;
+  if (naturalW > 0 && naturalH > 0 && boxW > 0 && boxH > 0) {
+    const fit = Math.min(boxW / naturalW, boxH / naturalH);
+    width = naturalW * fit;
+    height = naturalH * fit;
+  }
+  return node === el.videoPlayer && state.videoRotated ? { width: height, height: width } : { width, height };
+}
+
+function clampMediaZoom(scale, x, y) {
+  const next = Math.min(MEDIA_ZOOM_MAX, Math.max(1, Number(scale) || 1));
+  if (next <= 1) return { scale: 1, x: 0, y: 0 };
+  const node = getActiveMediaElement();
+  const stageW = el.mediaStage?.clientWidth || 0;
+  const stageH = el.mediaStage?.clientHeight || 0;
+  const content = node ? mediaZoomContentSize(node) : { width: stageW, height: stageH };
+  const maxX = Math.max(0, (content.width * next - stageW) / 2);
+  const maxY = Math.max(0, (content.height * next - stageH) / 2);
+  return { scale: next, x: Math.max(-maxX, Math.min(maxX, x)), y: Math.max(-maxY, Math.min(maxY, y)) };
+}
+
+function applyMediaZoom(next, { settle = false } = {}) {
+  mediaZoom = clampMediaZoom(next.scale, next.x, next.y);
+  const node = getActiveMediaElement();
+  clearTimeout(zoomSettleTimer);
+  el.mediaStage?.classList.toggle('zoom-settling', settle);
+  if (settle) zoomSettleTimer = setTimeout(() => el.mediaStage?.classList.remove('zoom-settling'), 220);
+  // Individual scale/translate compose with the swipe transform and the
+  // rotate property instead of overwriting them.
+  [el.videoPlayer, el.imageViewer].forEach((media) => {
+    if (!media?.style) return;
+    const zoomed = media === node && mediaZoom.scale > 1;
+    media.style.scale = zoomed ? String(mediaZoom.scale) : '';
+    media.style.translate = zoomed ? `${mediaZoom.x}px ${mediaZoom.y}px` : '';
+  });
+  updateMediaZoomUI();
+}
+
+// Keeps the content point that started under the focal point under it now.
+function zoomMediaAround(from, scale, focalX, focalY, startX = focalX, startY = focalY) {
+  const rect = el.mediaStage.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const next = Math.min(MEDIA_ZOOM_MAX, Math.max(1, scale));
+  const ratio = next / from.scale;
+  applyMediaZoom({
+    scale: next,
+    x: focalX - cx - ratio * (startX - cx - from.x),
+    y: focalY - cy - ratio * (startY - cy - from.y)
+  });
+}
+
+function settleMediaZoom() {
+  if (mediaZoom.scale < 1.05) resetMediaZoom({ settle: true });
+  else applyMediaZoom(mediaZoom, { settle: true });
+}
+
+function resetMediaZoom({ settle = false } = {}) {
+  touchPinch = null;
+  zoomPan = null;
+  mousePan = null;
+  safariPinch = null;
+  clearTimeout(wheelZoomSettleTimer);
+  el.mediaStage?.classList.remove('is-panning');
+  applyMediaZoom({ scale: 1, x: 0, y: 0 }, { settle });
+}
+
+function setMediaZoomLocked(locked) {
+  mediaZoomLocked = Boolean(locked);
+  try { localStorage.setItem(MEDIA_ZOOM_LOCK_KEY, mediaZoomLocked ? '1' : '0'); } catch {}
+  touchPinch = null;
+  zoomPan = null;
+  mousePan = null;
+  safariPinch = null;
+  updateMediaZoomUI();
+  showPlayerFeedback(mediaZoomLocked ? '확대 잠금 켬' : '확대 잠금 끔');
+}
+
+function showMediaZoomLockedHint() {
+  showPlayerFeedback('확대 잠금 중');
+}
+
+function updateMediaZoomUI() {
+  const zoomed = mediaZoom.scale > 1;
+  el.mediaStage?.classList.toggle('is-zoomed', zoomed);
+  el.mediaStage?.classList.toggle('zoom-locked', mediaZoomLocked);
+  if (el.mediaZoomHud) el.mediaZoomHud.hidden = !zoomed;
+  if (el.mediaZoomResetBtn) {
+    const label = `${mediaZoom.scale.toFixed(1)}×`;
+    el.mediaZoomResetBtn.textContent = label;
+    el.mediaZoomResetBtn.setAttribute('aria-label', `확대 ${label} · 원래 크기로`);
+  }
+  [el.ctrlZoomLock, el.shortsZoomLockBtn, el.mediaZoomLockBtn].forEach((button) => {
+    if (!button) return;
+    button.setAttribute('aria-pressed', String(mediaZoomLocked));
+    button.title = mediaZoomLocked ? '확대 잠금 끄기' : '확대 잠금 켜기';
+    const stateLabel = button.querySelector?.('.zoom-lock-state');
+    if (stateLabel) stateLabel.textContent = mediaZoomLocked ? '켬' : '끔';
+  });
+}
+
+function touchPinchPoints(a, b) {
+  return {
+    distance: Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY),
+    x: (a.clientX + b.clientX) / 2,
+    y: (a.clientY + b.clientY) / 2
+  };
+}
+
+// The second finger turns whatever the first one started into a pinch. The
+// contact stays consumed until every finger lifts so a leftover finger cannot
+// become a swipe or a tap.
+function beginTouchPinch(event) {
+  const touches = Array.from(event.touches).slice(0, 2);
+  if (touches.length !== 2 || !isMediaZoomable()) return false;
+  if (!touches.every((touch) => el.mediaStage?.contains(touch.target) && !isPlayerGestureControl(touch.target))) return false;
+  cancelActiveTouchGesture();
+  if (event.cancelable) event.preventDefault();
+  touchPinchDraining = true;
+  touchPinch = null;
+  if (mediaZoomLocked) { showMediaZoomLockedHint(); return true; }
+  const points = touchPinchPoints(touches[0], touches[1]);
+  if (points.distance < 8) return true;
+  el.mediaStage.classList.remove('zoom-settling');
+  touchPinch = {
+    ids: touches.map((touch) => touch.identifier),
+    distance: points.distance,
+    x: points.x,
+    y: points.y,
+    from: { ...mediaZoom },
+    session: state.mediaSession
+  };
+  return true;
+}
+
+function updateTouchPinch(event) {
+  if (event.cancelable) event.preventDefault();
+  if (!touchPinch) return;
+  if (touchPinch.session !== state.mediaSession) { touchPinch = null; return; }
+  const touches = touchPinch.ids.map((id) => Array.from(event.touches).find((touch) => touch.identifier === id));
+  if (touches.some((touch) => !touch)) return;
+  const points = touchPinchPoints(touches[0], touches[1]);
+  zoomMediaAround(touchPinch.from, touchPinch.from.scale * points.distance / touchPinch.distance,
+    points.x, points.y, touchPinch.x, touchPinch.y);
+}
+
+function endTouchPinch(event) {
+  if (event.cancelable) event.preventDefault();
+  if (!event.touches?.length) touchPinchDraining = false;
+  if (!touchPinch) return;
+  const remaining = Array.from(event.touches || []);
+  if (touchPinch.ids.every((id) => remaining.some((touch) => touch.identifier === id))) return;
+  touchPinch = null;
+  settleMediaZoom();
+}
+
+function onMediaStageWheel(event) {
+  if (!isMediaZoomable() || isPlayerGestureControl(event.target)) return;
+  const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? (el.mediaStage.clientHeight || 600) : 1;
+  // Chrome, Edge and Firefox report a trackpad pinch as Ctrl+wheel.
+  if (event.ctrlKey) {
+    event.preventDefault();
+    if (mediaZoomLocked) { showMediaZoomLockedHint(); return; }
+    const delta = Math.max(-30, Math.min(30, event.deltaY * unit));
+    el.mediaStage.classList.remove('zoom-settling');
+    zoomMediaAround(mediaZoom, mediaZoom.scale * Math.exp(-delta * 0.01), event.clientX, event.clientY);
+    clearTimeout(wheelZoomSettleTimer);
+    wheelZoomSettleTimer = setTimeout(settleMediaZoom, 180);
+    return;
+  }
+  if (!isMediaZoomed() || mediaZoomLocked) return;
+  event.preventDefault();
+  el.mediaStage.classList.remove('zoom-settling');
+  applyMediaZoom({ scale: mediaZoom.scale, x: mediaZoom.x - event.deltaX * unit, y: mediaZoom.y - event.deltaY * unit });
+}
+
+function onMediaStagePointerDown(event) {
+  suppressZoomPanClick = false;
+  if (event.pointerType !== 'mouse' || event.button !== 0 || !isMediaZoomed() || !canAdjustMediaZoom()
+    || isPlayerGestureControl(event.target)) return;
+  mousePan = { id: event.pointerId, startX: event.clientX, startY: event.clientY, x: mediaZoom.x, y: mediaZoom.y, active: false };
+}
+
+function onMediaStagePointerMove(event) {
+  if (!mousePan || event.pointerId !== mousePan.id) return;
+  const dx = event.clientX - mousePan.startX;
+  const dy = event.clientY - mousePan.startY;
+  if (!mousePan.active) {
+    if (Math.hypot(dx, dy) < 4) return;
+    mousePan.active = true;
+    try { el.mediaStage.setPointerCapture?.(event.pointerId); } catch {}
+    el.mediaStage.classList.add('is-panning');
+    el.mediaStage.classList.remove('zoom-settling');
+  }
+  applyMediaZoom({ scale: mediaZoom.scale, x: mousePan.x + dx, y: mousePan.y + dy });
+}
+
+function onMediaStagePointerUp(event) {
+  if (!mousePan || event.pointerId !== mousePan.id) return;
+  // A drag that panned must not also toggle playback on release.
+  if (mousePan.active) suppressZoomPanClick = true;
+  mousePan = null;
+  el.mediaStage.classList.remove('is-panning');
+}
+
+// Safari on macOS reports trackpad pinches as GestureEvents. Touch devices
+// already pinch through touch events; there the default page zoom is blocked.
+function onMediaStageGesture(event) {
+  event.preventDefault();
+  if (navigator.maxTouchPoints > 0) return;
+  if (event.type === 'gesturestart') {
+    safariPinch = null;
+    if (!isMediaZoomable()) return;
+    if (mediaZoomLocked) { showMediaZoomLockedHint(); return; }
+    el.mediaStage.classList.remove('zoom-settling');
+    safariPinch = { from: { ...mediaZoom }, x: event.clientX, y: event.clientY };
+  } else if (event.type === 'gesturechange') {
+    if (!safariPinch) return;
+    zoomMediaAround(safariPinch.from, safariPinch.from.scale * event.scale, event.clientX, event.clientY, safariPinch.x, safariPinch.y);
+  } else if (safariPinch) {
+    safariPinch = null;
+    settleMediaZoom();
+  }
+}
+
+function setupMediaZoom() {
+  const stage = el.mediaStage;
+  if (!stage) return;
+  stage.addEventListener('wheel', onMediaStageWheel, { passive: false });
+  stage.addEventListener('pointerdown', onMediaStagePointerDown);
+  stage.addEventListener('pointermove', onMediaStagePointerMove);
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach((type) => stage.addEventListener(type, onMediaStagePointerUp));
+  stage.addEventListener('click', (event) => {
+    if (!suppressZoomPanClick) return;
+    suppressZoomPanClick = false;
+    event.stopImmediatePropagation();
+    event.preventDefault();
+  }, true);
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach((type) => stage.addEventListener(type, onMediaStageGesture, { passive: false }));
+  window.addEventListener('resize', () => { if (isMediaZoomed()) applyMediaZoom(mediaZoom); });
+  el.mediaZoomResetBtn?.addEventListener('click', (event) => {
+    event.stopPropagation();
+    if (mediaZoomLocked) { showMediaZoomLockedHint(); return; }
+    resetMediaZoom({ settle: true });
+  });
+  [el.ctrlZoomLock, el.shortsZoomLockBtn, el.mediaZoomLockBtn].forEach((button) => button?.addEventListener('click', (event) => {
+    event.stopPropagation();
+    setMediaZoomLocked(!mediaZoomLocked);
+  }));
+  updateMediaZoomUI();
 }
 

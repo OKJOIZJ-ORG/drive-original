@@ -200,3 +200,7 @@ Resolved 2026-10-26 by D115: persisting the move folder index is not wanted for 
 ## 2026-10-26 — D116/D117 follow-ups
 
 Not verified in production: a real successful background trash/move and the beforeunload prompt during a real job (unit/demo only; no user file was changed). Assumed: failure toasts and the 403 permission guide may now appear while the user is elsewhere in the app; no user feedback yet.
+
+## 2026-10-26 — D118 follow-ups
+
+Assumed (not asked): "확대 잠금" freezes the current view (pinch/pan off, swipes work) rather than carrying a zoom across files; zoom resets on every file change. Assumed: the photo viewer gets the same zoom as videos. Not verified on real devices: iPhone Safari and Android Chrome two-finger pinch (synthetic touches in the browser pane only), a real trackpad pinch, and the copy button with a real clipboard (the pane blocks clipboard writes; the button falls back to selecting the name). The demo video cannot play locally, so video zoom was checked by unit tests and photo-path browser checks.

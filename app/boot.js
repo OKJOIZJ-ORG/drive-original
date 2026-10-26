@@ -42,6 +42,8 @@ async function init() {
   bindEvents();
   setupPlayerChrome();
   setupTouchGestures();
+  setupMediaZoom();
+  setupInputModality();
   setupLibraryEdgeBackGesture();
   cleanupStaleOriginalBuffers().catch(() => {});
   removeLegacyCredentialStorage();
@@ -109,15 +111,25 @@ function bindElements() {
     'mediaFileSizeType', 'codecNote', 'settingsDialog', 'settingsAppVersion',
     'updateStatusText', 'checkUpdateButton', 'applyUpdateButton', 'forceReloadButton',
     'logoutButton', 'disconnectButton', 'setupHelpSection', 'settingsAdvanced',
-    'fileNameDialog', 'fileNameText',
+    'fileNameDialog', 'fileNameText', 'fileNameCopyButton',
     'currentOrigin', 'copyOriginButton', 'appVersion', 'toast', 'driveActionStatus', 'driveActionStatusText',
     'deleteDialog', 'deleteFileName', 'deleteCancelButton', 'deleteConfirmButton',
     'permissionDialog', 'permissionReconnectButton', 'permissionCloseButton',
-    'seekHintLeft', 'seekHintRight'
+    'seekHintLeft', 'seekHintRight',
+    'mediaZoomHud', 'mediaZoomResetBtn', 'mediaZoomLockBtn', 'ctrlZoomLock', 'shortsZoomLockBtn'
   ];
   ids.forEach((id) => { el[id] = document.getElementById(id); });
   el.filterButtons = [...document.querySelectorAll('[data-filter]')];
   el.speedButtons = [...document.querySelectorAll('#speedDropdown [data-speed]')];
+}
+
+// Focus rings are shown only while the keyboard drives focus (D117).
+function setupInputModality() {
+  const root = document.documentElement;
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Tab') root.dataset.input = 'keyboard';
+  }, true);
+  document.addEventListener('pointerdown', () => { delete root.dataset.input; }, true);
 }
 
 function bindDialogLightDismiss(dialog) {
@@ -318,6 +330,7 @@ function bindEvents() {
   el.logoutButton.addEventListener('click', logout);
   el.disconnectButton.addEventListener('click', disconnect);
   el.copyOriginButton.addEventListener('click', copyOrigin);
+  el.fileNameCopyButton?.addEventListener('click', copyFileNameText);
 
   // Folder navigation
   if (el.folderUpButton) el.folderUpButton.addEventListener('click', navigateToParentFolder);

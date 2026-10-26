@@ -5161,6 +5161,7 @@ test('full filename opens independently of playback and respects card selection 
     globalThis.nameCard = createFileCard({ id: 'long-title', name: '같은 접두사 — 서로 다른 마지막 이름과 긴 확장자.mp4', mimeType: 'video/mp4', size: '10', thumbnailLink: 'https://example.test/thumb' });`);
   const card = context.nameCard;
   const nameButton = findNodes(card, '.file-card-name-button')[0];
+  const body = findNodes(card, '.file-card-body')[0];
   const playbackButton = findNodes(card, '.file-card-open')[0];
   assert.equal(findNodes(card, '.file-card-status').length, 0, 'a plain playable card carries no generic action label');
   const restricted = run(context, `createFileCard({ id: 'locked', name: 'locked.mp4', mimeType: 'video/mp4', size: '10', capabilities: { canDownload: false } })`);
@@ -5173,14 +5174,15 @@ test('full filename opens independently of playback and respects card selection 
     }
   };
   assert.equal(findNodes(playbackButton, '.file-card-name-button').length, 0, 'interactive title is not nested in the playback button');
-  click(nameButton);
+  assert.equal(findNodes(body, '.file-card-name-button').length, 1, 'the focusable title lives in the tappable lower part');
+  click(body);
   assert.equal(run(context, 'el.fileNameDialog.open'), true);
   assert.equal(run(context, 'el.fileNameText.textContent'), '같은 접두사 — 서로 다른 마지막 이름과 긴 확장자.mp4');
   assert.equal(context.openedFile, null, 'reading a filename must not start media');
   click(playbackButton);
   assert.equal(context.openedFile, 'long-title');
   run(context, "el.fileNameDialog.open = false; state.selectionMode = true;");
-  click(nameButton);
+  click(body);
   assert.equal(run(context, 'el.fileNameDialog.open'), false);
   assert.equal(run(context, "state.selectedFileIds.has('long-title')"), true);
 });
@@ -5246,7 +5248,7 @@ test('relative seeks show one side hint that accumulates in the same direction',
   ]);
 });
 
-test('an untruncated card title opens the file instead of a redundant full-name dialog', () => {
+test('the card lower part shows the full name even when the title is not truncated (D117)', () => {
   const context = loadAppContext();
   const { findNodes } = installMiniDom(context);
   const originalCreate = context.document.createElement;
@@ -5262,10 +5264,12 @@ test('an untruncated card title opens the file instead of a redundant full-name 
     globalThis.openedFile = null; openPlayer = file => { openedFile = file.id; };
     globalThis.shortCard = createFileCard({ id: 'short', name: 'a.mp4', mimeType: 'video/mp4', size: '10' });`);
   const nameButton = findNodes(context.shortCard, '.file-card-name-button')[0];
+  const body = findNodes(context.shortCard, '.file-card-body')[0];
   const title = findNodes(context.shortCard, '.file-card-title')[0];
   Object.assign(title, { scrollHeight: 17, clientHeight: 34, scrollWidth: 40, clientWidth: 120 });
-  for (const callback of nameButton.events.get('click') || []) callback({});
-  assert.equal(context.openedFile, 'short');
-  assert.equal(run(context, 'el.fileNameDialog.open'), false);
+  for (const callback of body.events.get('click') || []) callback({ stopImmediatePropagation() {}, preventDefault() {} });
+  assert.equal(context.openedFile, null, 'the lower part never starts media');
+  assert.equal(run(context, 'el.fileNameDialog.open'), true);
+  assert.equal(run(context, 'el.fileNameText.textContent'), 'a.mp4');
   assert.equal(nameButton.title, 'a.mp4');
 });

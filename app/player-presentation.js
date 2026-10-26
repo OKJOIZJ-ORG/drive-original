@@ -417,6 +417,7 @@ function clearDirectMediaSources() {
 
 function resetMediaElements() {
   cancelActiveTouchGesture();
+  resetMediaZoom();
   void retirePlayerTracks();
   q0PinnedSource = null;
   verifiedOriginalImage = null;

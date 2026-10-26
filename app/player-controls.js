@@ -1638,6 +1638,7 @@ function collapseShortsExpand() {
    개별 transform 속성 rotate를 쓰면 드래그/스냅백 애니메이션(transform)과 자연스럽게 합성된다. */
 function toggleVideoRotation() {
   if (!el.videoPlayer || el.videoPlayer.hidden) return;
+  resetMediaZoom();
   state.videoRotated = !state.videoRotated;
   el.videoPlayer.classList.toggle('is-rotated', state.videoRotated);
   if (el.shortsRotateBtn) el.shortsRotateBtn.setAttribute('aria-pressed', String(state.videoRotated));

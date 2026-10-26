@@ -184,6 +184,32 @@ async function copyOrigin() {
   }
 }
 
+// Selects the whole name first, so a blocked clipboard still leaves it ready
+// for the system copy menu. The modal dialog sits above toasts, so the button
+// reports the result itself.
+function copyFileNameText() {
+  const text = el.fileNameText.textContent || '';
+  const selection = window.getSelection?.();
+  if (selection && document.createRange) {
+    const range = document.createRange();
+    range.selectNodeContents(el.fileNameText);
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+  let copied = false;
+  try { copied = document.execCommand?.('copy') === true; } catch (_) {}
+  reportFileNameCopy(copied);
+  if (!copied) navigator.clipboard?.writeText?.(text).then(() => reportFileNameCopy(true), () => {});
+}
+
+function reportFileNameCopy(copied) {
+  const button = el.fileNameCopyButton;
+  if (!button) return;
+  button.textContent = copied ? '복사됨' : '선택됨 · 직접 복사하세요';
+  clearTimeout(button.resetTimer);
+  button.resetTimer = setTimeout(() => { button.textContent = '복사'; }, 1600);
+}
+
 function clearRejectedToken(error) {
   if (error?.status !== 401 || error.rejectedTokenRevision == null) return;
   if (error.rejectedTokenRevision === (state.tokenRevision || 0)

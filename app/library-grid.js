@@ -676,12 +676,11 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
   card.append(button, body, favoriteButton);
   installCardPinPrewarm(button, file);
   installCardSelectionGestures(button, file);
-  installCardSelectionGestures(nameButton, file);
-  nameButton.addEventListener('click', () => {
+  // The whole lower part (name, size, status) shows the full, copyable name;
+  // only the thumbnail opens the media (D117).
+  installCardSelectionGestures(body, file);
+  body.addEventListener('click', () => {
     if (state.selectionMode) return;
-    // The full name only adds something when the clamped title actually hides part of it.
-    const clipped = !(name.scrollHeight <= name.clientHeight + 1 && name.scrollWidth <= name.clientWidth + 1);
-    if (!clipped) { openPlayer(file); return; }
     el.fileNameText.textContent = file.name || '이름 없는 파일';
     if (!el.fileNameDialog.open) el.fileNameDialog.showModal();
   });
