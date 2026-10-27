@@ -7,10 +7,10 @@
 1.23.20 is live: Worker 8bf12c8f, main 4ed1c70. 1032/1032; 83/83 served Git-equal. Actual Chrome (user profile): real rename and rename-back of one video in 추억/영상 through the card popup; → tap +10 s; → hold 2× and restore. qa/release-1.23.20 owns numbers.
 
 ## Decided
-D094–D120 as before; D121 file rename; D122 PC → hold 2× and drive-actions.js split into drive-mutations/drive-actions/move-dialog; D123 authorized this delivery. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
+D094–D120 as before; D121 file rename; D122 PC → hold 2× and drive-actions.js split into drive-mutations/drive-actions/move-dialog; D123 authorized this delivery; D124 rename keeps Drive's modifiedTime change. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
 
 ## Waiting on the user
-Observed side effect: Drive moves a file's modifiedTime to the rename time, so a renamed file jumps to the top of 수정일 최신순. The verification file x_20260820_81ba8a74.mp4 now shows 2026-10-27 instead of 2026-08-20. Not decided: restore that timestamp, and whether renames should keep the original modifiedTime. Not verified: a physically held → key, rename on a phone, physical-phone pinch, real trackpad pinch, real clipboard copy, shared drives in the picker. Not decided (older): thumbnail preview while a photo original loads (D108); widening the 4 MiB moov window; the license-pinned video-q3-input.mjs terminator weakness.
+None. D124: renames keep Drive's default modifiedTime change (the renamed file rises in 수정일 최신순); the verification file stays at 2026-10-27. Not verified: a physically held → key, rename on a phone, physical-phone pinch, real trackpad pinch, real clipboard copy, shared drives in the picker. Not decided (older): thumbnail preview while a photo original loads (D108); widening the 4 MiB moov window; the license-pinned video-q3-input.mjs terminator weakness.
 
 ## Next first action
 Read qa/release-1.23.20/README.md. App code lives in app/ (map: app/README.md); the order is owned by scripts/public-files.cjs.

@@ -211,4 +211,4 @@ Assumed (not asked): a hand-picked subfolder set belongs to the folder it was ma
 
 D120 (1.23.19 in production) narrows the D118/D119 rows: the picker's Drive folder listing and the selective scan were verified on the real account (추억/영상). Still not verified: physical-phone pinch, real trackpad pinch, mouse-drag pan and video zoom in production, real clipboard copy, shared drives and >1,000 subfolders in the picker.
 
-| 2026-10-27 | Rename moves Drive modifiedTime to the rename time (observed in D123 on x_20260820_81ba8a74.mp4: 2026-08-20 → 2026-10-27). Should the app keep the original modifiedTime when renaming, and should the verification file's timestamp be restored? | Open — asked the user after the 1.23.20 report |
+| 2026-10-27 | Rename moves Drive modifiedTime to the rename time (observed in D123 on x_20260820_81ba8a74.mp4: 2026-08-20 → 2026-10-27). Should the app keep the original modifiedTime when renaming, and should the verification file's timestamp be restored? | Closed by D-124: keep Drive's default (modifiedTime changes on rename); the verification file is not restored |
