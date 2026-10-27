@@ -5273,3 +5273,67 @@ test('the card lower part shows the full name even when the title is not truncat
   assert.equal(run(context, 'el.fileNameText.textContent'), 'a.mp4');
   assert.equal(nameButton.title, 'a.mp4');
 });
+
+function keyHoldFixture() {
+  const f = mobileHoldFixture();
+  run(f.context, `isMobileDevice=()=>false; document.querySelector=()=>null;
+    globalThis.seeks=[]; seekRelative=(d)=>seeks.push(d);
+    globalThis.keyEvent=(type,key,extra={})=>({type,key,target:{tagName:'DIV'},preventDefault(){this.defaultPrevented=true},...extra});`);
+  return f;
+}
+
+test('PC: a quick → press seeks 10 s on release without changing speed', () => {
+  const f = keyHoldFixture();
+  run(f.context, `handlePlayerKeyboard(keyEvent('keydown','ArrowRight'))`);
+  assert.equal(run(f.context, 'JSON.stringify(seeks)'), '[]', 'the seek waits for the release');
+  run(f.context, `handlePlayerKeyUp(keyEvent('keyup','ArrowRight'))`);
+  assert.equal(run(f.context, 'JSON.stringify(seeks)'), '[10]');
+  assert.equal(run(f.context, 'el.videoPlayer.playbackRate'), 1.25);
+  assert.equal(run(f.context, 'mobileHoldSpeed'), null);
+  assert.equal([...f.timers.values()].some(timer => timer.delay === 450), false);
+});
+
+test('PC: holding → plays at 2x until release, ignores auto-repeat and never seeks', () => {
+  const f = keyHoldFixture();
+  run(f.context, `handlePlayerKeyboard(keyEvent('keydown','ArrowRight'))`);
+  f.fire();
+  run(f.context, `handlePlayerKeyboard(keyEvent('keydown','ArrowRight',{repeat:true}));
+    handlePlayerKeyboard(keyEvent('keydown','ArrowRight',{repeat:true}))`);
+  assert.equal(run(f.context, 'el.videoPlayer.playbackRate'), 2);
+  assert.equal(run(f.context, 'el.playerFeedback.textContent'), '2×');
+  assert.equal(run(f.context, 'capturePlaybackSnapshot().playbackRate'), 1.25);
+  run(f.context, `handlePlayerKeyUp(keyEvent('keyup','ArrowRight'))`);
+  assert.equal(run(f.context, 'el.videoPlayer.playbackRate'), 1.25);
+  assert.equal(run(f.context, 'el.playerFeedback.hidden'), true);
+  assert.equal(run(f.context, 'JSON.stringify(seeks)'), '[]');
+  assert.equal(f.context.localStorage.getItem('user-speed'), '1.25');
+});
+
+test('PC: losing window focus while → is held restores the speed', () => {
+  const f = keyHoldFixture();
+  run(f.context, `handlePlayerKeyboard(keyEvent('keydown','ArrowRight'))`);
+  f.fire();
+  run(f.context, 'releaseHoldSpeedKey()');
+  assert.equal(run(f.context, 'el.videoPlayer.playbackRate'), 1.25);
+  assert.equal(run(f.context, 'mobileHoldSpeed'), null);
+  run(f.context, `handlePlayerKeyUp(keyEvent('keyup','ArrowRight'))`);
+  assert.equal(run(f.context, 'JSON.stringify(seeks)'), '[]', 'a late keyup after blur does not seek');
+});
+
+test('PC: paused video and the L key keep the immediate 10 s seek', () => {
+  const f = keyHoldFixture();
+  run(f.context, `el.videoPlayer.paused=true;
+    handlePlayerKeyboard(keyEvent('keydown','ArrowRight'));
+    handlePlayerKeyboard(keyEvent('keydown','ArrowRight',{repeat:true}));
+    el.videoPlayer.paused=false;
+    handlePlayerKeyboard(keyEvent('keydown','l'))`);
+  assert.equal(run(f.context, 'JSON.stringify(seeks)'), '[10,10,10]');
+  assert.equal(run(f.context, 'mobileHoldSpeed'), null);
+});
+
+test('PC: a → hold armed for one file does not seek the next one', () => {
+  const f = keyHoldFixture();
+  run(f.context, `handlePlayerKeyboard(keyEvent('keydown','ArrowRight'));state.mediaSession++;
+    handlePlayerKeyUp(keyEvent('keyup','ArrowRight'))`);
+  assert.equal(run(f.context, 'JSON.stringify(seeks)'), '[]');
+});

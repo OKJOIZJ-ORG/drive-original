@@ -410,9 +410,15 @@ let lastTapY = 0;
 let lastTapZone = null;
 let singleTapTimer = null;
 let reservedEdgeTap = null;
+// Owner of the temporary 2× hold: an edge touch on mobile (D091) or the held
+// → key on PC (D122). `input` tells which one armed it.
 let mobileHoldSpeed = null;
 const MOBILE_HOLD_SPEED_DELAY = 450;
 const MOBILE_HOLD_SPEED_FEEDBACK = '2×';
+const HOLD_SPEED_KEY = 'ArrowRight';
+// True from the → keydown that armed a hold until its keyup; auto-repeat
+// keydowns of that press neither seek nor re-arm.
+let holdSpeedKeyDown = false;
 
 function resetSwipeGesture() {
   lockedAxis = null;
@@ -430,8 +436,12 @@ function isCurrentMobileHoldSpeed(owner) {
 }
 
 function canStartMobileHoldSpeed() {
+  return isMobileDevice() && canStartHoldSpeed();
+}
+
+function canStartHoldSpeed() {
   const video = el.videoPlayer;
-  return Boolean(isMobileDevice() && video && !video.hidden && !video.paused && !video.ended
+  return Boolean(video && !video.hidden && !video.paused && !video.ended
     && video.readyState >= 2 && isCurrentMediaEvent(video) && !el.playerSheet?.hidden
     && document.visibilityState !== 'hidden'
     && el.mediaLoading?.hidden !== false && el.mediaError?.hidden !== false
@@ -449,17 +459,28 @@ function startMobileHoldSpeed(contact) {
   // quick corner taps still use the ordinary controls-reveal recognizer.
   if (!Number.isFinite(nx) || !Number.isFinite(ny) || nx < 0 || nx > 1 || ny < 0 || ny > 1
     || (nx > 0.18 && nx < 0.82)) return;
-  const owner = { video: el.videoPlayer, fileId: state.selected.id, session: state.mediaSession,
+  armHoldSpeed('touch', canStartMobileHoldSpeed);
+}
+
+function startKeyHoldSpeed() {
+  stopMobileHoldSpeed();
+  if (!canStartHoldSpeed()) return false;
+  armHoldSpeed('key', canStartHoldSpeed);
+  return true;
+}
+
+function armHoldSpeed(input, canStart) {
+  const owner = { input, video: el.videoPlayer, fileId: state.selected.id, session: state.mediaSession,
     playbackSession: state.playbackSession, sourceGeneration: mediaSourceGeneration, active: false, timer: null };
   mobileHoldSpeed = owner;
   owner.timer = setTimeout(() => {
     owner.timer = null;
-    if (mobileHoldSpeed !== owner || !isCurrentMobileHoldSpeed(owner) || !canStartMobileHoldSpeed()) {
+    if (mobileHoldSpeed !== owner || !isCurrentMobileHoldSpeed(owner) || !canStart()) {
       stopMobileHoldSpeed(); return;
     }
     owner.previousRate = owner.video.playbackRate;
     owner.active = true;
-    cancelPendingStageTap();
+    if (input === 'touch') cancelPendingStageTap();
     owner.video.playbackRate = 2;
     updateSpeedUI();
     showPlayerFeedback(MOBILE_HOLD_SPEED_FEEDBACK, { persistent: true });
@@ -483,8 +504,30 @@ function stopMobileHoldSpeed() {
   }
   // Once activated, this contact is consumed even if pause/end or another
   // command ends the temporary rate before the finger is released.
-  if (owner.active) clearActiveTouchGesture();
+  if (owner.active && owner.input === 'touch') clearActiveTouchGesture();
   return owner.active;
+}
+
+function isTouchHoldSpeed() {
+  return Boolean(mobileHoldSpeed && mobileHoldSpeed.input === 'touch');
+}
+
+// A quick → press seeks on release; a held one stays 2× until release.
+function handlePlayerKeyUp(event) {
+  if (event.key !== HOLD_SPEED_KEY || !holdSpeedKeyDown) return;
+  holdSpeedKeyDown = false;
+  const owner = mobileHoldSpeed?.input === 'key' ? mobileHoldSpeed : null;
+  if (!owner) return;
+  event.preventDefault?.();
+  const wasActive = stopMobileHoldSpeed();
+  if (!wasActive && isCurrentMobileHoldSpeed(owner)) seekRelative(10);
+}
+
+// Keyup never arrives after the window loses focus; end the hold there.
+function releaseHoldSpeedKey() {
+  if (!holdSpeedKeyDown) return;
+  holdSpeedKeyDown = false;
+  if (mobileHoldSpeed?.input === 'key') stopMobileHoldSpeed();
 }
 
 function isPlayerGestureControl(target) {
@@ -824,13 +867,13 @@ function setupTouchGestures() {
     cancelActiveTouchGesture(e);
   }, { passive: true });
   modal.addEventListener('pointercancel', () => {
-    if (mobileHoldSpeed) cancelActiveTouchGesture();
+    if (isTouchHoldSpeed()) cancelActiveTouchGesture();
   }, { passive: true });
   modal.addEventListener('lostpointercapture', () => {
-    if (mobileHoldSpeed?.active) cancelActiveTouchGesture();
+    if (isTouchHoldSpeed() && mobileHoldSpeed.active) cancelActiveTouchGesture();
   }, { passive: true });
   modal.addEventListener('contextmenu', (event) => {
-    if (mobileHoldSpeed && !isPlayerGestureControl(event.target)) event.preventDefault();
+    if (isTouchHoldSpeed() && !isPlayerGestureControl(event.target)) event.preventDefault();
   });
 }
 
@@ -947,7 +990,18 @@ function handlePlayerKeyboard(event) {
       return;
     }
 
-    if (event.key === 'ArrowRight' || key === 'l') {
+    if (event.key === HOLD_SPEED_KEY) {
+      event.preventDefault();
+      if (holdSpeedKeyDown) return;
+      if (!event.repeat && startKeyHoldSpeed()) {
+        holdSpeedKeyDown = true;
+        return;
+      }
+      seekRelative(10);
+      return;
+    }
+
+    if (key === 'l') {
       event.preventDefault();
       seekRelative(10);
       return;

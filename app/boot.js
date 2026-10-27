@@ -250,6 +250,8 @@ function bindEvents() {
   el.mediaStage.addEventListener('dblclick', (event) => event.preventDefault());
   el.mediaStage.addEventListener('click', onMediaStageClick);
   document.addEventListener('keydown', handlePlayerKeyboard);
+  document.addEventListener('keyup', handlePlayerKeyUp);
+  window.addEventListener('blur', releaseHoldSpeedKey);
 
   // Custom Video Controls Event Listeners
   if (el.stageCenterPlayBtn) el.stageCenterPlayBtn.addEventListener('click', togglePlayPause);
