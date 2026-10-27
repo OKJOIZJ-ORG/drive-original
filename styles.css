@@ -1222,6 +1222,23 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   cursor: text;
 }
 
+.file-name-view,
+.file-name-edit {
+  display: grid;
+  gap: 12px;
+}
+
+.file-name-hint {
+  margin: -4px 0 0;
+  font-size: var(--text-caption);
+  line-height: 1.4;
+  color: var(--label-secondary);
+}
+
+.file-name-hint:empty {
+  display: none;
+}
+
 .file-card-meta {
   display: flex;
   align-items: center;

@@ -19,7 +19,7 @@
 | `player-navigation.js` | 재생 덱, 스와이프 전환, 터치 제스처, 키보드 |
 | `playback-source.js` | 원본 재생 경로, TS/일반 재생, 미디어 오류 복구 |
 | `original-buffer.js` | 임시 디스크(OPFS)·메모리 원본 보조 |
-| `drive-actions.js` | Google 미리보기, 휴지통·이동(검증된 Drive 작업) |
+| `drive-actions.js` | Google 미리보기, 휴지통·이동·이름 바꾸기(검증된 Drive 작업) |
 | `player-presentation.js` | 프레임 표시, 화질 표시, 로딩·오류 상태, 플레이어 닫기 |
 | `session-ui.js` | 설정, 로그아웃, 설정·라이브러리 화면 전환, GIF 썸네일, 토스트, 형식 변환, 데모 |
 

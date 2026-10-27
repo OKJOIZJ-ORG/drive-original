@@ -63,6 +63,8 @@ const state = {
   selectionGeneration: 0,
   selectedFileIds: new Set(),
   pendingActionFiles: [],
+  // The file whose full name the name dialog shows (and may rename).
+  fileNameDialogFile: null,
   // Files in a queued or running background trash/move: hidden from the grid and playback order.
   hiddenActionFileIds: new Set(),
   serviceWorkerRegistration: null,

@@ -681,8 +681,7 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
   installCardSelectionGestures(body, file);
   body.addEventListener('click', () => {
     if (state.selectionMode) return;
-    el.fileNameText.textContent = file.name || '이름 없는 파일';
-    if (!el.fileNameDialog.open) el.fileNameDialog.showModal();
+    openFileNameDialog(file);
   });
   button.addEventListener('click', () => {
     if (state.selectionMode) return;

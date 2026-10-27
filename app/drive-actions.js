@@ -198,7 +198,8 @@ function requestDeleteFile() {
 }
 
 const DRIVE_MUTATION_PREFIX = 'drive-original.mutation.v1.';
-const DRIVE_MUTATION_FIELDS = 'id,parents,trashed,version,driveId,mimeType,resourceKey,shortcutDetails,ownedByMe,appProperties,capabilities(canTrash,canMoveItemWithinDrive,canMoveItemOutOfDrive,canAddChildren)';
+const DRIVE_MUTATION_FIELDS = 'id,name,parents,trashed,version,driveId,mimeType,resourceKey,shortcutDetails,ownedByMe,appProperties,capabilities(canTrash,canRename,canMoveItemWithinDrive,canMoveItemOutOfDrive,canAddChildren)';
+const DRIVE_MUTATION_ACTIONS = ['trash', 'move', 'rename'];
 const DRIVE_MUTATION_PENDING = new Set(['submitted', 'verifying', 'uncertain']);
 
 // Candidate-only admission uses a reviewed, persisted creation ledger, never
@@ -413,7 +414,7 @@ function readDriveMutations(owner) {
       const row = JSON.parse(localStorage.getItem(key));
       if (row?.schema !== 1 || row.accountKey !== owner.accountKey || row.accountId !== owner.accountId
         || !row.operationId || key !== owner.prefix + encodeURIComponent(row.operationId)
-        || !row.fileId || !['trash', 'move'].includes(row.action) || typeof row.intent !== 'string') throw new Error('Invalid ledger');
+        || !row.fileId || !DRIVE_MUTATION_ACTIONS.includes(row.action) || typeof row.intent !== 'string') throw new Error('Invalid ledger');
       entries.push(row);
     }
     return entries;
@@ -424,7 +425,8 @@ function readDriveMutations(owner) {
 
 function persistDriveMutation(entry, owner, nextState) {
   // Origin ownership is immutable even if a response arrives after switching
-  // accounts. No token, file name or media body is retained here.
+  // accounts. No token, file name or media body is retained here; a rename
+  // keeps only the SHA-256 of the requested and observed names.
   entry.state = nextState;
   entry.updatedAt = Date.now();
   if (nextState === 'confirmed' && !entry.confirmedAt) {
@@ -432,7 +434,7 @@ function persistDriveMutation(entry, owner, nextState) {
     entry.confirmedAfter = entry.after;
   }
   const compactMetadata = value => value ? { id: value.id, parents: value.parents,
-    trashed: value.trashed, version: value.version, driveId: value.driveId } : null;
+    trashed: value.trashed, version: value.version, driveId: value.driveId, nameHash: value.nameHash ?? null } : null;
   const stored = { ...entry, before: compactMetadata(entry.before), after: compactMetadata(entry.after),
     confirmedAfter: compactMetadata(entry.confirmedAfter) };
   try {
@@ -468,19 +470,30 @@ async function readDriveMutationMetadata(file, owner, { rootAlias = false } = {}
     ...owner.options, driveMaxRateAttempts: 1,
     headers: resourceKeys ? { 'X-Goog-Drive-Resource-Keys': resourceKeys } : {}
   });
-  const metadata = driveMutationMetadata(await response.json(), file.id, { rootAlias });
+  const raw = await response.json();
+  const metadata = driveMutationMetadata(raw, file.id, { rootAlias });
+  metadata.nameHash = typeof raw?.name === 'string' ? await driveNameDigest(raw.name) : null;
   owner.assert();
   return metadata;
 }
 
+async function driveNameDigest(name) {
+  const subtle = globalThis.crypto?.subtle;
+  if (!subtle?.digest) throw driveMutationError('failed', '안전한 파일 작업을 지원하는 최신 브라우저에서 다시 시도해 주세요.');
+  const bytes = new Uint8Array(await subtle.digest('SHA-256', new TextEncoder().encode(name)));
+  return Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
 function driveMutationMatches(entry, metadata) {
-  return entry.action === 'trash' ? metadata.trashed === true
-    : !metadata.trashed && metadata.parents.length === 1 && metadata.parents[0] === entry.targetId;
+  if (entry.action === 'trash') return metadata.trashed === true;
+  if (entry.action === 'rename') return !metadata.trashed && Boolean(entry.nameHash) && metadata.nameHash === entry.nameHash;
+  return !metadata.trashed && metadata.parents.length === 1 && metadata.parents[0] === entry.targetId;
 }
 
 function driveMutationPreStateMatches(before, after) {
   return Boolean(before && after) && before.trashed === after.trashed && before.driveId === after.driveId
     && JSON.stringify(before.parents) === JSON.stringify(after.parents)
+    && (before.nameHash == null || after.nameHash == null || before.nameHash === after.nameHash)
     && (before.version == null || before.version === after.version);
 }
 
@@ -528,19 +541,22 @@ async function withDriveMutationLock(owner, task) {
   });
 }
 
-async function executeDriveMutation(file, action, targetRow = null, { operationId = null, retryUnchanged = false } = {}) {
-  if (!['trash', 'move'].includes(action) || typeof file?.id !== 'string' || !file.id
-    || (action === 'move' && (typeof targetRow?.id !== 'string' || !targetRow.id))) {
+async function executeDriveMutation(file, action, targetRow = null, { operationId = null, retryUnchanged = false, name = null } = {}) {
+  if (!DRIVE_MUTATION_ACTIONS.includes(action) || typeof file?.id !== 'string' || !file.id
+    || (action === 'move' && (typeof targetRow?.id !== 'string' || !targetRow.id))
+    || (action === 'rename' && (typeof name !== 'string' || !name.trim()))) {
     throw driveMutationError('failed', '작업할 파일과 폴더를 다시 선택해 주세요.');
   }
   // Freeze intent inputs before the first asynchronous boundary. Background
   // listing refresh must not silently change an already requested pre-state.
   file = { ...file, parents: Array.isArray(file.parents) ? [...file.parents] : undefined };
-  targetRow = targetRow ? { ...targetRow } : null;
+  targetRow = action === 'move' && targetRow ? { ...targetRow } : null;
   const owner = captureDriveMutationOwner();
   const disposableScope = !DRIVE_MUTATIONS_ENABLED ? disposableDriveMutations.select(owner, file, action, targetRow) : null;
+  const nameHash = action === 'rename' ? await driveNameDigest(name) : null;
   const intent = JSON.stringify({ fileId: file.id, action, target: targetRow?.id || null,
-    expectedParents: Array.isArray(file.parents) ? [...file.parents].sort() : null, expectedVersion: file.version || null });
+    expectedParents: Array.isArray(file.parents) ? [...file.parents].sort() : null, expectedVersion: file.version || null,
+    ...(nameHash ? { nameHash } : {}) });
   return withDriveMutationLock(owner, async (boundedOwner) => {
     const entries = readDriveMutations(owner);
     const duplicate = operationId && entries.find(row => row.operationId === operationId);
@@ -561,7 +577,7 @@ async function executeDriveMutation(file, action, targetRow = null, { operationI
     }
     const entry = retryEntry || { schema: 1, operationId: operationId || globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`,
       accountKey: owner.accountKey, accountId: owner.accountId, fileId: file.id, action, intent,
-      resourceKey: file.resourceKey || '', targetId: targetRow?.id || null, before: null, rejectionStatus: 0 };
+      resourceKey: file.resourceKey || '', targetId: targetRow?.id || null, nameHash, before: null, rejectionStatus: 0 };
     if (!retryEntry) persistDriveMutation(entry, owner, 'prepared');
     try {
       const before = await readDriveMutationMetadata(file, boundedOwner);
@@ -592,7 +608,9 @@ async function executeDriveMutation(file, action, targetRow = null, { operationI
         return driveMutationResult(entry);
       }
       const moveCapability = normalizedDriveId(before) === normalizedDriveId(target) ? 'canMoveItemWithinDrive' : 'canMoveItemOutOfDrive';
-      if (before.capabilities[action === 'trash' ? 'canTrash' : moveCapability] !== true) {
+      const capability = action === 'trash' ? 'canTrash' : action === 'rename' ? 'canRename' : moveCapability;
+      if (before.trashed && action === 'rename') throw driveMutationError('failed', '휴지통에 있는 파일은 이름을 바꿀 수 없습니다.');
+      if (before.capabilities[capability] !== true) {
         throw driveMutationError('failed', '파일을 변경할 권한이 없습니다.', 403);
       }
       const params = new URLSearchParams({ supportsAllDrives: 'true', fields: DRIVE_MUTATION_FIELDS });
@@ -613,7 +631,7 @@ async function executeDriveMutation(file, action, targetRow = null, { operationI
         const url = `${DRIVE_API}/files/${encodeURIComponent(file.id)}?${params}`;
         const options = {
           ...boundedOwner.options, driveNoRetry: true, method: 'PATCH', headers,
-          body: action === 'trash' ? JSON.stringify({ trashed: true }) : '{}'
+          body: action === 'trash' ? JSON.stringify({ trashed: true }) : action === 'rename' ? JSON.stringify({ name }) : '{}'
         };
         const permit = disposableScope ? disposableDriveMutations.issue(disposableScope, boundedOwner, entry, target, url, options) : null;
         try {
@@ -686,7 +704,7 @@ async function trashDriveFile(file, options) {
   return executeDriveMutation(file, 'trash', null, options);
 }
 
-/* 뒤에서 도는 휴지통·이동 — 확인하면 창을 바로 닫고 대상 파일을 목록과 재생 순서에서 숨긴 뒤
+/* 뒤에서 도는 휴지통·이동·이름 바꾸기 — 확인하면 창을 바로 닫고 대상 파일을 목록과 재생 순서에서 숨긴 뒤
    작업을 하나씩 차례로 처리한다. 그동안 탐색·재생·다음 작업은 막지 않는다.
    끝나면 성공한 파일만 목록에서 빼고, 실패한 파일은 다시 보인다. */
 const driveActionJobs = [];
@@ -710,7 +728,8 @@ function renderDriveActionStatus() {
   const job = driveActionJobs[0];
   node.hidden = !job;
   if (!job) return;
-  const verb = job.action === 'trash' ? '휴지통으로 이동 중' : `'${job.targetRow.name || '폴더'}'(으)로 이동 중`;
+  const verb = job.action === 'trash' ? '휴지통으로 이동 중'
+    : job.action === 'rename' ? '이름 바꾸는 중' : `'${job.targetRow.name || '폴더'}'(으)로 이동 중`;
   const queued = driveActionJobs.length - 1;
   const text = `${verb} ${job.done.toLocaleString('ko-KR')}/${job.files.length.toLocaleString('ko-KR')}`
     + (queued ? ` · 대기 ${queued.toLocaleString('ko-KR')}건` : '');
@@ -755,7 +774,9 @@ async function runDriveActionJob(job) {
     const results = await runTaskPool(job.files, async (file) => {
       try {
         owner.assert();
-        return await (job.action === 'trash' ? trashDriveFile(file, options) : moveDriveFile(file, job.targetRow, options));
+        if (job.action === 'trash') return await trashDriveFile(file, options);
+        if (job.action === 'rename') return await renameDriveFile(file, job.name, options);
+        return await moveDriveFile(file, job.targetRow, options);
       } finally {
         job.done += 1;
         renderDriveActionStatus();
@@ -764,12 +785,14 @@ async function runDriveActionJob(job) {
     // Another account or session owns the list now; its own listing is authoritative.
     if (!owner.current()) return;
     if (job.action === 'trash') settleTrashJob(results);
+    else if (job.action === 'rename') settleRenameJob(job, results);
     else settleMoveJob(job, results);
   } catch (error) {
     if (!owner.current() || error?.name === 'AbortError') return;
-    reportAppFailure(job.action === 'trash' ? 'bulk-delete' : 'bulk-move', error);
+    reportAppFailure(job.action === 'trash' ? 'bulk-delete' : job.action === 'rename' ? 'rename' : 'bulk-move', error);
     if (error?.status === 401) clearRejectedToken(error);
-    showToast(`${job.action === 'trash' ? '삭제' : '이동'}하지 못했습니다: ${humanizeDriveError(error)}`);
+    const failure = { trash: '삭제하지', move: '이동하지', rename: '이름을 바꾸지' }[job.action];
+    showToast(`${failure} 못했습니다: ${humanizeDriveError(error)}`);
   } finally {
     driveActionJobs.splice(driveActionJobs.indexOf(job), 1);
     setHiddenActionFiles(job.ids, false);
@@ -1417,6 +1440,73 @@ function settleMoveJob(job, results) {
     showToast(`${moved.length.toLocaleString('ko-KR')}개 이동${skippedText}, ${summarizeDriveMutationFailures(failed)}: ${humanizeDriveError(failed[0]?.reason)}`);
     if (failed.some((result) => result.reason?.status === 403)) openPermissionGuide();
   }
+}
+
+/* 이름 바꾸기 — 파일명 창에서 고쳐 저장하면 창을 바로 닫고 뒤에서 처리한다.
+   Drive가 독립 GET으로 새 이름을 확인한 뒤에만 목록·플레이어의 이름을 바꾼다. */
+function normalizeRenameInput(value) {
+  return String(value ?? '').replace(/[\r\n\t]+/g, ' ').trim();
+}
+
+function findRenamePendingFor(fileId) {
+  return driveActionJobs.find((job) => job.action === 'rename' && job.ids?.has(fileId)) || null;
+}
+
+async function renameDriveFile(file, name, options) {
+  if (state.demo) {
+    await new Promise((resolve) => setTimeout(resolve, 180));
+    return { skipped: file.name === name };
+  }
+  const owner = captureDriveMutationOwner();
+  const result = await executeDriveMutation(file, 'rename', null, { ...options, name });
+  owner.assert();
+  file.version = result.metadata.version;
+  file.capabilities = { ...(file.capabilities || {}), ...result.metadata.capabilities };
+  return result;
+}
+
+function performRenameFile(file, rawName) {
+  const name = normalizeRenameInput(rawName);
+  if (!file?.id || !name || name === file.name) return null;
+  if (findRenamePendingFor(file.id)) {
+    showToast('이 파일의 이름을 바꾸는 중입니다. 끝난 뒤 다시 시도해 주세요.');
+    return null;
+  }
+  return queueDriveActionJob({ action: 'rename', files: [file], name, hide: false });
+}
+
+function applyRenamedFile(fileId, name) {
+  const seen = new Set();
+  const rename = (file) => {
+    if (!file || file.id !== fileId || seen.has(file)) return;
+    seen.add(file);
+    file.name = name;
+  };
+  state.files.forEach(rename);
+  state.treeCache?.items?.forEach(rename);
+  rename(state.selected);
+  if (state.selected?.id === fileId && el.playerTitle) el.playerTitle.textContent = name;
+  if (state.fileNameDialogFile?.id === fileId && el.fileNameText && el.fileNameDialog?.open
+    && !el.fileNameDialog.classList.contains('editing')) el.fileNameText.textContent = name;
+}
+
+function settleRenameJob(job, results) {
+  const [result] = results;
+  const file = result?.item || job.files[0];
+  if (result?.status === 'fulfilled') {
+    file.name = job.name;
+    applyRenamedFile(file.id, job.name);
+    invalidateLibraryNavigationData();
+    const demoText = state.demo ? ' (데모 시뮬레이션)' : '';
+    showToast(`이름을 '${job.name}'(으)로 바꿨습니다.${demoText}`);
+    return;
+  }
+  const error = result?.reason;
+  clearRejectedToken(error);
+  const status = error?.mutationState;
+  showToast(status === 'uncertain' ? '이름 변경 결과를 아직 확인하지 못했습니다. 새로고침하면 다시 확인합니다.'
+    : status === 'conflict' ? '파일 상태가 바뀌어 이름을 바꾸지 못했습니다. 새로고침해 확인해 주세요.'
+      : `이름을 바꾸지 못했습니다: ${humanizeDriveError(error)}`);
 }
 
 function openPermissionGuide() {

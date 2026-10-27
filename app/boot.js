@@ -96,8 +96,8 @@ function bindElements() {
     'iconCenterPlay', 'iconCenterPause', 'customVideoControls', 'seekBarContainer',
     'seekBarBuffered', 'seekBarPlayed', 'seekBarThumb', 'seekBarTooltip',
     'ctrlPrevVideo', 'ctrlPlayPause', 'ctrlIconPlay', 'ctrlIconPause', 'ctrlNextVideo', 'ctrlRandomShorts',
-    'ctrlRewind', 'ctrlFramePrev', 'ctrlFrameNext', 'ctrlForward', 'ctrlDelete', 'ctrlMove',
-    'shortsExpandRow', 'shortsDeleteBtn', 'shortsDriveBtn', 'shortsPipBtn', 'shortsMoveBtn', 'shortsFramePrev', 'shortsFrameNext',
+    'ctrlRewind', 'ctrlFramePrev', 'ctrlFrameNext', 'ctrlForward', 'ctrlDelete', 'ctrlMove', 'ctrlRename',
+    'shortsExpandRow', 'shortsDeleteBtn', 'shortsDriveBtn', 'shortsPipBtn', 'shortsMoveBtn', 'shortsRenameBtn', 'shortsFramePrev', 'shortsFrameNext',
     'shortsFullscreenBtn', 'shortsMoreBtn', 'shortsRotateBtn', 'shortsFavoriteBtn', 'deepScanToggle', 'deepScanStopBtn',
     'moveDialog', 'moveFileName', 'moveSearchInput', 'moveFolderList', 'moveCancelButton', 'moveConfirmButton',
     'volumeControlGroup', 'ctrlMute', 'ctrlIconVolHigh', 'ctrlIconVolMuted',
@@ -112,7 +112,8 @@ function bindElements() {
     'mediaFileSizeType', 'codecNote', 'settingsDialog', 'settingsAppVersion',
     'updateStatusText', 'checkUpdateButton', 'applyUpdateButton', 'forceReloadButton',
     'logoutButton', 'disconnectButton', 'setupHelpSection', 'settingsAdvanced',
-    'fileNameDialog', 'fileNameText', 'fileNameCopyButton',
+    'fileNameDialog', 'fileNameDialogTitle', 'fileNameView', 'fileNameText', 'fileNameCopyButton', 'fileNameRenameButton',
+    'fileNameEdit', 'fileNameInput', 'fileNameHint', 'fileNameEditCancelButton', 'fileNameSaveButton',
     'subfolderDialog', 'subfolderDialogText', 'subfolderAllCheckbox', 'subfolderTree', 'subfolderOffButton', 'subfolderApplyButton',
     'currentOrigin', 'copyOriginButton', 'appVersion', 'toast', 'driveActionStatus', 'driveActionStatusText',
     'deleteDialog', 'deleteFileName', 'deleteCancelButton', 'deleteConfirmButton',
@@ -333,14 +334,27 @@ function bindEvents() {
   el.disconnectButton.addEventListener('click', disconnect);
   el.copyOriginButton.addEventListener('click', copyOrigin);
   el.fileNameCopyButton?.addEventListener('click', copyFileNameText);
+  el.fileNameRenameButton?.addEventListener('click', startFileNameEdit);
+  el.fileNameEditCancelButton?.addEventListener('click', cancelFileNameEdit);
+  el.fileNameSaveButton?.addEventListener('click', saveFileNameEdit);
+  el.fileNameInput?.addEventListener('input', updateFileNameHint);
+  el.fileNameInput?.addEventListener('keydown', (event) => {
+    // Enter would submit the dialog form (its first button closes it); Korean IME
+    // composition also ends with Enter, so only a settled Enter saves.
+    if (event.key !== 'Enter' || event.isComposing || event.keyCode === 229) return;
+    event.preventDefault();
+    saveFileNameEdit();
+  });
+  el.fileNameDialog?.addEventListener('close', () => setFileNameEditing(false));
 
   // Folder navigation
   if (el.folderUpButton) el.folderUpButton.addEventListener('click', navigateToParentFolder);
 
-  // Delete and move flows (desktop controls, mobile shorts chips)
+  // Delete, move and rename flows (desktop controls, mobile shorts chips)
   for (const [buttons, request] of [
     [[el.ctrlDelete, el.shortsDeleteBtn], () => requestDeleteFile()],
-    [[el.ctrlMove, el.shortsMoveBtn], () => requestMoveFile()]
+    [[el.ctrlMove, el.shortsMoveBtn], () => requestMoveFile()],
+    [[el.ctrlRename, el.shortsRenameBtn], () => requestRenameFile()]
   ]) {
     for (const btn of buttons) {
       if (btn) btn.addEventListener('click', (e) => {

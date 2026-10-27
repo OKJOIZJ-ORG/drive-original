@@ -187,6 +187,78 @@ async function copyOrigin() {
 // Selects the whole name first, so a blocked clipboard still leaves it ready
 // for the system copy menu. The modal dialog sits above toasts, so the button
 // reports the result itself.
+// Full-name dialog (D118) that also renames the file in place (D121).
+function openFileNameDialog(file, { edit = false } = {}) {
+  if (!file?.id || !el.fileNameDialog) return;
+  state.fileNameDialogFile = file;
+  el.fileNameText.textContent = file.name || '이름 없는 파일';
+  if (el.fileNameRenameButton) el.fileNameRenameButton.hidden = !canRenameFile(file);
+  setFileNameEditing(false);
+  if (!el.fileNameDialog.open) el.fileNameDialog.showModal();
+  if (edit) startFileNameEdit();
+}
+
+function canRenameFile(file) {
+  return Boolean(file?.id) && (state.demo || !state.accountIdentityPending)
+    && file.capabilities?.canRename !== false && !state.hiddenActionFileIds.has(file.id);
+}
+
+function requestRenameFile() {
+  const file = state.selected;
+  if (!canRenameFile(file)) return;
+  openFileNameDialog(file, { edit: true });
+}
+
+function setFileNameEditing(editing) {
+  if (!el.fileNameDialog || !el.fileNameEdit) return;
+  el.fileNameDialog.classList.toggle('editing', editing);
+  el.fileNameView.hidden = editing;
+  el.fileNameEdit.hidden = !editing;
+  if (el.fileNameDialogTitle) el.fileNameDialogTitle.textContent = editing ? '이름 바꾸기' : '파일명';
+}
+
+function startFileNameEdit() {
+  const file = state.fileNameDialogFile;
+  if (!canRenameFile(file)) return;
+  const name = file.name || '';
+  setFileNameEditing(true);
+  el.fileNameInput.value = name;
+  updateFileNameHint();
+  el.fileNameInput.focus({ preventScroll: true });
+  // Select only the base name so typing keeps the extension.
+  const dot = name.lastIndexOf('.');
+  el.fileNameInput.setSelectionRange(0, dot > 0 ? dot : name.length);
+}
+
+function cancelFileNameEdit() {
+  setFileNameEditing(false);
+  el.fileNameRenameButton?.focus({ preventScroll: true });
+}
+
+function fileNameExtension(name) {
+  const dot = name.lastIndexOf('.');
+  return dot > 0 ? name.slice(dot + 1).toLowerCase() : '';
+}
+
+function updateFileNameHint() {
+  const original = state.fileNameDialogFile?.name || '';
+  const name = normalizeRenameInput(el.fileNameInput.value);
+  el.fileNameHint.textContent = !name ? '파일명을 입력하세요.'
+    : fileNameExtension(name) !== fileNameExtension(original) ? '확장자가 바뀝니다. 다른 앱에서 파일을 다르게 열 수 있습니다.' : '';
+  el.fileNameSaveButton.disabled = !name;
+}
+
+function saveFileNameEdit() {
+  const file = state.fileNameDialogFile;
+  const name = normalizeRenameInput(el.fileNameInput.value);
+  if (!file || !name) {
+    updateFileNameHint();
+    return;
+  }
+  if (el.fileNameDialog.open) el.fileNameDialog.close();
+  performRenameFile(file, name);
+}
+
 function copyFileNameText() {
   const text = el.fileNameText.textContent || '';
   const selection = window.getSelection?.();
