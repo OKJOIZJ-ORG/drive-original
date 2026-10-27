@@ -755,3 +755,7 @@ D119 보고 후 사용자는 "D118+D119를 1.23.19로 버전 올려서 main 병�
 ## D-122 · PC는 → 길게 누르기로 2배속, drive-actions.js를 세 파일로 분리(로컬) — 2026-10-27 (User-confirmed request; key choice and split boundaries are AI proposals)
 
 사용자는 모바일 가장자리 길게 누르기 2배속(D091)이 PC에서 무엇으로 대응되는지 물었고(답: 없음, 배속 메뉴만), 마우스 대신 "특정 키가 좋을 듯"이라며 추천한 후속 작업(drive-actions.js 분리)도 함께 진행하라고 했다. 결정: (1) PC 재생기에서 →를 짧게 누르면 지금처럼 10초 앞으로(떼는 순간 실행), 450ms 이상 누르고 있으면 누르는 동안 2배속이고 떼면 원래 배속으로 돌아오며 이동하지 않는다. 모바일 오른쪽 가장자리의 탭=10초·길게=2배속과 같은 짝이다. 표시·조건·복구는 D091과 같은 소유자를 공유한다(재생 중·로딩/오류 없음일 때만, 사용자 배속은 저장하지 않음, 다른 파일로 바뀌면 복구하지 않고 무효). 자동 반복 keydown은 무시하고, 창이 포커스를 잃으면 복구한다. 일시정지·끝난 영상에서는 기존처럼 바로 10초 이동, L 키는 항상 바로 10초 이동이다. 배속 버튼 툴팁에 "→ 길게 누르면 2배속"을 적는다. (2) 동작 변경 없이 app/drive-actions.js를 drive-mutations.js(검증된 Drive 변경), drive-actions.js(미리보기·작업 큐·결과 반영), move-dialog.js(이동 창)로 나눈다. 로드 순서는 drive-mutations → drive-actions → move-dialog이며 scripts/public-files.cjs, index.html, sw.js, app/README.md를 함께 갱신한다. 로컬 브랜치 커밋까지이며 버전 정렬·병합·push·운영 배포는 별도 승인 대상.
+
+## D-123 · 1.23.20(D121+D122) 운영 배포 승인 — 2026-10-27 (User-confirmed)
+
+D122 보고 후 사용자는 "D121+D122를 1.23.20으로 버전 올려서 main 병합·push·운영 배포하고, 실제 Chrome에서 이름 바꾸기와 → 길게 누르기까지 확인해줘."라고 요청했다. 브랜치 claude/file-rename-20261027을 1.23.20으로 정렬해 main에 fast-forward 병합·push하고 D106 절차(`npm run deploy:release`)로 기존 동일 운영 Worker에 배포한 뒤 제공 파일과 실제 Chrome을 확인한다. 이름 바꾸기 확인은 사용자 파일 하나의 이름을 실제로 바꿨다가 원래 이름으로 되돌리는 범위로 하고, 바뀐 메타데이터(버전·수정 시각)는 그대로 보고한다. 원본·인증/OAuth 설정·운영 주소·무료 운영·Notion·자동화 PAUSED 경계 유지. qa/release-1.23.20이 근거를 소유한다.
