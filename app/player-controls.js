@@ -1634,6 +1634,60 @@ function collapseShortsExpand() {
   if (el.playerSheet && !el.playerSheet.hidden) resetControlsTimer();
 }
 
+/* 재생이 끝났을 때 할 일 — 처음부터(기본), 다음 영상, 랜덤 쇼츠, 멈춤. 이 기기에서 기억한다. */
+const END_ACTION_KEY = 'drive-original.end-action';
+const END_ACTIONS = Object.freeze([['repeat', '처음부터'], ['next', '다음 영상'], ['random', '랜덤 쇼츠'], ['stop', '멈춤']]);
+let endAction = readEndAction();
+
+function readEndAction() {
+  try {
+    const stored = localStorage.getItem(END_ACTION_KEY);
+    return END_ACTIONS.some(([id]) => id === stored) ? stored : 'repeat';
+  } catch { return 'repeat'; }
+}
+
+function endActionLabel() {
+  return END_ACTIONS.find(([id]) => id === endAction)[1];
+}
+
+function cycleEndAction() {
+  const index = END_ACTIONS.findIndex(([id]) => id === endAction);
+  endAction = END_ACTIONS[(index + 1) % END_ACTIONS.length][0];
+  try { localStorage.setItem(END_ACTION_KEY, endAction); } catch {}
+  updateEndActionUI();
+  showPlayerFeedback(`끝나면 ${endActionLabel()}`);
+}
+
+function updateEndActionUI() {
+  const label = endActionLabel();
+  [el.ctrlEndAction, el.shortsEndActionBtn].forEach((button) => {
+    if (!button) return;
+    button.setAttribute('aria-label', `끝나면 ${label} · 눌러서 바꾸기`);
+    const stateLabel = button.querySelector?.('.end-action-state');
+    if (stateLabel) stateLabel.textContent = label;
+  });
+}
+
+function runEndAction() {
+  const video = el.videoPlayer;
+  if (!video || video.hidden || el.playerSheet?.hidden || !isVideoPresentation()) return;
+  if (endAction === 'repeat') restartVideoFromStart(video);
+  else if (endAction === 'next') playNextFile('left');
+  else if (endAction === 'random') playRandomFile('up');
+}
+
+function restartVideoFromStart(video) {
+  if (state.mediaAttempt === 'q1' && q1Playback?.player) {
+    const { mapping } = playerTimeline(video);
+    q1Playback.player.seek(mapping ? mapping.sourceOrigin : 0, { autoplay: true }).catch(() => {});
+    return;
+  }
+  setPlayerCurrentTime(video, 0, 'end-repeat');
+  video.play().catch((error) => {
+    if (error?.name !== 'AbortError') showPlayerFeedback('재생을 시작하지 못함');
+  });
+}
+
 /* 영상 90도 회전 (시계 방향) — UI는 그대로 두고 영상만 회전.
    개별 transform 속성 rotate를 쓰면 드래그/스냅백 애니메이션(transform)과 자연스럽게 합성된다. */
 function toggleVideoRotation() {

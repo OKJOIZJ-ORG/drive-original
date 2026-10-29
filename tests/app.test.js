@@ -5355,3 +5355,43 @@ test('photos show the topbar trash button; videos keep it in the more menu', () 
   assert.equal(run(f.context, 'photoHidden'), false);
   assert.equal(run(f.context, 'el.topbarDeleteBtn.hidden'), true);
 });
+
+function endActionFixture() {
+  const f = keyHoldFixture();
+  run(f.context, `globalThis.endCalls=[]; playNextFile=()=>endCalls.push('next'); playRandomFile=()=>endCalls.push('random');
+    setPlayerCurrentTime=(video,time,origin)=>{endCalls.push('seek:'+time+':'+origin);return true};
+    el.videoPlayer.play=()=>{endCalls.push('play');return Promise.resolve()};
+    el.playerSheet.hidden=false; state.mediaAttempt='original-range'; state.selected={id:'v',mimeType:'video/mp4'};
+    globalThis.saved={}; localStorage.setItem=(k,v)=>{saved[k]=v};
+    el.ctrlEndAction={attrs:{},setAttribute(k,v){this.attrs[k]=v},querySelector(){return this.state||(this.state={textContent:''})}};`);
+  return f;
+}
+
+test('a finished video starts again from the beginning by default', () => {
+  const f = endActionFixture();
+  assert.equal(run(f.context, 'endAction'), 'repeat');
+  run(f.context, 'runEndAction()');
+  assert.equal(run(f.context, 'JSON.stringify(endCalls)'), '["seek:0:end-repeat","play"]');
+});
+
+test('the end action cycles next → random → stop → repeat, is remembered and acts accordingly', () => {
+  const f = endActionFixture();
+  const expected = [['next', '다음 영상', ['next']], ['random', '랜덤 쇼츠', ['random']], ['stop', '멈춤', []], ['repeat', '처음부터', ['seek:0:end-repeat', 'play']]];
+  for (const [id, label, calls] of expected) {
+    run(f.context, 'endCalls.length=0; cycleEndAction(); runEndAction()');
+    assert.equal(run(f.context, 'endAction'), id);
+    assert.equal(run(f.context, "saved['drive-original.end-action']"), id);
+    assert.equal(run(f.context, 'el.ctrlEndAction.state.textContent'), label);
+    assert.deepEqual(JSON.parse(run(f.context, 'JSON.stringify(endCalls)')), calls);
+  }
+  run(f.context, "localStorage.getItem=()=> 'random'");
+  assert.equal(run(f.context, 'readEndAction()'), 'random');
+  run(f.context, "localStorage.getItem=()=> 'bogus'");
+  assert.equal(run(f.context, 'readEndAction()'), 'repeat');
+});
+
+test('the end action does nothing once the player is closed or a photo is shown', () => {
+  const f = endActionFixture();
+  run(f.context, 'el.playerSheet.hidden=true; runEndAction(); el.playerSheet.hidden=false; state.selected={id:"p",mimeType:"image/jpeg"}; runEndAction()');
+  assert.equal(run(f.context, 'JSON.stringify(endCalls)'), '[]');
+});

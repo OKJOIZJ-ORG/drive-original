@@ -1070,6 +1070,7 @@ function setNativeVideoActionsAvailable(available) {
   if (el.shortsRotateBtn) el.shortsRotateBtn.hidden = !enabled;
   if (el.ctrlTracks) el.ctrlTracks.hidden = !enabled;
   if (el.shortsTracksBtn) el.shortsTracksBtn.hidden = !enabled;
+  if (el.shortsEndActionBtn) el.shortsEndActionBtn.hidden = !enabled;
   if (!enabled) {
     // Photos and cleared sources retire the whole video UI, including overlays
     // that may still be open when the next item replaces a playing video.

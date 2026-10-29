@@ -3203,7 +3203,7 @@ dialog {
 .media-stage.is-panning { cursor: grabbing; }
 .zoom-lock-toggle:not([aria-pressed="true"]) .zoom-lock-closed,
 .zoom-lock-toggle[aria-pressed="true"] .zoom-lock-open { display: none; }
-.zoom-lock-state { margin-inline-start: auto; color: #ffffff80; font-size: var(--text-caption); font-weight: 400; }
+.zoom-lock-state, .end-action-state { margin-inline-start: auto; color: #ffffff80; font-size: var(--text-caption); font-weight: 400; }
 .zoom-lock-toggle[aria-pressed="true"] .zoom-lock-state { color: #b9d6ff; }
 .player-more-action.zoom-lock-toggle[aria-pressed="true"] { color: #b9d6ff; }
 .media-zoom-hud {

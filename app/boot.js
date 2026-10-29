@@ -119,7 +119,8 @@ function bindElements() {
     'deleteDialog', 'deleteFileName', 'deleteCancelButton', 'deleteConfirmButton',
     'permissionDialog', 'permissionReconnectButton', 'permissionCloseButton',
     'seekHintLeft', 'seekHintRight',
-    'mediaZoomHud', 'mediaZoomResetBtn', 'mediaZoomLockBtn', 'ctrlZoomLock', 'shortsZoomLockBtn'
+    'mediaZoomHud', 'mediaZoomResetBtn', 'mediaZoomLockBtn', 'ctrlZoomLock', 'shortsZoomLockBtn',
+    'ctrlEndAction', 'shortsEndActionBtn'
   ];
   ids.forEach((id) => { el[id] = document.getElementById(id); });
   el.filterButtons = [...document.querySelectorAll('[data-filter]')];
@@ -367,6 +368,11 @@ function bindEvents() {
       });
     }
   }
+  [el.ctrlEndAction, el.shortsEndActionBtn].forEach((btn) => btn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    cycleEndAction();
+  }));
+  updateEndActionUI();
   // Shorts chips sit above the stage; keep their taps out of stage gestures.
   for (const [btn, action] of [
     [el.shortsRotateBtn, () => toggleVideoRotation()], [el.shortsDriveBtn, () => openSelectedInDrive()],
@@ -569,6 +575,7 @@ function bindEvents() {
     stopMobileHoldSpeed();
     clearMediaSeekWatchdog('ended');
     clearMediaFrameWatchdog('ended');
+    runEndAction();
   });
   el.videoPlayer.addEventListener('volumechange', (event) => {
     if (isCurrentMediaEvent(event.currentTarget)) updateVolumeUI();
