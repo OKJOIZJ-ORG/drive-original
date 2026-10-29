@@ -1,19 +1,19 @@
-# Checkpoint — D123 1.23.20 delivered — 2026-10-27
+# Checkpoint — D128 1.23.21 delivered — 2026-10-29
 
 ## The story so far
-1.23.19 (D118 zoom/name popup, D119 subfolder picker) was live as Worker 96dd5a1a. The user then asked for file rename (D121), PC key for hold-to-2× plus the recommended drive-actions split (D122), and released both as 1.23.20 (D123).
+1.23.20 (D121 rename, D122 PC → hold 2×) was live as Worker 8bf12c8f. The user then asked for a trash button in the photo viewer (D125), no re-loading of folders already read when adding subfolders plus overall loading optimization (D126), and an end-of-playback option with 처음부터 as default (D127), and released all three as 1.23.21 (D128).
 
 ## Latest
-1.23.20 is live: Worker 8bf12c8f, main 4ed1c70. 1032/1032; 83/83 served Git-equal. Actual Chrome (user profile): real rename and rename-back of one video in 추억/영상 through the card popup; → tap +10 s; → hold 2× and restore. qa/release-1.23.20 owns numbers.
+1.23.21 is live: Worker f0c33cae, main a42bce8. 1044/1044; 83/83 served Git-equal. Actual Chrome (user profile): photo trash confirmation by click and Delete (cancelled, nothing trashed); after a 55 s first scan of 24 folders/13,313 files, re-toggling subfolders and navigating the scanned folders sent 0 Drive requests; end actions 처음부터/멈춤/다음 영상 on a real 7.9 s video, restored to 처음부터. qa/release-1.23.21 owns numbers.
 
 ## Decided
-D094–D120 as before; D121 file rename; D122 PC → hold 2× and drive-actions.js split into drive-mutations/drive-actions/move-dialog; D123 authorized this delivery; D124 rename keeps Drive's modifiedTime change. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
+D094–D120 as before; D121 file rename; D122 PC → hold 2× and drive-actions.js split into drive-mutations/drive-actions/move-dialog; D123 delivered 1.23.20; D124 rename keeps Drive's modifiedTime change; D125 photo topbar trash + Delete key; D126 folders read once are cached until Refresh, listing seed, pass-through folders from the picker, pipelined pool of 8; D127 end action (default 처음부터, per device); D128 authorized this delivery. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
 
 ## Waiting on the user
-None. D124: renames keep Drive's default modifiedTime change (the renamed file rises in 수정일 최신순); the verification file stays at 2026-10-27. Not verified: a physically held → key, rename on a phone, physical-phone pinch, real trackpad pinch, real clipboard copy, shared drives in the picker. Not decided (older): thumbnail preview while a photo original loads (D108); widening the 4 MiB moov window; the license-pinned video-q3-input.mjs terminator weakness.
+None. Not verified: 랜덤 쇼츠 end action and end actions on Q1/Q2/Q3 sources on real Drive, the mobile ⋯ 끝나면 chip on a phone, old-code real-Drive time for the 55 s scan (comparison is simulated); a physically held → key, rename on a phone, physical-phone pinch, real trackpad pinch, real clipboard copy, shared drives in the picker. Not decided (older): thumbnail preview while a photo original loads (D108); widening the 4 MiB moov window; the license-pinned video-q3-input.mjs terminator weakness.
 
 ## Next first action
-Read qa/release-1.23.20/README.md. App code lives in app/ (map: app/README.md); the order is owned by scripts/public-files.cjs.
+Read qa/release-1.23.21/README.md. App code lives in app/ (map: app/README.md); the order is owned by scripts/public-files.cjs.
 
 ## Tried
 Deploy (D106): from source/worker run `npm run deploy:release` (validate first with `npm run deploy:release -- --dry-run`). It requires committed publication inputs, deploys HEAD from a temporary detached worktree under %TEMP% and removes it. The user's C:\DriveBackup\Projects-mirror hard-link backup is intentional (D106): never modify it, and do not use `deploy:candidate` in the checkout. Never deploy if materialize exits non-zero. Right after a deploy the edge may serve the previous index.html for a few seconds; re-fetch before judging a mismatch.
