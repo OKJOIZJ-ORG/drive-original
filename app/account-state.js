@@ -711,6 +711,10 @@ function advanceAccountPlaybackDeck(deck, direction, targetId, files, random = M
   return advanceVerticalPlaybackDeck(deck, direction, targetId, files, random, getViewedIdSet());
 }
 
+function retargetAccountPlaybackDeck(deck, targetId, files, random = Math.random) {
+  return retargetVerticalPlaybackDeck(deck, targetId, files, random, getViewedIdSet());
+}
+
 function isFavoriteFileId(fileId) {
   return Boolean(fileId && state.accountMediaState?.favorites?.[fileId]?.liked);
 }

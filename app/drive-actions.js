@@ -241,13 +241,12 @@ function renderDriveActionStatus() {
 
 function renderLibraryAfterDriveAction() {
   if (libraryNavigation.restoring) return;
-  if (state.deepScan && state.treeCache) computeAndRenderSubtree();
+  if (state.deepScan && state.treeCache) computeAndRenderSubtree({ keepOrder: true });
   else renderFiles();
 }
 
 function queueDriveActionJob(job) {
   const ids = new Set(job.files.map((file) => file.id));
-  const order = getPlaybackFileList();
   const currentId = state.selected?.id || null;
   Object.assign(job, { ids, owner: captureAccountStateRequest(), done: 0, playerFollows: false });
   settleSelectionAfterBulk([]);
@@ -255,9 +254,7 @@ function queueDriveActionJob(job) {
   if (job.hide) {
     setHiddenActionFiles(ids, true);
     renderFiles();
-    if (currentId && ids.has(currentId)) {
-      playNextAfterRemoval(order, order.findIndex((file) => file.id === currentId), ids);
-    }
+    if (currentId && ids.has(currentId)) playNextAfterRemoval(ids);
   } else {
     // A file that may stay in view keeps playing until its move is confirmed.
     job.playerFollows = Boolean(currentId && ids.has(currentId));
@@ -311,10 +308,7 @@ function settleTrashJob(results) {
 
   state.files = state.files.filter((file) => !removedIds.has(file.id));
   markFilesRemovedFromAccountState(removedIds);
-  succeeded.forEach((file) => {
-    shuffledOrderMap.delete(file.id);
-    generatedThumbnailCache.delete(file.id);
-  });
+  succeeded.forEach((file) => generatedThumbnailCache.delete(file.id));
   if (state.treeCache) {
     state.treeCache = buildTreeIndexes(state.treeCache.items.filter((file) => !removedIds.has(file.id)), state.treeCache.scannedFolderIds, state.treeCache.childListedIds);
   }
@@ -337,22 +331,25 @@ function performDeleteFile() {
 }
 
 /* 삭제/이동으로 현재 파일이 목록에서 사라져도 플레이어를 유지하고
-   다음 영상을 자동 재생한다. 남은 파일이 없을 때만 플레이어를 닫는다. */
-function playNextAfterRemoval(order, removedIndex, removedIdOrIds) {
-  if (el.playerSheet.hidden) return;
-  const removedIds = removedIdOrIds instanceof Set ? removedIdOrIds : new Set([removedIdOrIds]);
+   다음 버튼과 같은 재생 순서(플레이어를 열 때의 목록 순서)에서 다음 파일로 넘어간다.
+   랜덤 쇼츠 덱은 새로 섞지 않고 위·아래 기록을 그대로 둔다. 남은 파일이 없을 때만 플레이어를 닫는다. */
+function playNextAfterRemoval(removedIds) {
+  if (el.playerSheet.hidden || !state.selected) return;
+  const list = getPlaybackFileList().filter((file) => !removedIds.has(file.id));
+  const byId = new Map(list.map((file) => [file.id, file]));
+  const order = state.playbackOrderIds;
+  const start = order.indexOf(state.selected.id);
   let next = null;
-  for (let i = removedIndex + 1; i < order.length; i++) {
-    if (!removedIds.has(order[i].id)) { next = order[i]; break; }
+  for (let step = 1; step <= order.length && !next; step++) {
+    next = byId.get(order[(start + step) % order.length]) || null;
   }
-  if (!next) {
-    const remaining = order.filter((file) => !removedIds.has(file.id));
-    next = remaining[0] || null;
-  }
+  next ||= list[0] || null;
   if (!next) {
     closePlayer();
     return;
   }
+  state.playbackDeck = retargetAccountPlaybackDeck(state.playbackDeck, next.id, list);
+  state.playbackDeckComplete = hasCompletePlaybackPopulation();
   state.pendingPlay = true;
   animateMediaTransition('left', () => openMediaSource(next));
 }
@@ -418,14 +415,10 @@ function settleMoveJob(job, results) {
   if (moved.length || skipped.length) rememberRecentMoveFolder(targetRow);
 
   if (!state.deepScan) state.files = state.files.filter((file) => !movedIds.has(file.id));
-  moved.forEach((file) => shuffledOrderMap.delete(file.id));
   if (state.treeCache) state.treeCache = buildTreeIndexes(state.treeCache.items, state.treeCache.scannedFolderIds, state.treeCache.childListedIds);
 
   const currentId = state.selected?.id || null;
-  if (job.playerFollows && currentId && movedIds.has(currentId)) {
-    const order = getPlaybackFileList();
-    playNextAfterRemoval(order, order.findIndex((file) => file.id === currentId), movedIds);
-  }
+  if (job.playerFollows && currentId && movedIds.has(currentId)) playNextAfterRemoval(movedIds);
 
   if (!failed.length) {
     const skippedText = skipped.length ? ` · ${skipped.length.toLocaleString('ko-KR')}개는 이미 해당 위치` : '';

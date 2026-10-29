@@ -484,6 +484,19 @@ function advanceVerticalPlaybackDeck(deck, direction, targetId, files, random = 
     next.below = [current, ...next.below.filter((id) => id !== current && id !== targetId)]
       .slice(0, VERTICAL_DECK_DEPTH);
   }
+  return fillVerticalPlaybackDeck(next, direction, files, random, viewedIds);
+}
+
+// The current item left the population (trash/move): the deck moves to the
+// replacement and keeps both sides, so swiping back still returns to the
+// items seen before the removal.
+function retargetVerticalPlaybackDeck(deck, targetId, files, random = Math.random, viewedIds = null) {
+  const keep = (ids) => (Array.isArray(ids) ? ids : []).filter((id) => id !== targetId);
+  return fillVerticalPlaybackDeck({ anchorId: targetId, above: keep(deck?.above), below: keep(deck?.below) },
+    'up', files, random, viewedIds);
+}
+
+function fillVerticalPlaybackDeck(next, direction, files, random = Math.random, viewedIds = null) {
   const population = Array.isArray(files) ? files : [];
   const validIds = new Set(population.filter((file) => file?.id).map((file) => file.id));
   next.above = next.above.filter((id) => validIds.has(id) && id !== next.anchorId);

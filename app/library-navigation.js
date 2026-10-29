@@ -866,7 +866,8 @@ function effectiveRootId() {
   return state.rootFolderId || 'root';
 }
 
-function computeAndRenderSubtree() {
+// keepOrder: the same selection after a trash/move keeps its random order and scroll window.
+function computeAndRenderSubtree({ keepOrder = false } = {}) {
   const cache = state.treeCache;
   if (!treeCacheCoversSelection(cache)) return;
   // 'root' 별칭과 실제 루트 폴더 ID 양쪽에서 직계 자식이 붙어 있을 수 있어 둘 다 탐색
@@ -893,8 +894,8 @@ function computeAndRenderSubtree() {
   state.files = dedupeFiles(media);
   state.nextPageToken = null;
   state.populationComplete = true;
-  shuffledOrderMap.clear();
-  renderFiles({ resetWindow: true });
+  if (!keepOrder) shuffledOrderMap.clear();
+  renderFiles({ resetWindow: !keepOrder });
   clearLibraryStatus();
   updateLibrarySummary();
 }

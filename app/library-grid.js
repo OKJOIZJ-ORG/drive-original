@@ -222,6 +222,22 @@ function shuffleCurrentFiles() {
   });
 }
 
+// Removing or adding a few files keeps the random order of everything else:
+// files that left drop out and new files take random places. Only an empty
+// order (a new folder, filter or subfolder selection) or an explicit shuffle
+// starts over.
+function syncShuffledOrder(population) {
+  if (!shuffledOrderMap.size) { shuffleCurrentFiles(); return; }
+  const present = new Set(population.map((file) => file.id));
+  const ids = [...shuffledOrderMap.keys()].filter((id) => present.has(id))
+    .sort((a, b) => shuffledOrderMap.get(a) - shuffledOrderMap.get(b));
+  const known = new Set(ids);
+  const missing = population.filter((file) => !known.has(file.id));
+  if (!missing.length && ids.length === shuffledOrderMap.size) return;
+  missing.forEach((file) => ids.splice(Math.floor(Math.random() * (ids.length + 1)), 0, file.id));
+  shuffledOrderMap = new Map(ids.map((id, index) => [id, index]));
+}
+
 /* 순차 수집 중인 목록의 남은 페이지를 같은 요청 체인으로 기다린다.
    랜덤 배열·랜덤 쇼츠가 '대상 폴더(또는 딥스캔 서브트리)의 전체 파일'을
    대상으로 동작하도록 보장한다. 진행 중 로드가 있으면 끝날 때까지 대기 후 이어 받는다. */
@@ -302,7 +318,7 @@ function currentPopulationFiles() {
 function sortedPopulationFiles() {
   const population = currentPopulationFiles();
   // Scroll-window renders reuse unchanged ordering instead of sorting the
-  // complete library again. Replacements, growth and explicit shuffles reset it.
+  // complete library again. Any change to the population or the order resets it.
   if (sortedPopulationCache?.source === population && sortedPopulationCache.length === population.length
     && sortedPopulationCache.sort === state.sort
     && (state.sort !== 'random' || (sortedPopulationCache.order === shuffledOrderMap
@@ -315,7 +331,7 @@ function sortedPopulationFiles() {
   const files = [...population];
   if (state.sort === 'random') {
     if (shuffledOrderMap.size !== population.length || population.some((file) => !shuffledOrderMap.has(file.id))) {
-      shuffleCurrentFiles();
+      syncShuffledOrder(population);
     }
     return remember(files.sort((a, b) => {
       const idxA = shuffledOrderMap.get(a.id) ?? 0;
