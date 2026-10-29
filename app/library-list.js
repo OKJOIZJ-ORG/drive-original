@@ -286,6 +286,7 @@ async function loadFiles({ append, statusToken = null }) {
     if (requestedPageToken) state.listPageTokens.add(requestedPageToken);
     state.nextPageToken = nextPageToken;
     state.populationComplete = !state.nextPageToken;
+    if (state.populationComplete) rememberCompleteFolderListing(listedFolderId);
     renderFiles({ resetWindow: !append });
     updateLibraryStatus(requestStatusToken, '');
     return true;

@@ -1,0 +1,73 @@
+{
+ "appDir": "app",
+ "latencyMs": 850,
+ "results": [
+  {
+   "label": "open R (first page)",
+   "requests": 1,
+   "seconds": 0.88,
+   "log": [
+    "list R#0"
+   ]
+  },
+  {
+   "label": "picker: root subfolders",
+   "requests": 0,
+   "seconds": 0.01,
+   "log": []
+  },
+  {
+   "label": "picker: expand Y",
+   "requests": 1,
+   "seconds": 0.87,
+   "log": [
+    "folders Y"
+   ]
+  },
+  {
+   "label": "apply: X (inside Y)",
+   "requests": 3,
+   "seconds": 1.73,
+   "log": [
+    "list R#1",
+    "list X#0",
+    "list R#2"
+   ]
+  },
+  {
+   "label": "apply: X + Z subtree",
+   "requests": 3,
+   "seconds": 2.58,
+   "log": [
+    "list Z#0",
+    "list Z1#0",
+    "list Z2#0"
+   ]
+  },
+  {
+   "label": "apply: all subfolders",
+   "requests": 2,
+   "seconds": 0.86,
+   "log": [
+    "list Y#0",
+    "list W#0"
+   ]
+  },
+  {
+   "label": "subfolders off",
+   "requests": 0,
+   "seconds": 0.01,
+   "log": []
+  },
+  {
+   "label": "open Z, then back to R",
+   "requests": 0,
+   "seconds": 0.02,
+   "log": []
+  }
+ ],
+ "total": {
+  "requests": 10,
+  "seconds": 6.96
+ }
+}

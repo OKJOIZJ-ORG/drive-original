@@ -316,7 +316,7 @@ function settleTrashJob(results) {
     generatedThumbnailCache.delete(file.id);
   });
   if (state.treeCache) {
-    state.treeCache = buildTreeIndexes(state.treeCache.items.filter((file) => !removedIds.has(file.id)), state.treeCache.scannedFolderIds);
+    state.treeCache = buildTreeIndexes(state.treeCache.items.filter((file) => !removedIds.has(file.id)), state.treeCache.scannedFolderIds, state.treeCache.childListedIds);
   }
 
   if (!failed.length) {
@@ -419,7 +419,7 @@ function settleMoveJob(job, results) {
 
   if (!state.deepScan) state.files = state.files.filter((file) => !movedIds.has(file.id));
   moved.forEach((file) => shuffledOrderMap.delete(file.id));
-  if (state.treeCache) state.treeCache = buildTreeIndexes(state.treeCache.items, state.treeCache.scannedFolderIds);
+  if (state.treeCache) state.treeCache = buildTreeIndexes(state.treeCache.items, state.treeCache.scannedFolderIds, state.treeCache.childListedIds);
 
   const currentId = state.selected?.id || null;
   if (job.playerFollows && currentId && movedIds.has(currentId)) {

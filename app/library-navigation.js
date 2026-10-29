@@ -484,12 +484,14 @@ function currentRootIds(folderId = state.currentFolderId) {
   return rootIds;
 }
 
+// An included folder needs its whole listing; one the selection only passes
+// through needs just its subfolders.
 function treeCacheCoversSelection(cache, folderId = state.currentFolderId, selection = subfolderSelectionFor(folderId)) {
   if (!treeCacheCoversFolder(cache, folderId)) return false;
   if (!cache.scannedFolderIds || !selection) return true;
   let covered = true;
-  walkSubfolderSelection(cache, currentRootIds(folderId), selection, ({ id, root }) => {
-    if (!root && !cache.scannedFolderIds.has(id)) covered = false;
+  walkSubfolderSelection(cache, currentRootIds(folderId), selection, ({ id, root, included }) => {
+    if (!root && !cache.scannedFolderIds.has(id) && (included || !cache.childListedIds?.has(id))) covered = false;
   });
   return covered;
 }
@@ -509,6 +511,7 @@ async function applyFolderView() {
     if (cache && state.deepScan && folderId === state.currentFolderId && generation === state.listGeneration && filter === state.filter) computeAndRenderSubtree();
     return;
   }
+  if (showCachedFolderListing()) return;
   const generation = state.listGeneration + 1;
   const loaded = await loadFiles({ append: false });
   if (!loaded || generation !== state.listGeneration || state.sort !== 'random') return;
@@ -530,6 +533,42 @@ async function shuffleWholeFolder(generation) {
       updateLibraryStatus(statusToken, `전체 파일을 불러오지 못했습니다: ${humanizeDriveError(error)}`);
     }
   }
+}
+
+// A folder read completely before (by a scan or an ordinary listing) opens
+// from the cache without asking Drive again.
+function showCachedFolderListing(folderId = state.currentFolderId) {
+  const cache = state.treeCache;
+  if (state.demo || !cache?.scannedFolderIds || !treeCacheCoversFolder(cache, folderId)) return false;
+  if (folderId === 'root' && (!state.rootFolderId || state.rootFolderId === 'root')) return false;
+  const rootIds = currentRootIds(folderId);
+  const media = dedupeFiles([...rootIds].flatMap((id) => cache.mediaByParent.get(id) || [])).filter(isSupportedMediaFile);
+  media.forEach((file) => { file.__origin = ''; });
+  const current = cache.foldersById.get(folderId);
+  if (current?.name && folderId !== 'root') state.currentFolderName = current.name;
+  state.folders = dedupeFiles([...rootIds].flatMap((id) => cache.foldersByParent.get(id) || []));
+  state.files = media;
+  state.nextPageToken = null;
+  state.populationComplete = true;
+  showLibrary();
+  renderFiles({ resetWindow: true });
+  updateLibrarySummary();
+  return true;
+}
+
+// Every complete ordinary listing joins the cache, so returning to the folder,
+// including its subfolders or opening it from a scan never lists it again.
+function rememberCompleteFolderListing(folderId = state.currentFolderId) {
+  const previous = state.treeCache;
+  if (state.demo || !state.populationComplete || (previous && !previous.scannedFolderIds)) return;
+  const id = folderId === 'root' ? state.rootFolderId : folderId;
+  if (!id || id === 'root') return;
+  const items = [...state.folders, ...state.files];
+  if (items.some((item) => item.parents?.[0] !== id)) return;
+  const scanned = new Set([...(previous?.scannedFolderIds || []), id]);
+  if (folderId === 'root') scanned.add('root');
+  const retained = (previous?.items || []).filter((item) => item.parents?.[0] !== id);
+  state.treeCache = buildTreeIndexes(dedupeFiles([...retained, ...items]), scanned, previous?.childListedIds);
 }
 
 function treeCacheCoversFolder(cache, folderId = state.currentFolderId) {
@@ -585,16 +624,33 @@ async function collectTreeCache(folderId = state.currentFolderId) {
   }
   const statusToken = beginLibraryStatus(`${scopeName} 및 하위 폴더를 탐색하는 중…`, { progress: true });
   try {
-    const knownFolder = state.treeCache?.foldersById.get(folderId)
-      || state.folderIndex?.folders?.find(folder => folder.id === folderId)
-      || [...libraryNavigation.entries.values()].flatMap(entry => entry.data?.folders || []).find(folder => folder.id === folderId);
-    const resourceKeys = buildResourceKeysHeader([knownFolder]);
-    const rootParams = new URLSearchParams({ supportsAllDrives: 'true', fields: 'id,name,mimeType,parents,driveId,resourceKey' });
-    const rootResponse = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(folderId)}?${rootParams}`, {
-      signal: controller.signal, headers: resourceKeys ? { 'X-Goog-Drive-Resource-Keys': resourceKeys } : {}
-    });
-    const root = await rootResponse.json();
-    assertCurrent();
+    // A folder already read (by an earlier scan or a complete ordinary listing)
+    // is never read again; Refresh is what drops the cache.
+    const previous = state.treeCache;
+    const scannedBefore = (id) => Boolean(previous && (!previous.scannedFolderIds || previous.scannedFolderIds.has(id)));
+    const knownFolder = folderId === 'root'
+      ? (state.rootFolderId && state.rootFolderId !== 'root' ? previous?.foldersById.get(state.rootFolderId) : null)
+      : knownFolderRecord(folderId);
+    // The pages an ordinary listing of this folder already loaded are kept and
+    // its listing continues from the next page instead of starting over.
+    const seed = deepScanListingSeed?.folderId === folderId && deepScanListingSeed.generation === listingGeneration
+      ? deepScanListingSeed : null;
+    deepScanListingSeed = null;
+    let root = knownFolder?.id && knownFolder.mimeType === FOLDER_MIME ? knownFolder : null;
+    // Items listed with this folder as their parent already prove it is one.
+    if (!root && seed?.items.length && folderId !== 'root') {
+      root = { id: folderId, name: state.currentFolderName, mimeType: FOLDER_MIME, parents: [],
+        driveId: seed.items.find((item) => item.driveId)?.driveId };
+    }
+    if (!root) {
+      const resourceKeys = buildResourceKeysHeader([knownFolder]);
+      const rootParams = new URLSearchParams({ supportsAllDrives: 'true', fields: 'id,name,mimeType,parents,driveId,resourceKey' });
+      const rootResponse = await driveFetch(`${DRIVE_API}/files/${encodeURIComponent(folderId)}?${rootParams}`, {
+        signal: controller.signal, headers: resourceKeys ? { 'X-Goog-Drive-Resource-Keys': resourceKeys } : {}
+      });
+      root = await rootResponse.json();
+      assertCurrent();
+    }
     if (!root?.id || root.mimeType !== FOLDER_MIME || (folderId !== 'root' && root.id !== folderId)) {
       throw new Error('탐색할 폴더 정보를 확인하지 못했습니다.');
     }
@@ -602,17 +658,24 @@ async function collectTreeCache(folderId = state.currentFolderId) {
     // A Drive root has no parent; keep its metadata outside the visible root
     // children rather than interpreting the missing parent as the 'root' alias.
     const items = [{ ...root, parents: root.parents?.length ? root.parents : ['__drive_tree_boundary__'] }];
-    const scannedFolderIds = new Set();
-    let listedItems = 0;
-    const listFolder = async (folder) => {
-      const files = [];
-      let pageToken = null;
+    let listedItems = 0, listedFolders = 0;
+    // Listings put folders first, so once a media file has arrived every
+    // subfolder is known and can be listed while later pages still load.
+    const listFolder = async (folder, onSubfolders) => {
+      const seeded = folder.id === root.id ? seed : null;
+      const files = seeded ? [...seeded.items] : [];
+      const announce = () => { if (files.some(item => item.mimeType !== FOLDER_MIME)) onSubfolders(files.filter(item => item.mimeType === FOLDER_MIME)); };
+      let pageToken = seeded ? seeded.nextPageToken : null;
       const seenPageTokens = new Set();
-      do {
+      if (seeded) announce();
+      while (!seeded || pageToken) {
         assertCurrent();
-        const params = folderListingParams(folder.id);
-        params.set('corpora', folder.driveId || root.driveId ? 'drive' : 'user');
-        if (folder.driveId || root.driveId) params.set('driveId', folder.driveId || root.driveId);
+        // A continuation repeats the query its page token came from.
+        const params = seeded ? folderListingParams(folderId, { listedParent: seeded.listedParent }) : folderListingParams(folder.id);
+        if (!seeded) {
+          params.set('corpora', folder.driveId || root.driveId ? 'drive' : 'user');
+          if (folder.driveId || root.driveId) params.set('driveId', folder.driveId || root.driveId);
+        }
         if (pageToken) params.set('pageToken', pageToken);
         const keys = buildResourceKeysHeader([folder]);
         const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, {
@@ -620,6 +683,9 @@ async function collectTreeCache(folderId = state.currentFolderId) {
         });
         const data = await response.json();
         assertCurrent();
+        if (seeded?.listedParent && Array.isArray(data.files)) data.files.forEach((item) => {
+          if (item && typeof item === 'object' && !Array.isArray(item.parents)) item.parents = [folder.id];
+        });
         if (!Array.isArray(data.files) || (data.nextPageToken != null && typeof data.nextPageToken !== 'string')
           || data.files.some(item => !item?.id || !Array.isArray(item.parents) || !item.parents.includes(folder.id))) {
           throw new Error('Google Drive가 올바른 폴더 목록을 반환하지 않았습니다.');
@@ -632,49 +698,80 @@ async function collectTreeCache(folderId = state.currentFolderId) {
         if (next && seenPageTokens.has(next)) throw new Error('Drive가 같은 페이지 토큰을 반복했습니다.');
         if (next) seenPageTokens.add(next);
         pageToken = next;
+        if (pageToken) announce();
         listedItems += data.files.length;
-        updateLibraryStatus(statusToken, `${scopeName} 및 하위 폴더 탐색 중… ${listedItems.toLocaleString('ko-KR')}개 항목 · ${scannedFolderIds.size.toLocaleString('ko-KR')}개 폴더 확인`, { progress: true });
-      } while (pageToken);
+        updateLibraryStatus(statusToken, `${scopeName} 및 하위 폴더 탐색 중… ${listedItems.toLocaleString('ko-KR')}개 항목 · ${listedFolders.toLocaleString('ko-KR')}개 폴더 확인`, { progress: true });
+        if (!pageToken) break;
+      }
+      listedFolders += 1;
       return files;
     };
-    // Folders of one depth are listed concurrently. Their items and the next
-    // depth are assembled in the serial breadth-first order, so the result
-    // never depends on which response arrives first. Only folders the
-    // selection needs are descended into; folders an earlier scan already
-    // listed are reused from the cache.
-    const stopped = Symbol('deep scan stopped after another folder failed');
-    const previous = state.treeCache;
-    const visited = new Set();
-    let level = [{ folder: root, childDefault: selection.all }];
-    while (level.length) {
-      const entries = level.filter(({ folder }) => !visited.has(folder.id) && visited.add(folder.id));
-      const folders = entries.map(({ folder }) => folder)
-        .filter((folder) => folder.id === root.id || !previous?.scannedFolderIds?.has(folder.id));
-      folders.forEach((folder) => scannedFolderIds.add(folder.id));
-      let failed = false;
-      const listings = await runTaskPool(folders, async (folder) => {
-        if (failed) throw stopped;
-        try { return await listFolder(folder); } catch (error) { failed = true; throw error; }
-      }, DEEP_SCAN_CONCURRENCY);
-      const failure = listings.find((listing) => listing.status === 'rejected' && listing.reason !== stopped);
-      if (failure) throw failure.reason;
-      const listed = new Map(folders.map((folder, index) => [folder.id, listings[index].value]));
-      level = [];
-      entries.forEach(({ folder, childDefault }) => {
-        const files = listed.get(folder.id);
-        if (files) items.push(...files);
-        const children = files ? files.filter(item => item.mimeType === FOLDER_MIME) : (previous.foldersByParent.get(folder.id) || []);
+    // A pool lists each subfolder as soon as its parent's listing arrives
+    // instead of waiting for a whole depth to finish. A folder the selection
+    // only passes through needs just its subfolders, which the picker usually
+    // knows already. Items are assembled breadth first afterwards, so the
+    // result never depends on which response came first.
+    const listings = new Map(), childLists = new Map(), visitedIncluded = new Set(), visitedPassing = new Set();
+    const childrenOf = (id) => listings.has(id) ? listings.get(id).filter(item => item.mimeType === FOLDER_MIME)
+      : childLists.get(id) || previous?.foldersByParent.get(id) || [];
+    const readFolder = async ({ folder, included }, onSubfolders) => {
+      if (scannedBefore(folder.id) || listings.has(folder.id)) return;
+      if (!included && (previous?.childListedIds?.has(folder.id) || childLists.has(folder.id))) return;
+      const pickedChildren = !included && subfolderPicker.rootId === folderId ? subfolderPicker.children.get(folder.id) : null;
+      if (pickedChildren) {
+        childLists.set(folder.id, pickedChildren.map((child) => ({ ...child, parents: [folder.id] })));
+        return;
+      }
+      listings.set(folder.id, await listFolder(folder, onSubfolders));
+    };
+    const queue = [{ folder: root, childDefault: selection.all, included: true }];
+    await new Promise((resolve, reject) => {
+      let active = 0, failed = false;
+      const announced = new Map();
+      const enqueueChildren = (entry, children) => {
+        if (!announced.has(entry.folder.id)) announced.set(entry.folder.id, new Set());
+        const seen = announced.get(entry.folder.id);
         children.forEach((child) => {
-          const on = subfolderIncluded(selection, child.id, childDefault);
-          if (on || subfolderLeadsToSelection(selection, child.id)) level.push({ folder: child, childDefault: on });
+          if (seen.has(child.id)) return;
+          seen.add(child.id);
+          const on = subfolderIncluded(selection, child.id, entry.childDefault);
+          if (on || subfolderLeadsToSelection(selection, child.id)) queue.push({ folder: child, childDefault: on, included: on });
         });
+      };
+      const pump = () => {
+        while (!failed && active < DEEP_SCAN_CONCURRENCY && queue.length) {
+          const entry = queue.shift();
+          // A folder first passed through may later be reached as included.
+          const visited = entry.included ? visitedIncluded : visitedPassing;
+          if (visitedIncluded.has(entry.folder.id) || visited.has(entry.folder.id)) continue;
+          visited.add(entry.folder.id);
+          active += 1;
+          readFolder(entry, (children) => { enqueueChildren(entry, children); pump(); }).then(() => {
+            active -= 1;
+            enqueueChildren(entry, childrenOf(entry.folder.id));
+            pump();
+          }, (error) => { failed = true; reject(error); });
+        }
+        if (!failed && !active && !queue.length) resolve();
+      };
+      pump();
+    });
+    assertCurrent();
+    const placed = new Set([root.id]);
+    for (const id of placed) {
+      if (listings.has(id)) items.push(...listings.get(id));
+      if (childLists.has(id)) items.push(...childLists.get(id));
+      childrenOf(id).forEach((child) => {
+        if (visitedIncluded.has(child.id) || visitedPassing.has(child.id)) placed.add(child.id);
       });
     }
-    assertCurrent();
+    const scannedFolderIds = new Set([...placed].filter((id) => listings.has(id)));
     if (folderId === 'root') scannedFolderIds.add('root');
-    const retained = (previous?.items || []).filter(item => !scannedFolderIds.has(item.parents?.[0]) && item.id !== root.id);
+    const retained = (previous?.items || []).filter(item => item.id !== root.id && !scannedFolderIds.has(item.parents?.[0])
+      && !(item.mimeType === FOLDER_MIME && childLists.has(item.parents?.[0])));
     const coverage = previous && !previous.scannedFolderIds ? null : new Set([...(previous?.scannedFolderIds || []), ...scannedFolderIds]);
-    state.treeCache = buildTreeIndexes(dedupeFiles([...retained, ...items]), coverage);
+    const childListedIds = new Set([...(previous?.childListedIds || []), ...childLists.keys()]);
+    state.treeCache = buildTreeIndexes(dedupeFiles([...retained, ...items]), coverage, childListedIds);
     updateLibraryStatus(statusToken, '');
     return state.treeCache;
   } catch (error) {
@@ -706,7 +803,7 @@ async function collectTreeCache(folderId = state.currentFolderId) {
   }
 }
 
-function buildTreeIndexes(items, scannedFolderIds = null) {
+function buildTreeIndexes(items, scannedFolderIds = null, childListedIds = null) {
   const foldersById = new Map();
   const foldersByParent = new Map();
   const mediaByParent = new Map();
@@ -721,7 +818,7 @@ function buildTreeIndexes(items, scannedFolderIds = null) {
       mediaByParent.get(parent).push(item);
     }
   });
-  return { items, foldersById, foldersByParent, mediaByParent, scannedFolderIds };
+  return { items, foldersById, foldersByParent, mediaByParent, scannedFolderIds, childListedIds: childListedIds || new Set() };
 }
 
 function isSupportedMediaFile(file) {
@@ -922,14 +1019,23 @@ async function performFavoriteLoad({ refreshState = true, preserveWindow = false
 }
 
 // Applies the picker's choice; nothing chosen turns subfolder inclusion off.
+// Pages of the current folder's ordinary listing, handed to the next scan of
+// that folder so it continues the listing rather than starting it again.
+let deepScanListingSeed = null;
+
 function applySubfolderSelection(selection) {
   if (state.loadingTree) state.treeAbort?.abort();
   const any = Boolean(selection) && (selection.all || [...selection.marks.values()].some((mark) => mark.on));
   const wasOn = state.deepScan;
+  const seed = !wasOn && any && state.filter !== 'favorites' && !state.listLoadError
+    && (state.files.length || state.folders.length || state.nextPageToken)
+    ? { folderId: state.currentFolderId, items: [...state.folders, ...state.files], nextPageToken: state.nextPageToken,
+      listedParent: state.currentFolderId !== 'root' } : null;
   state.deepScan = any;
   state.subfolderSelection = any ? cloneSubfolderSelection({ ...selection, rootId: state.currentFolderId }) : null;
   syncDeepScanToggle();
   resetListingSession();
+  deepScanListingSeed = seed && { ...seed, generation: state.listGeneration };
   scrollToLibraryTop();
   animateFolderTransition(any || !wasOn ? 'forward' : 'back');
   applyFolderView();
@@ -961,16 +1067,19 @@ function knownChildFolders(folderId) {
   const isRoot = folderId === subfolderPicker.rootId;
   const ids = isRoot ? [...currentRootIds(folderId)] : [folderId];
   const cache = state.treeCache;
-  if (cache && (!cache.scannedFolderIds || ids.some((id) => cache.scannedFolderIds.has(id)))) {
+  if (cache && (!cache.scannedFolderIds || ids.some((id) => cache.scannedFolderIds.has(id) || cache.childListedIds?.has(id)))) {
     return sortFoldersByName(dedupeFiles(ids.flatMap((id) => cache.foldersByParent.get(id) || [])));
   }
-  // A complete ordinary listing of this folder already holds its subfolders.
-  if (isRoot && !state.deepScan && state.populationComplete && state.filter !== 'favorites') return sortFoldersByName(state.folders);
+  // Ordinary listings put folders first, so once a media file has arrived (or
+  // the listing is complete) every subfolder of this folder is already known.
+  if (isRoot && !state.deepScan && state.filter !== 'favorites' && !state.listLoadError
+    && (state.populationComplete || state.files.length)) return sortFoldersByName(state.folders);
   return null;
 }
 
 function knownFolderRecord(folderId) {
   return state.treeCache?.foldersById?.get(folderId)
+    || state.folders.find((folder) => folder.id === folderId)
     || state.folderIndex?.folders?.find((folder) => folder.id === folderId)
     || [...subfolderPicker.children.values()].flat().find((folder) => folder.id === folderId)
     || [...libraryNavigation.entries.values()].flatMap((entry) => entry.data?.folders || []).find((folder) => folder.id === folderId)
