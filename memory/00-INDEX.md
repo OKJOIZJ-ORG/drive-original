@@ -32,6 +32,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- `../qa/release-1.23.22/README.md`: D130 1.23.22 (D129 random order kept after trash/move incl. subfolders; removing the viewed file goes to the next of the player order and keeps the shorts back history) as Worker 40123793, main 2499570; 1050 tests, 83/83 Git-equal; demo Chrome scenario and production code load; signed-in real trash not performed.
 - `../qa/release-1.23.21/README.md`: D128 1.23.21 (D125 photo trash button + Delete key, D126 folders read once are not re-listed + pipelined subfolder scan, D127 end-of-playback action, default 처음부터) as Worker f0c33cae, main a42bce8; 1044 tests, 83/83 Git-equal; actual Chrome: photo trash dialog (cancelled), 0 requests on subfolder re-toggle after a 55 s scan of 13,313 files, repeat/stop/next end actions.
 - `../qa/release-1.23.20/README.md`: D123 1.23.20 (D121 file rename, D122 PC → hold 2× and drive-actions split) as Worker 8bf12c8f, main 4ed1c70; 1032 tests, 83/83 Git-equal; actual Chrome: real rename and rename-back of one video (Drive moved its modifiedTime to the rename time), real → tap +10 s, → hold 2.01× media rate.
 - `../qa/release-1.23.17/README.md`: D114 1.23.17 (D113 move dialog recent folders + server search) as Worker 5a6bd648, main cd18847; 1006 tests, 81/81 Git-equal; actual Chrome: 43,860-folder index ~150 s, 추억 search ~1.1 s during loading, remembered 추억 selectable at once.

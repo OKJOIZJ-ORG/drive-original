@@ -1,13 +1,13 @@
-# Checkpoint — D128 1.23.21 delivered — 2026-10-29
+# Checkpoint — D130 1.23.22 delivered — 2026-10-29
 
 ## The story so far
 1.23.20 (D121 rename, D122 PC → hold 2×) was live as Worker 8bf12c8f. The user then asked for a trash button in the photo viewer (D125), no re-loading of folders already read when adding subfolders plus overall loading optimization (D126), and an end-of-playback option with 처음부터 as default (D127), and released all three as 1.23.21 (D128).
 
 ## Latest
-1.23.21 is live: Worker f0c33cae, main a42bce8. 1044/1044; 83/83 served Git-equal. Actual Chrome (user profile): photo trash confirmation by click and Delete (cancelled, nothing trashed); after a 55 s first scan of 24 folders/13,313 files, re-toggling subfolders and navigating the scanned folders sent 0 Drive requests; end actions 처음부터/멈춤/다음 영상 on a real 7.9 s video, restored to 처음부터. qa/release-1.23.21 owns numbers.
+1.23.22 is live: Worker 40123793, main 2499570 (on top of 1.23.21 f0c33cae/a42bce8). D129: the random order no longer reshuffles after trash/move (the bug was subfolder mode clearing the order, and favorites/in-subtree moves dropping order entries); removing the viewed file goes to the next file of the player order (`playbackOrderIds`, same as the 다음 button) and keeps the random-shorts back history. 1050/1050; 83/83 served Git-equal. qa/release-1.23.22 owns numbers.
 
 ## Decided
-D094–D120 as before; D121 file rename; D122 PC → hold 2× and drive-actions.js split into drive-mutations/drive-actions/move-dialog; D123 delivered 1.23.20; D124 rename keeps Drive's modifiedTime change; D125 photo topbar trash + Delete key; D126 folders read once are cached until Refresh, listing seed, pass-through folders from the picker, pipelined pool of 8; D127 end action (default 처음부터, per device); D128 authorized this delivery. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
+D094–D120 as before; D121 file rename; D122 PC → hold 2× and drive-actions.js split into drive-mutations/drive-actions/move-dialog; D123 delivered 1.23.20; D124 rename keeps Drive's modifiedTime change; D125 photo topbar trash + Delete key; D126 folders read once are cached until Refresh, listing seed, pass-through folders from the picker, pipelined pool of 8; D127 end action (default 처음부터, per device); D128 authorized 1.23.21; D129 random/player order survive removal; D130 authorized 1.23.22. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
 
 ## Waiting on the user
 None. Not verified: 랜덤 쇼츠 end action and end actions on Q1/Q2/Q3 sources on real Drive, the mobile ⋯ 끝나면 chip on a phone, old-code real-Drive time for the 55 s scan (comparison is simulated); a physically held → key, rename on a phone, physical-phone pinch, real trackpad pinch, real clipboard copy, shared drives in the picker. Not decided (older): thumbnail preview while a photo original loads (D108); widening the 4 MiB moov window; the license-pinned video-q3-input.mjs terminator weakness.
