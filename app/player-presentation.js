@@ -245,6 +245,9 @@ function updatePlayerNavigationLabels(file) {
     el[id].title = label;
     el[id].setAttribute('aria-label', label);
   }
+  // Photos have no video control bar (D092), so their trash button sits in the
+  // topbar; videos keep it in the control bar's more menu.
+  if (el.topbarDeleteBtn) el.topbarDeleteBtn.hidden = noun === '영상';
 }
 
 function showMediaLoading() {

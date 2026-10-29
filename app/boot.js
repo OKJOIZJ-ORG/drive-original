@@ -86,7 +86,7 @@ function bindElements() {
     'infiniteScrollSpinner',
     'folderNav', 'breadcrumbTrail', 'folderUpButton', 'libraryTitle', 'folderStrip', 'folderMoreButton', 'edgeBackIndicator',
     'playerSheet', 'playerBackdrop', 'playerModal', 'playerTitle', 'playerQuality', 'topbarPrevBtn', 'topbarRandomBtn', 'topbarNextBtn',
-    'topbarFavoriteBtn',
+    'topbarFavoriteBtn', 'topbarDeleteBtn',
     'fullscreenButton', 'iconExpand', 'iconCompress', 'closePlayerButton',
     'mediaStage', 'ambientBackdrop', 'videoPlayer', 'imageViewer',
     'mediaSwipeNeighbor', 'mediaSwipeNeighborBackdrop', 'mediaSwipeNeighborImage', 'mediaSwipeNeighborTitle',
@@ -352,9 +352,9 @@ function bindEvents() {
   // Folder navigation
   if (el.folderUpButton) el.folderUpButton.addEventListener('click', navigateToParentFolder);
 
-  // Delete, move and rename flows (desktop controls, mobile shorts chips)
+  // Delete, move and rename flows (desktop controls, photo topbar, mobile shorts chips)
   for (const [buttons, request] of [
-    [[el.ctrlDelete, el.shortsDeleteBtn], () => requestDeleteFile()],
+    [[el.ctrlDelete, el.topbarDeleteBtn, el.shortsDeleteBtn], () => requestDeleteFile()],
     [[el.ctrlMove, el.shortsMoveBtn], () => requestMoveFile()],
     [[el.ctrlRename, el.shortsRenameBtn], () => requestRenameFile()]
   ]) {

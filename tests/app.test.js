@@ -5337,3 +5337,21 @@ test('PC: a → hold armed for one file does not seek the next one', () => {
     handlePlayerKeyUp(keyEvent('keyup','ArrowRight'))`);
   assert.equal(run(f.context, 'JSON.stringify(seeks)'), '[]');
 });
+
+test('PC: Delete opens the trash confirmation for the current photo or video', () => {
+  const f = keyHoldFixture();
+  run(f.context, `globalThis.deleteRequests=0; requestDeleteFile=()=>{deleteRequests++};
+    globalThis.deleteKey=keyEvent('keydown','Delete'); handlePlayerKeyboard(deleteKey);
+    el.videoPlayer.hidden=true; handlePlayerKeyboard(keyEvent('keydown','Delete'))`);
+  assert.equal(run(f.context, 'deleteRequests'), 2);
+  assert.equal(run(f.context, 'deleteKey.defaultPrevented'), true);
+});
+
+test('photos show the topbar trash button; videos keep it in the more menu', () => {
+  const f = keyHoldFixture();
+  run(f.context, `el.topbarDeleteBtn={hidden:true}; el.mediaStage=null; el.playerControlsEntry=null;
+    updatePlayerNavigationLabels({id:'p',mimeType:'image/jpeg'}); globalThis.photoHidden=el.topbarDeleteBtn.hidden;
+    updatePlayerNavigationLabels({id:'v',mimeType:'video/mp4'})`);
+  assert.equal(run(f.context, 'photoHidden'), false);
+  assert.equal(run(f.context, 'el.topbarDeleteBtn.hidden'), true);
+});

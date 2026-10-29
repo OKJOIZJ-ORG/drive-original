@@ -971,6 +971,12 @@ function handlePlayerKeyboard(event) {
     return;
   }
 
+  if (event.key === 'Delete') {
+    event.preventDefault();
+    requestDeleteFile();
+    return;
+  }
+
   if (isVideo) {
     if (event.key === ' ' || key === 'k') {
       event.preventDefault();

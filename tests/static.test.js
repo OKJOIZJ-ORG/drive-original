@@ -415,6 +415,7 @@ test('player chrome hides as one mobile layer and high-frequency motion stays tr
   const styles = read('styles.css');
 
   assert.match(html, /<details class="player-more-menu" id="playerMoreMenu">[\s\S]*?id="ctrlMove"[\s\S]*?id="ctrlDelete"/);
+  assert.match(html, /<div class="player-topbar-actions">[\s\S]*?id="topbarDeleteBtn"[^>]*aria-label="휴지통으로 이동"[^>]*hidden>[\s\S]*?id="closePlayerButton"/);
   assert.doesNotMatch(html, /class="media-info-bar"/);
   assert.match(styles, /\.quality-badge\s*\{[\s\S]*?display:\s*none/);
   assert.match(styles, /\.player-modal\.controls-idle \.player-chrome[\s\S]*?opacity:\s*0[\s\S]*?pointer-events:\s*none/);
