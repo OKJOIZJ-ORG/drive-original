@@ -283,6 +283,42 @@ async function downloadOriginalFile(
   throw lastError || new Error('Original file transfer retry budget exhausted');
 }
 
+// Keep native HEIC rendering when this browser can decode the actual MIME.
+// A short-lived probe avoids forcing an SDR compatibility image on Safari.
+async function prepareOriginalImageForDisplay(original, signal) {
+  const head = new Uint8Array(await original.slice(0, 64).arrayBuffer());
+  if (signal.aborted) throw createOriginalBufferOwnerError();
+  if (head.length < 16 || String.fromCharCode(...head.subarray(4, 8)) !== 'ftyp') return {blob: original};
+  let adapter;
+  try { adapter = await import('../media/heif-image.mjs'); }
+  catch {
+    if (signal.aborted) throw createOriginalBufferOwnerError();
+    throw new Error('IMAGE_FORMAT_MODULE_UNAVAILABLE');
+  }
+  const {isHeifHeader, decodeHeifImage} = adapter;
+  if (signal.aborted) throw createOriginalBufferOwnerError();
+  if (!isHeifHeader(head)) return {blob: original};
+  const typed = original.slice(0, original.size, 'image/heic');
+  const native = await new Promise((resolve, reject) => {
+    const probe = new Image(), url = URL.createObjectURL(typed);
+    let settled = false;
+    const finish = (value, error) => {
+      if (settled) return; settled = true;
+      clearTimeout(timer); signal.removeEventListener('abort', abort);
+      probe.onload = probe.onerror = null; probe.removeAttribute('src'); URL.revokeObjectURL(url);
+      error ? reject(error) : resolve(value);
+    };
+    const abort = () => finish(false, createOriginalBufferOwnerError());
+    const timer = setTimeout(() => finish(false), 5000);
+    probe.onload = () => finish(probe.naturalWidth > 0);
+    probe.onerror = () => finish(false);
+    signal.addEventListener('abort', abort, {once: true});
+    if (signal.aborted) abort(); else probe.src = url;
+  });
+  if (native) return {blob: typed, heic: true};
+  return {...await decodeHeifImage(original, {signal}), heic: true, converted: true};
+}
+
 async function startOriginalBlobFallback(
   file,
   kind,
@@ -353,12 +389,19 @@ async function startOriginalBlobFallback(
       bufferController.signal,
       bufferSourceGeneration
     );
-    if (!isCurrentOriginalBufferOwner(file, session, bufferSourceGeneration)) {
+    if (bufferController.signal.aborted || !isCurrentOriginalBufferOwner(file, session, bufferSourceGeneration)) {
       cleanupOriginalTempStorage(session, bufferSourceGeneration);
       return;
     }
 
-    state.mediaBlobUrl = URL.createObjectURL(originalFile);
+    const imagePresentation = kind === 'image'
+      ? await prepareOriginalImageForDisplay(originalFile, bufferController.signal) : null;
+    if (bufferController.signal.aborted || !isCurrentOriginalBufferOwner(file, session, bufferSourceGeneration)) {
+      cleanupOriginalTempStorage(session, bufferSourceGeneration);
+      return;
+    }
+    state.mediaBlobUrl = URL.createObjectURL(imagePresentation?.blob || originalFile);
+    if (imagePresentation?.converted) state.mediaPlaybackMode = PLAYBACK_MODE.IMAGE_COMPATIBILITY;
     mediaSourceGeneration += 1;
     state.mediaAttempt = 'blob';
     state.mediaTransportVerified = true;
@@ -366,6 +409,9 @@ async function startOriginalBlobFallback(
     updateQualityDisplay();
     const locationLabel = resolvedPolicy.mode === 'disk' ? '앱 전용 임시 디스크' : '메모리';
     el.codecNote.textContent = `Drive 원본 파일 바이트를 ${locationLabel}에 임시 저장해 재인코딩 없이 재생 중입니다. 플레이어를 닫거나 이동하면 즉시 삭제됩니다.`;
+    if (imagePresentation?.heic) el.codecNote.textContent = imagePresentation.converted
+      ? '실제 형식은 HEIC입니다. 원본 파일은 그대로 두고 기본 이미지 한 장을 PNG로 변환해 표시합니다. 원본의 색상 정보와 동일한 표시를 보장하지 않습니다.'
+      : '실제 형식은 HEIC입니다. 저장 파일의 바이트를 바꾸지 않고 이 브라우저에서 표시합니다.';
 
     if (kind === 'video') {
       el.videoPlayer.hidden = false;
@@ -384,13 +430,28 @@ async function startOriginalBlobFallback(
       el.imageViewer.src = state.mediaBlobUrl;
     }
   } catch (error) {
-    if (error.name === 'AbortError'
+    if (error.name === 'AbortError' || error.message === 'HEIF_CANCELLED'
       || !isCurrentOriginalBufferOwner(file, session, bufferSourceGeneration)) {
       cleanupOriginalTempStorage(session, bufferSourceGeneration);
       return;
     }
     reportAppFailure('original-buffer-fallback', error);
     cleanupOriginalTempStorage(session, bufferSourceGeneration);
+    if (error.message === 'IMAGE_FORMAT_MODULE_UNAVAILABLE') {
+      state.mediaAttempt = 'failed';
+      showMediaError('이미지 호환 기능을 불러오지 못했습니다. 다시 시도해 주세요.',
+        {title: '이미지 호환 표시 확인 필요', showRetry: true});
+      return;
+    }
+    if (/^HEIF_/.test(error.message || '')) {
+      state.mediaAttempt = 'failed';
+      const limit = ['HEIF_INPUT_LIMIT','HEIF_PIXEL_LIMIT','HEIF_DEPTH_UNSUPPORTED'].includes(error.message);
+      showMediaError(limit
+        ? '이 HEIC 이미지의 크기 또는 색 심도가 이 브라우저의 호환 표시 범위를 넘습니다. Drive의 원본 파일은 변경되지 않았습니다.'
+        : 'HEIC 이미지를 호환 표시로 준비하지 못했습니다. Drive의 원본 파일은 변경되지 않았습니다.',
+      {title: '이미지 호환 표시 확인 필요', showRetry: false});
+      return;
+    }
     if (classifyMediaProxyFailure(error) === 'source-pin') {
       await recoverFromMediaProxyError(error);
       return;

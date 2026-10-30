@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "runtime": {
+    "path": "media/heif-decoder.js",
+    "upstream": "libheif-js",
+    "version": "1.23.5",
+    "license": "LGPL-3.0",
+    "sha256": "074B2B55EF3DE477BA9F794CA381F3F0324C1CBA8C91B4AF07395F39C22D54CC"
+  },
+  "correspondingSourceArchive": {
+    "path": "licenses/heif-source.tgz",
+    "sha256": "9986A4ABDEE0FCB86AFD1E18E17131CD8566285CE40D7ECDF553510FAC270E57",
+    "sha256Scope": "complete archive bytes"
+  },
+  "includedSourceArchives": [
+    {
+      "path": "preferred-source/libheif-413e2a87.tar.gz",
+      "upstream": "libheif",
+      "version": "413e2a87e6a70b3eccc3a3adc5801179dd2d9e00",
+      "sha256": "EF8E86A4E5670B7338A58B17553E306B8BE88E506587B265DFDFE44495896999",
+      "url": "https://github.com/strukturag/libheif/commit/413e2a87e6a70b3eccc3a3adc5801179dd2d9e00"
+    },
+    {
+      "path": "preferred-source/libde265-1.0.15.tar.gz",
+      "upstream": "libde265",
+      "version": "1.0.15",
+      "sha256": "00251986C29D34D3AF7117ED05874950C875DD9292D016BE29D3B3762666511D",
+      "url": "https://github.com/strukturag/libde265/releases/download/v1.0.15/libde265-1.0.15.tar.gz"
+    },
+    {
+      "path": "preferred-source/libheif-emscripten-v1.23.5.tar.gz",
+      "upstream": "libheif-emscripten",
+      "version": "1.23.5",
+      "sha256": "8E3395CA983E369448BEA84D223C35F1117373953E00219588415F1BC37C86EA",
+      "url": "https://github.com/catdad-experiments/libheif-emscripten/tree/v1.23.5"
+    },
+    {
+      "path": "preferred-source/libheif-js-1.23.5.tar.gz",
+      "upstream": "libheif-js",
+      "version": "1.23.5",
+      "sha256": "B2BCC4D1E94A47EFF30AFA05671374170F2F9F5AD88DD2E3CB1196D2DF4D6F76",
+      "url": "https://github.com/catdad-experiments/libheif-js/tree/v1.23.5"
+    }
+  ],
+  "verification": {
+    "sourceArchiveRebuilt": false,
+    "byteForByteReproducibleBuildProven": false
+  }
+}

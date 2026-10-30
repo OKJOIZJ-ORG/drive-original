@@ -45,6 +45,18 @@ test('512KiB crossing, short EOF, eviction and concurrent reads preserve exact b
 test('512KiB reads keep discovery byte/request budgets unchanged',async()=>{
  for(const options of [{discoveryBytes:512*KiB-1},{discoveryRequests:0}]){const s=source(new Uint8Array(1024*KiB)),rpc=createGeneralSource(s,{...policy,...options});await assert.rejects(rpc.request(0,1),/GENERAL_DISCOVERY_LIMIT/);assert.equal(s.ranges.length,0);assert.equal((await rpc.cleanup()).settled,true);}
 });
+
+test('explicit TS discovery read-ahead preserves admission budgets and serial byte ownership',async()=>{
+ const bytes=Uint8Array.from({length:2*512*KiB},(_,i)=>i%251),s=source(bytes),rpc=createGeneralSource(s);
+ await rpc.exact(0,1024);rpc.beginDiscoveryReadAhead();
+ assert.deepEqual(await rpc.exact(512*KiB+17,33),bytes.slice(512*KiB+17,512*KiB+50));
+ assert.equal(rpc.metrics.discoveryRequests,2);assert.equal(rpc.metrics.discoveryBytes,64*KiB+512*KiB);assert.equal(rpc.metrics.peakCache,512*KiB);
+ rpc.beginStreaming();assert.throws(()=>rpc.beginDiscoveryReadAhead(),/GENERAL_DISCOVERY_PHASE/);await rpc.cleanup();
+ for(const options of [{discoveryBytes:64*KiB+512*KiB-1},{discoveryRequests:1}]){
+  const sourceOwner=source(bytes),limited=createGeneralSource(sourceOwner,options);await limited.exact(0,1);limited.beginDiscoveryReadAhead();
+  await assert.rejects(limited.exact(512*KiB,1),/GENERAL_DISCOVERY_LIMIT/);assert.equal(sourceOwner.ranges.length,1);await limited.cleanup();
+ }
+});
 test('large read abort, timeout and current drift cannot populate cache and cleanup settles queued reads',async()=>{
  for(const mode of ['abort','timeout','current']){
   const entered=deferred(),body=deferred(),controller=new AbortController();let current=true,aborts=0;
@@ -103,19 +115,21 @@ test('streaming retains two distant track blocks and reduces physical reads with
 });
 
 test('discovery stream settling after streaming transition cannot poison the larger block cache',async()=>{
+ for(const phase of ['discovery','streaming']){
  const bytes=Uint8Array.from({length:1024*KiB},(_,i)=>(i*13)%251),entered=deferred(),release=deferred();
  const s=source(bytes),read=s.read;
  s.read=async range=>{if(s.ranges.length===0){entered.resolve();await release.promise;}return read(range);};
  const rpc=createGeneralSource(s,{streamingReadAhead:true}),reader=rpc.custom._options.read(0,64*KiB).getReader();
  await entered.promise;
  const queued=rpc.request(100*KiB,100*KiB+29);
- rpc.beginStreaming();release.resolve();
+ if(phase==='discovery')rpc.beginDiscoveryReadAhead();else rpc.beginStreaming();release.resolve();
  assert.deepEqual((await reader.read()).value,bytes.slice(0,64*KiB));
  assert.deepEqual(await queued,bytes.slice(100*KiB,100*KiB+29));
  assert.deepEqual(await rpc.exact(400*KiB,7),bytes.slice(400*KiB,400*KiB+7));
  assert.deepEqual(s.ranges,[[0,64*KiB-1],[0,512*KiB-1]]);
  assert.equal(rpc.metrics.peakCache,512*KiB);assert.equal(rpc.metrics.peakInFlight,1);
  assert.equal((await reader.read()).done,true);assert.equal((await rpc.cleanup()).settled,true);
+ }
 });
 
 test('streaming blocks retain serial cancellation and live source identity fences',async()=>{

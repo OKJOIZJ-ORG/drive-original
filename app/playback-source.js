@@ -669,7 +669,9 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
     emitMediaDiagnosticStage('q1-failed', { reason: code, terminal: true }, session);
     retireQ1Playback(owner);
     state.mediaAttempt = 'failed';
-    showMediaError('원본 재생 경로에서 안전하게 재생을 이어가지 못했습니다.',
+    showMediaError(code === 'Q1_SOURCE_ZERO_HEADER'
+      ? '파일 시작 부분이 0으로 채워져 있어 영상 형식을 읽을 수 없습니다. Drive의 원본 파일을 확인해 주세요.'
+      : '원본 재생 경로에서 안전하게 재생을 이어가지 못했습니다.',
       { title: '원본 재생 확인 필요', showRetry: false });
   };
   try {
@@ -732,12 +734,19 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
       && [0,188,376,564,752].every(offset => head[offset] === 0x47);
     if (ts && selectedAudioTrackId !== undefined) throw new Error('GENERAL_AUDIO_SELECTION_CONTAINER_UNQUALIFIED');
     if (!ts && !general) return resumeNative();
+    const videoOnlyTs = ts && (await import('../media/general-admission.mjs')).hasVideoOnlyTsTopology(head);
+    owner.videoOnlyTs = videoOnlyTs;
+    // After native rejection, distinguish an observed zero-filled header from
+    // an unsupported codec. This bounded prefix does not prove the whole file
+    // is empty, and never interrupts a native decoder that can play the file.
+    if (nativeVideoRejected && head.length >= 12 && head.every(byte => byte === 0))
+      throw new Error('Q1_SOURCE_ZERO_HEADER');
     routeIdentity = sniff.identity;
     owner.routeIdentity = routeIdentity;
-    const createPlayer = ts
+    const createPlayer = ts && !videoOnlyTs
       ? (await import('../media/ts-player.mjs')).createTsPlayer
       : (await import('../media/general-player.mjs')).createGeneralPlayer;
-    owner.kind = ts ? 'ts' : 'general';
+    owner.kind = ts && !videoOnlyTs ? 'ts' : 'general';
     if (!current()) return true;
     const resume = initial && state.resumePosition?.fileId === file.id ? state.resumePosition : null;
     const snapshot = snapshotOverride || (resume ? (resume.snapshot || { ...capturePlaybackSnapshot(), time: resume.time })
@@ -762,12 +771,12 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
       }
     }
     owner.player = createPlayer({ video: el.videoPlayer, openSource, isCurrent: current,
-      ...(!ts ? {selectedAudioTrackId, nativeColorObservation} : {}),
+      ...(!ts || owner.videoOnlyTs ? {selectedAudioTrackId, nativeColorObservation} : {}),
       ...(audioCompatibility && !ts ? { workerFactory: () => new Worker(new URL('./media/audio-general-worker.mjs', location.href), { type: 'module' }) } : {}),
       ...(videoCompatibility && !ts ? { workerFactory: () => new Worker(new URL('./media/video-q3-worker.mjs', location.href), { type: 'module' }) } : {}),
-      initialTime: ts && Number.isFinite(snapshot?.time) ? snapshot.time : 0,
-      ...(!ts && snapshot?.time > 0 ? {initialPresentationTime: snapshot.time} : {}),
-      autoplay: !ts && snapshot?.time > 0 ? state.pendingPlay || snapshot.paused === false
+      initialTime: ts && !owner.videoOnlyTs && Number.isFinite(snapshot?.time) ? snapshot.time : 0,
+      ...((!ts || owner.videoOnlyTs) && snapshot?.time > 0 ? {initialPresentationTime: snapshot.time} : {}),
+      autoplay: (!ts || owner.videoOnlyTs) && snapshot?.time > 0 ? state.pendingPlay || snapshot.paused === false
         : resume?.snapshot ? snapshot.paused === false : state.pendingPlay || snapshot?.paused === false,
       onEvent(event) {
         if (!current()) return;

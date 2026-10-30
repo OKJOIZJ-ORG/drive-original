@@ -122,6 +122,7 @@ function getResolutionCategory(width, height) {
 function getPlaybackQualityLabel(mode, verified) {
   if (mode === PLAYBACK_MODE.COMPATIBILITY) return 'Google 호환 재생 · 원본 화질 미확인';
   if (mode === PLAYBACK_MODE.VIDEO_COMPATIBILITY) return verified ? '호환 변환 · 영상 손실 압축' : '호환 변환 확인 중';
+  if (mode === PLAYBACK_MODE.IMAGE_COMPATIBILITY) return verified ? 'HEIC 호환 표시 · PNG' : '이미지 호환 표시 준비 중';
   if (!verified) return '원본 확인 중';
   if (mode === PLAYBACK_MODE.AUDIO_COMPATIBILITY) return '영상 원본 · 음성 호환 변환';
   if (mode === PLAYBACK_MODE.REPACKAGED) return '원본 스트림 · 재포장';
@@ -213,6 +214,7 @@ function updateQualityDisplay() {
       el.qualityBadge.hidden = !state.mediaTransportVerified;
       el.qualityBadge.dataset.quality = !state.mediaTransportVerified ? 'pending'
         : buffered ? 'buffer'
+          : playbackMode === PLAYBACK_MODE.IMAGE_COMPATIBILITY ? 'image-transformed'
           : playbackMode === PLAYBACK_MODE.VIDEO_COMPATIBILITY ? 'video-transformed'
             : playbackMode === PLAYBACK_MODE.AUDIO_COMPATIBILITY ? 'audio-transformed' : 'original';
       el.qualityBadge.textContent = `· ${qualityLabel}`;

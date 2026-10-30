@@ -18,6 +18,10 @@ export async function streamGeneralQ1({ source, generation = 1, isCurrent = () =
   const rpc = createGeneralSource(source, { isCurrent, signal, ...limits, streamingReadAhead:true });
   let admission;
   try { validateInitialPresentationTime(initialPresentationTime, targetTime); validateGeneralAudioSelection(selectedAudioTrackId); admission = await admitGeneralInput(rpc, {audioCodecs:GENERAL_AUDIO_CODECS}); } catch (error) { error.cleanup = await rpc.cleanup(); throw error; }
+  // TS duration/keyframe discovery scans elementary packets. Amortize fenced
+  // transport reads only after the original bounded prefix admits actual TS;
+  // the same discovery byte/request limits remain active until output starts.
+  if (admission.kind === 'ts') rpc.beginDiscoveryReadAhead();
   const policyRpc = {metrics:{...rpc.metrics,generation,size:rpc.size},request:({start,end})=>rpc.request(start,end)};
   const input = new Input({ source: rpc.custom, formats: [MP4, QTFF, MPEG_TS] });
   let output, outputPosition = 0, outputBytes = 0, pendingAcks = 0, peakAcks = 0, packets = 0;

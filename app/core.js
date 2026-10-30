@@ -112,6 +112,7 @@ const PLAYBACK_MODE = Object.freeze({
   REPACKAGED: 'original-repackaged',
   AUDIO_COMPATIBILITY: 'original-video-audio-compatible',
   VIDEO_COMPATIBILITY: 'video-compatible-lossy',
+  IMAGE_COMPATIBILITY: 'image-compatible-png',
   COMPATIBILITY: 'compatibility-preview'
 });
 

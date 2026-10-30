@@ -1,0 +1,67 @@
+{
+  "scope": "Root folder plus all descendants; private identities retained only in ignored local reports",
+  "files": 12289,
+  "folders": 6,
+  "extensionMismatches": 336,
+  "mismatchGroups": {
+    "transportStream": 237,
+    "webm": 1,
+    "quicktimeMp4Brands": 13,
+    "heic": 24,
+    "nativeRaster": 61
+  },
+  "heic": {
+    "checked": 24,
+    "decoded": 24,
+    "sourceFrames": [
+      1
+    ],
+    "maxPixels": 2073600,
+    "minDecodeMs": 216.4000000357628,
+    "maxDecodeMs": 852.6000000238419,
+    "appMode": "image-compatible-png",
+    "originalMetadataPreserved": true
+  },
+  "videoOnlyTs": {
+    "files": 2,
+    "isolatedFullPlaybackFrames": [
+      902,
+      7037
+    ],
+    "normalChromeFullPlaybackFrames": [
+      902,
+      7037
+    ],
+    "normalChromeFirstFileRuns": {
+      "passed": 2,
+      "failed": 2
+    },
+    "discoveryRequestsBefore": [
+      50,
+      39
+    ],
+    "discoveryRequestsAfter": [
+      9,
+      10
+    ],
+    "firstFileLiveOutputFramesMatchOriginal": 902,
+    "remainingFailure": "Intermittent normal-profile media decode failure; underlying browser cause not established"
+  },
+  "unrecoverable": {
+    "files": 6,
+    "bytesRead": 70568729,
+    "allBytesZero": true,
+    "liveHeaderMessageVerified": true
+  },
+  "fullProductTests": {
+    "passed": 1103,
+    "failed": 0
+  },
+  "deployment": "Not deployed; production remains 1.23.22",
+  "nativeRaster": {
+    "files": 61,
+    "firstImageDecoded": 61,
+    "bytesRead": 87746005,
+    "allAnimationFramesChecked": false
+  }
+}

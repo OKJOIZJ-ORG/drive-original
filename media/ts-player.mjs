@@ -1,10 +1,9 @@
-import {probeTsSeek,createSeekBootstrap,createBufferWindow,createWorkerClient} from './q1-core.mjs';
+import {probeTsSeek,createSeekBootstrap,createBufferWindow,createWorkerClient,sanitizeBrowserMediaError} from './q1-core.mjs';
 import {createDriveQ1ProbeRetention} from './drive-source.mjs';
 
 const demand=(condition,code)=>{if(!condition)throw new Error(`Q1_${code}`);};
 const fixed=error=>/^(?:Q1|SEEK|BOOTSTRAP|WORKER|BUFFER_WINDOW)_[A-Z_]+$/.test(error?.message)?error.message:'Q1_PLAYBACK_FAILED';
 const SAME_CONTENT=['accountKey','accountGeneration','fileId','headRevisionId','size','mimeType','modifiedTime'];
-
 // The page owns metadata/authenticated bytes. This adapter sends only bounded
 // byte buffers to the worker and never receives a credential or a remote URL.
 // Each source replacement waits for previous parser/MSE cleanup. Full-format
@@ -21,7 +20,7 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
     demand(Number.isFinite(seconds)&&seconds>=0&&owned(),'CLOSED');
     const id=++generation,priorCleanup=latest?.dispose(),controller=new AbortController(),pending=new Set();
     let active=true,source=null,buffer=null,url=null,worker=null,reader=null,opening=null,openCleanup=null,bootstrap=null,disposal=null,frameId=null;
-    let positioned=false,positionTask=null,internalSeek=false,firstAppend=true,remoteOwned=false,readyResolve,readyReject;
+    let positioned=false,positionTask=null,internalSeek=false,firstAppend=true,remoteOwned=false,readyResolve,readyReject,operation='idle';
     const rate=video.playbackRate||1;
     const ready=new Promise((yes,no)=>{readyResolve=yes;readyReject=no;});ready.catch(()=>{});
     const state={generation:id,phase:'opening',failure:null,target:null,appends:0,frames:0,lastMediaTime:null,
@@ -32,12 +31,20 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
     const policy=createBufferWindow({high:30,low:12}),current=()=>active&&id===generation&&owned();
     const check=()=>demand(current(),'CANCELLED');
     const emit=(type,detail={})=>{check();onEvent({type,generation:id,...detail});check();};
-    function wait(target,name,action=null,timeout=10000){return new Promise((resolve,reject)=>{
+    // Local diagnostics only: never retain the browser's raw message, URL or
+    // file identity. load()/retirement clears video.error, so copy the first
+    // active browser/MSE error before cleanup can erase its causal context.
+    function captureMediaError(event,kind=operation){
+      if(!current()||state.mediaError)return;
+      state.mediaError=sanitizeBrowserMediaError({event,video,buffer,source,operation:kind});
+    }
+    function wait(target,name,action=null,timeout=10000,kind='source-wait'){return new Promise((resolve,reject)=>{
+      operation=kind;
       let settled=false;
       const cleanup=()=>{clearTimeout(timer);target.removeEventListener(name,success);
         target.removeEventListener('error',failure);target.removeEventListener('abort',failure);pending.delete(cancel);};
-      const finish=(ok,code)=>{if(settled)return;settled=true;cleanup();ok?resolve():reject(new Error(code));};
-      const success=()=>finish(true),failure=()=>finish(false,'Q1_MEDIA_ERROR'),cancel=()=>finish(false,'Q1_CANCELLED');
+      const finish=(ok,code)=>{if(settled)return;settled=true;cleanup();if(operation===kind)operation='idle';ok?resolve():reject(new Error(code));};
+      const success=()=>finish(true),failure=event=>{captureMediaError(event,kind);finish(false,'Q1_MEDIA_ERROR');},cancel=()=>finish(false,'Q1_CANCELLED');
       const timer=timeout===null?null:setTimeout(()=>{
         state.timeout={event:name,time:video.currentTime,seeking:video.seeking,readyState:video.readyState,
           mediaRanges:Array.from({length:video.buffered.length},(_,i)=>[video.buffered.start(i),video.buffered.end(i)]),
@@ -68,7 +75,7 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
         if('streaming' in source&&source.streaming===false){await wait(source,'startstreaming',null,null);continue;}
         const plan=windowPlan();
         if(plan.removeEnd!==null){let updated=false;const mark=()=>{updated=true;};buffer.addEventListener('update',mark,{once:true});
-          try{await wait(buffer,'updateend',()=>buffer.remove(0,plan.removeEnd));}finally{buffer?.removeEventListener('update',mark);}
+          try{await wait(buffer,'updateend',()=>buffer.remove(0,plan.removeEnd),10000,'remove');}finally{buffer?.removeEventListener('update',mark);}
           check();demand(updated&&!video.error,'REMOVE_FAILED');const after=windowPlan();
           demand(after.start===null||after.start>plan.start,'REMOVE_NO_PROGRESS');
           demand(ranges().some(([a,b])=>a<=video.currentTime&&b>=video.currentTime),'REMOVE_CURRENT_RANGE');
@@ -97,6 +104,7 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
         if(!state.sourceCleanup.settled)cleanupBlocked=true;
         state.source=reader?.stats()||state.source;reader=null;
         state.probeRetention=probeRetention.stats();
+        buffer?.removeEventListener('error',captureMediaError);
         if(buffer&&source?.readyState!=='closed')try{
           if(buffer.updating)buffer.abort();source.removeSourceBuffer(buffer);state.bufferRemoved=true;
         }catch{state.cleanupFailure='Q1_BUFFER_RELEASE';}
@@ -104,7 +112,7 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
         if(url&&video.getAttribute('src')===url){video.pause();video.removeAttribute('src');video.load();}
         if(url){URL.revokeObjectURL(url);url=null;state.urlRevoked=true;}
         video.removeEventListener('error',mediaError);video.removeEventListener('seeking',nativeSeek);
-        source?.removeEventListener('sourceclose',sourceClosed);source=null;state.disposed=true;
+        source?.removeEventListener('sourceclose',sourceClosed);source?.removeEventListener('error',captureMediaError);source=null;state.disposed=true;
         return {settled:!cleanupBlocked&&!state.cleanupFailure,source:state.sourceCleanup};
       })();return disposal;
     }
@@ -113,7 +121,8 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
       probeRetention.clear();
       try{onEvent({type:'error',generation:id,code:state.failure});}catch{}finally{void dispose();}
     }
-    const mediaError=()=>fail('Q1_MEDIA_ERROR'),sourceClosed=()=>fail('Q1_SOURCE_CLOSED');
+    const mediaError=event=>{captureMediaError(event);fail('Q1_MEDIA_ERROR');},
+      sourceClosed=event=>{captureMediaError(event);fail('Q1_SOURCE_CLOSED');};
     function nativeSeek(){
       if(!current()||internalSeek||!positioned||!buffer)return;
       if(!ranges().some(([a,b])=>a<=video.currentTime&&b>video.currentTime))
@@ -194,20 +203,20 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
         }
         const target=(plan.targetTicks-plan.timeline.originTicks)/90000;
         state.target=target;state.duration=plan.timeline.durationSeconds;state.timelineKind=plan.timeline.kind;
-        state.phase='buffering';source=new Constructor();source.addEventListener('sourceclose',sourceClosed);
+        state.phase='buffering';source=new Constructor();source.addEventListener('sourceclose',sourceClosed);source.addEventListener('error',captureMediaError);
         video.addEventListener('error',mediaError);video.addEventListener('seeking',nativeSeek);
         if(Constructor===globalThis.ManagedMediaSource){video.disableRemotePlayback=true;remoteOwned=true;}
         url=URL.createObjectURL(source);await wait(source,'sourceopen',()=>{video.src=url;video.load();});check();
         video.defaultPlaybackRate=rate;video.playbackRate=rate;
         const sps=plan.rap.sps,codec=[sps[1],sps[2],sps[3]].map(value=>value.toString(16).padStart(2,'0')).join('');
         const mime=`video/mp4; codecs="avc1.${codec},mp4a.40.2"`;demand(Constructor.isTypeSupported(mime),'CODEC_UNAVAILABLE');
-        buffer=source.addSourceBuffer(mime);buffer.timestampOffset=-plan.timeline.originTicks/90000;source.duration=plan.timeline.durationSeconds;
+        buffer=source.addSourceBuffer(mime);buffer.addEventListener('error',captureMediaError);buffer.timestampOffset=-plan.timeline.originTicks/90000;source.duration=plan.timeline.durationSeconds;
         function positionTarget(){
           if(positionTask||!ranges().some(([a,b])=>a<=target&&b>target))return;
           // Do not hold the worker ACK while waiting for seeked: near a GOP
           // boundary the decoder needs the following fragment to finish seek.
           positionTask=(async()=>{
-            if(seconds>0){internalSeek=true;try{await wait(video,'seeked',()=>{video.currentTime=target;});}finally{internalSeek=false;}}
+            if(seconds>0){internalSeek=true;try{await wait(video,'seeked',()=>{video.currentTime=target;},10000,'seek');}finally{internalSeek=false;}}
             check();positioned=true;state.phase='ready';emit('buffered',{time:target,duration:state.duration});readyResolve({time:target,duration:state.duration});
             if(play)try{await video.play();}catch(error){
               check();if(error?.name==='NotAllowedError')emit('gesture-required');else if(error?.name!=='AbortError')throw new Error('Q1_PLAY_REJECTED');
@@ -218,7 +227,7 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
         frame();worker=createWorkerClient({generation:id,sourceSize:bootstrap.outputSize,onFragment:async message=>{
           try {
           await admit();check();let updated=false;const mark=()=>{updated=true;};buffer.addEventListener('update',mark,{once:true});
-          try{await wait(buffer,'updateend',()=>buffer.appendBuffer(new Uint8Array(message.bytes)));}finally{buffer?.removeEventListener('update',mark);}
+          try{await wait(buffer,'updateend',()=>buffer.appendBuffer(new Uint8Array(message.bytes)),10000,'append');}finally{buffer?.removeEventListener('update',mark);}
           check();demand(updated&&!video.error,'APPEND_FAILED');state.appends++;windowPlan();
           positionTarget();
           firstAppend=false;

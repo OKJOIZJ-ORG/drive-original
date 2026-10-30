@@ -71,13 +71,15 @@ test('corresponding-source downloads remain public but never enter the runtime c
   const sourceFiles=audio.parts || audio.archive?.parts;
   assert(sourceFiles,'Source manifest must enumerate the downloadable parts');
   const q3=JSON.parse(fs.readFileSync(path.join(root,'licenses/video-q3-source-manifest.json'),'utf8'));
-  const expectedArchives=['licenses/mediabunny-q1-preferred-source.tgz',...sourceFiles.map(part=>'licenses/'+part.path),'licenses/'+q3.archive];
+  const heif=JSON.parse(fs.readFileSync(path.join(root,'licenses/heif-source-manifest.json'),'utf8'));
+  const expectedArchives=['licenses/mediabunny-q1-preferred-source.tgz',...sourceFiles.map(part=>'licenses/'+part.path),'licenses/'+q3.archive,heif.correspondingSourceArchive.path];
   assert.deepEqual([...archives].sort(),expectedArchives.sort());
   for(const file of archives){
     assert(fs.existsSync(path.join(root,file)),file);
     assert.equal(w.c.shellAssetCacheKey(new Request('https://app.test/drive-original/'+file)),null,file);
   }
-  for(const file of ['licenses/video-q3-source.tgz','licenses/video-q3-source-manifest.json','licenses/video-q3-source-NOTICE.md']){
+  for(const file of ['licenses/video-q3-source.tgz','licenses/video-q3-source-manifest.json','licenses/video-q3-source-NOTICE.md',
+    'licenses/heif-source.tgz','licenses/heif-source-manifest.json','licenses/heif-source-NOTICE.txt']){
     assert(publicFiles.includes(file),file);assert(fs.existsSync(path.join(root,file)),file);
     const request=new Request('https://app.test/drive-original/'+file);
     assert.equal(w.c.shellAssetCacheKey(request),null,file);
