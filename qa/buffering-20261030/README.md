@@ -1,5 +1,17 @@
 # Buffering and format compatibility evidence — 2026-10-30
 
+## Current outcome (supersedes earlier candidate status)
+
+D132 authorized real file repair, linked changes and deployment.1.23.23 was deployed from2237568;1.23.24 is deployed fromde96ca2. Current release evidence is in ../release-1.23.24/README.md. The historical sections below retain what was known and authorized at their observation time; their old "not deployed" / "original names unchanged" status is no longer current.
+
+The initial12,289-file/6-folder survey found336 extension mismatches.335 names were corrected with unchanged IDs/parents/content/head revisions; one correction target was already trashed before PATCH. Final full inventory12,287/6 has zero remaining extension mismatches and no content/location drift. Two initially inventoried files are independently confirmed externally trashed; this task performed no trash/move/restore. Metadata-only MIME PATCH returned200 but changed no metadata; no source bodies were reuploaded. Detailed private receipts/filename table and exact-byte decoder evidence are under the hash-verified canonical Drive backup. Six all-zero files each have only one zero-content revision; no recoverable source was found. Aggregate public evidence: repair-summary-redacted.json and post-repair-summary-redacted.json.
+
+Normal-profile1.23.23 HEIC and GIF display were confirmed via image.decode(), with primary1440×1440 PNG and native270×405 GIF respectively; zero-header rejection was confirmed. release-images-redacted.json omits stale hidden error text and a video-only verification flag that are not image failure evidence. The added1MiB first TS read addresses a separately observed early starvation; controlled and same-source candidate observations are in ../ts-startup-20261030.
+
+A deployed silent-TS run still failed code3/PIPELINE_ERROR_DECODE at13.6089s. Its exact30 appends and pinned original decode902 equal frame hashes without FFmpeg errors. All three exact-data replays in the same profile (MSE without removal, MSE with original removals, native MP4) reached30.066s EOF. Source/GOP/clock/eviction corruption is not established; the intermittent browser failure remains unresolved. No blind retry or unsupported fallback was added. Metadata stays private; full-media local duplicates were removed only after canonical byte/hash verification. No whole-library full-frame, physical-phone or HDR/ICC claim.
+
+## Historical candidate observations
+
 The controlled test below was observed in isolated real Chrome (`playwright` channel `chrome`, headless), public synthetic TS only. That driver accessed no user Chrome, account, production, or original Drive media. Separate live observations follow below. The temporary localhost server bound an OS-assigned free port and was closed with Chrome after the run.
 
 The baseline module was read from Git `adbe705388c3cf6c3ad15984939f85eee34d7f52` (full identity and SHA-256 values are in `synthetic-results.json`). Current and baseline imported the same other product modules. Both used the actual `openDriveQ1Source`, worker and native MSE implementation. Metadata callbacks delayed each preflight/postflight by450 ms; each source range delayed by900 ms plus one second perMiB. This produces roughly2.05 s per256KiB read before runtime overhead and2.8 s perMiB read. Fresh pre/post identity checks and abort signals remain active.

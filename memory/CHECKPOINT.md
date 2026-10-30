@@ -1,28 +1,36 @@
 # CHECKPOINT — Drive Original
 
-Updated 2026-10-30. Current work: buffering plus actual-format compatibility for the named root and all descendants (D131).
+Updated 2026-10-30. D132 authorized file correction, linked fixes, merge/push and deployment.
 
 ## Current identity
 
-- Canonical repository: `C:\Projects\Drive-Original\source`; branch `codex/playback-buffering-20261030`.
-- Verified product candidate: `d35be2c24e20e51eb0facbea6a8b9183c418201d`; preceding buffering unit `1e4c106`. Full suite 1,103/1,103 passed. Later memory-only savepoints do not change this tested product code.
-- Production remains **1.23.22**, runtime `2499570`, Worker `40123793`. No merge, push, version bump, or deployment occurred in this task. Proposed release is 1.23.23, subject to D106 request-specific approval.
+- Canonical repo: `C:\Projects\Drive-Original\source`; branch `main`, runtime pushed through `de96ca2`.
+- Production **1.23.24**, committed runtime `de96ca2`, Worker `0f771f2d-cbb0-4370-afc6-bd74c621c8b5`. Dry run and deployment both used the clean committed detached worktree. Prior1.23.23 runtime2237568/Worker1ccc5812 is history.
+- Complete suite **1,128/1,128 passed**. Production **91/91 public assets equal runtime Git bytes**; four private source paths return404.
 
-## What is done
+## Completed
 
-- Bounded buffering / larger sequential reads eliminate subsequent waits in the recorded original-file trial; read freshness, owner, cancellation, and cleanup fences remain.
-- Complete 12,289-file / 6-folder inventory; 336 extension/content mismatches. Private list: `qa/buffering-20261030/format-mismatches-private.tsv`.
-- AVC-only TS route; both actual files reached normal-Chrome EOF. HEIC primary-image PNG compatibility: 24/24 decoded, native HEIC retained when available. Raster mismatch first-image decoding: 61/61. Original Drive bytes/names were preserved.
-- Six fully zero-filled files cannot be repaired by a player. Private list: `qa/buffering-20261030/unrecoverable-private.tsv`. App gives a precise zero-header message after native rejection.
-- Shared first-active browser-error diagnostic is sanitized and survives cleanup. Full media QA staging removed; private hashes/results retained. All owned browser tabs and test servers closed.
+- TS30/12-second lookahead and1MiB reads from the first stream batch, safe cache transition, silent-TS admission, HEIC primary-image display fallback, raster MIME retagging, preserved decoder diagnostics, coherent active-video rename restart. Earlier buffering trials and limits remain in `qa/buffering-20261030/README.md`.
+- Initial inventory **12,289 files /6 folders**, **336 extension mismatches**. **335 filenames corrected**, with independent receipt reads verifying unchanged IDs, parents, size, MD5/SHA when available and head revisions. One intended correction was blocked before PATCH because the file was already trashed.
+- Final full inventory **12,287 files /6 folders**, zero new files, **zero remaining extension mismatches**, zero content/location drift. Two initial files are now trashed by an external actor; no delete/restore/move was performed by this task. All335 corrected files remain present with the intended names.
+- MIME-only PATCH test returned200 but made no metadata change. Names were corrected without reuploading13GB; declared MIME remains as before, and actual-byte playback handles it.
+- Six all-zero files have only one available Drive revision each, with the same zero-content checksum. No recoverable revision found; preserved.
 
-## What remains / next action
+- Controlled startup-only comparison: first playing6.128→4.860s, startup638ms wait→none, identical emitted fragment hashes; both EOF/seek/cleanup passed. Same-source main-profile injected candidate:14.303→12.925s first playing and1.821s early wait→none in30s. See qa/ts-startup-20261030.
 
-- **Intermittent normal-profile decoder failures are not solved.** Two silent-TS attempts failed, two later full runs passed; one strict-TS witness also failed once and then replayed successfully. Source/output decoding and paced read tests did not identify the browser cause. Failing appended bytes plus the new diagnostic are the next useful discriminator.
-- Read `qa/buffering-20261030/README.md` and `compatibility-validation-redacted.json` before making claims. Prefix classification is not whole-library playback verification; native image checks cover the first image, not every animated frame. HEIC fallback is primary 8-bit PNG and does not promise original HDR/ICC/color fidelity.
-- If the user approves release, align the version, review the exact branch diff, use the clean-worktree D106 release workflow, and verify actual served assets and normal Chrome. Do not treat the local candidate as already deployed.
-- D079: no Notion release work. Automation stays PAUSED. Do not restart the explicitly stopped physical iPhone/Safari queue.
+- Actual deployed1.23.24: same source advanced30.788838s without post-start waiting/error; SW controlled and retirement settled. Startup frame drops remain: focused valid sampling found47 dropped byabout2.3s and none thereafter through30.2s, with no main-thread long tasks; cause unproved. See qa/release-1.23.24/presentation.json.
 
-## Preserved previous return point
+## Decoder investigation still open
 
-The outgoing CHECKPOINT was copied and SHA-256 verified at `H:\내 드라이브\CODEX BACKUP\Drive-Original\2026-10-30-playback-format\CHECKPOINT-before-format-candidate.md` before replacement. Prior release facts and unresolved thumbnail/device questions remain in that snapshot and the release records.
+- Post-deploy normal Chrome silent-TS run failed at13.6089s with PIPELINE_ERROR_DECODE. Exact30 appends were captured. Both failed output and fresh pinned source decode902frames without FFmpeg errors; all902 frameMD5s match. DTS/PTS and31 independent IDR GOPs are valid in inspected evidence.
+- In the same normal profile, exact captured appends without removals, with original removal timing, and native full MP4 each completed30.066s. Thus no supported deterministic source/packet/eviction cause yet; successful repeats are not a fix.
+- Initial hard-reload QA had no SW controller and correctly hit cleanup fences; ordinary reload restored control. Do not weaken those fences.
+- TS startup attribution: pipeline16physical reads/6,944,600B for3,177,388B source, matching local replay. Exact duration discovery scans the whole small TS before first output. Vendor tail-only duration optimization is a proposal needing timestamp/PES/wrap proof, not implemented.
+- Browser internal diagnostic-page navigation is unsupported by the Chrome tool. No policy bypass attempted.
+
+## Recovery and boundaries
+
+- Canonical verified metadata/receipt backups and failing byte evidence: `H:\내 드라이브\CODEX BACKUP\Drive-Original\2026-10-30-format-repair`.
+- Private local evidence stays ignored in `qa/buffering-20261030`; no IDs/names/media committed.
+- D079 no Notion; automation PAUSED; held thumbnail redesign and stopped physical iPhone/Safari queue stay unchanged.
+- Prefix survey is not whole-library full-frame decoding. HEIC fallback is one primary8-bit PNG, without HDR/ICC equivalence.

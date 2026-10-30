@@ -32,7 +32,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
-- [Buffering and actual-format candidate, 2026-10-30](../qa/buffering-20261030/README.md): local commits `1e4c106` / `d35be2c`, full 12,289-file survey with 336 mismatches, HEIC/silent-TS compatibility and 1,103 passing tests. Not deployed; intermittent normal-profile decode errors remain unresolved. CHECKPOINT.md owns next actions.
+- [1.23.24 buffering, actual-format repair and release](../qa/release-1.23.24/README.md): D132 authorized release; runtime `de96ca2`,1,128 tests,91/91 public bytes equal Git.335 filenames corrected; current12,287-file inventory has zero extension mismatches. [Sustained buffering/format evidence](../qa/buffering-20261030/README.md) and [startup-only controlled evidence](../qa/ts-startup-20261030/README.md). Intermittent normal-profile decoder errors remain open; CHECKPOINT.md owns current state.
 
 - `../qa/release-1.23.22/README.md`: D130 1.23.22 (D129 random order kept after trash/move incl. subfolders; removing the viewed file goes to the next of the player order and keeps the shorts back history) as Worker 40123793, main 2499570; 1050 tests, 83/83 Git-equal; demo Chrome scenario and production code load; signed-in real trash not performed.
 - `../qa/release-1.23.21/README.md`: D128 1.23.21 (D125 photo trash button + Delete key, D126 folders read once are not re-listed + pipelined subfolder scan, D127 end-of-playback action, default 처음부터) as Worker f0c33cae, main a42bce8; 1044 tests, 83/83 Git-equal; actual Chrome: photo trash dialog (cancelled), 0 requests on subfolder re-toggle after a 55 s scan of 13,313 files, repeat/stop/next end actions.

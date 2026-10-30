@@ -1,0 +1,45 @@
+{
+  "observedFailure": {
+    "release": "1.23.23",
+    "code": 3,
+    "token": "PIPELINE_ERROR_DECODE",
+    "mediaSeconds": 13.6089,
+    "appendCount": 30
+  },
+  "sourceAndOutputFrameHashesEqual": true,
+  "inputs": [
+    {
+      "role": "source",
+      "bytes": 3177388,
+      "decodedFrames": 902,
+      "decodeExit": 0
+    },
+    {
+      "role": "output",
+      "bytes": 3001638,
+      "decodedFrames": 902,
+      "decodeExit": 0
+    }
+  ],
+  "exactOutputReplays": [
+    {
+      "mode": "mse-captured-without-removal",
+      "terminal": "ended",
+      "mediaSeconds": 30.066666,
+      "error": null
+    },
+    {
+      "mode": "mse-captured-with-removal",
+      "terminal": "ended",
+      "mediaSeconds": 30.066666,
+      "error": null
+    },
+    {
+      "mode": "native-captured-mp4",
+      "terminal": "ended",
+      "mediaSeconds": 30.066667,
+      "error": null
+    }
+  ],
+  "status": "Unresolved intermittent failure; successful repeats do not prove a fix."
+}

@@ -2,17 +2,15 @@
 
 Evidence class: local source code plus dated automated/browser verification. External claims may be sourced only from entries that are `operational` or `verified`.
 
-## Current operating release — 1.23.22
+## Current operating release — 1.23.24 (2026-10-30)
 
-- `operational`: production remains runtime `2499570`, Worker `40123793`; CHECKPOINT.md and qa/release-1.23.22 own the release identity. The candidate below has not been deployed.
-
-## Local buffering and format candidate — 2026-10-30
-
-- `verified locally`: commits `1e4c106` and `d35be2c`; complete product suite 1,103/1,103 passed. Same-file and controlled buffering observations support larger bounded lookahead and amortized request latency, not unlimited prefetch or an all-network guarantee. See [dated QA evidence](../qa/buffering-20261030/README.md).
-- `verified inventory`: 12,289 files / 6 folders, 336 extension/content mismatches; prefix signatures and complete ftyp brands classify formats. This is not full-frame decoding of the library. All 24 observed HEIC files converted and decoded; all 61 raster mismatches decoded their first image natively in actual normal Chrome. The HEIC app path preserves source metadata/bytes and identifies its primary 8-bit PNG display; no HDR/ICC/color-equivalence claim.
-- `verified local playback`: both actual silent TS files reached EOF in normal Chrome and isolated Chrome; the first live output's 902 decoded frame hashes equal the original. `not solved`: intermittent normal-profile MSE decode errors remain; successful repeats do not prove their cause was fixed. The new sanitized diagnostic survives cleanup without raw messages or identifiers.
-- `verified unrecoverable content`: six files contained only zeros across 70,568,729 bytes read. The app reports an observed zero header after native rejection; no recovery claim. No Drive originals were modified.
-- `not performed`: deployment, physical iPhone/Safari acceptance, every frame of every library video/animation, and source rebuild of the pinned HEIF distribution. Its runtime/source hashes and source/license bundle were checked.
+- `operational`: D132 explicitly authorized file corrections, linked improvements and deployment. Runtime `de96ca2`, Worker `0f771f2d-cbb0-4370-afc6-bd74c621c8b5`; committed clean-worktree dry run/deploy,1,128 passing product tests and91/91 served public files equal Git; four private paths404. See CHECKPOINT.md and qa/release-1.23.24.
+- `verified buffering`: bounded30/12-second TS lookahead,1MiB source reads including startup,64KiB worker inputs; preserved revision/ownership/cleanup fences. Controlled sustained comparison reduced12 waits to0 in45s; independent startup-only comparison reduced first playing6.128→4.860s and638ms startup wait→none. Same-source normal-profile candidate observation:1.821s early wait→none during30s. These finite observations are not universal throughput guarantees or unlimited prefetch.
+- `verified file repair`:12,289 initial files across6 folders,336 extension/content mismatches;335 names corrected with unchanged file IDs/parents/content/head revisions. One intended correction was already trashed before PATCH. Final inventory12,287/6, zero remaining extension mismatches/content drift; two initial files independently confirmed trashed externally. This task did not trash/move/restore media. Metadata MIME-only PATCH made no change; no13GB reupload merely for MIME. App routing uses actual bytes.
+- `verified compatibility`: all24 HEIC primary images converted/decoded, all61 raster mismatches decoded first image in actual normal Chrome. HEIC fallback is a bounded primary8-bit PNG, without HDR/ICC equivalence; native GIF is retained. Deployed1.23.23 HEIC/GIF display and zero-header error were observed;1.23.24 changes only TS startup among product behavior. Active rename preserves playback ownership and restarts against fresh revision metadata.
+- `not solved`: intermittent normal-profile decoder errors. Exact failing30 appends/source both decode902 equal frame hashes without FFmpeg errors; paced replay without removals, with original removals, and native MP4 all reached EOF in the same profile. Payload/clock/GOP/eviction checks have not established the cause. Sanitized first-error diagnostics and canonical exact-byte evidence are preserved; successful repeats are not a fix.
+- `verified unrecoverable content`: six all-zero files across70,568,729 bytes; each has only one available revision with the same zero-content checksum. Preserved; no recovery source found.
+- `limits`: prefix inventory is not full-frame decoding of all library videos/animations. Physical iPhone/Safari acceptance remains stopped. Pinned HEIF distribution/source/license hashes were checked, but its source was not rebuilt. Silent-TS duration discovery can read a whole small source before output; tail-only optimization remains unproved and unimplemented.
 
 ## Historical release — 1.23.4 (2026-10-08)
 
