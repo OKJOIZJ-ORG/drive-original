@@ -11,7 +11,7 @@
       const folder=a.queue.shift();if(seen.has(folder.id))continue;seen.add(folder.id);a.folders.push(folder);
       let pageToken;
       do{
-        const params=new URLSearchParams({q:`trashed=false and '${folder.id}' in parents`,pageSize:'1000',spaces:'drive',supportsAllDrives:'true',includeItemsFromAllDrives:'true',fields:'nextPageToken,incompleteSearch,files(id,name,mimeType,size,modifiedTime,headRevisionId,resourceKey,capabilities(canDownload))'});
+        const params=new URLSearchParams({q:`trashed=false and '${folder.id}' in parents`,pageSize:'1000',spaces:'drive',supportsAllDrives:'true',includeItemsFromAllDrives:'true',fields:'nextPageToken,incompleteSearch,files(id,name,mimeType,size,modifiedTime,headRevisionId,md5Checksum,sha256Checksum,version,parents,resourceKey,capabilities(canDownload,canEdit,canRename))'});
         if(pageToken)params.set('pageToken',pageToken);
         const r=await driveFetch(`${DRIVE_API}/files?${params}`,{signal:a.controller.signal}),data=await r.json();
         if(data.incompleteSearch)throw new Error('INCOMPLETE_SEARCH');

@@ -151,3 +151,109 @@ test('blank or unchanged names do not queue a Drive job', () => {
   assert.equal(c.run('hasPendingDriveActions()'), false);
   assert.equal(r.calls.length, 0);
 });
+
+test('confirmed rename publishes fresh source metadata to every listed copy and restarts only its original media session', async () => {
+  const c = client(); const r = remote(c);
+  Object.assign(r.item, {size:'9000', modifiedTime:'2026-10-30T00:00:00Z', headRevisionId:'revision-1', sha256Checksum:'a'.repeat(64)});
+  r.item.capabilities.canDownload = true;
+  c.run(`el.driveActionStatus={hidden:true};el.driveActionStatusText={textContent:''};
+    state.selected={...item};state.treeCache={items:[{...item}]};state.mediaSession=7;
+    globalThis.preparedController=new AbortController();q0Prewarm={fileId:item.id,controller:preparedController};
+    globalThis.restarts=[];restartPlaybackAfterConfirmedRename=(file,owner)=>restarts.push({file:{...file},owner});`);
+  await c.run("performRenameFile(item,'renamed.mp4')");
+  for (const path of ['state.files[0]', 'state.treeCache.items[0]', 'state.selected']) {
+    assert.equal(c.run(`${path}.modifiedTime`),r.item.modifiedTime);
+    assert.equal(c.run(`${path}.headRevisionId`),'revision-1');
+    assert.equal(c.run(`${path}.size`),'9000');
+    assert.equal(c.run(`${path}.sha256Checksum`),'a'.repeat(64));
+    assert.equal(c.run(`${path}.capabilities.canDownload`),true);
+  }
+  assert.equal(c.run('restarts.length'),1);
+  assert.equal(c.run('restarts[0].owner.session'),7);
+  assert.equal(c.run('restarts[0].file.name'),'renamed.mp4');
+  assert.equal(c.run('restarts[0].file.modifiedTime'),r.item.modifiedTime);
+  assert.equal(c.run('preparedController.signal.aborted'),true);
+  assert.equal(c.run('q0Prewarm'),null);
+});
+
+test('rename source restart retains playback state without reopening the library or reusing its old pin', async () => {
+  const c=client();
+  c.run(`state.selected=item;state.mediaSession=7;state.driveSessionGeneration=3;
+    el.playerSheet={hidden:false};el.videoPlayer={hidden:false};
+    state.playbackOrderIds=['before',item.id,'after'];state.playbackDeck={anchorId:item.id,above:['a'],below:['b']};
+    globalThis.steps=[];globalThis.snap={time:19.5,paused:true,volume:.4,muted:true,playbackRate:1.5,decoded:true,selectedAudioTrackId:2,audioIdentity:{modifiedTime:'old'}};
+    capturePlaybackSnapshot=()=>snap;retirePlayerTracks=()=>steps.push('tracks');
+    clearDirectMediaSources=()=>steps.push('clear');beginMediaViewObservation=()=>{};
+    updateMediaDiagnosticSession=()=>{};clearMediaFrameWatchdog=()=>{};clearMediaSeekWatchdog=()=>{};
+    cancelVideoFrameSampling=()=>{};showMediaLoading=()=>{};
+    q0PinnedSource={old:true};verifiedOriginalImage=null;
+    startInitialOriginalPlayback=(file,kind,session)=>steps.push({file:file.id,kind,session,snapshot:state.resumePosition.snapshot,pendingPlay:state.pendingPlay});
+    globalThis.owner={fileId:item.id,session:7,accountGeneration:3};`);
+  assert.equal(await c.run('restartPlaybackAfterConfirmedRename(item,owner)'),true);
+  assert.equal(c.run('state.mediaSession'),8);
+  assert.equal(c.run('q0PinnedSource'),null);
+  assert.equal(c.run('state.resumePosition.snapshot.time'),19.5);
+  assert.equal(c.run('state.resumePosition.snapshot.paused'),true);
+  assert.equal(c.run('state.resumePosition.snapshot.audioIdentity'),null);
+  assert.deepEqual(JSON.parse(c.run('JSON.stringify(steps)')).slice(0,2),['tracks','clear']);
+  assert.equal(c.run('steps[2].kind'),'video');
+  assert.equal(c.run('steps[2].pendingPlay'),false);
+  assert.equal(c.run('state.playbackOrderIds.join()'),'before,synthetic-file,after');
+  assert.equal(c.run('state.playbackDeck.above.join()'),'a');
+  assert.equal(await c.run('restartPlaybackAfterConfirmedRename(item,owner)'),false,'old session cannot publish again');
+});
+
+test('confirmed rename never reloads an image, hidden viewer or a newer account/session', () => {
+  for(const change of ["item.mimeType='image/png'",'el.playerSheet.hidden=true','state.mediaSession++','state.driveSessionGeneration++']){
+    const c=client();c.run(`state.selected=item;state.mediaSession=7;state.driveSessionGeneration=3;el.playerSheet={hidden:false};
+      el.videoPlayer={hidden:false};globalThis.owner={fileId:item.id,session:7,accountGeneration:3};
+      clearDirectMediaSources=()=>{throw Error('must not reopen')};${change};`);
+    assert.equal(c.run('restartPlaybackAfterConfirmedRename(item,owner)'),false);
+  }
+});
+
+test('rename restart uses the pre-PATCH intent if the timestamp change already retired the old decoder', () => {
+  const c=client();c.run(`state.selected=item;state.mediaSession=7;state.driveSessionGeneration=3;
+    el.playerSheet={hidden:false};el.videoPlayer={hidden:false,readyState:0};state.mediaAttempt='failed';
+    globalThis.owner={fileId:item.id,session:7,accountGeneration:3,snapshot:{time:19.5,paused:false,playbackRate:1.5}};
+    capturePlaybackSnapshot=()=>({time:0,paused:true});retirePlayerTracks=()=>{};clearDirectMediaSources=()=>{};
+    beginMediaViewObservation=()=>{};updateMediaDiagnosticSession=()=>{};startInitialOriginalPlayback=()=>{};`);
+  assert.equal(c.run('restartPlaybackAfterConfirmedRename(item,owner)'),true);
+  assert.equal(c.run('state.resumePosition.time'),19.5);
+  assert.equal(c.run('state.pendingPlay'),true);
+});
+
+test('rename restart waits for old transport retirement and cannot assign a source after navigation', async () => {
+  for(const navigate of [false,true]){
+    const c=client();let release;
+    c.retirement=new Promise(r=>release=r);
+    c.run(`state.selected=item;state.mediaSession=7;state.driveSessionGeneration=3;
+      el.playerSheet={hidden:false};el.videoPlayer={hidden:false};
+      globalThis.owner={fileId:item.id,session:7,accountGeneration:3};globalThis.assignments=[];
+      capturePlaybackSnapshot=()=>({time:19.5,paused:true});retirePlayerTracks=()=>{};
+      clearDirectMediaSources=()=>{q1Retirement=globalThis.retirement;q1RetirementResult=null;};
+      beginMediaViewObservation=()=>{};updateMediaDiagnosticSession=()=>{};
+      emitMediaDiagnosticStage=()=>{};startOriginalRangePlayback=(file,kind,session)=>assignments.push(session);
+      playerTracksRetirementResult={settled:true};
+      restartPlaybackAfterConfirmedRename(item,owner);`);
+    assert.equal(c.run('assignments.length'),0);
+    if(navigate)c.run('state.mediaSession++;state.selected={id:"other"};');
+    release({settled:true});await new Promise(r=>setImmediate(r));
+    assert.equal(c.run('assignments.length'),navigate?0:1);
+    if(!navigate)assert.equal(c.run('assignments[0]'),8);
+  }
+});
+
+test('rename snapshot retains an active general compatibility route even without an explicit audio selection', async () => {
+  const c=client();
+  c.run(`state.selected=item;el.videoPlayer={hidden:false,currentTime:19.5,paused:true,volume:.4,muted:true,playbackRate:1.5};
+    playerTimeline=()=>({currentTime:19.5});q1Playback={kind:'general',audioCompatibility:true};
+    state.mediaPlaybackMode=PLAYBACK_MODE.VIDEO_COMPATIBILITY;
+    globalThis.snapshot=capturePlaybackSnapshot();state.resumePosition={fileId:item.id,snapshot};q1Playback=null;
+    globalThis.chosen=null;tryOriginalTsPlayback=(file,session,options)=>{chosen=options;return true;};
+    retireQ0Playback=()=>{};q1RetirementResult={settled:true};playerTracksRetirementResult={settled:true};`);
+  await c.run('startInitialOriginalPlayback(item,"video",state.mediaSession)');
+  assert.equal(c.run('chosen.videoCompatibility'),true);
+  assert.equal(c.run('chosen.audioCompatibility'),true);
+  assert.equal(c.run('chosen.snapshotOverride.time'),19.5);
+});

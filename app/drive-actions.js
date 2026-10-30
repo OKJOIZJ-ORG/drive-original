@@ -447,12 +447,15 @@ async function renameDriveFile(file, name, options) {
     await new Promise((resolve) => setTimeout(resolve, 180));
     return { skipped: file.name === name };
   }
+  const playbackOwner = state.selected?.id === file.id
+    ? { fileId: file.id, session: state.mediaSession, accountGeneration: state.driveSessionGeneration,
+      snapshot: capturePlaybackSnapshot() } : null;
   const owner = captureDriveMutationOwner();
   const result = await executeDriveMutation(file, 'rename', null, { ...options, name });
   owner.assert();
   file.version = result.metadata.version;
   file.capabilities = { ...(file.capabilities || {}), ...result.metadata.capabilities };
-  return result;
+  return { ...result, playbackOwner };
 }
 
 function performRenameFile(file, rawName) {
@@ -465,17 +468,29 @@ function performRenameFile(file, rawName) {
   return queueDriveActionJob({ action: 'rename', files: [file], name, hide: false });
 }
 
-function applyRenamedFile(fileId, name) {
+function applyRenamedFile(fileId, name, metadata) {
+  // A prepared source is metadata-bound too, even if it has not been opened.
+  if (q0Prewarm?.fileId === fileId) {
+    q0Prewarm.controller.abort();
+    q0Prewarm = null;
+  }
   const seen = new Set();
   const rename = (file) => {
     if (!file || file.id !== fileId || seen.has(file)) return;
     seen.add(file);
     file.name = name;
+    if (metadata) {
+      for (const key of ['version','mimeType','size','modifiedTime','headRevisionId','sha256Checksum','resourceKey']) {
+        if (Object.prototype.hasOwnProperty.call(metadata, key)) file[key] = metadata[key];
+      }
+      file.capabilities = { ...(file.capabilities || {}), ...metadata.capabilities };
+    }
   };
   state.files.forEach(rename);
   state.treeCache?.items?.forEach(rename);
   rename(state.selected);
   if (state.selected?.id === fileId && el.playerTitle) el.playerTitle.textContent = name;
+  if (state.selected?.id === fileId && el.mobileShortsTitle) el.mobileShortsTitle.textContent = name;
   if (state.fileNameDialogFile?.id === fileId && el.fileNameText && el.fileNameDialog?.open
     && !el.fileNameDialog.classList.contains('editing')) el.fileNameText.textContent = name;
 }
@@ -485,7 +500,10 @@ function settleRenameJob(job, results) {
   const file = result?.item || job.files[0];
   if (result?.status === 'fulfilled') {
     file.name = job.name;
-    applyRenamedFile(file.id, job.name);
+    applyRenamedFile(file.id, job.name, result.value?.metadata);
+    if (!result.value?.skipped && result.value?.playbackOwner) {
+      restartPlaybackAfterConfirmedRename(state.selected, result.value.playbackOwner);
+    }
     invalidateLibraryNavigationData();
     const demoText = state.demo ? ' (데모 시뮬레이션)' : '';
     showToast(`이름을 '${job.name}'(으)로 바꿨습니다.${demoText}`);

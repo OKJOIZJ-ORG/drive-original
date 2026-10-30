@@ -288,6 +288,12 @@ async function downloadOriginalFile(
 async function prepareOriginalImageForDisplay(original, signal) {
   const head = new Uint8Array(await original.slice(0, 64).arrayBuffer());
   if (signal.aborted) throw createOriginalBufferOwnerError();
+  // Native image decoders also see the Blob's MIME. Use a validated raster
+  // header rather than an unrelated declared type, without touching its bytes.
+  const rasterMime = sniffOriginalImageType(head);
+  if (rasterMime && isValidOriginalImageHeader(head, original.size, rasterMime)) {
+    return {blob: original.type === rasterMime ? original : original.slice(0, original.size, rasterMime)};
+  }
   if (head.length < 16 || String.fromCharCode(...head.subarray(4, 8)) !== 'ftyp') return {blob: original};
   let adapter;
   try { adapter = await import('../media/heif-image.mjs'); }

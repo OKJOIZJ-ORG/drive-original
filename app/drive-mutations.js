@@ -5,7 +5,7 @@
 // One of the ordered classic scripts listed in scripts/app-scripts.cjs; all share one global scope.
 
 const DRIVE_MUTATION_PREFIX = 'drive-original.mutation.v1.';
-const DRIVE_MUTATION_FIELDS = 'id,name,parents,trashed,version,driveId,mimeType,resourceKey,shortcutDetails,ownedByMe,appProperties,capabilities(canTrash,canRename,canMoveItemWithinDrive,canMoveItemOutOfDrive,canAddChildren)';
+const DRIVE_MUTATION_FIELDS = 'id,name,parents,trashed,version,driveId,mimeType,size,modifiedTime,headRevisionId,sha256Checksum,resourceKey,shortcutDetails,ownedByMe,appProperties,capabilities(canDownload,canTrash,canRename,canMoveItemWithinDrive,canMoveItemOutOfDrive,canAddChildren)';
 const DRIVE_MUTATION_ACTIONS = ['trash', 'move', 'rename'];
 const DRIVE_MUTATION_PENDING = new Set(['submitted', 'verifying', 'uncertain']);
 
@@ -266,7 +266,9 @@ function driveMutationMetadata(value, id, { rootAlias = false } = {}) {
     version: typeof value.version === 'string' ? value.version : null,
     driveId: value.driveId || null, mimeType: value.mimeType || '',
     ownedByMe: value.ownedByMe === true, appProperties: { ...(value.appProperties || {}) },
-    resourceKey: value.resourceKey || '', capabilities: value.capabilities || {} };
+    resourceKey: value.resourceKey || '', capabilities: value.capabilities || {},
+    ...Object.fromEntries(['size','modifiedTime','headRevisionId','sha256Checksum']
+      .filter(key => Object.prototype.hasOwnProperty.call(value, key)).map(key => [key,value[key]])) };
 }
 
 async function readDriveMutationMetadata(file, owner, { rootAlias = false } = {}) {

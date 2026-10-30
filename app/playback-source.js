@@ -46,12 +46,61 @@ function capturePlaybackSnapshot() {
       ? mobileHoldSpeed.previousRate : (Number.isFinite(video.playbackRate) ? video.playbackRate : 1),
     fullscreen: Boolean(document.fullscreenElement || document.webkitFullscreenElement),
     decoded: state.mediaDecodeVerified === true,
+    generalPlayback: q1Playback?.kind === 'general',
+    audioCompatibility: q1Playback?.audioCompatibility === true,
+    videoCompatibility: state.mediaPlaybackMode === PLAYBACK_MODE.VIDEO_COMPATIBILITY,
     ...(q1Playback?.selectedAudioTrackId !== undefined ? {
       selectedAudioTrackId: q1Playback.selectedAudioTrackId,
-      audioCompatibility: q1Playback.audioCompatibility,
       audioIdentity: q1Playback.routeIdentity
     } : {})
   };
+}
+
+// A verified rename changes Drive's modifiedTime. Retire its old pinned source
+// and admit a fresh one; never rebind the identity of already admitted reads.
+// Keep the viewer/navigation owners, including its shorts history and view mark.
+function restartPlaybackAfterConfirmedRename(file, owner) {
+  if (!owner || !file || file.id !== owner.fileId || state.selected?.id !== owner.fileId
+    || state.mediaSession !== owner.session || state.driveSessionGeneration !== owner.accountGeneration
+    || el.playerSheet?.hidden !== false || !file.mimeType?.startsWith('video/')
+    || currentVerifiedOriginalImage(file)) return false;
+  // The old source can observe the PATCH's changed timestamp before the
+  // confirming GET returns. If it has already failed/cleared, its native
+  // time/paused values no longer describe the viewer's playback intent.
+  const snapshot = (state.mediaAttempt === 'failed' || el.videoPlayer?.hidden
+    || el.videoPlayer?.error || el.videoPlayer?.readyState === 0)
+    ? owner.snapshot : capturePlaybackSnapshot();
+  if (!snapshot) return false;
+  // Track choice survives the metadata-only edit, but the old metadata identity
+  // must not be presented as the expected identity of a newly opened source.
+  const restored = { ...snapshot, audioIdentity: null };
+  state.mediaSession += 1;
+  initialMediaRouteGeneration += 1;
+  clearTimeout(mediaRecoveryTimer);
+  mediaRecoveryTimer = null;
+  state.mediaAbortController?.abort();
+  state.mediaAbortController = null;
+  void retirePlayerTracks();
+  clearDirectMediaSources();
+  q0PinnedSource = null;
+  verifiedOriginalImage = null;
+  state.resumePosition = { fileId: file.id, time: restored.time, snapshot: restored };
+  state.pendingPlay = !restored.paused;
+  state.lastProxyError = null;
+  state.mediaTransportVerified = false;
+  state.mediaTransportStarted = false;
+  state.mediaRangeIntegrity = 'unknown';
+  state.mediaDecodeVerified = false;
+  beginMediaViewObservation({ previousSession: owner.session });
+  const session = state.mediaSession;
+  updateMediaDiagnosticSession(session, 'rename-source-refresh');
+  void Promise.resolve(startInitialOriginalPlayback(file, 'video', session)).catch(error => {
+    if (state.selected?.id !== file.id || state.mediaSession !== session
+      || state.driveSessionGeneration !== owner.accountGeneration) return;
+    reportAppFailure('rename-source-refresh', error, 'warn');
+    showMediaError('이름 변경 후 원본 재생을 다시 연결하지 못했습니다. 다시 시도해 주세요.');
+  });
+  return true;
 }
 
 // The media load algorithm resets playbackRate to defaultPlaybackRate, so a
@@ -217,9 +266,10 @@ async function startInitialOriginalPlayback(file, kind, session) {
     return;
   }
   const chosenSnapshot = state.resumePosition?.fileId === file.id ? state.resumePosition.snapshot : null;
-  if (kind === 'video' && chosenSnapshot?.selectedAudioTrackId !== undefined) {
+  if (kind === 'video' && chosenSnapshot && (chosenSnapshot.selectedAudioTrackId !== undefined || chosenSnapshot.generalPlayback)) {
     await tryOriginalTsPlayback(file, session, {general: true, initial: true,
       selectedAudioTrackId: chosenSnapshot.selectedAudioTrackId, audioCompatibility: chosenSnapshot.audioCompatibility === true,
+      videoCompatibility: chosenSnapshot.videoCompatibility === true,
       expectedIdentity: chosenSnapshot.audioIdentity, snapshotOverride: chosenSnapshot});
     return;
   }

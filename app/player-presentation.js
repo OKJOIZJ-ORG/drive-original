@@ -156,13 +156,15 @@ function updateQualityDisplay() {
     liveH = el.imageViewer.naturalHeight || 0;
   }
 
-  const effectiveW = liveW || metaW;
-  const effectiveH = liveH || metaH;
+  const transformedImage = playbackMode === PLAYBACK_MODE.IMAGE_COMPATIBILITY;
+  const effectiveW = liveW || (transformedImage ? 0 : metaW);
+  const effectiveH = liveH || (transformedImage ? 0 : metaH);
   const effectiveCat = getResolutionCategory(effectiveW, effectiveH);
   if (el.playerQuality) {
     const verified = state.mediaTransportVerified && !state.demo
       && playbackMode !== PLAYBACK_MODE.COMPATIBILITY && !attempt.startsWith('drive-preview');
-    const original = verified && playbackMode !== PLAYBACK_MODE.VIDEO_COMPATIBILITY;
+    const original = verified && playbackMode !== PLAYBACK_MODE.VIDEO_COMPATIBILITY
+      && playbackMode !== PLAYBACK_MODE.IMAGE_COMPATIBILITY;
     const knownSize = liveW && liveH ? [liveW, liveH] : original && metaW && metaH ? [metaW, metaH] : null;
     const resolution = knownSize ? `${Math.min(...knownSize)}p` : '';
     const source = original ? (playbackMode === PLAYBACK_MODE.AUDIO_COMPATIBILITY ? '영상 원본' : '원본')
@@ -222,7 +224,7 @@ function updateQualityDisplay() {
     if (el.mediaResolution) {
       el.mediaResolution.textContent = effectiveW && effectiveH
         ? `${effectiveW} × ${effectiveH}${effectiveCat ? ` (${effectiveCat})` : ''}`
-        : '원본 해상도 분석 중…';
+        : transformedImage ? '표시 해상도 확인 중…' : '원본 해상도 분석 중…';
     }
   }
 }

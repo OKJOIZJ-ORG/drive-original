@@ -834,6 +834,7 @@ function friendlyMime(mime) {
     'video/quicktime': 'MOV',
     'video/x-matroska': 'MKV',
     'video/webm': 'WebM',
+    'video/mp2t': 'MPEG-TS',
     'image/jpeg': 'JPEG',
     'image/png': 'PNG',
     'image/heic': 'HEIC',

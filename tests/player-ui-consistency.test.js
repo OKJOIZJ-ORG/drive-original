@@ -86,3 +86,12 @@ test('image presentation refreshes navigation and hides the compact video qualit
   assert.equal(run(c, 'el.playerQuality.hidden'), true);assert.equal(run(c, 'el.ctrlNextVideo.title'), '다음 이미지');
   assert.match(run(c, 'el.mediaResolution.textContent'), /800 × 600/);
 });
+
+test('converted HEIC shows PNG display status and waits for actual image dimensions', () => {
+  const c=ui();run(c,"state.selected={id:'image',mimeType:'image/heic',imageMediaMetadata:{width:4032,height:3024}};state.mediaPlaybackMode=PLAYBACK_MODE.IMAGE_COMPATIBILITY;el.videoPlayer.hidden=true;el.imageViewer.hidden=false;updateQualityDisplay();");
+  assert.equal(run(c,'el.streamModeText.textContent'),'HEIC 호환 표시 · PNG');
+  assert.equal(run(c,'el.playerQuality.textContent'),'호환 변환');
+  assert.equal(run(c,'el.mediaResolution.textContent'),'표시 해상도 확인 중…');
+  run(c,'el.imageViewer.naturalWidth=800;el.imageViewer.naturalHeight=600;updateQualityDisplay();');
+  assert.match(run(c,'el.mediaResolution.textContent'),/800 × 600/);
+});

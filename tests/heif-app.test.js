@@ -3,6 +3,8 @@ const test=require('node:test'),assert=require('node:assert/strict'),fs=require(
 const app=fs.readFileSync(path.join(__dirname,'../app/original-buffer.js'),'utf8');
 const core=fs.readFileSync(path.join(__dirname,'../app/core.js'),'utf8');
 const ownerFunctions=core.slice(core.indexOf('function isCurrentOriginalBufferOwner('),core.indexOf('function decideMediaRecovery('));
+const playback=fs.readFileSync(path.join(__dirname,'../app/playback-source.js'),'utf8');
+const rasterFunctions=playback.slice(playback.indexOf('function sniffOriginalImageType('),playback.indexOf('function currentVerifiedOriginalImage('));
 const functions=app.slice(app.indexOf('async function prepareOriginalImageForDisplay('),app.indexOf('\nfunction updateOriginalBufferProgress('))
  .replace("await import('../media/heif-image.mjs')",'await loadAdapter()');
 const heic=()=>{const b=Buffer.alloc(24);b.writeUInt32BE(24);b.write('ftyp',4);b.write('heic',8);b.write('mif1',16);return new Blob([b],{type:'image/jpeg'});};
@@ -26,7 +28,7 @@ function context({native='error',loadFailure=false,decode=async()=>({blob:new Bl
   downloadOriginalFile:async()=>c.original,cleanupOriginalTempStorage:()=>{cleanups++;},updateQualityDisplay(){},clearDirectMediaSources(){},showMediaLoading(){},
   reportAppFailure(){},showMediaError:(message,options)=>errors.push({message,...options}),showDrivePreview:(...args)=>previews.push(args),
   classifyMediaProxyFailure:()=>null,isLocalOriginalStorageError:()=>false,isDriveSecurityRestriction:()=>false});
- vm.runInContext('let mediaSourceGeneration=7;'+ownerFunctions+functions,c);
+ vm.runInContext('let mediaSourceGeneration=7;'+ownerFunctions+rasterFunctions+functions,c);
  return {c,file,urls,revoked,images,timers,errors,previews,stats:()=>({imports,decodes,cleanups}),prepare:(blob,signal)=>{c.original=blob;c.signal=signal;return vm.runInContext('prepareOriginalImageForDisplay(original,signal)',c);},
   start:blob=>{c.original=blob;return vm.runInContext('startOriginalBlobFallback(state.selected,"image",3,{policy:{decision:"auto",mode:"memory"}})',c);}};
 }
@@ -39,6 +41,18 @@ test('native HEIC uses correctly typed original bytes and revokes its temporary 
  assert.equal(result.heic,true);assert.equal(result.converted,undefined);assert.equal(result.blob.type,'image/heic');
  assert.deepEqual(Buffer.from(await result.blob.arrayBuffer()),Buffer.from(await blob.arrayBuffer()));
  assert.equal(blob.type,'image/jpeg');assert.equal(f.stats().decodes,0);assert.deepEqual(f.revoked,[f.urls[0].url]);assert.equal(f.images[0].removed,true);assert.equal(f.timers.size,0);
+});
+
+test('validated raster mismatch corrects only the display MIME and preserves original bytes',async()=>{
+ const bytes=Buffer.alloc(33);bytes.set([137,80,78,71,13,10,26,10]);bytes.writeUInt32BE(13,8);bytes.write('IHDR',12);bytes.writeUInt32BE(2,16);bytes.writeUInt32BE(3,20);bytes[24]=8;bytes[25]=6;
+ const f=context(),blob=new Blob([bytes],{type:'image/gif'}),result=await f.prepare(blob,new AbortController().signal);
+ assert.equal(result.blob.type,'image/png');assert.equal(blob.type,'image/gif');
+ assert.deepEqual(Buffer.from(await result.blob.arrayBuffer()),bytes);assert.equal(f.stats().imports,0);assert.equal(f.stats().decodes,0);
+});
+
+test('unvalidated raster signature cannot overwrite the declared display MIME',async()=>{
+ const f=context(),blob=new Blob([Buffer.from([137,80,78,71,13,10,26,10])],{type:'image/gif'});
+ assert.equal((await f.prepare(blob,new AbortController().signal)).blob,blob);assert.equal(f.stats().imports,0);
 });
 test('native rejection uses worker PNG and labels conversion without changing file identity',async()=>{
  const f=context(),before={...f.file};await f.start(heic());
