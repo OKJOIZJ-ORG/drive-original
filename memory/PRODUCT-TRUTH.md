@@ -2,7 +2,19 @@
 
 Evidence class: local source code plus dated automated/browser verification. External claims may be sourced only from entries that are `operational` or `verified`.
 
-## Current operating release — 1.23.4 (2026-10-08)
+## Current operating release — 1.23.22
+
+- `operational`: production remains runtime `2499570`, Worker `40123793`; CHECKPOINT.md and qa/release-1.23.22 own the release identity. The candidate below has not been deployed.
+
+## Local buffering and format candidate — 2026-10-30
+
+- `verified locally`: commits `1e4c106` and `d35be2c`; complete product suite 1,103/1,103 passed. Same-file and controlled buffering observations support larger bounded lookahead and amortized request latency, not unlimited prefetch or an all-network guarantee. See [dated QA evidence](../qa/buffering-20261030/README.md).
+- `verified inventory`: 12,289 files / 6 folders, 336 extension/content mismatches; prefix signatures and complete ftyp brands classify formats. This is not full-frame decoding of the library. All 24 observed HEIC files converted and decoded; all 61 raster mismatches decoded their first image natively in actual normal Chrome. The HEIC app path preserves source metadata/bytes and identifies its primary 8-bit PNG display; no HDR/ICC/color-equivalence claim.
+- `verified local playback`: both actual silent TS files reached EOF in normal Chrome and isolated Chrome; the first live output's 902 decoded frame hashes equal the original. `not solved`: intermittent normal-profile MSE decode errors remain; successful repeats do not prove their cause was fixed. The new sanitized diagnostic survives cleanup without raw messages or identifiers.
+- `verified unrecoverable content`: six files contained only zeros across 70,568,729 bytes read. The app reports an observed zero header after native rejection; no recovery claim. No Drive originals were modified.
+- `not performed`: deployment, physical iPhone/Safari acceptance, every frame of every library video/animation, and source rebuild of the pinned HEIF distribution. Its runtime/source hashes and source/license bundle were checked.
+
+## Historical release — 1.23.4 (2026-10-08)
 
 - `operational`: D090 reviewed runtimee677852 main fast-forward/push and same-originWorker4d0146e1 delivered D087/D088/D089 UI/library/startup work. Five public responses Git-equal/private5routes404/anonymous401-no-store, all11bindings preserved,65-entry immutableZIP Git-equal. RELEASE-1.23.4.md and qa/release-1.23.4 own receipts. D086 address migration remains current address/auth continuity history;1.23.3 below is historical.
 - `verified finite actual PC`: ordinary existing app update1.23.3→1.23.4 keeps same account/exact current18liked IDs; four changed shell-cached files Git-equal. Freshㅇㅎㅎat scroll0 completes2051media+2folders/240cards, borderless search/list visually reviewed. One5.55s actual original clip produces111frames/ready4/nativeerror0/transport-decode true; pending neighborwarm0→ready6, normal close and probe cleanup pass. Firstframe6773ms is not a controlled speed comparison. No new physicalAndroid/iOS/allformat/sustained claim; historical45s causeUNKNOWN and prior release bounds persist. Local922checks plus final version/static/shell36pass underpin the changed behavior.

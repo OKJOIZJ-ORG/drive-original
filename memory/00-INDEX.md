@@ -32,6 +32,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- [Buffering and actual-format candidate, 2026-10-30](../qa/buffering-20261030/README.md): local commits `1e4c106` / `d35be2c`, full 12,289-file survey with 336 mismatches, HEIC/silent-TS compatibility and 1,103 passing tests. Not deployed; intermittent normal-profile decode errors remain unresolved. CHECKPOINT.md owns next actions.
+
 - `../qa/release-1.23.22/README.md`: D130 1.23.22 (D129 random order kept after trash/move incl. subfolders; removing the viewed file goes to the next of the player order and keeps the shorts back history) as Worker 40123793, main 2499570; 1050 tests, 83/83 Git-equal; demo Chrome scenario and production code load; signed-in real trash not performed.
 - `../qa/release-1.23.21/README.md`: D128 1.23.21 (D125 photo trash button + Delete key, D126 folders read once are not re-listed + pipelined subfolder scan, D127 end-of-playback action, default 처음부터) as Worker f0c33cae, main a42bce8; 1044 tests, 83/83 Git-equal; actual Chrome: photo trash dialog (cancelled), 0 requests on subfolder re-toggle after a 55 s scan of 13,313 files, repeat/stop/next end actions.
 - `../qa/release-1.23.20/README.md`: D123 1.23.20 (D121 file rename, D122 PC → hold 2× and drive-actions split) as Worker 8bf12c8f, main 4ed1c70; 1032 tests, 83/83 Git-equal; actual Chrome: real rename and rename-back of one video (Drive moved its modifiedTime to the rename time), real → tap +10 s, → hold 2.01× media rate.

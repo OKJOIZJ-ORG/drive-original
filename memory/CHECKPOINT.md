@@ -1,21 +1,28 @@
-# Checkpoint — D130 1.23.22 delivered — 2026-10-29
+# CHECKPOINT — Drive Original
 
-## The story so far
-1.23.20 (D121 rename, D122 PC → hold 2×) was live as Worker 8bf12c8f. The user then asked for a trash button in the photo viewer (D125), no re-loading of folders already read when adding subfolders plus overall loading optimization (D126), and an end-of-playback option with 처음부터 as default (D127), and released all three as 1.23.21 (D128).
+Updated 2026-10-30. Current work: buffering plus actual-format compatibility for the named root and all descendants (D131).
 
-## Latest
-1.23.22 is live: Worker 40123793, main 2499570 (on top of 1.23.21 f0c33cae/a42bce8). D129: the random order no longer reshuffles after trash/move (the bug was subfolder mode clearing the order, and favorites/in-subtree moves dropping order entries); removing the viewed file goes to the next file of the player order (`playbackOrderIds`, same as the 다음 button) and keeps the random-shorts back history. 1050/1050; 83/83 served Git-equal. qa/release-1.23.22 owns numbers.
+## Current identity
 
-## Decided
-D094–D120 as before; D121 file rename; D122 PC → hold 2× and drive-actions.js split into drive-mutations/drive-actions/move-dialog; D123 delivered 1.23.20; D124 rename keeps Drive's modifiedTime change; D125 photo topbar trash + Delete key; D126 folders read once are cached until Refresh, listing seed, pass-through folders from the picker, pipelined pool of 8; D127 end action (default 처음부터, per device); D128 authorized 1.23.21; D129 random/player order survive removal; D130 authorized 1.23.22. Original/auth config/free-operation/Notion/automation PAUSED boundaries persist.
+- Canonical repository: `C:\Projects\Drive-Original\source`; branch `codex/playback-buffering-20261030`.
+- Verified product candidate: `d35be2c24e20e51eb0facbea6a8b9183c418201d`; preceding buffering unit `1e4c106`. Full suite 1,103/1,103 passed. Later memory-only savepoints do not change this tested product code.
+- Production remains **1.23.22**, runtime `2499570`, Worker `40123793`. No merge, push, version bump, or deployment occurred in this task. Proposed release is 1.23.23, subject to D106 request-specific approval.
 
-## Waiting on the user
-None. Not verified: 랜덤 쇼츠 end action and end actions on Q1/Q2/Q3 sources on real Drive, the mobile ⋯ 끝나면 chip on a phone, old-code real-Drive time for the 55 s scan (comparison is simulated); a physically held → key, rename on a phone, physical-phone pinch, real trackpad pinch, real clipboard copy, shared drives in the picker. Not decided (older): thumbnail preview while a photo original loads (D108); widening the 4 MiB moov window; the license-pinned video-q3-input.mjs terminator weakness.
+## What is done
 
-## Next first action
-Read qa/release-1.23.21/README.md. App code lives in app/ (map: app/README.md); the order is owned by scripts/public-files.cjs.
+- Bounded buffering / larger sequential reads eliminate subsequent waits in the recorded original-file trial; read freshness, owner, cancellation, and cleanup fences remain.
+- Complete 12,289-file / 6-folder inventory; 336 extension/content mismatches. Private list: `qa/buffering-20261030/format-mismatches-private.tsv`.
+- AVC-only TS route; both actual files reached normal-Chrome EOF. HEIC primary-image PNG compatibility: 24/24 decoded, native HEIC retained when available. Raster mismatch first-image decoding: 61/61. Original Drive bytes/names were preserved.
+- Six fully zero-filled files cannot be repaired by a player. Private list: `qa/buffering-20261030/unrecoverable-private.tsv`. App gives a precise zero-header message after native rejection.
+- Shared first-active browser-error diagnostic is sanitized and survives cleanup. Full media QA staging removed; private hashes/results retained. All owned browser tabs and test servers closed.
 
-## Tried
-Deploy (D106): from source/worker run `npm run deploy:release` (validate first with `npm run deploy:release -- --dry-run`). It requires committed publication inputs, deploys HEAD from a temporary detached worktree under %TEMP% and removes it. The user's C:\DriveBackup\Projects-mirror hard-link backup is intentional (D106): never modify it, and do not use `deploy:candidate` in the checkout. Never deploy if materialize exits non-zero. Right after a deploy the edge may serve the previous index.html for a few seconds; re-fetch before judging a mismatch.
-Transient Drive for desktop upload links (C:\Projects\.tmp.driveupload) still apply to freshly changed files in the main checkout.
-Local demo check: first check whether 127.0.0.1:8765 already listens (any chat's `python -m http.server 8765 --directory source`); if so reuse it, since it serves current disk files, and open `/?demo=1` in an own chrome-ai tab (unregister the service worker or hard-reload to see new code). Start it from the workspace root launch config (`.claude/launch.json`, name static-demo) only when nothing listens; never add alternate ports/configs (2026-10-26 slip). The built-in browser pane only reaches its own preview and cannot screenshot while hidden.
+## What remains / next action
+
+- **Intermittent normal-profile decoder failures are not solved.** Two silent-TS attempts failed, two later full runs passed; one strict-TS witness also failed once and then replayed successfully. Source/output decoding and paced read tests did not identify the browser cause. Failing appended bytes plus the new diagnostic are the next useful discriminator.
+- Read `qa/buffering-20261030/README.md` and `compatibility-validation-redacted.json` before making claims. Prefix classification is not whole-library playback verification; native image checks cover the first image, not every animated frame. HEIC fallback is primary 8-bit PNG and does not promise original HDR/ICC/color fidelity.
+- If the user approves release, align the version, review the exact branch diff, use the clean-worktree D106 release workflow, and verify actual served assets and normal Chrome. Do not treat the local candidate as already deployed.
+- D079: no Notion release work. Automation stays PAUSED. Do not restart the explicitly stopped physical iPhone/Safari queue.
+
+## Preserved previous return point
+
+The outgoing CHECKPOINT was copied and SHA-256 verified at `H:\내 드라이브\CODEX BACKUP\Drive-Original\2026-10-30-playback-format\CHECKPOINT-before-format-candidate.md` before replacement. Prior release facts and unresolved thumbnail/device questions remain in that snapshot and the release records.
