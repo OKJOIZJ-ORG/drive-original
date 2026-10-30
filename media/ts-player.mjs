@@ -236,10 +236,10 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
         await worker.ready;check();
         for(let position=bootstrap.readStart;position<size;){
           check();if(!firstAppend)await admit();
-          // Preserve the small first delivery, then amortize each pre/post
-          // revision check over one bounded MiB. Worker input stays at 64 KiB;
-          // there is still only one source read, with no speculative owner.
-          const readBytes=firstAppend?262144:1048576;
+          // The first batch needs the same runway as later batches: a small
+          // first read can start playback with less media than the next fenced
+          // request's latency. Worker input stays at 64 KiB, one read at a time.
+          const readBytes=1048576;
           const end=Math.min(position+readBytes-1,size-1),raw=await read({start:position,end});check();
           for(let offset=0;offset<raw.length;offset+=65536){
             const transformed=bootstrap.push(raw.subarray(offset,offset+65536),{offset:position+offset,generation:id});

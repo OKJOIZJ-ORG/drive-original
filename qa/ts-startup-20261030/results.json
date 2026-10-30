@@ -1,0 +1,3737 @@
+{
+  "started": "2026-10-30T12:26:36.866Z",
+  "sourceHashes": {
+    "baseline": "b5edbe73d58971c0d7a95d94768348c6a5080aa15ff3d3f252dfce06983d5160",
+    "current": "671106d9034e39fe26e8653e86667bd38fce1e47a538ee618e5ce308dd4eba02"
+  },
+  "fixture": {
+    "bytes": 9017420,
+    "sha256": "b58a103ea7cc92a825f805c4070ad694b6b28461faa34c22d797e1cd812eb940",
+    "kind": "public generated VBR AVC/AAC with3Mbit/s TS mux padding"
+  },
+  "transport": {
+    "metadataMs": 60,
+    "rangeFixedMs": 1200,
+    "rangePerMiBMs": 300
+  },
+  "runs": [
+    {
+      "variant": "baseline",
+      "case": "delayed-start",
+      "firstPlaying": {
+        "type": "playing",
+        "wallMs": 6127.5,
+        "time": 0.00049,
+        "buffered": [
+          [
+            0,
+            0.938666
+          ]
+        ]
+      },
+      "earlyWaits": [
+        {
+          "type": "waiting",
+          "wallMs": 7051.699999988079,
+          "time": 0.880093,
+          "buffered": [
+            [
+              0,
+              0.938666
+            ]
+          ]
+        }
+      ],
+      "played": {
+        "time": 9.357579,
+        "events": [
+          {
+            "type": "waiting",
+            "wallMs": 6018.899999976158,
+            "time": 0,
+            "buffered": [
+              [
+                0,
+                0.938666
+              ]
+            ]
+          },
+          {
+            "type": "playing",
+            "wallMs": 6127.5,
+            "time": 0.00049,
+            "buffered": [
+              [
+                0,
+                0.938666
+              ]
+            ]
+          },
+          {
+            "type": "waiting",
+            "wallMs": 7051.699999988079,
+            "time": 0.880093,
+            "buffered": [
+              [
+                0,
+                0.938666
+              ]
+            ]
+          },
+          {
+            "type": "playing",
+            "wallMs": 7689.699999988079,
+            "time": 0.93891,
+            "buffered": [
+              [
+                0,
+                1.941333
+              ]
+            ]
+          }
+        ],
+        "calls": [
+          {
+            "kind": "metadata",
+            "phase": "open",
+            "wallMs": 1.399999976158142
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 75
+          },
+          {
+            "kind": "range",
+            "start": 0,
+            "end": 524143,
+            "bytes": 524144,
+            "wallMs": 137.0999999642372,
+            "returnedMs": 1498
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 1500.199999988079
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 1572.2999999523163
+          },
+          {
+            "kind": "range",
+            "start": 8493276,
+            "end": 9017419,
+            "bytes": 524144,
+            "wallMs": 1637.199999988079,
+            "returnedMs": 2991
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 2993.599999964237
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 3131.199999988079
+          },
+          {
+            "kind": "range",
+            "start": 564,
+            "end": 262707,
+            "bytes": 262144,
+            "wallMs": 3196.199999988079,
+            "returnedMs": 4482
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 4484.199999988079
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 4568.399999976158
+          },
+          {
+            "kind": "range",
+            "start": 262708,
+            "end": 524851,
+            "bytes": 262144,
+            "wallMs": 4629.899999976158,
+            "returnedMs": 5916.699999988079
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 5931.199999988079
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 6021.899999976158
+          },
+          {
+            "kind": "range",
+            "start": 524852,
+            "end": 1573427,
+            "bytes": 1048576,
+            "wallMs": 6085.099999964237,
+            "returnedMs": 7601.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 7604.899999976158
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 7717.5
+          },
+          {
+            "kind": "range",
+            "start": 1573428,
+            "end": 2622003,
+            "bytes": 1048576,
+            "wallMs": 7779.299999952316,
+            "returnedMs": 9299.199999988079
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 9302.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 9406.699999988079
+          },
+          {
+            "kind": "range",
+            "start": 2622004,
+            "end": 3670579,
+            "bytes": 1048576,
+            "wallMs": 9479.199999988079,
+            "returnedMs": 10993.699999988079
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 10998.199999988079
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 11102.199999988079
+          },
+          {
+            "kind": "range",
+            "start": 3670580,
+            "end": 4719155,
+            "bytes": 1048576,
+            "wallMs": 11162.399999976158,
+            "returnedMs": 12672.299999952316
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 12677.399999976158
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 12790.399999976158
+          },
+          {
+            "kind": "range",
+            "start": 4719156,
+            "end": 5767731,
+            "bytes": 1048576,
+            "wallMs": 12854.599999964237,
+            "returnedMs": 14369
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 14374
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 14487.399999976158
+          },
+          {
+            "kind": "range",
+            "start": 5767732,
+            "end": 6816307,
+            "bytes": 1048576,
+            "wallMs": 14553.899999976158,
+            "returnedMs": 16071.599999964237
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 16077.099999964237
+          }
+        ],
+        "inputs": [
+          65536,
+          264,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536
+        ],
+        "payloads": [
+          "5b8ad4d13e700c619e33acc2abc786df02d7c2b852c2b059c3c2d6edaccd39dc",
+          "27a910d2743a9a9a0b86ab616ae567313a7dfbf933e39a95d7e1462f9b03cd83",
+          "1a213e3264dd92d2a3ae971ebcc026e3e84ac374d815200a4dc66187f189e841",
+          "2d82a34d44cfaac39c79027b2bbbd8ce8e03cf7e90c7c22d4f18b041497db486",
+          "745de619d067d76d1ac2fe14891e296d8c5a807d0d66f255e94b1ee3cc20c012",
+          "cf90bb3574397d9b5e3a1c7a3d351680110c90672e54543674c1522357d9f8bf",
+          "8d6cbbd4482bdceceb49963cdc5046e8b7a91b6ff4153427741991fe0064ea30",
+          "83dd2f5bb4327d16d49cf950390c58099f90dc8c68e01d59555aa205041e7b47",
+          "e782a8ee4770650400dc22415183b3b24b81772927b8872134fbe4f6212d0b31",
+          "422570295837b4d767f10e123b2cd2b39f18a434be10cb6dd77ba291c6f6d647",
+          "c1d9fbc265860a0bd7fcc2b714640a844cbf86e55681c5436286ffc57592a5bb",
+          "7e3e1983a06af08c0f04157e2fdafe9fa677a202c6a7f762142712022c938275",
+          "26e388aa094d5534dc756b8d8f2a25917f4a2e693031010614a5d5f1c57e6303",
+          "383eff7eb4f424c64c6c5b78b85dcf28ac45c9ef9191b9157acf27157296d663",
+          "244ff3d70d4149ee02e9a0ed4aa9fc510eb5336b8a81619c388e831a937d360f"
+        ],
+        "stats": {
+          "generation": 1,
+          "phase": "ready",
+          "failure": null,
+          "target": 0.021333333333333333,
+          "appends": 15,
+          "frames": 281,
+          "lastMediaTime": 9.354667,
+          "window": {
+            "waits": 0,
+            "removals": 1,
+            "peakAhead": 7.244463999999999,
+            "peakSpan": 12.911999999999999
+          },
+          "disposed": false,
+          "bufferRemoved": false,
+          "urlRevoked": false,
+          "previousCleanup": null,
+          "probeInputReused": true,
+          "duration": 24.021333333333335,
+          "timelineKind": "sampled-candidate"
+        },
+        "errors": []
+      },
+      "cleanup": {
+        "settled": true,
+        "source": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        }
+      }
+    },
+    {
+      "variant": "current",
+      "case": "delayed-start",
+      "firstPlaying": {
+        "type": "playing",
+        "wallMs": 4859.599999964237,
+        "time": 0.000485,
+        "buffered": [
+          [
+            0,
+            1.941333
+          ]
+        ]
+      },
+      "earlyWaits": [],
+      "played": {
+        "time": 9.962621,
+        "events": [
+          {
+            "type": "waiting",
+            "wallMs": 4807.799999952316,
+            "time": 0,
+            "buffered": [
+              [
+                0,
+                0.938666
+              ]
+            ]
+          },
+          {
+            "type": "playing",
+            "wallMs": 4859.599999964237,
+            "time": 0.000485,
+            "buffered": [
+              [
+                0,
+                1.941333
+              ]
+            ]
+          }
+        ],
+        "calls": [
+          {
+            "kind": "metadata",
+            "phase": "open",
+            "wallMs": 1.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 63.39999997615814
+          },
+          {
+            "kind": "range",
+            "start": 0,
+            "end": 524143,
+            "bytes": 524144,
+            "wallMs": 133.89999997615814,
+            "returnedMs": 1488.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 1490.5999999642372
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 1561.5999999642372
+          },
+          {
+            "kind": "range",
+            "start": 8493276,
+            "end": 9017419,
+            "bytes": 524144,
+            "wallMs": 1626.0999999642372,
+            "returnedMs": 2992.699999988079
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 2994.899999976158
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 3116.7999999523163
+          },
+          {
+            "kind": "range",
+            "start": 564,
+            "end": 1049139,
+            "bytes": 1048576,
+            "wallMs": 3185.7999999523163,
+            "returnedMs": 4694.299999952316
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 4698.099999964237
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 4826.5
+          },
+          {
+            "kind": "range",
+            "start": 1049140,
+            "end": 2097715,
+            "bytes": 1048576,
+            "wallMs": 4894.399999976158,
+            "returnedMs": 6403.599999964237
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 6423.299999952316
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 6523.099999964237
+          },
+          {
+            "kind": "range",
+            "start": 2097716,
+            "end": 3146291,
+            "bytes": 1048576,
+            "wallMs": 6585.699999988079,
+            "returnedMs": 8102.599999964237
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 8104.899999976158
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 8211.899999976158
+          },
+          {
+            "kind": "range",
+            "start": 3146292,
+            "end": 4194867,
+            "bytes": 1048576,
+            "wallMs": 8285.199999988079,
+            "returnedMs": 9802.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 9806.699999988079
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 9899.199999988079
+          },
+          {
+            "kind": "range",
+            "start": 4194868,
+            "end": 5243443,
+            "bytes": 1048576,
+            "wallMs": 9961.199999988079,
+            "returnedMs": 11467.899999976158
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 11471.299999952316
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 11550.699999988079
+          },
+          {
+            "kind": "range",
+            "start": 5243444,
+            "end": 6292019,
+            "bytes": 1048576,
+            "wallMs": 11611.399999976158,
+            "returnedMs": 13122
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 13124.899999976158
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 13207.899999976158
+          },
+          {
+            "kind": "range",
+            "start": 6292020,
+            "end": 7340595,
+            "bytes": 1048576,
+            "wallMs": 13268.399999976158,
+            "returnedMs": 14786.599999964237
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 14789.399999976158
+          }
+        ],
+        "inputs": [
+          65536,
+          264,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536
+        ],
+        "payloads": [
+          "5b8ad4d13e700c619e33acc2abc786df02d7c2b852c2b059c3c2d6edaccd39dc",
+          "27a910d2743a9a9a0b86ab616ae567313a7dfbf933e39a95d7e1462f9b03cd83",
+          "1a213e3264dd92d2a3ae971ebcc026e3e84ac374d815200a4dc66187f189e841",
+          "2d82a34d44cfaac39c79027b2bbbd8ce8e03cf7e90c7c22d4f18b041497db486",
+          "745de619d067d76d1ac2fe14891e296d8c5a807d0d66f255e94b1ee3cc20c012",
+          "cf90bb3574397d9b5e3a1c7a3d351680110c90672e54543674c1522357d9f8bf",
+          "8d6cbbd4482bdceceb49963cdc5046e8b7a91b6ff4153427741991fe0064ea30",
+          "83dd2f5bb4327d16d49cf950390c58099f90dc8c68e01d59555aa205041e7b47",
+          "e782a8ee4770650400dc22415183b3b24b81772927b8872134fbe4f6212d0b31",
+          "422570295837b4d767f10e123b2cd2b39f18a434be10cb6dd77ba291c6f6d647",
+          "c1d9fbc265860a0bd7fcc2b714640a844cbf86e55681c5436286ffc57592a5bb",
+          "7e3e1983a06af08c0f04157e2fdafe9fa677a202c6a7f762142712022c938275",
+          "26e388aa094d5534dc756b8d8f2a25917f4a2e693031010614a5d5f1c57e6303",
+          "383eff7eb4f424c64c6c5b78b85dcf28ac45c9ef9191b9157acf27157296d663",
+          "244ff3d70d4149ee02e9a0ed4aa9fc510eb5336b8a81619c388e831a937d360f",
+          "30844586693f8904142974cbf50f6b91d246cd470ca2c78b38fc3edba4f6de7c",
+          "3b5d253f604d70c7b8f8ee3f095daa0e795f0a0a25f5ebe60674d877cb4fadd5",
+          "fb56c846e85e64039991a86e71bcc7745a54062d38166b335d1255e87d52f861"
+        ],
+        "stats": {
+          "generation": 1,
+          "phase": "ready",
+          "failure": null,
+          "target": 0.021333333333333333,
+          "appends": 18,
+          "frames": 299,
+          "lastMediaTime": 9.954667,
+          "window": {
+            "waits": 0,
+            "removals": 1,
+            "peakAhead": 7.979585999999999,
+            "peakSpan": 14.92
+          },
+          "disposed": false,
+          "bufferRemoved": false,
+          "urlRevoked": false,
+          "previousCleanup": null,
+          "probeInputReused": true,
+          "duration": 24.021333333333335,
+          "timelineKind": "sampled-candidate"
+        },
+        "errors": []
+      },
+      "cleanup": {
+        "settled": true,
+        "source": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        }
+      }
+    },
+    {
+      "variant": "baseline",
+      "case": "eof-seek-payload",
+      "eof": {
+        "time": 24.021333,
+        "events": [
+          {
+            "type": "waiting",
+            "wallMs": 117.60000002384186,
+            "time": 0,
+            "buffered": [
+              [
+                0,
+                0.938666
+              ]
+            ]
+          },
+          {
+            "type": "playing",
+            "wallMs": 155.10000002384186,
+            "time": 0.019776,
+            "buffered": [
+              [
+                0,
+                1.941333
+              ]
+            ]
+          },
+          {
+            "type": "waiting",
+            "wallMs": 175.39999997615814,
+            "time": 0.149563,
+            "buffered": [
+              [
+                0,
+                3.946666
+              ]
+            ]
+          },
+          {
+            "type": "playing",
+            "wallMs": 175.89999997615814,
+            "time": 0.149563,
+            "buffered": [
+              [
+                0,
+                3.946666
+              ]
+            ]
+          },
+          {
+            "type": "ended",
+            "wallMs": 1716.199999988079,
+            "time": 24.021333,
+            "buffered": [
+              [
+                0,
+                24.021333
+              ]
+            ]
+          }
+        ],
+        "calls": [
+          {
+            "kind": "metadata",
+            "phase": "open",
+            "wallMs": 1.600000023841858
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 2.899999976158142
+          },
+          {
+            "kind": "range",
+            "start": 0,
+            "end": 524143,
+            "bytes": 524144,
+            "wallMs": 3,
+            "returnedMs": 14.899999976158142
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 17.600000023841858
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 27.30000001192093
+          },
+          {
+            "kind": "range",
+            "start": 8493276,
+            "end": 9017419,
+            "bytes": 524144,
+            "wallMs": 27.600000023841858,
+            "returnedMs": 30.100000023841858
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 31.80000001192093
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 60.39999997615814
+          },
+          {
+            "kind": "range",
+            "start": 564,
+            "end": 262707,
+            "bytes": 262144,
+            "wallMs": 60.5,
+            "returnedMs": 72.39999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 73.39999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 84.80000001192093
+          },
+          {
+            "kind": "range",
+            "start": 262708,
+            "end": 524851,
+            "bytes": 262144,
+            "wallMs": 84.80000001192093,
+            "returnedMs": 102.39999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 103.39999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 119.39999997615814
+          },
+          {
+            "kind": "range",
+            "start": 524852,
+            "end": 1573427,
+            "bytes": 1048576,
+            "wallMs": 119.39999997615814,
+            "returnedMs": 133.89999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 136.89999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 171.60000002384186
+          },
+          {
+            "kind": "range",
+            "start": 1573428,
+            "end": 2622003,
+            "bytes": 1048576,
+            "wallMs": 171.60000002384186,
+            "returnedMs": 182.10000002384186
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 185.19999998807907
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 207.5
+          },
+          {
+            "kind": "range",
+            "start": 2622004,
+            "end": 3670579,
+            "bytes": 1048576,
+            "wallMs": 207.5,
+            "returnedMs": 226
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 229.19999998807907
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 259.80000001192093
+          },
+          {
+            "kind": "range",
+            "start": 3670580,
+            "end": 4719155,
+            "bytes": 1048576,
+            "wallMs": 259.80000001192093,
+            "returnedMs": 272.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 275.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 299.89999997615814
+          },
+          {
+            "kind": "range",
+            "start": 4719156,
+            "end": 5767731,
+            "bytes": 1048576,
+            "wallMs": 300,
+            "returnedMs": 318.80000001192093
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 321.80000001192093
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 345.39999997615814
+          },
+          {
+            "kind": "range",
+            "start": 5767732,
+            "end": 6816307,
+            "bytes": 1048576,
+            "wallMs": 345.39999997615814,
+            "returnedMs": 349.80000001192093
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 352.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 374
+          },
+          {
+            "kind": "range",
+            "start": 6816308,
+            "end": 7864883,
+            "bytes": 1048576,
+            "wallMs": 374,
+            "returnedMs": 382.69999998807907
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 386.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 404.19999998807907
+          },
+          {
+            "kind": "range",
+            "start": 7864884,
+            "end": 8913459,
+            "bytes": 1048576,
+            "wallMs": 404.30000001192093,
+            "returnedMs": 414.19999998807907
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 417.69999998807907
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 440.69999998807907
+          },
+          {
+            "kind": "range",
+            "start": 8913460,
+            "end": 9017419,
+            "bytes": 103960,
+            "wallMs": 440.69999998807907,
+            "returnedMs": 444.89999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 445.69999998807907
+          }
+        ],
+        "inputs": [
+          65536,
+          264,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          38540
+        ],
+        "payloads": [
+          "5b8ad4d13e700c619e33acc2abc786df02d7c2b852c2b059c3c2d6edaccd39dc",
+          "27a910d2743a9a9a0b86ab616ae567313a7dfbf933e39a95d7e1462f9b03cd83",
+          "1a213e3264dd92d2a3ae971ebcc026e3e84ac374d815200a4dc66187f189e841",
+          "2d82a34d44cfaac39c79027b2bbbd8ce8e03cf7e90c7c22d4f18b041497db486",
+          "745de619d067d76d1ac2fe14891e296d8c5a807d0d66f255e94b1ee3cc20c012",
+          "cf90bb3574397d9b5e3a1c7a3d351680110c90672e54543674c1522357d9f8bf",
+          "8d6cbbd4482bdceceb49963cdc5046e8b7a91b6ff4153427741991fe0064ea30",
+          "83dd2f5bb4327d16d49cf950390c58099f90dc8c68e01d59555aa205041e7b47",
+          "e782a8ee4770650400dc22415183b3b24b81772927b8872134fbe4f6212d0b31",
+          "422570295837b4d767f10e123b2cd2b39f18a434be10cb6dd77ba291c6f6d647",
+          "c1d9fbc265860a0bd7fcc2b714640a844cbf86e55681c5436286ffc57592a5bb",
+          "7e3e1983a06af08c0f04157e2fdafe9fa677a202c6a7f762142712022c938275",
+          "26e388aa094d5534dc756b8d8f2a25917f4a2e693031010614a5d5f1c57e6303",
+          "383eff7eb4f424c64c6c5b78b85dcf28ac45c9ef9191b9157acf27157296d663",
+          "244ff3d70d4149ee02e9a0ed4aa9fc510eb5336b8a81619c388e831a937d360f",
+          "30844586693f8904142974cbf50f6b91d246cd470ca2c78b38fc3edba4f6de7c",
+          "3b5d253f604d70c7b8f8ee3f095daa0e795f0a0a25f5ebe60674d877cb4fadd5",
+          "fb56c846e85e64039991a86e71bcc7745a54062d38166b335d1255e87d52f861",
+          "7289205dd28c0389bfe3ce96d578f79b3969aceec8add466ae82e59845963e5b",
+          "b87c0b5fe830393b7bfdc66823d39c32b3b8c495b8bee14fc31f0e592232caef",
+          "8307f9a599643bd5c6d509169176fe14adb4dc50d8e57d2b0d3d3825c4018bcc",
+          "74f34eb4afddfe4bda8bc05292435d5571906b8daf9618466fb4b3332e86b544",
+          "fb38b8e882e23b24ceb99b46566a7bb1c72e6a33ca28e67fe8b29494afd62377",
+          "8dd4744c6ff10000e8ca03bd212118e064851e72c7d83093c3de9e17c3914536"
+        ],
+        "stats": {
+          "generation": 1,
+          "phase": "ended",
+          "failure": null,
+          "target": 0.021333333333333333,
+          "appends": 24,
+          "frames": 52,
+          "lastMediaTime": 23.988,
+          "window": {
+            "waits": 0,
+            "removals": 0,
+            "peakAhead": 19.927106,
+            "peakSpan": 24.021333
+          },
+          "disposed": false,
+          "bufferRemoved": false,
+          "urlRevoked": false,
+          "previousCleanup": null,
+          "probeInputReused": true,
+          "duration": 24.021333333333335,
+          "timelineKind": "sampled-candidate",
+          "bootstrap": {
+            "state": "finished",
+            "failure": null,
+            "generation": 1,
+            "readStart": 564,
+            "sourceSize": 9017420,
+            "sourceOffset": 9017420,
+            "sourceReceived": 9016856,
+            "outputSize": 9017232,
+            "outputBytes": 9017232,
+            "packets": 47962,
+            "nulledPackets": 0,
+            "carryBytes": 0,
+            "prefixBytes": 0,
+            "bindingBytes": 0,
+            "psiRetainedBytes": 0,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 18007,
+            "maxPushOutputBytes": 82107,
+            "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+          },
+          "worker": {
+            "status": "finished",
+            "failure": null,
+            "terminated": true,
+            "fragmentBusy": false,
+            "sourceBytesOffered": 9017232,
+            "sourceBytesConsumed": 9017232,
+            "inputs": 220,
+            "detachedInputs": 220,
+            "transferredInputBytes": 9017232,
+            "fragments": 24,
+            "acks": 24,
+            "peakPendingInputs": 1,
+            "worker": {
+              "state": "finished",
+              "failure": null,
+              "generation": 1,
+              "sourceSize": 9017232,
+              "consumed": 9017232,
+              "inputSequence": 220,
+              "fragments": 24,
+              "acknowledged": 24,
+              "awaitingFragment": null,
+              "retainedInputBytes": 0,
+              "retainedOutputBytes": 0,
+              "outstandingOutputBytes": 0,
+              "configBytes": 0,
+              "initBytes": 0,
+              "peakInputBytes": 65536,
+              "peakOutputBytes": 343426,
+              "peakConfigBytes": 27,
+              "peakInitBytes": 1133,
+              "muxCachedGops": 0,
+              "muxCachedNalBytes": 0,
+              "muxCachedBufferBytes": 0,
+              "peakMuxCachedGops": 6,
+              "peakMuxCachedNalBytes": 1878122,
+              "peakMuxCachedBufferBytes": 3705699,
+              "muxReleased": true,
+              "owner": {
+                "state": "finished",
+                "failure": null,
+                "generation": 1,
+                "received": 9017232,
+                "packets": 47964,
+                "emittedIntervals": 24,
+                "firstEmissionOffset": 396492,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 401380,
+                "peakOwnedByteStorage": 1075955,
+                "storageCapacity": 655360,
+                "emittedAacFrames": 1126,
+                "elementary": {
+                  "parameterBytes": 0,
+                  "retainedFrames": 0,
+                  "peakFrames": 30,
+                  "videoFrames": 720,
+                  "aacFrames": 1126
+                },
+                "psi": {
+                  "terminal": true,
+                  "retainedBytes": 0,
+                  "peakRetainedBytes": 410,
+                  "snapshotBytes": 0,
+                  "sectionCount": 0,
+                  "maxRetainedEncodedBytes": 11640
+                },
+                "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+              },
+              "cleanup": {
+                "beforeGops": 6,
+                "beforeNalBytes": 1809168,
+                "beforeBufferBytes": 3569991,
+                "afterGops": 0,
+                "afterNalBytes": 0,
+                "afterBufferBytes": 0
+              },
+              "limits": {
+                "inputBytes": 65536,
+                "outputBytes": 2097152,
+                "muxCacheBufferBytes": 8388608
+              },
+              "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+            }
+          },
+          "source": {
+            "state": "open",
+            "failure": null,
+            "busy": false,
+            "readsStarted": 13,
+            "readsCompleted": 13,
+            "metadataRequests": 27,
+            "rangeRequests": 13,
+            "receivedBytes": 10065144,
+            "releasedBytes": 10065144,
+            "cacheHits": 0,
+            "cacheBytes": 0,
+            "logicalReturnedBytes": 10065144,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 1048576,
+            "checksumBound": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false,
+            "cleanupSettled": true,
+            "maxReadBytes": 1048576,
+            "requestTimeoutMs": 70000,
+            "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+          }
+        },
+        "errors": []
+      },
+      "seek": {
+        "time": 7,
+        "events": [
+          {
+            "type": "waiting",
+            "wallMs": 117.60000002384186,
+            "time": 0,
+            "buffered": [
+              [
+                0,
+                0.938666
+              ]
+            ]
+          },
+          {
+            "type": "playing",
+            "wallMs": 155.10000002384186,
+            "time": 0.019776,
+            "buffered": [
+              [
+                0,
+                1.941333
+              ]
+            ]
+          },
+          {
+            "type": "waiting",
+            "wallMs": 175.39999997615814,
+            "time": 0.149563,
+            "buffered": [
+              [
+                0,
+                3.946666
+              ]
+            ]
+          },
+          {
+            "type": "playing",
+            "wallMs": 175.89999997615814,
+            "time": 0.149563,
+            "buffered": [
+              [
+                0,
+                3.946666
+              ]
+            ]
+          },
+          {
+            "type": "ended",
+            "wallMs": 1716.199999988079,
+            "time": 24.021333,
+            "buffered": [
+              [
+                0,
+                24.021333
+              ]
+            ]
+          }
+        ],
+        "calls": [
+          {
+            "kind": "metadata",
+            "phase": "open",
+            "wallMs": 1.600000023841858
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 2.899999976158142
+          },
+          {
+            "kind": "range",
+            "start": 0,
+            "end": 524143,
+            "bytes": 524144,
+            "wallMs": 3,
+            "returnedMs": 14.899999976158142
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 17.600000023841858
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 27.30000001192093
+          },
+          {
+            "kind": "range",
+            "start": 8493276,
+            "end": 9017419,
+            "bytes": 524144,
+            "wallMs": 27.600000023841858,
+            "returnedMs": 30.100000023841858
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 31.80000001192093
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 60.39999997615814
+          },
+          {
+            "kind": "range",
+            "start": 564,
+            "end": 262707,
+            "bytes": 262144,
+            "wallMs": 60.5,
+            "returnedMs": 72.39999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 73.39999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 84.80000001192093
+          },
+          {
+            "kind": "range",
+            "start": 262708,
+            "end": 524851,
+            "bytes": 262144,
+            "wallMs": 84.80000001192093,
+            "returnedMs": 102.39999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 103.39999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 119.39999997615814
+          },
+          {
+            "kind": "range",
+            "start": 524852,
+            "end": 1573427,
+            "bytes": 1048576,
+            "wallMs": 119.39999997615814,
+            "returnedMs": 133.89999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 136.89999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 171.60000002384186
+          },
+          {
+            "kind": "range",
+            "start": 1573428,
+            "end": 2622003,
+            "bytes": 1048576,
+            "wallMs": 171.60000002384186,
+            "returnedMs": 182.10000002384186
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 185.19999998807907
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 207.5
+          },
+          {
+            "kind": "range",
+            "start": 2622004,
+            "end": 3670579,
+            "bytes": 1048576,
+            "wallMs": 207.5,
+            "returnedMs": 226
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 229.19999998807907
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 259.80000001192093
+          },
+          {
+            "kind": "range",
+            "start": 3670580,
+            "end": 4719155,
+            "bytes": 1048576,
+            "wallMs": 259.80000001192093,
+            "returnedMs": 272.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 275.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 299.89999997615814
+          },
+          {
+            "kind": "range",
+            "start": 4719156,
+            "end": 5767731,
+            "bytes": 1048576,
+            "wallMs": 300,
+            "returnedMs": 318.80000001192093
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 321.80000001192093
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 345.39999997615814
+          },
+          {
+            "kind": "range",
+            "start": 5767732,
+            "end": 6816307,
+            "bytes": 1048576,
+            "wallMs": 345.39999997615814,
+            "returnedMs": 349.80000001192093
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 352.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 374
+          },
+          {
+            "kind": "range",
+            "start": 6816308,
+            "end": 7864883,
+            "bytes": 1048576,
+            "wallMs": 374,
+            "returnedMs": 382.69999998807907
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 386.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 404.19999998807907
+          },
+          {
+            "kind": "range",
+            "start": 7864884,
+            "end": 8913459,
+            "bytes": 1048576,
+            "wallMs": 404.30000001192093,
+            "returnedMs": 414.19999998807907
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 417.69999998807907
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 440.69999998807907
+          },
+          {
+            "kind": "range",
+            "start": 8913460,
+            "end": 9017419,
+            "bytes": 103960,
+            "wallMs": 440.69999998807907,
+            "returnedMs": 444.89999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 445.69999998807907
+          },
+          {
+            "kind": "metadata",
+            "phase": "open",
+            "wallMs": 1740.1000000238419
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 1740.699999988079
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 1741
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 1746.699999988079
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 1747.3999999761581
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 1750.5
+          },
+          {
+            "kind": "range",
+            "start": 2359400,
+            "end": 2883543,
+            "bytes": 524144,
+            "wallMs": 1750.6000000238419,
+            "returnedMs": 1756.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 1757.8999999761581
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 1760.1000000238419
+          },
+          {
+            "kind": "range",
+            "start": 2097140,
+            "end": 3145615,
+            "bytes": 1048476,
+            "wallMs": 1760.199999988079,
+            "returnedMs": 1773.1000000238419
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 1775.6000000238419
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 1800.1000000238419
+          },
+          {
+            "kind": "range",
+            "start": 2250172,
+            "end": 2512315,
+            "bytes": 262144,
+            "wallMs": 1800.1000000238419,
+            "returnedMs": 1802.800000011921
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 1803.6000000238419
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 1815.3999999761581
+          },
+          {
+            "kind": "range",
+            "start": 2512316,
+            "end": 2774459,
+            "bytes": 262144,
+            "wallMs": 1815.3999999761581,
+            "returnedMs": 1833.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 1834.6000000238419
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 1848.3999999761581
+          },
+          {
+            "kind": "range",
+            "start": 2774460,
+            "end": 3823035,
+            "bytes": 1048576,
+            "wallMs": 1848.3999999761581,
+            "returnedMs": 1864.6000000238419
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 1867.3999999761581
+          }
+        ],
+        "inputs": [
+          65536,
+          264,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          38540,
+          65536,
+          264,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536
+        ],
+        "payloads": [
+          "5b8ad4d13e700c619e33acc2abc786df02d7c2b852c2b059c3c2d6edaccd39dc",
+          "27a910d2743a9a9a0b86ab616ae567313a7dfbf933e39a95d7e1462f9b03cd83",
+          "1a213e3264dd92d2a3ae971ebcc026e3e84ac374d815200a4dc66187f189e841",
+          "2d82a34d44cfaac39c79027b2bbbd8ce8e03cf7e90c7c22d4f18b041497db486",
+          "745de619d067d76d1ac2fe14891e296d8c5a807d0d66f255e94b1ee3cc20c012",
+          "cf90bb3574397d9b5e3a1c7a3d351680110c90672e54543674c1522357d9f8bf",
+          "8d6cbbd4482bdceceb49963cdc5046e8b7a91b6ff4153427741991fe0064ea30",
+          "83dd2f5bb4327d16d49cf950390c58099f90dc8c68e01d59555aa205041e7b47",
+          "e782a8ee4770650400dc22415183b3b24b81772927b8872134fbe4f6212d0b31",
+          "422570295837b4d767f10e123b2cd2b39f18a434be10cb6dd77ba291c6f6d647",
+          "c1d9fbc265860a0bd7fcc2b714640a844cbf86e55681c5436286ffc57592a5bb",
+          "7e3e1983a06af08c0f04157e2fdafe9fa677a202c6a7f762142712022c938275",
+          "26e388aa094d5534dc756b8d8f2a25917f4a2e693031010614a5d5f1c57e6303",
+          "383eff7eb4f424c64c6c5b78b85dcf28ac45c9ef9191b9157acf27157296d663",
+          "244ff3d70d4149ee02e9a0ed4aa9fc510eb5336b8a81619c388e831a937d360f",
+          "30844586693f8904142974cbf50f6b91d246cd470ca2c78b38fc3edba4f6de7c",
+          "3b5d253f604d70c7b8f8ee3f095daa0e795f0a0a25f5ebe60674d877cb4fadd5",
+          "fb56c846e85e64039991a86e71bcc7745a54062d38166b335d1255e87d52f861",
+          "7289205dd28c0389bfe3ce96d578f79b3969aceec8add466ae82e59845963e5b",
+          "b87c0b5fe830393b7bfdc66823d39c32b3b8c495b8bee14fc31f0e592232caef",
+          "8307f9a599643bd5c6d509169176fe14adb4dc50d8e57d2b0d3d3825c4018bcc",
+          "74f34eb4afddfe4bda8bc05292435d5571906b8daf9618466fb4b3332e86b544",
+          "fb38b8e882e23b24ceb99b46566a7bb1c72e6a33ca28e67fe8b29494afd62377",
+          "8dd4744c6ff10000e8ca03bd212118e064851e72c7d83093c3de9e17c3914536",
+          "34fc4847cd183893651d96c82213f349e9b445ede9a55f8eae6e03471b5f21eb",
+          "85caf1d5d504e11f44afa037b07683786fa178a488132a50d260fd09aa1feacf",
+          "86216dd5006be2ab7d25fbfc15962dfcd630316e9d56d637e4745d72a6c5e01a"
+        ],
+        "stats": {
+          "generation": 2,
+          "phase": "ready",
+          "failure": null,
+          "target": 7,
+          "appends": 3,
+          "frames": 1,
+          "lastMediaTime": 6.988,
+          "window": {
+            "waits": 0,
+            "removals": 0,
+            "peakAhead": 1.9386659999999996,
+            "peakSpan": 2.9653329999999993
+          },
+          "disposed": false,
+          "bufferRemoved": false,
+          "urlRevoked": false,
+          "previousCleanup": {
+            "settled": true,
+            "source": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            }
+          },
+          "probeInputReused": true,
+          "duration": 24.021333333333335,
+          "timelineKind": "sampled-candidate"
+        },
+        "errors": []
+      },
+      "cleanup": {
+        "settled": true,
+        "source": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        }
+      }
+    },
+    {
+      "variant": "current",
+      "case": "eof-seek-payload",
+      "eof": {
+        "time": 24.021333,
+        "events": [
+          {
+            "type": "waiting",
+            "wallMs": 127.39999997615814,
+            "time": 0,
+            "buffered": [
+              [
+                0,
+                0.938666
+              ]
+            ]
+          },
+          {
+            "type": "playing",
+            "wallMs": 173.69999998807907,
+            "time": 0.028832,
+            "buffered": [
+              [
+                0,
+                2.944
+              ]
+            ]
+          },
+          {
+            "type": "waiting",
+            "wallMs": 194.0999999642372,
+            "time": 0.149563,
+            "buffered": [
+              [
+                0,
+                4.949333
+              ]
+            ]
+          },
+          {
+            "type": "playing",
+            "wallMs": 194.5,
+            "time": 0.149563,
+            "buffered": [
+              [
+                0,
+                4.949333
+              ]
+            ]
+          },
+          {
+            "type": "ended",
+            "wallMs": 1734.7999999523163,
+            "time": 24.021333,
+            "buffered": [
+              [
+                0,
+                24.021333
+              ]
+            ]
+          }
+        ],
+        "calls": [
+          {
+            "kind": "metadata",
+            "phase": "open",
+            "wallMs": 1.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 2.799999952316284
+          },
+          {
+            "kind": "range",
+            "start": 0,
+            "end": 524143,
+            "bytes": 524144,
+            "wallMs": 2.899999976158142,
+            "returnedMs": 15.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 30.899999976158142
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 41
+          },
+          {
+            "kind": "range",
+            "start": 8493276,
+            "end": 9017419,
+            "bytes": 524144,
+            "wallMs": 41.09999996423721,
+            "returnedMs": 45.59999996423721
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 48
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 83.29999995231628
+          },
+          {
+            "kind": "range",
+            "start": 564,
+            "end": 1049139,
+            "bytes": 1048576,
+            "wallMs": 83.29999995231628,
+            "returnedMs": 93
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 97
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 146.69999998807907
+          },
+          {
+            "kind": "range",
+            "start": 1049140,
+            "end": 2097715,
+            "bytes": 1048576,
+            "wallMs": 146.79999995231628,
+            "returnedMs": 157.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 161.5999999642372
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 199.19999998807907
+          },
+          {
+            "kind": "range",
+            "start": 2097716,
+            "end": 3146291,
+            "bytes": 1048576,
+            "wallMs": 199.29999995231628,
+            "returnedMs": 204.29999995231628
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 207.89999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 241.5
+          },
+          {
+            "kind": "range",
+            "start": 3146292,
+            "end": 4194867,
+            "bytes": 1048576,
+            "wallMs": 241.5999999642372,
+            "returnedMs": 245.79999995231628
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 250
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 283.39999997615814
+          },
+          {
+            "kind": "range",
+            "start": 4194868,
+            "end": 5243443,
+            "bytes": 1048576,
+            "wallMs": 283.39999997615814,
+            "returnedMs": 287.0999999642372
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 290.39999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 313.0999999642372
+          },
+          {
+            "kind": "range",
+            "start": 5243444,
+            "end": 6292019,
+            "bytes": 1048576,
+            "wallMs": 313.39999997615814,
+            "returnedMs": 327.69999998807907
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 330.7999999523163
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 353
+          },
+          {
+            "kind": "range",
+            "start": 6292020,
+            "end": 7340595,
+            "bytes": 1048576,
+            "wallMs": 353.0999999642372,
+            "returnedMs": 358.89999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 361.2999999523163
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 380.39999997615814
+          },
+          {
+            "kind": "range",
+            "start": 7340596,
+            "end": 8389171,
+            "bytes": 1048576,
+            "wallMs": 380.5,
+            "returnedMs": 390.39999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 393
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 411.89999997615814
+          },
+          {
+            "kind": "range",
+            "start": 8389172,
+            "end": 9017419,
+            "bytes": 628248,
+            "wallMs": 411.89999997615814,
+            "returnedMs": 414.2999999523163
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 437
+          }
+        ],
+        "inputs": [
+          65536,
+          264,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          38540
+        ],
+        "payloads": [
+          "5b8ad4d13e700c619e33acc2abc786df02d7c2b852c2b059c3c2d6edaccd39dc",
+          "27a910d2743a9a9a0b86ab616ae567313a7dfbf933e39a95d7e1462f9b03cd83",
+          "1a213e3264dd92d2a3ae971ebcc026e3e84ac374d815200a4dc66187f189e841",
+          "2d82a34d44cfaac39c79027b2bbbd8ce8e03cf7e90c7c22d4f18b041497db486",
+          "745de619d067d76d1ac2fe14891e296d8c5a807d0d66f255e94b1ee3cc20c012",
+          "cf90bb3574397d9b5e3a1c7a3d351680110c90672e54543674c1522357d9f8bf",
+          "8d6cbbd4482bdceceb49963cdc5046e8b7a91b6ff4153427741991fe0064ea30",
+          "83dd2f5bb4327d16d49cf950390c58099f90dc8c68e01d59555aa205041e7b47",
+          "e782a8ee4770650400dc22415183b3b24b81772927b8872134fbe4f6212d0b31",
+          "422570295837b4d767f10e123b2cd2b39f18a434be10cb6dd77ba291c6f6d647",
+          "c1d9fbc265860a0bd7fcc2b714640a844cbf86e55681c5436286ffc57592a5bb",
+          "7e3e1983a06af08c0f04157e2fdafe9fa677a202c6a7f762142712022c938275",
+          "26e388aa094d5534dc756b8d8f2a25917f4a2e693031010614a5d5f1c57e6303",
+          "383eff7eb4f424c64c6c5b78b85dcf28ac45c9ef9191b9157acf27157296d663",
+          "244ff3d70d4149ee02e9a0ed4aa9fc510eb5336b8a81619c388e831a937d360f",
+          "30844586693f8904142974cbf50f6b91d246cd470ca2c78b38fc3edba4f6de7c",
+          "3b5d253f604d70c7b8f8ee3f095daa0e795f0a0a25f5ebe60674d877cb4fadd5",
+          "fb56c846e85e64039991a86e71bcc7745a54062d38166b335d1255e87d52f861",
+          "7289205dd28c0389bfe3ce96d578f79b3969aceec8add466ae82e59845963e5b",
+          "b87c0b5fe830393b7bfdc66823d39c32b3b8c495b8bee14fc31f0e592232caef",
+          "8307f9a599643bd5c6d509169176fe14adb4dc50d8e57d2b0d3d3825c4018bcc",
+          "74f34eb4afddfe4bda8bc05292435d5571906b8daf9618466fb4b3332e86b544",
+          "fb38b8e882e23b24ceb99b46566a7bb1c72e6a33ca28e67fe8b29494afd62377",
+          "8dd4744c6ff10000e8ca03bd212118e064851e72c7d83093c3de9e17c3914536"
+        ],
+        "stats": {
+          "generation": 1,
+          "phase": "ended",
+          "failure": null,
+          "target": 0.021333333333333333,
+          "appends": 24,
+          "frames": 50,
+          "lastMediaTime": 23.988,
+          "window": {
+            "waits": 0,
+            "removals": 0,
+            "peakAhead": 20.264032,
+            "peakSpan": 24.021333
+          },
+          "disposed": false,
+          "bufferRemoved": false,
+          "urlRevoked": false,
+          "previousCleanup": null,
+          "probeInputReused": true,
+          "duration": 24.021333333333335,
+          "timelineKind": "sampled-candidate",
+          "bootstrap": {
+            "state": "finished",
+            "failure": null,
+            "generation": 1,
+            "readStart": 564,
+            "sourceSize": 9017420,
+            "sourceOffset": 9017420,
+            "sourceReceived": 9016856,
+            "outputSize": 9017232,
+            "outputBytes": 9017232,
+            "packets": 47962,
+            "nulledPackets": 0,
+            "carryBytes": 0,
+            "prefixBytes": 0,
+            "bindingBytes": 0,
+            "psiRetainedBytes": 0,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 18007,
+            "maxPushOutputBytes": 82107,
+            "scope": "bounded owned byte arrays/PSI only; excludes caller/output arrays, JS heap and downstream mux/decoder; no source identity or decode proof"
+          },
+          "worker": {
+            "status": "finished",
+            "failure": null,
+            "terminated": true,
+            "fragmentBusy": false,
+            "sourceBytesOffered": 9017232,
+            "sourceBytesConsumed": 9017232,
+            "inputs": 220,
+            "detachedInputs": 220,
+            "transferredInputBytes": 9017232,
+            "fragments": 24,
+            "acks": 24,
+            "peakPendingInputs": 1,
+            "worker": {
+              "state": "finished",
+              "failure": null,
+              "generation": 1,
+              "sourceSize": 9017232,
+              "consumed": 9017232,
+              "inputSequence": 220,
+              "fragments": 24,
+              "acknowledged": 24,
+              "awaitingFragment": null,
+              "retainedInputBytes": 0,
+              "retainedOutputBytes": 0,
+              "outstandingOutputBytes": 0,
+              "configBytes": 0,
+              "initBytes": 0,
+              "peakInputBytes": 65536,
+              "peakOutputBytes": 343426,
+              "peakConfigBytes": 27,
+              "peakInitBytes": 1133,
+              "muxCachedGops": 0,
+              "muxCachedNalBytes": 0,
+              "muxCachedBufferBytes": 0,
+              "peakMuxCachedGops": 6,
+              "peakMuxCachedNalBytes": 1878122,
+              "peakMuxCachedBufferBytes": 3705699,
+              "muxReleased": true,
+              "owner": {
+                "state": "finished",
+                "failure": null,
+                "generation": 1,
+                "received": 9017232,
+                "packets": 47964,
+                "emittedIntervals": 24,
+                "firstEmissionOffset": 396492,
+                "retainedBytes": 0,
+                "peakRetainedBytes": 401380,
+                "peakOwnedByteStorage": 1075955,
+                "storageCapacity": 655360,
+                "emittedAacFrames": 1126,
+                "elementary": {
+                  "parameterBytes": 0,
+                  "retainedFrames": 0,
+                  "peakFrames": 30,
+                  "videoFrames": 720,
+                  "aacFrames": 1126
+                },
+                "psi": {
+                  "terminal": true,
+                  "retainedBytes": 0,
+                  "peakRetainedBytes": 410,
+                  "snapshotBytes": 0,
+                  "sectionCount": 0,
+                  "maxRetainedEncodedBytes": 11640
+                },
+                "scope": "owner raw byte arrays/scratch plus bounded encoded PSI accounting; excludes JS heap/object overhead, caller/output retention and mux allocations"
+              },
+              "cleanup": {
+                "beforeGops": 6,
+                "beforeNalBytes": 1809168,
+                "beforeBufferBytes": 3569991,
+                "afterGops": 0,
+                "afterNalBytes": 0,
+                "afterBufferBytes": 0
+              },
+              "limits": {
+                "inputBytes": 65536,
+                "outputBytes": 2097152,
+                "muxCacheBufferBytes": 8388608
+              },
+              "scope": "encoded input/init/config/output credit and pinned mux GOP backing buffers; owner separately accounted; excludes JS heap, mux scratch, transport, caller, MSE and decoder"
+            }
+          },
+          "source": {
+            "state": "open",
+            "failure": null,
+            "busy": false,
+            "readsStarted": 11,
+            "readsCompleted": 11,
+            "metadataRequests": 23,
+            "rangeRequests": 11,
+            "receivedBytes": 10065144,
+            "releasedBytes": 10065144,
+            "cacheHits": 0,
+            "cacheBytes": 0,
+            "logicalReturnedBytes": 10065144,
+            "retainedBytes": 0,
+            "peakRetainedBytes": 1048576,
+            "checksumBound": true,
+            "pendingCallbacks": 0,
+            "cleanupPending": 0,
+            "cleanupFailed": false,
+            "cleanupSettled": true,
+            "maxReadBytes": 1048576,
+            "requestTimeoutMs": 70000,
+            "scope": "optimistic observed-content pre/post fence, not immutable revision or range hash verification; owned byte arrays only, excludes callback/browser/output/JS heap"
+          }
+        },
+        "errors": []
+      },
+      "seek": {
+        "time": 7,
+        "events": [
+          {
+            "type": "waiting",
+            "wallMs": 127.39999997615814,
+            "time": 0,
+            "buffered": [
+              [
+                0,
+                0.938666
+              ]
+            ]
+          },
+          {
+            "type": "playing",
+            "wallMs": 173.69999998807907,
+            "time": 0.028832,
+            "buffered": [
+              [
+                0,
+                2.944
+              ]
+            ]
+          },
+          {
+            "type": "waiting",
+            "wallMs": 194.0999999642372,
+            "time": 0.149563,
+            "buffered": [
+              [
+                0,
+                4.949333
+              ]
+            ]
+          },
+          {
+            "type": "playing",
+            "wallMs": 194.5,
+            "time": 0.149563,
+            "buffered": [
+              [
+                0,
+                4.949333
+              ]
+            ]
+          },
+          {
+            "type": "ended",
+            "wallMs": 1734.7999999523163,
+            "time": 24.021333,
+            "buffered": [
+              [
+                0,
+                24.021333
+              ]
+            ]
+          }
+        ],
+        "calls": [
+          {
+            "kind": "metadata",
+            "phase": "open",
+            "wallMs": 1.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 2.799999952316284
+          },
+          {
+            "kind": "range",
+            "start": 0,
+            "end": 524143,
+            "bytes": 524144,
+            "wallMs": 2.899999976158142,
+            "returnedMs": 15.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 30.899999976158142
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 41
+          },
+          {
+            "kind": "range",
+            "start": 8493276,
+            "end": 9017419,
+            "bytes": 524144,
+            "wallMs": 41.09999996423721,
+            "returnedMs": 45.59999996423721
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 48
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 83.29999995231628
+          },
+          {
+            "kind": "range",
+            "start": 564,
+            "end": 1049139,
+            "bytes": 1048576,
+            "wallMs": 83.29999995231628,
+            "returnedMs": 93
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 97
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 146.69999998807907
+          },
+          {
+            "kind": "range",
+            "start": 1049140,
+            "end": 2097715,
+            "bytes": 1048576,
+            "wallMs": 146.79999995231628,
+            "returnedMs": 157.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 161.5999999642372
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 199.19999998807907
+          },
+          {
+            "kind": "range",
+            "start": 2097716,
+            "end": 3146291,
+            "bytes": 1048576,
+            "wallMs": 199.29999995231628,
+            "returnedMs": 204.29999995231628
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 207.89999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 241.5
+          },
+          {
+            "kind": "range",
+            "start": 3146292,
+            "end": 4194867,
+            "bytes": 1048576,
+            "wallMs": 241.5999999642372,
+            "returnedMs": 245.79999995231628
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 250
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 283.39999997615814
+          },
+          {
+            "kind": "range",
+            "start": 4194868,
+            "end": 5243443,
+            "bytes": 1048576,
+            "wallMs": 283.39999997615814,
+            "returnedMs": 287.0999999642372
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 290.39999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 313.0999999642372
+          },
+          {
+            "kind": "range",
+            "start": 5243444,
+            "end": 6292019,
+            "bytes": 1048576,
+            "wallMs": 313.39999997615814,
+            "returnedMs": 327.69999998807907
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 330.7999999523163
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 353
+          },
+          {
+            "kind": "range",
+            "start": 6292020,
+            "end": 7340595,
+            "bytes": 1048576,
+            "wallMs": 353.0999999642372,
+            "returnedMs": 358.89999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 361.2999999523163
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 380.39999997615814
+          },
+          {
+            "kind": "range",
+            "start": 7340596,
+            "end": 8389171,
+            "bytes": 1048576,
+            "wallMs": 380.5,
+            "returnedMs": 390.39999997615814
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 393
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 411.89999997615814
+          },
+          {
+            "kind": "range",
+            "start": 8389172,
+            "end": 9017419,
+            "bytes": 628248,
+            "wallMs": 411.89999997615814,
+            "returnedMs": 414.2999999523163
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 437
+          },
+          {
+            "kind": "metadata",
+            "phase": "open",
+            "wallMs": 1763.2999999523163
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 1764.8999999761581
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 1766.0999999642372
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 1773
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 1773.3999999761581
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 1777.7999999523163
+          },
+          {
+            "kind": "range",
+            "start": 2359400,
+            "end": 2883543,
+            "bytes": 524144,
+            "wallMs": 1777.8999999761581,
+            "returnedMs": 1782.7999999523163
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 1785.699999988079
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 1789
+          },
+          {
+            "kind": "range",
+            "start": 2097140,
+            "end": 3145615,
+            "bytes": 1048476,
+            "wallMs": 1789,
+            "returnedMs": 1794.199999988079
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 1798.8999999761581
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 1843.2999999523163
+          },
+          {
+            "kind": "range",
+            "start": 2250172,
+            "end": 3298747,
+            "bytes": 1048576,
+            "wallMs": 1843.5,
+            "returnedMs": 1848.8999999761581
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 1853.5
+          },
+          {
+            "kind": "metadata",
+            "phase": "preflight",
+            "wallMs": 1906.5999999642372
+          },
+          {
+            "kind": "range",
+            "start": 3298748,
+            "end": 4347323,
+            "bytes": 1048576,
+            "wallMs": 1906.699999988079,
+            "returnedMs": 1914.3999999761581
+          },
+          {
+            "kind": "metadata",
+            "phase": "postflight",
+            "wallMs": 1917.5999999642372
+          }
+        ],
+        "inputs": [
+          65536,
+          264,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          38540,
+          65536,
+          264,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65424,
+          65536,
+          76,
+          65536,
+          76,
+          65424,
+          65536
+        ],
+        "payloads": [
+          "5b8ad4d13e700c619e33acc2abc786df02d7c2b852c2b059c3c2d6edaccd39dc",
+          "27a910d2743a9a9a0b86ab616ae567313a7dfbf933e39a95d7e1462f9b03cd83",
+          "1a213e3264dd92d2a3ae971ebcc026e3e84ac374d815200a4dc66187f189e841",
+          "2d82a34d44cfaac39c79027b2bbbd8ce8e03cf7e90c7c22d4f18b041497db486",
+          "745de619d067d76d1ac2fe14891e296d8c5a807d0d66f255e94b1ee3cc20c012",
+          "cf90bb3574397d9b5e3a1c7a3d351680110c90672e54543674c1522357d9f8bf",
+          "8d6cbbd4482bdceceb49963cdc5046e8b7a91b6ff4153427741991fe0064ea30",
+          "83dd2f5bb4327d16d49cf950390c58099f90dc8c68e01d59555aa205041e7b47",
+          "e782a8ee4770650400dc22415183b3b24b81772927b8872134fbe4f6212d0b31",
+          "422570295837b4d767f10e123b2cd2b39f18a434be10cb6dd77ba291c6f6d647",
+          "c1d9fbc265860a0bd7fcc2b714640a844cbf86e55681c5436286ffc57592a5bb",
+          "7e3e1983a06af08c0f04157e2fdafe9fa677a202c6a7f762142712022c938275",
+          "26e388aa094d5534dc756b8d8f2a25917f4a2e693031010614a5d5f1c57e6303",
+          "383eff7eb4f424c64c6c5b78b85dcf28ac45c9ef9191b9157acf27157296d663",
+          "244ff3d70d4149ee02e9a0ed4aa9fc510eb5336b8a81619c388e831a937d360f",
+          "30844586693f8904142974cbf50f6b91d246cd470ca2c78b38fc3edba4f6de7c",
+          "3b5d253f604d70c7b8f8ee3f095daa0e795f0a0a25f5ebe60674d877cb4fadd5",
+          "fb56c846e85e64039991a86e71bcc7745a54062d38166b335d1255e87d52f861",
+          "7289205dd28c0389bfe3ce96d578f79b3969aceec8add466ae82e59845963e5b",
+          "b87c0b5fe830393b7bfdc66823d39c32b3b8c495b8bee14fc31f0e592232caef",
+          "8307f9a599643bd5c6d509169176fe14adb4dc50d8e57d2b0d3d3825c4018bcc",
+          "74f34eb4afddfe4bda8bc05292435d5571906b8daf9618466fb4b3332e86b544",
+          "fb38b8e882e23b24ceb99b46566a7bb1c72e6a33ca28e67fe8b29494afd62377",
+          "8dd4744c6ff10000e8ca03bd212118e064851e72c7d83093c3de9e17c3914536",
+          "34fc4847cd183893651d96c82213f349e9b445ede9a55f8eae6e03471b5f21eb",
+          "85caf1d5d504e11f44afa037b07683786fa178a488132a50d260fd09aa1feacf",
+          "86216dd5006be2ab7d25fbfc15962dfcd630316e9d56d637e4745d72a6c5e01a",
+          "f15a491115ae57a7b5f27446ff6aca9ef9a701104e5aacec3382d03e5189cba1"
+        ],
+        "stats": {
+          "generation": 2,
+          "phase": "ready",
+          "failure": null,
+          "target": 7,
+          "appends": 4,
+          "frames": 1,
+          "lastMediaTime": 6.988,
+          "window": {
+            "waits": 0,
+            "removals": 0,
+            "peakAhead": 2.941333,
+            "peakSpan": 3.968
+          },
+          "disposed": false,
+          "bufferRemoved": false,
+          "urlRevoked": false,
+          "previousCleanup": {
+            "settled": true,
+            "source": {
+              "settled": true,
+              "pendingCallbacks": 0,
+              "cleanupPending": 0,
+              "cleanupFailed": false
+            }
+          },
+          "probeInputReused": true,
+          "duration": 24.021333333333335,
+          "timelineKind": "sampled-candidate"
+        },
+        "errors": []
+      },
+      "cleanup": {
+        "settled": true,
+        "source": {
+          "settled": true,
+          "pendingCallbacks": 0,
+          "cleanupPending": 0,
+          "cleanupFailed": false
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "origin": "http://127.0.0.1:51311",
+  "passed": true,
+  "finished": "2026-10-30T12:27:13.584Z"
+}

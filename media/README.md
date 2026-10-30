@@ -51,8 +51,8 @@ No source/PES clock, encoded video/audio payload, or resolution is changed.
 
 Forward admission uses30/12-second hysteresis and retains6 seconds behind. This
 limits exposed media time, not the total JS/transport/mux/MSE/decoder memory.
-Worker input is64KiB; source epochs start at256KiB until the first fragment,
-then use at most1MiB. Each epoch retains fresh pre/post revision checks and
+Worker input is64KiB; source epochs use bounded1MiB stream reads from the
+first batch. Each epoch retains fresh pre/post revision checks and
 serial source ownership. Parser/GOP/output limits fail closed.
 Pause has no lifetime timeout. Closure/replacement releases owned buffers, worker,
 URL, source callback ownership and temporary remote-playback settings. App frame
