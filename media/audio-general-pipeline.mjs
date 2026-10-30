@@ -54,7 +54,7 @@ export async function streamGeneralQ2({ source, generation = 1, isCurrent = () =
   timelinePolicy = true }) {
   if (typeof onChunk !== 'function') throw new Error('GENERAL_OUTPUT_REQUIRED');
   if (endTime !== Infinity) throw new Error('GENERAL_TRIM_UNQUALIFIED');
-  const rpc = createGeneralSource(source, { isCurrent, signal, ...limits });
+  const rpc = createGeneralSource(source, { isCurrent, signal, ...limits, streamingReadAhead:true });
   let admission;
   try { validateInitialPresentationTime(initialPresentationTime, targetTime); validateGeneralAudioSelection(selectedAudioTrackId); admission = await admitGeneralInput(rpc, {audioCodecs:GENERAL_AUDIO_CODECS}); } catch (error) { error.cleanup = await rpc.cleanup(); throw error; }
   const policyRpc = {metrics:{...rpc.metrics,generation,size:rpc.size},request:({start,end})=>rpc.request(start,end)};

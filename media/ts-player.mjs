@@ -26,7 +26,10 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
     const ready=new Promise((yes,no)=>{readyResolve=yes;readyReject=no;});ready.catch(()=>{});
     const state={generation:id,phase:'opening',failure:null,target:null,appends:0,frames:0,lastMediaTime:null,
       window:{waits:0,removals:0,peakAhead:0,peakSpan:0},disposed:false,bufferRemoved:false,urlRevoked:false};
-    const policy=createBufferWindow(),current=()=>active&&id===generation&&owned();
+    // Drive reads include fresh metadata before and after the body. A 6/4 s
+    // window cannot absorb that latency plus a GOP boundary; use the same
+    // bounded 30/12 s runway as the general player, including while paused.
+    const policy=createBufferWindow({high:30,low:12}),current=()=>active&&id===generation&&owned();
     const check=()=>demand(current(),'CANCELLED');
     const emit=(type,detail={})=>{check();onEvent({type,generation:id,...detail});check();};
     function wait(target,name,action=null,timeout=10000){return new Promise((resolve,reject)=>{
@@ -224,7 +227,11 @@ export function createTsPlayer({video,openSource,isCurrent,onEvent=()=>{},initia
         await worker.ready;check();
         for(let position=bootstrap.readStart;position<size;){
           check();if(!firstAppend)await admit();
-          const end=Math.min(position+262143,size-1),raw=await read({start:position,end});check();
+          // Preserve the small first delivery, then amortize each pre/post
+          // revision check over one bounded MiB. Worker input stays at 64 KiB;
+          // there is still only one source read, with no speculative owner.
+          const readBytes=firstAppend?262144:1048576;
+          const end=Math.min(position+readBytes-1,size-1),raw=await read({start:position,end});check();
           for(let offset=0;offset<raw.length;offset+=65536){
             const transformed=bootstrap.push(raw.subarray(offset,offset+65536),{offset:position+offset,generation:id});
             for(let cursor=0;cursor<transformed.length;cursor+=65536){await worker.push(transformed.subarray(cursor,cursor+65536));check();}

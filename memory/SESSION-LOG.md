@@ -1062,3 +1062,8 @@ User reported `403 access_denied` ("앱은 현재 테스트 중") when signing i
 ## 2026-10-29 — D125–D128 photo trash button, folder loading, end action; 1.23.21 delivered
 
 D125 photo-viewer topbar trash button + Delete key (9cd4462), D126 never re-list folders already read + pipelined subfolder scan (02d98e5; simulated 25→10 requests, 21.6→7.0 s), D127 end-of-playback action 처음부터/다음 영상/랜덤 쇼츠/멈춤, default 처음부터 (ec56ac2). Released as 1.23.21 (`a42bce8`, main fast-forward, pushed), Worker f0c33cae. 1044/1044; 83/83 served Git-equal. Actual Chrome (user profile, own tab closed): photo trash dialog by click and Delete (cancelled), subfolder re-toggle/navigation 0 requests after a 55 s first scan of 13,313 files, end actions repeat/stop/next on a real 7.9 s video, setting restored. qa/release-1.23.21 owns receipts.
+
+
+## 2026-10-30 — Buffering causal repair, then expanded format survey (in progress)
+
+Observed production1.23.22 on the user Chrome profile: an MP4-named TS source suffered12 waits/355.3s. Implemented bounded TS256KiB-start→1MiB reads and30/12s window; general Q1/Q2/Q3 opt-in512KiB streaming/two-block cache with discovery/subtitle preservation and a reproduced transition race fix. Product1054/1054, controlled Chrome45s at2x:12→0 waits and53.735→89.910 media seconds. Same actual file local-injected tab had one1.460s immediate-seek wait, then no further event over308.5s. qa/buffering-20261030 owns exact scopes. No deploy/version/push, raw Drive originals unchanged. User broadened work to content/extension compatibility underㅇㅎㅎ including all descendants; inventory6folders/12,289files, header survey in progress.

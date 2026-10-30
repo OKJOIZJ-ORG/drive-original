@@ -49,9 +49,11 @@ The final sample duration of a fragment uses observed next-DTS lookahead; only
 true EOF uses the last observed interval as an explicit duration estimate.
 No source/PES clock, encoded video/audio payload, or resolution is changed.
 
-Forward admission uses6/4-second hysteresis and retains6 seconds behind. This
+Forward admission uses30/12-second hysteresis and retains6 seconds behind. This
 limits exposed media time, not the total JS/transport/mux/MSE/decoder memory.
-Worker input is64KiB, source epochs256KiB; parser/GOP/output limits fail closed.
+Worker input is64KiB; source epochs start at256KiB until the first fragment,
+then use at most1MiB. Each epoch retains fresh pre/post revision checks and
+serial source ownership. Parser/GOP/output limits fail closed.
 Pause has no lifetime timeout. Closure/replacement releases owned buffers, worker,
 URL, source callback ownership and temporary remote-playback settings. App frame
 and seek watchdogs require presentation, never merely append. Playback intent,
