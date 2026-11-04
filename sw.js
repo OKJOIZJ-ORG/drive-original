@@ -1,4 +1,4 @@
-const VERSION = '1.23.24';
+const VERSION = '1.23.25';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const SHELL_REFRESH_PROTOCOL = 'drive-original-shell-refresh-v1';
 const SHELL_REFRESH_TIMEOUT_MS = 15000;
