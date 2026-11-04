@@ -78,7 +78,8 @@ async function rateLimited(response) {
 
 export class DriveJobOwner {
   // access(rejectedRevision) returns { accessToken, revision } or throws AuthError.
-  constructor({ sql, transaction, access, fetchImpl = fetch, clock = Date.now }) {
+  // Workers rejects fetch called as a method (Illegal invocation), so the default stays a plain call.
+  constructor({ sql, transaction, access, fetchImpl = (...args) => fetch(...args), clock = Date.now }) {
     Object.assign(this, { sql, transaction, access, fetchImpl, clock, retryAt: 0, rejectedRevision: null });
     sql.exec(`CREATE TABLE IF NOT EXISTS drive_jobs (id TEXT PRIMARY KEY, action TEXT NOT NULL, target_id TEXT,
       target_name TEXT, target_resource_key TEXT, chunks INTEGER NOT NULL, total INTEGER NOT NULL,

@@ -1,5 +1,9 @@
 # Local authentication contract
 
+Since D139 the same account object also runs the server Drive job queue
+(`worker/drive-jobs.mjs`). `backgroundCredential` gives that queue an access
+token with no session and without touching `lastSeenAt`.
+
 These dependency-free ESM modules are a locally testable candidate. They are not a
 deployed Worker, a Google OAuth implementation, or a media proxy. No production
 configuration, credentials, or Google/Cloudflare requests are included.

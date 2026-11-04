@@ -304,3 +304,20 @@ test('Drive is only called on the files API with the account token', async () =>
   assert.ok(seen.every(url => url.startsWith(`${DRIVE_API}/files/aaaaa?`)));
   assert.ok(f.drive.calls.every(call => call.auth === 'Bearer token'));
 });
+
+test('the default fetch is not called as a method, which Workers rejects with Illegal invocation', async () => {
+  const storage = sqliteStorage();
+  const files = new Map([['aaaaa', file('aaaaa')]]);
+  const drive = driveFixture(files);
+  const original = globalThis.fetch;
+  globalThis.fetch = function strictFetch(url, options) {
+    if (this !== undefined && this !== globalThis) throw new TypeError('Illegal invocation');
+    return drive.fetchImpl(url, options);
+  };
+  try {
+    const owner = new DriveJobOwner({ sql: storage.sql, transaction: storage.transaction, access: async () => ({ accessToken: 'token', revision: 1 }) });
+    owner.enqueue({ jobId: JOB, action: 'trash', chunk: 0, files: [wanted('aaaaa')] });
+    await owner.runBatch();
+    assert.equal(owner.status().results[0].state, 'confirmed');
+  } finally { globalThis.fetch = original; }
+});
