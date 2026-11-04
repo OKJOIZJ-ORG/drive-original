@@ -1111,3 +1111,7 @@ The user asked for year-month dividers under date sorts and left the details to 
 ## 2026-11-04 — D137 release 1.23.26 (D135, D136 deployed)
 
 The user answered "배포해". D135 and D136 went out as 1.23.26: runtime `45d4bdd`, Worker `f3db1e52-47f9-4f91-b8d1-485a50501045`, 1,136/1,136 tests, 91/91 public files equal to Git. The D135 and D136 entries above say "not deployed" and describe the state before this release. Node `fetch` hung on the large `licenses/` parts, so `served-check.cjs` now uses curl. Read-only date queries on the Drive account showed that `createdTime` is the upload date and `modifiedTime` keeps the older date; the user had read these the wrong way round, then decided to keep the current sorts and declined filename-date grouping. See qa/release-1.23.26/README.md.
+
+## 2026-11-04 — D139~D142 server trash/move queue, player buttons, random, duration sort (1.24.0)
+
+The user asked whether trash and move can keep running after the app closes, then asked for it with no billing, moved the queue indicator to Settings, moved trash and quick move out of the menus, asked for unbiased random and unseen-first shorts, added the shortest-duration sort, and said "배포까지 ㄱㄱ". `worker/drive-jobs.mjs` is the queue inside the account Durable Object and shares its one alarm with credential retention; `app/drive-jobs.js` is the page side. Evidence and limits: `qa/server-drive-jobs-20261104/README.md`. The uncommitted D138 work in the main checkout was left out of this release.

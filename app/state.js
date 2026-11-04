@@ -121,6 +121,7 @@ const state = {
   lastPresentedMediaTime: null,
   frameCallbackId: null,
   playbackOrderIds: [],
+  playbackShownIds: new Set(),
   playbackDeck: { anchorId: null, above: [], below: [] },
   playbackDeckComplete: false,
   demo: new URLSearchParams(location.search).get('demo') === '1'

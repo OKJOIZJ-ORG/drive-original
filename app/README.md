@@ -20,7 +20,8 @@
 | `playback-source.js` | 원본 재생 경로, TS/일반 재생, 미디어 오류 복구 |
 | `original-buffer.js` | 임시 디스크(OPFS)·메모리 원본 보조 |
 | `drive-mutations.js` | 검증된 Drive 변경(휴지통·이동·이름 바꾸기): 작업 기록, 제출 전 읽기, PATCH 1회, 독립 확인, 새로고침 후 복구 |
-| `drive-actions.js` | Google 미리보기, 뒤에서 도는 휴지통·이동·이름 바꾸기 작업 큐와 결과 반영 |
+| `drive-jobs.js` | 서버 휴지통·이동 큐 연결: 파일 ID 전송, 진행 확인, 설정의 파일 작업 표시 |
+| `drive-actions.js` | Google 미리보기, 휴지통·이동·이름 바꾸기 시작과 결과 반영 |
 | `move-dialog.js` | 이동 창: 대상 폴더 목록, 최근 폴더, 서버 검색, 전체 폴더 목록 |
 | `player-presentation.js` | 프레임 표시, 화질 표시, 로딩·오류 상태, 플레이어 닫기 |
 | `session-ui.js` | 설정, 로그아웃, 설정·라이브러리 화면 전환, GIF 썸네일, 토스트, 형식 변환, 데모 |

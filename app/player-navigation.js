@@ -342,6 +342,7 @@ function enqueuePlaybackNavigation(
     state.pendingPlay = true;
     await animateMediaTransition(direction, () => {
       if (playerSession !== state.playbackSession || el.playerSheet.hidden) return;
+      state.playbackShownIds.add(target.id);
       onCommit?.(target, getPlaybackFileList());
       openMediaSource(target);
       warmPlaybackNeighborhood(target);

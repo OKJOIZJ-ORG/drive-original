@@ -13,6 +13,10 @@ function openSettings(scrollToHelp) {
   const content = el.settingsDialog.querySelector('.dialog-content');
   if (scrollToHelp && el.settingsAdvanced) el.settingsAdvanced.open = true;
   if (el.moveIncludeSubfoldersCheckbox) el.moveIncludeSubfoldersCheckbox.checked = moveIncludesSubfolders();
+  if (el.quickMoveCheckbox) el.quickMoveCheckbox.checked = quickMoveEnabled();
+  renderQuickMoveSettings();
+  renderDriveJobPanel();
+  void pollDriveJobs();
   if (!el.settingsDialog.open) el.settingsDialog.showModal();
   if (content) content.scrollTop = 0;
   if (scrollToHelp) requestAnimationFrame(() => el.setupHelpSection.scrollIntoView({ behavior: 'instant', block: 'start' }));
@@ -96,6 +100,7 @@ function clearToken(notifyWorker, { preserveAccount = true } = {}) {
   const clearedRevision = state.tokenRevision;
   const clearedAccountGeneration = state.driveSessionGeneration;
   stopAccountStateRefresh();
+  if (!preserveAccount) resetServerDriveJobs();
   state.authGeneration += 1;
   state.accountStateAbortController?.abort();
   state.accountStateAbortController = null;

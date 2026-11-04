@@ -489,6 +489,7 @@ async function initializeAccountMediaState({ refresh = false } = {}) {
     // Recovery only reads the origin account's submitted operations. It never
     // replays a PATCH, including after a reload or a changed credential.
     void recoverDriveMutations().catch(() => {});
+    void pollDriveJobs({ includePending: true });
     if (remoteNeedsMerge) queueAccountStateSync();
     return state.accountMediaState;
   })();
@@ -703,16 +704,16 @@ function getViewedIdSet() {
   return accountViewedIds(state.accountMediaState);
 }
 
-function buildAccountPlaybackDeck(files, selectedId, random = Math.random, depth = VERTICAL_DECK_DEPTH) {
-  return buildVerticalPlaybackDeck(files, selectedId, random, depth, getViewedIdSet());
+function buildAccountPlaybackDeck(files, selectedId, random = secureRandom, depth = VERTICAL_DECK_DEPTH) {
+  return buildVerticalPlaybackDeck(files, selectedId, random, depth, getViewedIdSet(), state.playbackShownIds);
 }
 
-function advanceAccountPlaybackDeck(deck, direction, targetId, files, random = Math.random) {
-  return advanceVerticalPlaybackDeck(deck, direction, targetId, files, random, getViewedIdSet());
+function advanceAccountPlaybackDeck(deck, direction, targetId, files, random = secureRandom) {
+  return advanceVerticalPlaybackDeck(deck, direction, targetId, files, random, getViewedIdSet(), state.playbackShownIds);
 }
 
-function retargetAccountPlaybackDeck(deck, targetId, files, random = Math.random) {
-  return retargetVerticalPlaybackDeck(deck, targetId, files, random, getViewedIdSet());
+function retargetAccountPlaybackDeck(deck, targetId, files, random = secureRandom) {
+  return retargetVerticalPlaybackDeck(deck, targetId, files, random, getViewedIdSet(), state.playbackShownIds);
 }
 
 function isFavoriteFileId(fileId) {

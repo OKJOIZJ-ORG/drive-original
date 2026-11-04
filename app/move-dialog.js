@@ -8,6 +8,7 @@
 async function requestMoveFile() {
   const files = getActionFiles();
   if (!files.length) return;
+  setQuickMoveTargetPicking(false);
   const generation = ++moveRequestGeneration;
   moveParentsAbortController?.abort();
   const parentsController = new AbortController();
@@ -69,6 +70,7 @@ async function ensureFileParents(file, signal) {
 }
 
 function cancelMoveFolderLoading() {
+  setQuickMoveTargetPicking(false);
   moveRequestGeneration += 1;
   moveParentsAbortController?.abort();
   moveParentsAbortController = null;
@@ -79,6 +81,154 @@ function cancelMoveFolderLoading() {
   state.moveTargetFolderId = null;
   state.pendingActionFiles = [];
   resetMoveFolderSearch();
+}
+
+/* 빠른 이동 — 플레이어의 이동 버튼이 폴더 선택 창 없이 기본 폴더로 바로 보낸다.
+   기본 폴더는 계정별로 이 기기에 저장하고, 고른 적이 없으면 이름이 '추억'인 폴더를 찾아 쓴다. */
+let quickMoveTargetPicking = false;
+let quickMoveTargetLookup = null;
+
+function setQuickMoveTargetPicking(picking) {
+  quickMoveTargetPicking = picking;
+  if (el.moveDialogTitle) el.moveDialogTitle.textContent = picking ? '빠른 이동 폴더 선택' : '폴더로 이동';
+  if (el.moveConfirmButton) el.moveConfirmButton.textContent = picking ? '선택' : '이동';
+}
+
+function quickMoveEnabled() {
+  try { return localStorage.getItem(QUICK_MOVE_ENABLED_KEY) !== '0'; } catch (_) { return true; }
+}
+
+function setQuickMoveEnabled(enabled) {
+  try {
+    if (enabled) localStorage.removeItem(QUICK_MOVE_ENABLED_KEY);
+    else localStorage.setItem(QUICK_MOVE_ENABLED_KEY, '0');
+  } catch (_) {}
+  renderQuickMoveSettings();
+}
+
+function quickMoveStorageKey() {
+  if (state.demo) return `${QUICK_MOVE_TARGET_PREFIX}demo`;
+  if (!state.accountId || state.accountIdentityPending) return '';
+  return `${QUICK_MOVE_TARGET_PREFIX}${encodeURIComponent(state.accountId)}`;
+}
+
+function readQuickMoveTarget() {
+  const key = quickMoveStorageKey();
+  if (!key) return null;
+  try {
+    const row = JSON.parse(localStorage.getItem(key) || 'null');
+    return typeof row?.id === 'string' && /^[A-Za-z0-9_-]{1,200}$/.test(row.id) && typeof row.name === 'string' ? row : null;
+  } catch (_) {
+    return null;
+  }
+}
+
+function saveQuickMoveTarget(row) {
+  const key = quickMoveStorageKey();
+  if (key) {
+    try {
+      localStorage.setItem(key, JSON.stringify({ id: row.id, name: String(row.name || ''),
+        driveId: row.driveId || null, resourceKey: row.resourceKey || null }));
+    } catch (_) {}
+  }
+  renderQuickMoveSettings();
+}
+
+function renderQuickMoveSettings() {
+  const name = readQuickMoveTarget()?.name || QUICK_MOVE_DEFAULT_FOLDER;
+  if (el.quickMoveTargetName) el.quickMoveTargetName.textContent = name;
+  const enabled = quickMoveEnabled();
+  const label = enabled ? `'${name}'(으)로 이동` : '폴더로 이동';
+  for (const button of [el.topbarMoveBtn, el.shortsMoveBtn]) {
+    if (!button) continue;
+    button.title = label;
+    button.setAttribute('aria-label', label);
+  }
+}
+
+async function findDefaultQuickMoveTarget() {
+  let folders;
+  if (state.demo) {
+    await ensureTreeCache();
+    folders = [...(state.treeCache?.foldersById?.values() || [])].filter((folder) => folder.name === QUICK_MOVE_DEFAULT_FOLDER);
+  } else {
+    const params = new URLSearchParams({
+      pageSize: '20',
+      q: `trashed = false and mimeType = '${FOLDER_MIME}' and name = '${escapeDriveQueryLiteral(QUICK_MOVE_DEFAULT_FOLDER)}'`,
+      corpora: 'allDrives',
+      supportsAllDrives: 'true',
+      includeItemsFromAllDrives: 'true',
+      fields: 'files(id,name,parents,driveId,resourceKey)'
+    });
+    const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`);
+    const data = await response.json();
+    folders = Array.isArray(data.files) ? data.files : [];
+  }
+  if (folders.length === 1) return folders[0];
+  // Same name in several places: only a folder directly under My Drive is an obvious default.
+  const rootId = await resolveRootFolderId();
+  const top = folders.filter((folder) => folder.parents?.includes(rootId));
+  return top.length === 1 ? top[0] : null;
+}
+
+async function resolveQuickMoveTarget() {
+  const stored = readQuickMoveTarget();
+  if (stored) return stored;
+  quickMoveTargetLookup ||= findDefaultQuickMoveTarget().finally(() => { quickMoveTargetLookup = null; });
+  const found = await quickMoveTargetLookup;
+  if (found) saveQuickMoveTarget(found);
+  return found;
+}
+
+async function performQuickMove() {
+  if (!quickMoveEnabled()) return requestMoveFile();
+  const files = getActionFiles().filter((file) => !state.hiddenActionFileIds.has(file.id));
+  if (!files.length) return;
+  let target;
+  try {
+    target = await resolveQuickMoveTarget();
+  } catch (error) {
+    if (error?.status === 401) clearRejectedToken(error);
+    showToast(`기본 폴더를 찾지 못했습니다: ${humanizeDriveError(error)}`);
+    return;
+  }
+  if (!target) {
+    showToast(`'${QUICK_MOVE_DEFAULT_FOLDER}' 폴더를 하나로 정하지 못했습니다. 설정의 빠른 이동에서 폴더를 골라 주세요.`);
+    return;
+  }
+  const movable = files.filter((file) => !file.parents?.includes(target.id));
+  if (!movable.length) {
+    showToast(`이미 '${target.name}' 폴더에 있습니다.`);
+    return;
+  }
+  return queueDriveActionJob({ action: 'move', files: movable, targetRow: target, hide: true });
+}
+
+function requestQuickMoveTargetPick() {
+  moveParentsAbortController?.abort();
+  state.moveTargetFolderId = null;
+  state.moveResultLimit = MOVE_RESULT_BATCH;
+  resetMoveFolderSearch();
+  setQuickMoveTargetPicking(true);
+  if (el.moveFileName) el.moveFileName.textContent = '이동 버튼이 파일을 보낼 폴더';
+  if (el.moveConfirmButton) el.moveConfirmButton.disabled = true;
+  if (el.moveSearchInput) el.moveSearchInput.value = '';
+  if (el.moveDialog && !el.moveDialog.open) el.moveDialog.showModal();
+  renderMoveFolderList('');
+  void ensureFolderIndex()
+    .then(() => { if (el.moveDialog?.open) renderMoveFolderList(el.moveSearchInput?.value || ''); })
+    .catch((error) => {
+      if (error?.name === 'AbortError') return;
+      if (el.moveDialog?.open) el.moveDialog.close();
+      showToast(`폴더 목록을 불러오지 못했습니다: ${humanizeDriveError(error)}`);
+    });
+}
+
+function saveQuickMoveTargetPick() {
+  const row = findMoveTargetRow(state.moveTargetFolderId);
+  if (!row?.id) return;
+  saveQuickMoveTarget(row);
+  if (el.moveDialog?.open) el.moveDialog.close();
 }
 
 /* 이동 창 폴더 범위 — 이 기기에 기억한다. 전체 수집은 폴더가 많으면 몇 분 걸려서 기본은 꺼져 있다. */
@@ -404,7 +554,7 @@ function renderMoveFolderList(filterRaw) {
   if (!el.moveFolderList) return;
   el.moveFolderList.replaceChildren();
   const filter = normalizeMoveFilter(filterRaw);
-  const files = actionFilesSnapshot();
+  const files = quickMoveTargetPicking ? [] : actionFilesSnapshot();
   const fragment = document.createDocumentFragment();
   const appendNote = (text, { loading = false, compact = false } = {}) => {
     const note = document.createElement('div');
@@ -482,7 +632,7 @@ function createMoveFolderRow(row, files) {
   button.dataset.folderId = row.id;
   const selected = state.moveTargetFolderId === row.id;
   button.setAttribute('aria-pressed', String(selected));
-  const blockReason = getBulkMoveBlockReason(files, row);
+  const blockReason = quickMoveTargetPicking ? getMoveBlockReason(null, row) : getBulkMoveBlockReason(files, row);
   if (blockReason === '현재 위치') button.classList.add('current');
   if (blockReason) button.disabled = true;
   if (selected) button.classList.add('selected');

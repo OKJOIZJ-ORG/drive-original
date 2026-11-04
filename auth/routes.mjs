@@ -11,12 +11,12 @@ export function readCookie(request, name) {
   const value = found[0].slice(name.length + 1);
   return /^[A-Za-z0-9_-]{32,256}$/.test(value) ? value : null;
 }
-function json(value, status = 200, cookies = []) {
+export function json(value, status = 200, cookies = []) {
   const headers = new Headers({ 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'Pragma': 'no-cache', 'X-Content-Type-Options': 'nosniff' });
   for (const value of cookies) headers.append('Set-Cookie', value);
   return new Response(JSON.stringify(value), { status, headers });
 }
-async function bodyOf(request) {
+export async function bodyOf(request, limit = 4096) {
   if (request.headers.get('Content-Type')?.split(';')[0].trim() !== 'application/json') fail('bad_request');
   // Read incrementally; Content-Length is attacker-controlled and request.text()
   // would allocate the entire body before checking its size.
@@ -29,7 +29,7 @@ async function bodyOf(request) {
       const { value, done } = await reader.read();
       if (done) break;
       size += value.byteLength;
-      if (size > 4096) { await reader.cancel(); fail('bad_request'); }
+      if (size > limit) { await reader.cancel(); fail('bad_request'); }
       chunks.push(value);
     }
     const bytes = new Uint8Array(size);
@@ -43,6 +43,15 @@ async function bodyOf(request) {
 }
 function fields(body, allowed) {
   if (Object.keys(body).some(key => !allowed.includes(key))) fail('bad_request');
+}
+
+// Credentialed browser fetches only; a cross-site form or navigation cannot set these.
+export function assertSameOriginFetch(request, origin) {
+  if (request.headers.get('Origin') !== origin ||
+    request.headers.get('X-Drive-Original-CSRF') !== '1' ||
+    request.headers.get('Sec-Fetch-Site') !== 'same-origin' ||
+    !['cors', 'same-origin'].includes(request.headers.get('Sec-Fetch-Mode')) ||
+    request.headers.get('Sec-Fetch-Dest') !== 'empty') fail('forbidden');
 }
 
 // No default live provider is supplied. resolveSession must route an opaque
@@ -59,11 +68,8 @@ export function createAuthHandler({ origin, resolveSession, transactions,
     let clearPreauth = false;
     try {
       const url = new URL(request.url);
-      if (url.origin !== origin || request.headers.get('Origin') !== origin ||
-        request.headers.get('X-Drive-Original-CSRF') !== '1' ||
-        request.headers.get('Sec-Fetch-Site') !== 'same-origin' ||
-        !['cors', 'same-origin'].includes(request.headers.get('Sec-Fetch-Mode')) ||
-        request.headers.get('Sec-Fetch-Dest') !== 'empty') fail('forbidden');
+      if (url.origin !== origin) fail('forbidden');
+      assertSameOriginFetch(request, origin);
       if (request.method !== 'POST' || url.search) fail('bad_request');
       if (!['/api/session/credential', '/api/session/logout', '/api/account/disconnect', '/api/auth/transaction/create', '/api/auth/transaction/consume'].includes(url.pathname)) fail('not_found');
       // These POST transaction endpoints are local contract fixtures, not the

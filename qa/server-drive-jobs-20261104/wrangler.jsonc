@@ -1,0 +1,7 @@
+{
+  "name": "drive-jobs-check",
+  "main": "workerd-entry.mjs",
+  "compatibility_date": "2026-09-19",
+  "durable_objects": { "bindings": [{ "name": "TEST_OBJECT", "class_name": "TestObject" }] },
+  "exports": { "TestObject": { "type": "durable-object", "storage": "sqlite" } }
+}

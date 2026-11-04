@@ -86,7 +86,7 @@ function bindElements() {
     'infiniteScrollSpinner',
     'folderNav', 'breadcrumbTrail', 'folderUpButton', 'libraryTitle', 'folderStrip', 'folderMoreButton', 'edgeBackIndicator',
     'playerSheet', 'playerBackdrop', 'playerModal', 'playerTitle', 'playerQuality', 'topbarPrevBtn', 'topbarRandomBtn', 'topbarNextBtn',
-    'topbarFavoriteBtn', 'topbarDeleteBtn',
+    'topbarFavoriteBtn', 'topbarDeleteBtn', 'topbarMoveBtn',
     'fullscreenButton', 'iconExpand', 'iconCompress', 'closePlayerButton',
     'mediaStage', 'ambientBackdrop', 'videoPlayer', 'imageViewer',
     'mediaSwipeNeighbor', 'mediaSwipeNeighborBackdrop', 'mediaSwipeNeighborImage', 'mediaSwipeNeighborTitle',
@@ -96,8 +96,8 @@ function bindElements() {
     'iconCenterPlay', 'iconCenterPause', 'customVideoControls', 'seekBarContainer',
     'seekBarBuffered', 'seekBarPlayed', 'seekBarThumb', 'seekBarTooltip',
     'ctrlPrevVideo', 'ctrlPlayPause', 'ctrlIconPlay', 'ctrlIconPause', 'ctrlNextVideo', 'ctrlRandomShorts',
-    'ctrlRewind', 'ctrlFramePrev', 'ctrlFrameNext', 'ctrlForward', 'ctrlDelete', 'ctrlMove', 'ctrlRename',
-    'shortsExpandRow', 'shortsDeleteBtn', 'shortsDriveBtn', 'shortsPipBtn', 'shortsMoveBtn', 'shortsRenameBtn', 'shortsFramePrev', 'shortsFrameNext',
+    'ctrlRewind', 'ctrlFramePrev', 'ctrlFrameNext', 'ctrlForward', 'ctrlMove', 'ctrlRename',
+    'shortsExpandRow', 'shortsDeleteBtn', 'shortsDriveBtn', 'shortsPipBtn', 'shortsMoveBtn', 'shortsMoveOtherBtn', 'shortsRenameBtn', 'shortsFramePrev', 'shortsFrameNext',
     'shortsFullscreenBtn', 'shortsMoreBtn', 'shortsRotateBtn', 'shortsFavoriteBtn', 'deepScanToggle', 'deepScanStopBtn',
     'moveDialog', 'moveFileName', 'moveSearchInput', 'moveFolderList', 'moveCancelButton', 'moveConfirmButton',
     'volumeControlGroup', 'ctrlMute', 'ctrlIconVolHigh', 'ctrlIconVolMuted',
@@ -115,7 +115,7 @@ function bindElements() {
     'fileNameDialog', 'fileNameDialogTitle', 'fileNameView', 'fileNameText', 'fileNameCopyButton', 'fileNameRenameButton',
     'fileNameEdit', 'fileNameInput', 'fileNameHint', 'fileNameEditCancelButton', 'fileNameSaveButton',
     'subfolderDialog', 'subfolderDialogText', 'subfolderAllCheckbox', 'subfolderTree', 'subfolderOffButton', 'subfolderApplyButton',
-    'currentOrigin', 'copyOriginButton', 'appVersion', 'toast', 'driveActionStatus', 'driveActionStatusText',
+    'currentOrigin', 'copyOriginButton', 'appVersion', 'toast', 'driveJobList', 'driveJobCancelButton', 'quickMoveCheckbox', 'quickMoveTargetName', 'quickMoveTargetButton', 'moveDialogTitle',
     'deleteDialog', 'deleteFileName', 'deleteCancelButton', 'deleteConfirmButton',
     'permissionDialog', 'permissionReconnectButton', 'permissionCloseButton',
     'seekHintLeft', 'seekHintRight',
@@ -355,8 +355,9 @@ function bindEvents() {
 
   // Delete, move and rename flows (desktop controls, photo topbar, mobile shorts chips)
   for (const [buttons, request] of [
-    [[el.ctrlDelete, el.topbarDeleteBtn, el.shortsDeleteBtn], () => requestDeleteFile()],
-    [[el.ctrlMove, el.shortsMoveBtn], () => requestMoveFile()],
+    [[el.topbarDeleteBtn, el.shortsDeleteBtn], () => requestDeleteFile()],
+    [[el.topbarMoveBtn, el.shortsMoveBtn], () => performQuickMove()],
+    [[el.ctrlMove, el.shortsMoveOtherBtn], () => requestMoveFile()],
     [[el.ctrlRename, el.shortsRenameBtn], () => requestRenameFile()]
   ]) {
     for (const btn of buttons) {
@@ -410,6 +411,9 @@ function bindEvents() {
   if (el.moveDialog) el.moveDialog.addEventListener('close', cancelMoveFolderLoading);
   if (el.moveSearchInput) el.moveSearchInput.addEventListener('input', (event) => handleMoveSearchInput(event.target.value));
   if (el.moveIncludeSubfoldersCheckbox) el.moveIncludeSubfoldersCheckbox.addEventListener('change', (event) => setMoveIncludesSubfolders(event.target.checked));
+  if (el.quickMoveCheckbox) el.quickMoveCheckbox.addEventListener('change', (event) => setQuickMoveEnabled(event.target.checked));
+  if (el.quickMoveTargetButton) el.quickMoveTargetButton.addEventListener('click', requestQuickMoveTargetPick);
+  if (el.driveJobCancelButton) el.driveJobCancelButton.addEventListener('click', () => { void cancelDriveJobs(); });
 
   // Permission guide dialog
   if (el.permissionCloseButton) el.permissionCloseButton.addEventListener('click', () => el.permissionDialog.close());
@@ -438,7 +442,7 @@ function bindEvents() {
     updateAccountSyncStatus();
   });
   window.addEventListener('pagehide', stopAccountStateRefresh);
-  // Leaving mid-job is safe (the mutation journal re-verifies on the next load), but the browser asks first.
+  // Leaving mid-send is safe (nothing unsent starts; the journal re-verifies on the next load), but the browser asks first.
   window.addEventListener('beforeunload', (event) => {
     if (!hasPendingDriveActions()) return;
     event.preventDefault();
@@ -448,6 +452,7 @@ function bindEvents() {
     refreshForegroundCredential();
     resumeMediaViewObservation();
     scheduleAccountStateRefresh(0);
+    void pollDriveJobs({ includePending: true });
     markStandaloneAuthorizationReturned({ pageshow: true });
     resumeStandaloneAuthorization();
   });

@@ -15,6 +15,7 @@ function openPlayer(file) {
   swipeCommitPending = false;
   playbackNavigationChain = Promise.resolve();
   state.selected = file;
+  state.playbackShownIds = new Set([file.id]);
   state.playbackOrderIds = getPlaybackFileList().map((item) => item.id);
   if (!state.playbackOrderIds.includes(file.id)) state.playbackOrderIds.push(file.id);
   state.playbackDeck = buildAccountPlaybackDeck(getPlaybackFileList(), file.id);

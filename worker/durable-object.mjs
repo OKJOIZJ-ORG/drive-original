@@ -1,10 +1,12 @@
 import { AuthError, AccountCredentialOwner, SESSION_ABSOLUTE_MS } from '../auth/session-owner.mjs';
 import { PreAuthTransactionOwner } from '../auth/transaction-owner.mjs';
 import { createAuthCrypto } from './crypto.mjs';
+import { DriveJobOwner } from './drive-jobs.mjs';
 import { refreshGoogleAccess, revokeGoogleRefresh } from './google.mjs';
 
 const STATE_SLOT = 'core';
 const encoder = new TextEncoder();
+const MAX_REQUEST_BYTES = 131_072; // One Drive job chunk of 500 files.
 
 function clone(value) { return value === undefined ? undefined : structuredClone(value); }
 
@@ -39,9 +41,9 @@ export class CloudflareSqliteState {
 async function readJson(request) {
   if (request.method !== 'POST' || request.headers.get('Content-Type')?.split(';')[0].trim() !== 'application/json') throw new AuthError('bad_request');
   const length = Number(request.headers.get('Content-Length'));
-  if (Number.isFinite(length) && length > 16_384) throw new AuthError('bad_request');
+  if (Number.isFinite(length) && length > MAX_REQUEST_BYTES) throw new AuthError('bad_request');
   const text = await request.text();
-  if (encoder.encode(text).byteLength > 16_384) throw new AuthError('bad_request');
+  if (encoder.encode(text).byteLength > MAX_REQUEST_BYTES) throw new AuthError('bad_request');
   try {
     const body = JSON.parse(text);
     if (!body || typeof body !== 'object' || Array.isArray(body)) throw new Error();
@@ -79,8 +81,43 @@ export class AuthObject {
       revoke: input => revokeGoogleRefresh(input),
       encrypt: value => crypt.encryptRefresh(value, account),
       decrypt: value => crypt.decryptRefresh(value, account),
-      scheduleAlarm: this.scheduleAlarm,
+      scheduleAlarm: at => this.scheduleAccountAlarm(account, at),
     });
+  }
+
+  // An object has one alarm, shared by credential retention and the Drive job queue.
+  async scheduleAccountAlarm(account, at) {
+    const jobAt = this.driveJobOwner(account).nextRunAt();
+    await this.scheduleAlarm(jobAt == null ? at : at == null ? jobAt : Math.min(at, jobAt));
+  }
+
+  driveJobOwner(account) {
+    this.driveJobs ??= new DriveJobOwner({
+      sql: this.ctx.storage.sql,
+      transaction: callback => this.ctx.storage.transactionSync(callback),
+      access: rejectedRevision => this.accountOwner(account).backgroundCredential(rejectedRevision),
+    });
+    return this.driveJobs;
+  }
+
+  async driveJobRequest(account, { sessionId, op, body = {} }) {
+    const { expectedAccount, ...args } = body;
+    const owner = this.accountOwner(account);
+    await owner.assertSession({ sessionId, expectedAccount });
+    const jobs = this.driveJobOwner(account);
+    if (!['enqueue', 'status', 'cancel'].includes(op)) throw new AuthError('bad_request');
+    let value;
+    try { value = jobs[op](args); }
+    catch (error) {
+      if (error instanceof AuthError) throw error;
+      // Storage writes are refused once the free daily row limit is used up.
+      throw new AuthError('auth_unavailable');
+    }
+    // A lost alarm (retries exhausted during a storage outage) is repaired by the next visit.
+    const alarmAt = await this.ctx.storage.getAlarm();
+    const runAt = jobs.nextRunAt();
+    if (runAt != null && (alarmAt == null || alarmAt > runAt + 60_000)) await owner.alarm();
+    return value;
   }
 
   transactionOwner(state) {
@@ -129,7 +166,12 @@ export class AuthObject {
         if (body.operation === 'establish') return response({ ok: true, value: await owner.establishVerifiedSession(body.args.verified) });
         if (body.operation === 'credential') return response({ ok: true, value: await owner.credential(body.args.input) });
         if (body.operation === 'logout') return response({ ok: true, value: await owner.logout(body.args.input) });
-        if (body.operation === 'disconnect') return response({ ok: true, value: await owner.disconnect(body.args.input) });
+        if (body.operation === 'disconnect') {
+          const value = await owner.disconnect(body.args.input);
+          this.driveJobOwner(body.args.account).clear();
+          return response({ ok: true, value });
+        }
+        if (body.operation === 'drive-jobs') return response({ ok: true, value: await this.driveJobRequest(body.args.account, body.args.input) });
       } else if (body.kind === 'session-index') {
         return response({ ok: true, value: await this.sessionIndex(body.operation, body.args) });
       }
@@ -152,6 +194,7 @@ export class AuthObject {
       await this.scheduleAlarm(null);
     } else if (kind === 'account') {
       const account = await this.state.transaction(state => state.account);
+      await this.driveJobOwner(account).runBatch();
       await this.accountOwner(account).alarm();
     } else await this.scheduleAlarm(null);
   }

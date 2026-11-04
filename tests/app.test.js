@@ -5449,13 +5449,13 @@ test('PC: Delete opens the trash confirmation for the current photo or video', (
   assert.equal(run(f.context, 'deleteKey.defaultPrevented'), true);
 });
 
-test('photos show the topbar trash button; videos keep it in the more menu', () => {
+test('the topbar trash button stays out for photos and videos', () => {
   const f = keyHoldFixture();
-  run(f.context, `el.topbarDeleteBtn={hidden:true}; el.mediaStage=null; el.playerControlsEntry=null;
+  run(f.context, `el.topbarDeleteBtn={hidden:false}; el.mediaStage=null; el.playerControlsEntry=null;
     updatePlayerNavigationLabels({id:'p',mimeType:'image/jpeg'}); globalThis.photoHidden=el.topbarDeleteBtn.hidden;
     updatePlayerNavigationLabels({id:'v',mimeType:'video/mp4'})`);
   assert.equal(run(f.context, 'photoHidden'), false);
-  assert.equal(run(f.context, 'el.topbarDeleteBtn.hidden'), true);
+  assert.equal(run(f.context, 'el.topbarDeleteBtn.hidden'), false);
 });
 
 function endActionFixture() {

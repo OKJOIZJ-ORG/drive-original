@@ -1,4 +1,4 @@
-const VERSION = '1.23.26';
+const VERSION = '1.24.0';
 const SHELL_CACHE = `drive-original-shell-${VERSION}`;
 const SHELL_REFRESH_PROTOCOL = 'drive-original-shell-refresh-v1';
 const SHELL_REFRESH_TIMEOUT_MS = 15000;
@@ -36,6 +36,7 @@ const SHELL_FILES = [
   './app/playback-source.js',
   './app/original-buffer.js',
   './app/drive-mutations.js',
+  './app/drive-jobs.js',
   './app/drive-actions.js',
   './app/move-dialog.js',
   './app/player-presentation.js',

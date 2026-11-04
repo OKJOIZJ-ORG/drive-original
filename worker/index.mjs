@@ -1,5 +1,5 @@
 import { AuthError, ERROR_STATUS, SESSION_ABSOLUTE_MS, opaqueId } from '../auth/session-owner.mjs';
-import { cookie, createAuthHandler, expire, PREAUTH_COOKIE, readCookie, SESSION_COOKIE } from '../auth/routes.mjs';
+import { assertSameOriginFetch, bodyOf, cookie, createAuthHandler, expire, json, PREAUTH_COOKIE, readCookie, SESSION_COOKIE } from '../auth/routes.mjs';
 import { createAuthCrypto } from './crypto.mjs';
 import { buildGoogleAuthorizationUrl, exchangeGoogleAuthorizationCode } from './google.mjs';
 import { AuthObject } from './durable-object.mjs';
@@ -15,6 +15,10 @@ const AUTH_DIAGNOSTIC_STAGES = new Set([
   'google_id_token_invalid', 'account_key_failed', 'account_establish_failed', 'session_index_failed',
 ]);
 const SESSION_MAX_AGE = Math.floor(SESSION_ABSOLUTE_MS / 1000);
+const DRIVE_JOB_ROUTES = Object.freeze({
+  '/api/drive-jobs/enqueue': 'enqueue', '/api/drive-jobs/status': 'status', '/api/drive-jobs/cancel': 'cancel',
+});
+const DRIVE_JOB_BODY_BYTES = 128_000;
 
 function noStoreHeaders(extra = {}) {
   return new Headers({
@@ -201,6 +205,22 @@ export function createWorkerHandler(env, {
     return handler(request);
   }
 
+  // The session is checked inside the account's object; the locator only routes.
+  async function driveJobs(request, settings, crypt, op) {
+    assertSameOriginFetch(request, settings.origin);
+    if (request.method !== 'POST' || new URL(request.url).search) throw new AuthError('bad_request');
+    if (env.CANDIDATE_DRIVE_WRITES_ENABLED !== 'true') throw new AuthError('forbidden');
+    const body = await bodyOf(request, DRIVE_JOB_BODY_BYTES);
+    const sessionId = readCookie(request, SESSION_COOKIE);
+    if (!sessionId) throw new AuthError('unauthorized');
+    const indexKey = await crypt.sessionIndexKey(sessionId);
+    const route = await callObject(`session:${indexKey}`, { kind: 'session-index', operation: 'get', args: {} });
+    if (!route?.accountKey || !/^[A-Za-z0-9_-]{43}$/u.test(route.accountKey)) throw new AuthError('unauthorized');
+    return json(await callObject(`account:${route.accountKey}`, {
+      kind: 'account', operation: 'drive-jobs', args: { account: route.accountKey, input: { sessionId, op, body } },
+    }));
+  }
+
   return async function handle(request) {
     const url = new URL(request.url);
     if (![START_PATH, CALLBACK_PATH].includes(url.pathname) && !url.pathname.startsWith('/api/')) return env.ASSETS.fetch(request);
@@ -220,6 +240,7 @@ export function createWorkerHandler(env, {
         if (request.method !== 'GET') throw new AuthError('bad_request');
         return await callback(request, settings, crypt);
       }
+      if (Object.hasOwn(DRIVE_JOB_ROUTES, url.pathname)) return await driveJobs(request, settings, crypt, DRIVE_JOB_ROUTES[url.pathname]);
       if (!['/api/session/credential', '/api/session/logout', '/api/account/disconnect'].includes(url.pathname)) throw new AuthError('not_found');
       return await sessionHandler(request, settings, crypt);
     } catch (error) {

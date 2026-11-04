@@ -230,3 +230,9 @@ A focused1.23.24 normal-profile frame counter found47 startup drops byabout2.3s,
 ## 2026-11-04 — Drive dates on this account: D132 renames probably overwrote modifiedTime
 
 Observed, account yundda3, read-only queries: the earliest `createdTime` is 2026-09-25 and more than 12,000 files were created in 2026-10, so `createdTime` is the upload date. `modifiedTime` goes back to 2023-01, with about 8,300 files before 2026-10. In a sample of 10,978 files modified in October, 317 have `modifiedTime` on 2026-10-30. Assumed, not checked per file: those are the 335 D132 filename corrections, and each rename replaced the file's older `modifiedTime`, as observed for renames in D123. `H:\내 드라이브\CODEX BACKUP\Drive-Original\2026-10-30-format-repair` was not checked for the original values. EXIF time exists in 4 of 7,537 images and 3,180 names carry a date. The user kept the current date sorts and declined filename-date grouping on 2026-11-04. Restoring those `modifiedTime` values was not requested and is not planned.
+
+## 2026-11-04 — D139~D141 follow-ups
+
+Assumed, needs the user's word: the trash button keeps its confirm dialog (D140). Assumed: the selection-mode move button keeps the folder picker (D140).
+Unknown: CPU limit that applies to Durable Object alarms on Workers Free. The Workers limits page gives 10 ms per HTTP request, the Durable Objects page gives 30 s by default without a plan split. A large real job is the only proof.
+Not verified: a job of thousands of real files, Drive sustained write limits on this account, and exhausting the daily row limit on production (unit and local workerd only).

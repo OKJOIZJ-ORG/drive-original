@@ -121,24 +121,21 @@ test('a file that already has the name is confirmed without a PATCH', async () =
 
 test('the background job renames the listed file only after Drive confirms it', async () => {
   const c = client(); const r = remote(c);
-  c.run(`el.driveActionStatus={hidden:true};el.driveActionStatusText={textContent:''};
-    state.selected=item;el.playerTitle={textContent:'holiday.mp4'};`);
+  c.run(`state.selected=item;el.playerTitle={textContent:'holiday.mp4'};`);
   const job = c.run("performRenameFile(item,'  새 이름.mp4\\n')");
-  assert.equal(c.run('el.driveActionStatus.hidden'), false);
-  assert.equal(c.run('el.driveActionStatusText.textContent'), '이름 바꾸는 중 0/1');
+  assert.equal(c.run('hasPendingDriveActions()'), true);
   assert.equal(c.run('state.files[0].name'), 'holiday.mp4', 'the list keeps the old name until confirmation');
   assert.equal(c.run('filteredAndSortedFiles().length'), 1, 'a rename never hides the file');
   await job;
   assert.deepEqual(JSON.parse(r.patches()[0].body), { name: '새 이름.mp4' });
   assert.equal(c.run('state.files[0].name'), '새 이름.mp4');
   assert.equal(c.run('el.playerTitle.textContent'), '새 이름.mp4');
-  assert.equal(c.run('el.driveActionStatus.hidden'), true);
+  assert.equal(c.run('hasPendingDriveActions()'), false);
   assert.match(c.toasts.at(-1), /^이름을 '새 이름\.mp4'\(으\)로 바꿨습니다\./);
 });
 
 test('a refused rename keeps the old name and says why', async () => {
   const c = client(); remote(c, { patch: 'deny' });
-  c.run(`el.driveActionStatus={hidden:true};el.driveActionStatusText={textContent:''};`);
   await c.run("performRenameFile(item,'renamed.mp4')");
   assert.equal(c.run('state.files[0].name'), 'holiday.mp4');
   assert.match(c.toasts.at(-1), /^이름을 바꾸지 못했습니다/);
@@ -156,8 +153,7 @@ test('confirmed rename publishes fresh source metadata to every listed copy and 
   const c = client(); const r = remote(c);
   Object.assign(r.item, {size:'9000', modifiedTime:'2026-10-30T00:00:00Z', headRevisionId:'revision-1', sha256Checksum:'a'.repeat(64)});
   r.item.capabilities.canDownload = true;
-  c.run(`el.driveActionStatus={hidden:true};el.driveActionStatusText={textContent:''};
-    state.selected={...item};state.treeCache={items:[{...item}]};state.mediaSession=7;
+  c.run(`state.selected={...item};state.treeCache={items:[{...item}]};state.mediaSession=7;
     globalThis.preparedController=new AbortController();q0Prewarm={fileId:item.id,controller:preparedController};
     globalThis.restarts=[];restartPlaybackAfterConfirmedRename=(file,owner)=>restarts.push({file:{...file},owner});`);
   await c.run("performRenameFile(item,'renamed.mp4')");

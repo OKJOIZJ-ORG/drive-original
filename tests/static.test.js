@@ -43,7 +43,7 @@ test('release version is synchronized across runtime, shell, HTML, and metadata'
   const metadata = JSON.parse(read('version.json'));
   const appVersion = app.match(/const APP_VERSION = '([^']+)'/)?.[1];
   const workerVersion = worker.match(/const VERSION = '([^']+)'/)?.[1];
-  assert.equal(metadata.version, '1.23.26');
+  assert.equal(metadata.version, '1.24.0');
   assert.equal(appVersion, metadata.version);
   assert.equal(workerVersion, metadata.version);
   assert.match(html, new RegExp(`styles\\.css\\?v=${metadata.version.replaceAll('.', '\\.')}`));
@@ -414,8 +414,9 @@ test('player chrome hides as one mobile layer and high-frequency motion stays tr
   const html = read('index.html');
   const styles = read('styles.css');
 
-  assert.match(html, /<details class="player-more-menu" id="playerMoreMenu">[\s\S]*?id="ctrlMove"[\s\S]*?id="ctrlDelete"/);
-  assert.match(html, /<div class="player-topbar-actions">[\s\S]*?id="topbarDeleteBtn"[^>]*aria-label="휴지통으로 이동"[^>]*hidden>[\s\S]*?id="closePlayerButton"/);
+  assert.match(html, /<details class="player-more-menu" id="playerMoreMenu">[\s\S]*?id="ctrlMove"/);
+  assert.doesNotMatch(html, /id="ctrlDelete"/);
+  assert.match(html, /<div class="player-topbar-actions">[\s\S]*?id="topbarDeleteBtn"[^>]*aria-label="휴지통으로 이동"[^>]*>[\s\S]*?id="closePlayerButton"/);
   assert.doesNotMatch(html, /class="media-info-bar"/);
   assert.match(styles, /\.quality-badge\s*\{[\s\S]*?display:\s*none/);
   assert.match(styles, /\.player-modal\.controls-idle \.player-chrome[\s\S]*?opacity:\s*0[\s\S]*?pointer-events:\s*none/);

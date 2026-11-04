@@ -21,29 +21,30 @@
   <link rel="dns-prefetch" href="https://www.googleapis.com">
   <link rel="preconnect" href="https://drive.google.com">
   <link rel="dns-prefetch" href="https://drive.google.com">
-  <link rel="stylesheet" href="./styles.css?v=1.23.26">
-  <script src="./runtime-config.js?v=1.23.26"></script>
-  <script src="./media/revision-pin.js?v=1.23.26" defer></script>
-  <script src="./app/core.js?v=1.23.26" defer></script>
-  <script src="./app/state.js?v=1.23.26" defer></script>
-  <script src="./app/original-pin.js?v=1.23.26" defer></script>
-  <script src="./app/diagnostics.js?v=1.23.26" defer></script>
-  <script src="./app/boot.js?v=1.23.26" defer></script>
-  <script src="./app/auth.js?v=1.23.26" defer></script>
-  <script src="./app/library-list.js?v=1.23.26" defer></script>
-  <script src="./app/library-navigation.js?v=1.23.26" defer></script>
-  <script src="./app/drive-api.js?v=1.23.26" defer></script>
-  <script src="./app/account-state.js?v=1.23.26" defer></script>
-  <script src="./app/library-grid.js?v=1.23.26" defer></script>
-  <script src="./app/player-controls.js?v=1.23.26" defer></script>
-  <script src="./app/player-navigation.js?v=1.23.26" defer></script>
-  <script src="./app/playback-source.js?v=1.23.26" defer></script>
-  <script src="./app/original-buffer.js?v=1.23.26" defer></script>
-  <script src="./app/drive-mutations.js?v=1.23.26" defer></script>
-  <script src="./app/drive-actions.js?v=1.23.26" defer></script>
-  <script src="./app/move-dialog.js?v=1.23.26" defer></script>
-  <script src="./app/player-presentation.js?v=1.23.26" defer></script>
-  <script src="./app/session-ui.js?v=1.23.26" defer></script>
+  <link rel="stylesheet" href="./styles.css?v=1.24.0">
+  <script src="./runtime-config.js?v=1.24.0"></script>
+  <script src="./media/revision-pin.js?v=1.24.0" defer></script>
+  <script src="./app/core.js?v=1.24.0" defer></script>
+  <script src="./app/state.js?v=1.24.0" defer></script>
+  <script src="./app/original-pin.js?v=1.24.0" defer></script>
+  <script src="./app/diagnostics.js?v=1.24.0" defer></script>
+  <script src="./app/boot.js?v=1.24.0" defer></script>
+  <script src="./app/auth.js?v=1.24.0" defer></script>
+  <script src="./app/library-list.js?v=1.24.0" defer></script>
+  <script src="./app/library-navigation.js?v=1.24.0" defer></script>
+  <script src="./app/drive-api.js?v=1.24.0" defer></script>
+  <script src="./app/account-state.js?v=1.24.0" defer></script>
+  <script src="./app/library-grid.js?v=1.24.0" defer></script>
+  <script src="./app/player-controls.js?v=1.24.0" defer></script>
+  <script src="./app/player-navigation.js?v=1.24.0" defer></script>
+  <script src="./app/playback-source.js?v=1.24.0" defer></script>
+  <script src="./app/original-buffer.js?v=1.24.0" defer></script>
+  <script src="./app/drive-mutations.js?v=1.24.0" defer></script>
+  <script src="./app/drive-jobs.js?v=1.24.0" defer></script>
+  <script src="./app/drive-actions.js?v=1.24.0" defer></script>
+  <script src="./app/move-dialog.js?v=1.24.0" defer></script>
+  <script src="./app/player-presentation.js?v=1.24.0" defer></script>
+  <script src="./app/session-ui.js?v=1.24.0" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -233,6 +234,7 @@
             <option value="size">용량 큰 순</option>
             <option value="sizeAsc">용량 작은 순</option>
             <option value="duration">재생 시간 긴 순</option>
+            <option value="durationAsc">재생 시간 짧은 순</option>
             <option value="random">랜덤 셔플 (무작위)</option>
           </select>
         </div>
@@ -316,7 +318,10 @@
           <button class="player-ctrl-btn" id="topbarNextBtn" type="button" aria-label="다음 영상" title="다음 영상">
             <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
           </button>
-          <button class="player-ctrl-btn" id="topbarDeleteBtn" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동 (Delete)" hidden>
+          <button class="player-ctrl-btn" id="topbarMoveBtn" type="button" aria-label="폴더로 이동" title="폴더로 이동">
+            <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1"/><path d="M2 13h10"/><path d="m9 16 3-3-3-3"/></svg>
+          </button>
+          <button class="player-ctrl-btn" id="topbarDeleteBtn" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동 (Delete)">
             <svg width="17" height="17" style="width:17px;height:17px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
           </button>
           <button class="player-ctrl-btn" id="fullscreenButton" type="button" aria-label="전체화면" title="전체화면 (F)">
@@ -364,19 +369,11 @@
   <path d="M7 15h4M15 15h2M7 11h2M13 11h4" /></svg><span>음성·자막</span></button>
             <button class="shorts-chip zoom-lock-toggle" id="shortsZoomLockBtn" type="button" aria-pressed="false" title="확대 잠금 켜기"><svg class="zoom-lock-closed" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><svg class="zoom-lock-open" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg><span>확대 잠금</span><span class="zoom-lock-state">끔</span></button>
             <button class="shorts-chip end-action-toggle" id="shortsEndActionBtn" type="button" title="재생이 끝나면 할 일 바꾸기"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></svg><span>끝나면</span><span class="end-action-state">처음부터</span></button>
-            <button class="shorts-chip danger" id="shortsDeleteBtn" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동">
-              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11v6" />
-  <path d="M14 11v6" />
-  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-  <path d="M3 6h18" />
-  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
-              <span>휴지통</span>
-            </button>
-            <button class="shorts-chip" id="shortsMoveBtn" type="button" aria-label="폴더로 이동" title="폴더로 이동">
+            <button class="shorts-chip" id="shortsMoveOtherBtn" type="button" aria-label="다른 폴더로 이동" title="다른 폴더로 이동">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1" />
   <path d="M2 13h10" />
   <path d="m9 16 3-3-3-3" /></svg>
-              <span>이동</span>
+              <span>다른 폴더로 이동</span>
             </button>
             <button class="shorts-chip" id="shortsRenameBtn" type="button" aria-label="이름 바꾸기" title="이름 바꾸기">
               <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
@@ -403,6 +400,12 @@
           <div class="shorts-bottom-row">
             <div class="mobile-time-display" id="mobileTimeDisplay" aria-label="재생 시간" hidden><span id="mobileCurrentTime">0:00</span><span class="time-separator"> / </span><span id="mobileTotalTime">0:00</span></div>
             <div class="mobile-shorts-title" id="mobileShortsTitle"></div>
+            <button class="shorts-chip icon" id="shortsMoveBtn" type="button" aria-label="폴더로 이동" title="폴더로 이동">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1"/><path d="M2 13h10"/><path d="m9 16 3-3-3-3"/></svg>
+            </button>
+            <button class="shorts-chip icon danger" id="shortsDeleteBtn" type="button" aria-label="휴지통으로 이동" title="휴지통으로 이동">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </button>
             <button class="shorts-chip icon favorite-toggle" id="shortsFavoriteBtn" type="button" aria-label="좋아요 추가" aria-pressed="false" title="좋아요">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
             </button>
@@ -545,15 +548,7 @@
                     <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1" />
   <path d="M2 13h10" />
   <path d="m9 16 3-3-3-3" /></svg>
-                    <span>폴더로 이동</span>
-                  </button>
-                  <button class="player-more-action danger" id="ctrlDelete" type="button">
-                    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 11v6" />
-  <path d="M14 11v6" />
-  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
-  <path d="M3 6h18" />
-  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
-                    <span>휴지통으로 이동</span>
+                    <span>다른 폴더로 이동</span>
                   </button>
                 </div>
               </details>
@@ -650,7 +645,7 @@
         <section class="settings-group">
           <div class="group-header">
             <h3>앱 버전 및 업데이트</h3>
-            <span class="version-badge" id="settingsAppVersion">v1.23.26</span>
+            <span class="version-badge" id="settingsAppVersion">v1.24.0</span>
           </div>
           <p class="dialog-text" id="updateStatusText">최신 버전 상태를 확인하고 즉시 적용할 수 있습니다.</p>
           <button class="primary-button update-apply-btn" id="applyUpdateButton" type="button" hidden>
@@ -672,6 +667,19 @@
           <h3>폴더 이동</h3>
           <label class="subfolder-all"><input type="checkbox" class="custom-checkbox" id="moveIncludeSubfoldersCheckbox"><span>폴더 목록에 하위 폴더까지 포함</span></label>
           <p class="dialog-text">끄면 이동 창의 목록과 검색에 내 드라이브·공유 드라이브의 최상위 폴더만 나와서 바로 뜹니다. 켜면 전체 폴더를 불러오므로 폴더가 많으면 몇 분 걸립니다. 이 기기에 저장됩니다.</p>
+          <label class="subfolder-all"><input type="checkbox" class="custom-checkbox" id="quickMoveCheckbox"><span>빠른 이동</span></label>
+          <p class="dialog-text">켜면 플레이어의 이동 버튼이 폴더 선택 창 없이 파일을 기본 폴더로 바로 보냅니다. 끄면 폴더 선택 창을 엽니다. ⋯ 메뉴의 "다른 폴더로 이동"은 항상 폴더 선택 창을 엽니다.</p>
+          <div class="quick-move-target">
+            <span>기본 폴더: <strong id="quickMoveTargetName">추억</strong></span>
+            <button class="secondary-button compact" id="quickMoveTargetButton" type="button">변경</button>
+          </div>
+        </section>
+
+        <section class="settings-group">
+          <h3>파일 작업</h3>
+          <p class="dialog-text">휴지통과 폴더 이동은 서버에서 처리합니다. 앱이나 브라우저를 닫아도 계속됩니다. 끝난 작업은 하루 동안 여기에 남습니다.</p>
+          <ul class="drive-job-list" id="driveJobList"></ul>
+          <button class="danger-text-button" id="driveJobCancelButton" type="button" hidden>남은 작업 취소</button>
         </section>
 
         <section class="settings-group">
@@ -717,7 +725,7 @@
 
         <div class="version-footer">
           <span>Drive Original PWA</span>
-          <span id="appVersion">v1.23.26</span>
+          <span id="appVersion">v1.24.0</span>
         </div>
       </div>
     </form>
@@ -805,12 +813,6 @@
       </div>
     </form>
   </dialog>
-
-  <!-- Background trash/move progress -->
-  <div class="drive-action-status" id="driveActionStatus" role="status" aria-live="polite" hidden>
-    <span class="drive-action-spinner" aria-hidden="true"></span>
-    <span id="driveActionStatusText"></span>
-  </div>
 
   <!-- Global Toast -->
   <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>

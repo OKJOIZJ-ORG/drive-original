@@ -150,6 +150,7 @@ test('library sort options order by date, name, size and duration in both direct
   assert.equal(order('size'), 'acbd');
   assert.equal(order('sizeAsc'), 'bcad');
   assert.equal(order('duration'), 'cabd');
+  assert.equal(order('durationAsc'), 'acbd', 'files without a duration still stay last');
 });
 
 test('library search lowers a name once and follows renamed items', () => {

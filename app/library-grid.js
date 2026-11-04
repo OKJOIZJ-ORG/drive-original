@@ -263,12 +263,7 @@ function createFolderRow(folder, index = 0) {
 
 function shuffleCurrentFiles() {
   shuffledOrderMap = new Map();
-  const shuffled = [...currentPopulationFiles()];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  shuffled.forEach((file, index) => {
+  shuffleInPlace([...currentPopulationFiles()]).forEach((file, index) => {
     shuffledOrderMap.set(file.id, index);
   });
 }
@@ -285,7 +280,7 @@ function syncShuffledOrder(population) {
   const known = new Set(ids);
   const missing = population.filter((file) => !known.has(file.id));
   if (!missing.length && ids.length === shuffledOrderMap.size) return;
-  missing.forEach((file) => ids.splice(Math.floor(Math.random() * (ids.length + 1)), 0, file.id));
+  missing.forEach((file) => ids.splice(Math.floor(secureRandom() * (ids.length + 1)), 0, file.id));
   shuffledOrderMap = new Map(ids.map((id, index) => [id, index]));
 }
 
@@ -409,6 +404,7 @@ const DATE_SORT_FIELDS = Object.freeze({
   createdTime: 'createdTime', createdTimeAsc: 'createdTime'
 });
 const fileTimeSortKey = (field) => (file) => (file[field] ? new Date(file[field]).getTime() : NaN);
+const fileDurationSortKey = (file) => (file.videoMediaMetadata?.durationMillis == null ? NaN : Number(file.videoMediaMetadata.durationMillis));
 const LIBRARY_SORT_KEYS = Object.freeze({
   modifiedTime: [fileTimeSortKey('modifiedTime'), false],
   modifiedTimeAsc: [fileTimeSortKey('modifiedTime'), true],
@@ -416,7 +412,8 @@ const LIBRARY_SORT_KEYS = Object.freeze({
   createdTimeAsc: [fileTimeSortKey('createdTime'), true],
   size: [(file) => (file.size == null ? NaN : Number(file.size)), false],
   sizeAsc: [(file) => (file.size == null ? NaN : Number(file.size)), true],
-  duration: [(file) => (file.videoMediaMetadata?.durationMillis == null ? NaN : Number(file.videoMediaMetadata.durationMillis)), false]
+  duration: [fileDurationSortKey, false],
+  durationAsc: [fileDurationSortKey, true]
 });
 
 function getSelectedFiles() {

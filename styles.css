@@ -2160,47 +2160,48 @@ dialog::backdrop {
   animation: appleToastPop var(--duration-normal) var(--ease-spring);
 }
 
-.drive-action-status {
-  position: fixed;
-  bottom: calc(68px + var(--safe-bottom));
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 200;
-  max-width: calc(100vw - 32px);
+.drive-job-list {
+  list-style: none;
+  margin: 8px 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.drive-job-row {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 14px;
-  border-radius: var(--radius-pill);
-  background: rgba(30, 30, 32, 0.92);
-  backdrop-filter: var(--blur-ultra-thin);
-  -webkit-backdrop-filter: var(--blur-ultra-thin);
-  border: var(--hairline-border);
-  box-shadow: var(--shadow-popover);
-  font-size: 13px;
-  font-weight: 500;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
   color: var(--label-primary);
-  white-space: nowrap;
-  pointer-events: none;
 }
 
-.drive-action-status[hidden] {
-  display: none;
-}
-
-#driveActionStatusText {
+.drive-job-name {
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.drive-action-spinner {
+.drive-job-detail {
   flex: none;
-  width: 12px;
-  height: 12px;
-  border-radius: var(--radius-pill);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
-  animation: appleSpin 600ms linear infinite;
+  font-size: 13px;
+  color: var(--label-secondary);
+}
+
+.drive-job-empty {
+  font-size: 14px;
+  color: var(--label-secondary);
+}
+
+.quick-move-target {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--label-primary);
 }
 
 @keyframes appleToastPop {

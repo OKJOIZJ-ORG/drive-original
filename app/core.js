@@ -3,7 +3,7 @@
 // Shared constants and pure helpers (account-state merge, playback deck, render window, buffer policy).
 // One of the ordered classic scripts listed in scripts/app-scripts.cjs; all share one global scope.
 
-const APP_VERSION = '1.23.26';
+const APP_VERSION = '1.24.0';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -53,6 +53,9 @@ const MOVE_RESULT_BATCH = 200;
 const MOVE_RECENT_PREFIX = 'drive-original.move-recent.';
 const MOVE_RECENT_LIMIT = 6;
 const MOVE_INCLUDE_SUBFOLDERS_KEY = 'drive-original.move-include-subfolders';
+const QUICK_MOVE_ENABLED_KEY = 'drive-original.quick-move-enabled';
+const QUICK_MOVE_TARGET_PREFIX = 'drive-original.quick-move-target.';
+const QUICK_MOVE_DEFAULT_FOLDER = '추억';
 const MOVE_SEARCH_DEBOUNCE_MS = 250;
 const FOLDER_RENDER_MAX = 200;
 const SEARCH_RENDER_DELAY_MS = 90;
@@ -495,7 +498,26 @@ function buildMoveFolderRows(catalog) {
   return rows;
 }
 
-function pickRandomFile(files, selectedId, random = Math.random) {
+// The browser's CSPRNG as a uniform double in [0, 1): 53 bits, so scaling to a
+// library of any real size leaves a bias under one in a hundred billion.
+const secureRandomWords = new Uint32Array(2);
+function secureRandom() {
+  const source = globalThis.crypto;
+  if (!source?.getRandomValues) return Math.random();
+  source.getRandomValues(secureRandomWords);
+  return ((secureRandomWords[0] >>> 5) * 67108864 + (secureRandomWords[1] >>> 6)) / 9007199254740992;
+}
+
+// Fisher-Yates: every permutation is equally likely.
+function shuffleInPlace(items, random = secureRandom) {
+  for (let index = items.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.min(index, Math.max(0, Math.floor(random() * (index + 1))));
+    [items[index], items[swapIndex]] = [items[swapIndex], items[index]];
+  }
+  return items;
+}
+
+function pickRandomFile(files, selectedId, random = secureRandom) {
   const population = Array.isArray(files) ? files : [];
   if (!population.length) return null;
   if (population.length === 1) return population[0];
@@ -505,8 +527,16 @@ function pickRandomFile(files, selectedId, random = Math.random) {
   return candidates[index];
 }
 
-function buildVerticalPlaybackDeck(files, selectedId, random = Math.random, depth = VERTICAL_DECK_DEPTH, viewedIds = null) {
+// 0 unseen, 1 watched earlier, 2 already shown in this player session. Viewed
+// history alone misses files that were swiped past before they started playing.
+function createDeckRank(viewedIds, shownIds) {
   const watched = viewedIds instanceof Set ? viewedIds : new Set(viewedIds || []);
+  const shown = shownIds instanceof Set ? shownIds : new Set(shownIds || []);
+  return (id) => (shown.has(id) ? 2 : watched.has(id) ? 1 : 0);
+}
+
+function rankedDeckIds(files, selectedId, random, viewedIds, shownIds) {
+  const rank = createDeckRank(viewedIds, shownIds);
   const uniqueFiles = [];
   const uniqueIds = new Set(selectedId ? [selectedId] : []);
   (Array.isArray(files) ? files : []).forEach((file) => {
@@ -514,20 +544,14 @@ function buildVerticalPlaybackDeck(files, selectedId, random = Math.random, dept
     uniqueIds.add(file.id);
     uniqueFiles.push(file);
   });
-  const shuffleIds = (items) => {
-    const ids = items.map((file) => file.id);
-    for (let index = ids.length - 1; index > 0; index -= 1) {
-      const swapIndex = Math.min(index, Math.max(0, Math.floor(random() * (index + 1))));
-      [ids[index], ids[swapIndex]] = [ids[swapIndex], ids[index]];
-    }
-    return ids;
-  };
   // Shuffle within each group, never across the boundary: unseen media stays
   // ahead of watched media until the account has exhausted the population.
-  const unique = [
-    ...shuffleIds(uniqueFiles.filter((file) => !watched.has(file.id))),
-    ...shuffleIds(uniqueFiles.filter((file) => watched.has(file.id)))
-  ];
+  return [0, 1, 2].flatMap((tier) => shuffleInPlace(
+    uniqueFiles.filter((file) => rank(file.id) === tier).map((file) => file.id), random));
+}
+
+function buildVerticalPlaybackDeck(files, selectedId, random = secureRandom, depth = VERTICAL_DECK_DEPTH, viewedIds = null, shownIds = null) {
+  const unique = rankedDeckIds(files, selectedId, random, viewedIds, shownIds);
   const targetDepth = Math.max(0, Math.floor(Number(depth) || 0));
   const above = [];
   const below = [];
@@ -544,7 +568,7 @@ function buildVerticalPlaybackDeck(files, selectedId, random = Math.random, dept
   return { anchorId: selectedId || null, above, below };
 }
 
-function advanceVerticalPlaybackDeck(deck, direction, targetId, files, random = Math.random, viewedIds = null) {
+function advanceVerticalPlaybackDeck(deck, direction, targetId, files, random = secureRandom, viewedIds = null, shownIds = null) {
   const current = deck?.anchorId || null;
   const next = {
     anchorId: targetId || current,
@@ -561,34 +585,30 @@ function advanceVerticalPlaybackDeck(deck, direction, targetId, files, random = 
     next.below = [current, ...next.below.filter((id) => id !== current && id !== targetId)]
       .slice(0, VERTICAL_DECK_DEPTH);
   }
-  return fillVerticalPlaybackDeck(next, direction, files, random, viewedIds);
+  return fillVerticalPlaybackDeck(next, direction, files, random, viewedIds, shownIds);
 }
 
 // The current item left the population (trash/move): the deck moves to the
 // replacement and keeps both sides, so swiping back still returns to the
 // items seen before the removal.
-function retargetVerticalPlaybackDeck(deck, targetId, files, random = Math.random, viewedIds = null) {
+function retargetVerticalPlaybackDeck(deck, targetId, files, random = secureRandom, viewedIds = null, shownIds = null) {
   const keep = (ids) => (Array.isArray(ids) ? ids : []).filter((id) => id !== targetId);
   return fillVerticalPlaybackDeck({ anchorId: targetId, above: keep(deck?.above), below: keep(deck?.below) },
-    'up', files, random, viewedIds);
+    'up', files, random, viewedIds, shownIds);
 }
 
-function fillVerticalPlaybackDeck(next, direction, files, random = Math.random, viewedIds = null) {
+function fillVerticalPlaybackDeck(next, direction, files, random = secureRandom, viewedIds = null, shownIds = null) {
   const population = Array.isArray(files) ? files : [];
   const validIds = new Set(population.filter((file) => file?.id).map((file) => file.id));
   next.above = next.above.filter((id) => validIds.has(id) && id !== next.anchorId);
   next.below = next.below.filter((id) => validIds.has(id) && id !== next.anchorId);
   const excluded = new Set([next.anchorId, ...next.above, ...next.below]);
-  const shuffled = buildVerticalPlaybackDeck(
-    population.filter((file) => !excluded.has(file.id)),
-    next.anchorId,
-    random,
-    VERTICAL_DECK_DEPTH,
-    viewedIds
-  );
-  const fill = [...shuffled.above, ...shuffled.below];
-  while (next.above.length < VERTICAL_DECK_DEPTH && fill.length) next.above.push(fill.shift());
-  while (next.below.length < VERTICAL_DECK_DEPTH && fill.length) next.below.push(fill.shift());
+  // The side being swiped toward takes the best candidates, or the last few
+  // unseen files would land behind the user while watched ones come next.
+  const fill = rankedDeckIds(population.filter((file) => !excluded.has(file.id)), next.anchorId, random, viewedIds, shownIds);
+  const [ahead, behind] = direction === 'up' ? [next.below, next.above] : [next.above, next.below];
+  while (ahead.length < VERTICAL_DECK_DEPTH && fill.length) ahead.push(fill.shift());
+  while (behind.length < VERTICAL_DECK_DEPTH && fill.length) behind.push(fill.shift());
   // Small libraries cannot keep four distinct neighbours, but the spatial
   // window must still stay fully assigned after every move. Reuse only after
   // all distinct candidates have already been consumed.
@@ -602,9 +622,9 @@ function fillVerticalPlaybackDeck(next, direction, files, random = Math.random, 
   }
   // Reorder only the continuing side. The reverse side must retain the exact
   // previous item while newly available unseen neighbors precede watched ones.
-  const watched = viewedIds instanceof Set ? viewedIds : new Set(viewedIds || []);
+  const rank = createDeckRank(viewedIds, shownIds);
   const continuation = direction === 'up' ? next.below : next.above;
-  continuation.sort((a, b) => Number(watched.has(a)) - Number(watched.has(b)));
+  continuation.sort((a, b) => rank(a) - rank(b));
   return next;
 }
 

@@ -27,11 +27,11 @@ function client({ deepScan = false } = {}) {
   c.settle = (id) => { const entry = c.pending.get(id); c.pending.delete(id); entry.resolve(); };
   c.driveHook = (file) => new Promise((resolve, reject) => c.pending.set(file.id, { resolve, reject }));
   const dialog = { open: true, close() { this.open = false; } };
-  Object.assign(c.run('el'), { deleteDialog: dialog, moveDialog: dialog, driveActionStatus: { hidden: true }, playerSheet: { hidden: true } });
+  Object.assign(c.run('el'), { deleteDialog: dialog, moveDialog: dialog, playerSheet: { hidden: true } });
   c.run(`state.accountId='drive-account-A';state.authAccountKey='server-A';state.accountIdentityPending=false;
     state.files=${JSON.stringify(ids)}.map((id)=>({id,name:id+'.mp4',mimeType:'video/mp4',parents:['inbox']}));
     state.populationComplete=true;state.sort='random';
-    renderFiles=()=>{};collapseShortsExpand=()=>{};reportAppFailure=()=>{};showToast=()=>{};
+    serverDriveJobsEnabled=()=>false;renderFiles=()=>{};collapseShortsExpand=()=>{};reportAppFailure=()=>{};showToast=()=>{};
     updateLibrarySummary=()=>{};clearLibraryStatus=()=>{};
     trashDriveFile=(file)=>globalThis.driveHook(file);
     globalThis.opened=[];openMediaSource=(file)=>{state.selected=file;globalThis.opened.push(file.id);};

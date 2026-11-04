@@ -200,16 +200,36 @@ export class AccountCredentialOwner {
     if (expectedAccount != null && expectedAccount !== this.account) fail('account_mismatch');
     if (rejectedRevision != null && (!Number.isSafeInteger(rejectedRevision) || rejectedRevision < 0)) fail('bad_request');
     const key = await this.hash(sessionId);
+    return this.#access(rejectedRevision, (s, now) => {
+      if (!s.sessions[key]) return { error: 'unauthorized', alarm: s.nextAlarmAt };
+      if (rejectedRevision != null && rejectedRevision > s.revision) return { error: 'stale_revision' };
+      s.sessions[key].lastSeenAt = now;
+      this.prune(s, now);
+      return null;
+    });
+  }
+  // For the server Drive job queue, which runs with no browser attached. It
+  // needs no session because the user confirmed the job while signed in; it does
+  // not touch lastSeenAt, so background work never extends a session.
+  async backgroundCredential(rejectedRevision = null) {
+    return this.#access(rejectedRevision, () => null);
+  }
+  async assertSession({ sessionId, expectedAccount }) {
+    if (typeof sessionId !== 'string' || !sessionId) fail('unauthorized');
+    if (expectedAccount !== this.account) fail('account_mismatch');
+    const key = await this.hash(sessionId);
+    const known = await this.transact(s => { this.prune(s, this.clock()); return Boolean(s.sessions[key]); });
+    if (!known) fail('unauthorized');
+  }
+  async #access(rejectedRevision, admit) {
     // Bounded waiting also covers a dead instance's persisted lease.
     const deadline = this.clock() + this.leaseMs * 2;
     for (let attempt = 0; attempt < 2000; attempt++) {
       const now = this.clock();
       const action = await this.transact(s => {
         this.prune(s, now);
-        if (!s.sessions[key]) return { error: 'unauthorized', alarm: s.nextAlarmAt };
-        if (rejectedRevision != null && rejectedRevision > s.revision) return { error: 'stale_revision' };
-        s.sessions[key].lastSeenAt = now;
-        this.prune(s, now);
+        const refused = admit(s, now);
+        if (refused) return refused;
         if (s.reconnect || !s.encryptedRefresh) return { error: 'reconnect_required' };
         if (s.access?.expiresAt > now + this.skewMs && rejectedRevision !== s.revision) return { credential: publicCredential(s) };
         if (s.failureUntil > now) return { error: 'auth_unavailable' };
