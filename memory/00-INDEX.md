@@ -33,6 +33,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 ## Current audit and release records
 
 - [Server trash/move queue, 1.24.0](../qa/server-drive-jobs-20261104/README.md): D139~D143: page-closed production run with disposable files, unit tests on real SQLite, local workerd run; large real jobs, phones and WebKit not verified.
+- [Scroll stability after trash](../qa/scroll-stability-20261104/README.md): D138 local fix of the fixed 240px deferred card height and edge-aligned render window repair; 1,137 tests, demo and write-stubbed production measurements; exact user symptom not reproduced, not deployed.
 
 - [1.23.26 WebP cards and month dividers](../qa/release-1.23.26/README.md): D135/D136 release, D137 approval; runtime `45d4bdd`, Worker f3db1e52, 1,136 tests, 91/91 public bytes equal Git. Signed-in production dividers and WebP thumbnails checked read-only; phones and WebKit not verified.
 

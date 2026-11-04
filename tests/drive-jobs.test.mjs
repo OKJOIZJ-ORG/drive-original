@@ -46,6 +46,7 @@ function driveFixture(files, { failNext = {} } = {}) {
   function apply(id, parsed, options) {
     const file = files.get(id);
     if (options.body === '{"trashed":true}') file.trashed = true;
+    if (options.body === '{"trashed":false}') file.trashed = false;
     const add = parsed.searchParams.get('addParents');
     if (add) file.parents = [add];
     file.version = String(Number(file.version) + 1);
@@ -54,7 +55,7 @@ function driveFixture(files, { failNext = {} } = {}) {
 }
 
 const file = (id, extra = {}) => ({ id, parents: ['inbox'], trashed: false, version: '5', mimeType: 'video/mp4',
-  capabilities: { canTrash: true, canMoveItemWithinDrive: true, canMoveItemOutOfDrive: true }, ...extra });
+  capabilities: { canTrash: true, canUntrash: true, canMoveItemWithinDrive: true, canMoveItemOutOfDrive: true }, ...extra });
 const folder = (id, extra = {}) => ({ id, parents: ['root-id'], trashed: false, version: '1', mimeType: FOLDER_MIME,
   capabilities: { canAddChildren: true }, ...extra });
 const wanted = (id, extra = {}) => ({ id, parents: ['inbox'], version: '5', ...extra });
@@ -320,4 +321,24 @@ test('the default fetch is not called as a method, which Workers rejects with Il
     await owner.runBatch();
     assert.equal(owner.status().results[0].state, 'confirmed');
   } finally { globalThis.fetch = original; }
+});
+
+test('undo restores a trashed file, and a file that never left stays skipped', async () => {
+  const f = fixture([file('aaaaa', { trashed: true }), file('bbbbb')]);
+  f.owner.enqueue({ jobId: JOB, action: 'untrash', chunk: 0, files: [{ id: 'aaaaa' }, { id: 'bbbbb' }] });
+  await f.owner.runBatch();
+  assert.equal(f.files.get('aaaaa').trashed, false);
+  assert.deepEqual(f.owner.status().results.map(row => [row.fileId, row.state]).sort(), [['aaaaa', 'confirmed'], ['bbbbb', 'skipped']]);
+  assert.equal(f.drive.calls.filter(call => call.method === 'PATCH').length, 1);
+});
+
+test('cancel then untrash is safe for a file sent just before the undo', async () => {
+  const f = fixture([file('aaaaa'), file('bbbbb')]);
+  f.owner.enqueue({ jobId: JOB, action: 'trash', chunk: 0, files: [wanted('aaaaa'), wanted('bbbbb')] });
+  await f.owner.runBatch();
+  f.owner.cancel({ jobId: JOB });
+  f.owner.enqueue({ jobId: JOB_2, action: 'untrash', chunk: 0, files: [{ id: 'aaaaa' }, { id: 'bbbbb' }] });
+  await f.owner.runBatch();
+  assert.equal(f.files.get('aaaaa').trashed, false);
+  assert.equal(f.files.get('bbbbb').trashed, false);
 });

@@ -192,10 +192,7 @@ function requestDeleteFile() {
   const files = getActionFiles();
   if (!files.length) return;
   state.pendingActionFiles = [...files];
-  if (el.deleteDialog && el.deleteFileName) {
-    el.deleteFileName.textContent = formatActionTarget(files);
-    if (!el.deleteDialog.open) el.deleteDialog.showModal();
-  }
+  return performDeleteFile();
 }
 
 async function trashDriveFile(file, options) {
@@ -208,7 +205,7 @@ async function trashDriveFile(file, options) {
 
 /* 뒤에서 도는 휴지통·이동·이름 바꾸기 — 확인하면 창을 바로 닫고 대상 파일을 목록과 재생 순서에서 숨긴다.
    휴지통·이동은 서버 큐(drive-jobs.js)에 넘겨서 앱을 닫아도 계속되고, 이름 바꾸기와 데모는 이 페이지에서 차례로 처리한다.
-   진행 상황은 설정에서만 보여서 재생을 가리지 않는다. 끝나면 성공한 파일만 목록에서 빼고, 실패한 파일은 다시 보인다. */
+   진행 상황은 설정에서만 보여서 재생을 가리지 않고, 보낸 직후에는 되돌리기만 잠깐 뜬다. 끝나면 성공한 파일만 목록에서 빼고, 실패한 파일은 다시 보인다. */
 const driveActionJobs = [];
 let driveActionQueue = Promise.resolve();
 
@@ -235,6 +232,7 @@ function queueDriveActionJob(job) {
   const ids = new Set(job.files.map((file) => file.id));
   const currentId = state.selected?.id || null;
   Object.assign(job, { ids, owner: captureAccountStateRequest(), done: 0, playerFollows: false });
+  if (job.action !== 'rename') rememberDriveUndo(job, currentId);
   settleSelectionAfterBulk([]);
   collapseShortsExpand();
   if (job.hide) {
@@ -247,7 +245,10 @@ function queueDriveActionJob(job) {
   }
   driveActionJobs.push(job);
   renderDriveJobPanel();
-  if (job.action !== 'rename' && serverDriveJobsEnabled()) return submitServerDriveJob(job);
+  if (job.action !== 'rename' && serverDriveJobsEnabled()) {
+    job.submission = submitServerDriveJob(job);
+    return job.submission;
+  }
   const run = () => runDriveActionJob(job);
   driveActionQueue = driveActionQueue.then(run, run);
   return driveActionQueue;
@@ -283,7 +284,9 @@ async function runDriveActionJob(job) {
 }
 
 function settleDriveActionResults(job, results) {
-  if (job.action === 'trash') settleTrashJob(job, results);
+  if (job.undone) return;
+  if (job.reverse || job.action === 'untrash') settleUndoJob(job, results);
+  else if (job.action === 'trash') settleTrashJob(job, results);
   else if (job.action === 'rename') settleRenameJob(job, results);
   else settleMoveJob(job, results);
 }
@@ -297,9 +300,97 @@ function finishDriveActionJob(job) {
   if (job.owner.current()) renderLibraryAfterDriveAction();
 }
 
+/* 되돌리기 — 휴지통·이동 직후 잠깐 아래에 뜬다. 보내지 않은 파일은 큐에서 빼고,
+   이미 보낸 파일은 휴지통에서 꺼내거나 원래 폴더로 다시 옮긴다. 파일은 화면에 먼저 돌아온다. */
+let driveUndoEntry = null;
+let driveUndoTimer = null;
+
+function rememberDriveUndo(job, currentId) {
+  if (!state.demo && !serverDriveJobsEnabled()) return;
+  clearTimeout(driveUndoTimer);
+  const count = job.files.length;
+  const what = count > 1 ? `${count.toLocaleString('ko-KR')}개를 ` : '';
+  driveUndoEntry = { job, currentId,
+    parents: new Map(job.files.map((file) => [file.id, Array.isArray(file.parents) ? [...file.parents] : []])),
+    liked: job.files.filter((file) => isFavoriteFileId(file.id)).map((file) => file.id) };
+  if (!el.driveUndoBar) return;
+  el.driveUndoText.textContent = `${what}${job.action === 'trash' ? '휴지통' : `'${job.targetRow.name || '폴더'}'`}(으)로 보냈습니다.`
+    .replace("휴지통(으)로", '휴지통으로');
+  // Outside the fullscreen element nothing paints.
+  (document.fullscreenElement || document.body).appendChild(el.driveUndoBar);
+  el.driveUndoBar.hidden = false;
+  driveUndoTimer = setTimeout(() => hideDriveUndo(), DRIVE_UNDO_MS);
+}
+
+function hideDriveUndo(job = null) {
+  if (job && driveUndoEntry?.job !== job) return;
+  clearTimeout(driveUndoTimer);
+  driveUndoEntry = null;
+  if (el.driveUndoBar) el.driveUndoBar.hidden = true;
+}
+
+function restoreUndoneFiles({ job, currentId, parents, liked }) {
+  job.undone = true;
+  setHiddenActionFiles(job.ids, false);
+  job.ids = new Set();
+  const addMissing = (files) => {
+    const present = new Set(files.map((file) => file.id));
+    return [...files, ...job.files.filter((file) => !present.has(file.id))];
+  };
+  job.files.forEach((file) => { if (parents.get(file.id)?.length) file.parents = [...parents.get(file.id)]; });
+  state.files = addMissing(state.files);
+  if (state.treeCache) {
+    state.treeCache = buildTreeIndexes(addMissing(state.treeCache.items), state.treeCache.scannedFolderIds, state.treeCache.childListedIds);
+  }
+  liked.filter((id) => !isFavoriteFileId(id)).forEach((id) => setFavoriteFile(id, true));
+  invalidateLibraryNavigationData();
+  renderLibraryAfterDriveAction();
+  const file = job.files.find((item) => item.id === currentId);
+  if (file && el.playerSheet && !el.playerSheet.hidden && state.selected?.id !== file.id) {
+    state.playbackDeck = retargetAccountPlaybackDeck(state.playbackDeck, file.id, getPlaybackFileList());
+    state.pendingPlay = true;
+    animateMediaTransition('right', () => openMediaSource(file));
+  }
+}
+
+async function undoDriveAction() {
+  const entry = driveUndoEntry;
+  if (!entry) return;
+  hideDriveUndo();
+  const { job, parents } = entry;
+  restoreUndoneFiles(entry);
+  if (!job.server) return;
+  await job.submission;
+  try {
+    await driveJobRequest('cancel', { jobId: job.id });
+    const reverse = (action, files, targetRow = null) => {
+      const undo = { action, files: files.map(({ id }) => ({ id })), targetRow, reverse: true, hide: false, ids: new Set(), done: 0, owner: job.owner };
+      driveActionJobs.push(undo);
+      return submitServerDriveJob(undo);
+    };
+    if (job.action === 'trash') await reverse('untrash', job.files);
+    else {
+      const homes = new Map();
+      for (const file of job.files) {
+        const home = parents.get(file.id)?.[0];
+        if (home) homes.set(home, [...(homes.get(home) || []), file]);
+      }
+      for (const [home, files] of homes) await reverse('move', files, { id: home, name: '원래 폴더' });
+    }
+  } catch (error) {
+    showToast(`되돌리지 못했습니다: ${humanizeDriveError(error)}`);
+  }
+}
+
+function settleUndoJob(job, results) {
+  const failed = results.filter((result) => result.status === 'rejected');
+  if (!failed.length) return;
+  showToast(`${failed.length.toLocaleString('ko-KR')}개를 되돌리지 못했습니다. 새로고침해 확인해 주세요.`);
+}
+
 // Failures always show. Success stays quiet over the player and for jobs finished while the app was closed.
 function showDriveJobSuccess(job, message) {
-  if (job.adopted || (el.playerSheet && !el.playerSheet.hidden)) return;
+  if (job.adopted || job.server || (el.playerSheet && !el.playerSheet.hidden)) return;
   showToast(message);
 }
 
@@ -328,7 +419,6 @@ function settleTrashJob(job, results) {
 
 function performDeleteFile() {
   const files = actionFilesSnapshot().filter((file) => !state.hiddenActionFileIds.has(file.id));
-  if (el.deleteDialog?.open) el.deleteDialog.close();
   if (!files.length) return;
   return queueDriveActionJob({ action: 'trash', files, hide: true });
 }

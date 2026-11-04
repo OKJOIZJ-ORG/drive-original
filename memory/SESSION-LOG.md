@@ -1108,6 +1108,10 @@ The user asked "webp 썸네일 지원해줘". Read-only production measurement s
 
 The user asked for year-month dividers under date sorts and left the details to the agent. `buildGridLayout` in app/core.js now owns card rows, month breaks and row offsets; `renderMediaGrid` and `scheduleRenderWindowUpdate` work on those rows. The old early return for lists of up to 240 files could leave rows unmounted once dividers add rows, so it now compares rows against the window and also rerenders on a column change. Nothing was committed, pushed or deployed. The D135 WebP work landed in the same uncommitted checkout from a separate session.
 
+## 2026-11-04 — D138 scroll stability after trash (local, not deployed)
+
+The user asked to fix scroll shaking after a delete completes. Fixed intrinsic card height 240px replaced by the measured height; repaired render windows now keep spare rows on both sides. End-of-list `scrollY` bounce (44px at 700px, 5.6px at 390px) is gone and upward scrolling rebuilds the grid 1–3 times per 100 steps instead of 28–59. The completion moment itself moved nothing even before the change, in demo and in the signed-in production list with writes stubbed; no Drive file changed. Full suite 1,137/1,137. Not tested on a physical device. See qa/scroll-stability-20261104/README.md.
+
 ## 2026-11-04 — D137 release 1.23.26 (D135, D136 deployed)
 
 The user answered "배포해". D135 and D136 went out as 1.23.26: runtime `45d4bdd`, Worker `f3db1e52-47f9-4f91-b8d1-485a50501045`, 1,136/1,136 tests, 91/91 public files equal to Git. The D135 and D136 entries above say "not deployed" and describe the state before this release. Node `fetch` hung on the large `licenses/` parts, so `served-check.cjs` now uses curl. Read-only date queries on the Drive account showed that `createdTime` is the upload date and `modifiedTime` keeps the older date; the user had read these the wrong way round, then decided to keep the current sorts and declined filename-date grouping. See qa/release-1.23.26/README.md.
@@ -1116,3 +1120,7 @@ The user answered "배포해". D135 and D136 went out as 1.23.26: runtime `45d4b
 
 The user asked whether trash and move can keep running after the app closes, then asked for it with no billing, moved the queue indicator to Settings, moved trash and quick move out of the menus, asked for unbiased random and unseen-first shorts, added the shortest-duration sort, and said "배포까지 ㄱㄱ". `worker/drive-jobs.mjs` is the queue inside the account Durable Object and shares its one alarm with credential retention; `app/drive-jobs.js` is the page side. Evidence and limits: `qa/server-drive-jobs-20261104/README.md`. The uncommitted D138 work in the main checkout was left out of this release.
 Production checks with disposable files found two faults the local fakes hid: every Drive read failed from the queue (fixed), and a busy account Durable Object kept the old code until idle (documented). Final Worker `2e05bec1-b077-4c1d-86db-51a9c8401e67`. D138 was committed unchanged to the local branch `claude/scroll-stability-20261104`, not released.
+
+## 2026-11-04 — D144 direct trash with undo, D138 and D144 release (1.24.1)
+
+The user resolved the D140 assumptions: trash goes without a dialog and offers undo, the selection move button uses the quick move folder, and everything ships. The server queue gained `untrash`; `app/drive-actions.js` owns the undo bar. D138 was merged from its local branch.

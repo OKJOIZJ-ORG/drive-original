@@ -48,7 +48,6 @@ test('confirming a trash closes the dialog at once and hides the files while Dri
   const c = client();
   c.run(`state.pendingActionFiles=[state.files[0],state.files[1]]`);
   const job = c.run('performDeleteFile()');
-  assert.equal(c.dialog.open, false, 'the dialog does not wait for Drive');
   assert.deepEqual(visibleIds(c), ['c']);
   assert.deepEqual(playbackIds(c), ['c'], 'swipe order skips files being trashed');
   assert.equal(c.run('driveActionJobs[0].done'), 0);
@@ -97,9 +96,7 @@ test('files already queued are not submitted twice', async () => {
   c.run(`state.pendingActionFiles=[state.files[0]]`);
   const first = c.run('performDeleteFile()');
   c.run(`state.pendingActionFiles=[state.files[0]]`);
-  c.dialog.open = true;
   c.run('performDeleteFile()');
-  assert.equal(c.dialog.open, false);
   assert.equal(c.run('driveActionJobs.length'), 1);
   await tick();
   c.settle('a');
@@ -110,7 +107,8 @@ test('files already queued are not submitted twice', async () => {
 // The server queue: a fake /api/drive-jobs that records what the page sends.
 function serverClient() {
   const c = client({ local: false });
-  c.crypto = { randomUUID: () => '11111111-1111-4111-8111-111111111111' };
+  let jobs = 0;
+  c.crypto = { randomUUID: () => `${String(++jobs).repeat(8)}-1111-4111-8111-111111111111` };
   const stored = new Map();
   c.localStorage.getItem = (key) => stored.get(key) ?? null;
   c.localStorage.setItem = (key, value) => stored.set(key, String(value));
@@ -295,4 +293,84 @@ test('swiping forward through a deck never repeats a shown file while unseen one
     seen.add(next);
     c.run(`state.playbackShownIds.add(${JSON.stringify(next)});deck=advanceAccountPlaybackDeck(deck,'up',${JSON.stringify(next)},population)`);
   }
+});
+
+function undoClient() {
+  const c = serverClient();
+  c.run(`el.driveUndoBar={hidden:true};el.driveUndoText={textContent:''};el.driveUndoButton={};
+    document.body={appendChild(){}};setFavoriteFile=(id,liked)=>{globalThis.favorites=(globalThis.favorites||[]).concat(id+':'+liked)};
+    isFavoriteFileId=(id)=>id==='a'&&!globalThis.unliked;`);
+  return c;
+}
+
+test('the trash button sends at once, with no dialog, and offers undo briefly', async () => {
+  const c = undoClient();
+  c.run('state.selected=state.files[0]');
+  await c.run('requestDeleteFile()');
+  assert.equal(c.requests.find((row) => row.op === 'enqueue').body.action, 'trash');
+  assert.equal(c.run('el.driveUndoBar.hidden'), false);
+  assert.equal(c.run('el.driveUndoText.textContent'), '휴지통으로 보냈습니다.');
+});
+
+test('undoing a trash takes the job back, restores files on screen and asks the server to untrash', async () => {
+  const c = undoClient();
+  await trashTwo(c);
+  assert.deepEqual(visibleIds(c), ['c']);
+  await c.run('undoDriveAction()');
+  assert.deepEqual(visibleIds(c).sort(), ['a', 'b', 'c']);
+  assert.equal(c.run('el.driveUndoBar.hidden'), true);
+  const ops = c.requests.filter((row) => row.op !== 'status').map((row) => row.op + ':' + (row.body.action || ''));
+  assert.deepEqual(ops, ['enqueue:trash', 'cancel:', 'enqueue:untrash']);
+  const reverse = c.requests.at(-1).body.files;
+  assert.equal(reverse[0].parents, null, 'an undo does not expect the pre-trash state');
+  assert.equal(reverse[0].version, null);
+});
+
+test('undo after the job finished puts the files and the like back', async () => {
+  const c = undoClient();
+  await trashTwo(c);
+  c.statusReply = { jobs: [summary({ confirmed: 2, pending: 0 })], results: [
+    { seq: 1, jobId: JOB_ID, fileId: 'a', state: 'confirmed', status: 0, parents: null },
+    { seq: 2, jobId: JOB_ID, fileId: 'b', state: 'confirmed', status: 0, parents: null }] };
+  await c.run('pollDriveJobs()');
+  assert.deepEqual(visibleIds(c), ['c']);
+  c.run('globalThis.unliked=true');
+  await c.run('undoDriveAction()');
+  assert.deepEqual(visibleIds(c).sort(), ['a', 'b', 'c']);
+  assert.equal(c.run('globalThis.favorites.join()'), 'a:true');
+});
+
+test('late results of an undone job change nothing on screen', async () => {
+  const c = undoClient();
+  await trashTwo(c);
+  await c.run('undoDriveAction()');
+  c.statusReply = { jobs: [summary({ confirmed: 1, failed: 1, pending: 0 })], results: [
+    { seq: 1, jobId: JOB_ID, fileId: 'a', state: 'confirmed', status: 0, parents: null },
+    { seq: 2, jobId: JOB_ID, fileId: 'b', state: 'cancelled', status: 0, parents: null }] };
+  await c.run('pollDriveJobs()');
+  assert.deepEqual(visibleIds(c).sort(), ['a', 'b', 'c']);
+  assert.equal(c.toasts.length, 0);
+});
+
+test('undoing a move sends the files back to where they were', async () => {
+  const c = undoClient();
+  c.run(`state.selected=state.files[0];saveQuickMoveTarget({id:'memories',name:'추억'});`);
+  await c.run('performQuickMove()');
+  assert.equal(c.run('el.driveUndoText.textContent'), "'추억'(으)로 보냈습니다.");
+  await c.run('undoDriveAction()');
+  const back = c.requests.at(-1).body;
+  assert.equal(back.action, 'move');
+  assert.equal(back.target.id, 'inbox');
+  assert.deepEqual(visibleIds(c).sort(), ['a', 'b', 'c']);
+});
+
+test('the selection bar sends selected files straight to the quick move folder', async () => {
+  const c = undoClient();
+  c.run(`state.selectionMode=true;state.selectedFileIds=new Set(['a','b']);updateSelectionUI=()=>{};exitSelectionMode=()=>{state.selectionMode=false};
+    saveQuickMoveTarget({id:'memories',name:'추억'});`);
+  await c.run('performQuickMove()');
+  const body = c.requests.find((row) => row.op === 'enqueue').body;
+  assert.deepEqual(body.files.map((file) => file.id).sort(), ['a', 'b']);
+  assert.equal(body.target.id, 'memories');
+  assert.equal(c.run('el.driveUndoText.textContent'), "2개를 '추억'(으)로 보냈습니다.");
 });

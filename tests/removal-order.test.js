@@ -27,7 +27,7 @@ function client({ deepScan = false } = {}) {
   c.settle = (id) => { const entry = c.pending.get(id); c.pending.delete(id); entry.resolve(); };
   c.driveHook = (file) => new Promise((resolve, reject) => c.pending.set(file.id, { resolve, reject }));
   const dialog = { open: true, close() { this.open = false; } };
-  Object.assign(c.run('el'), { deleteDialog: dialog, moveDialog: dialog, playerSheet: { hidden: true } });
+  Object.assign(c.run('el'), { moveDialog: dialog, playerSheet: { hidden: true } });
   c.run(`state.accountId='drive-account-A';state.authAccountKey='server-A';state.accountIdentityPending=false;
     state.files=${JSON.stringify(ids)}.map((id)=>({id,name:id+'.mp4',mimeType:'video/mp4',parents:['inbox']}));
     state.populationComplete=true;state.sort='random';

@@ -116,7 +116,7 @@ function bindElements() {
     'fileNameEdit', 'fileNameInput', 'fileNameHint', 'fileNameEditCancelButton', 'fileNameSaveButton',
     'subfolderDialog', 'subfolderDialogText', 'subfolderAllCheckbox', 'subfolderTree', 'subfolderOffButton', 'subfolderApplyButton',
     'currentOrigin', 'copyOriginButton', 'appVersion', 'toast', 'driveJobList', 'driveJobCancelButton', 'quickMoveCheckbox', 'quickMoveTargetName', 'quickMoveTargetButton', 'moveDialogTitle',
-    'deleteDialog', 'deleteFileName', 'deleteCancelButton', 'deleteConfirmButton',
+    'driveUndoBar', 'driveUndoText', 'driveUndoButton',
     'permissionDialog', 'permissionReconnectButton', 'permissionCloseButton',
     'seekHintLeft', 'seekHintRight',
     'mediaZoomHud', 'mediaZoomResetBtn', 'mediaZoomLockBtn', 'ctrlZoomLock', 'shortsZoomLockBtn',
@@ -218,7 +218,7 @@ function bindEvents() {
   if (el.selectionCancelBtn) el.selectionCancelBtn.addEventListener('click', exitSelectionMode);
   if (el.selectionSelectAllBtn) el.selectionSelectAllBtn.addEventListener('click', selectAllVisibleFiles);
   if (el.selectionDeleteBtn) el.selectionDeleteBtn.addEventListener('click', requestDeleteFile);
-  if (el.selectionMoveBtn) el.selectionMoveBtn.addEventListener('click', requestMoveFile);
+  if (el.selectionMoveBtn) el.selectionMoveBtn.addEventListener('click', () => { void performQuickMove(); });
   if (el.folderMoreButton) el.folderMoreButton.addEventListener('click', () => {
     state.folderRenderLimit += FOLDER_RENDER_MAX;
     renderFiles();
@@ -392,13 +392,7 @@ function bindEvents() {
   });
 
   // Delete confirm dialog
-  if (el.deleteCancelButton) el.deleteCancelButton.addEventListener('click', () => {
-    flashPressed(el.deleteCancelButton);
-    state.pendingActionFiles = [];
-    el.deleteDialog.close();
-  });
-  if (el.deleteConfirmButton) el.deleteConfirmButton.addEventListener('click', performDeleteFile);
-  if (el.deleteDialog) el.deleteDialog.addEventListener('cancel', () => { state.pendingActionFiles = []; });
+  if (el.driveUndoButton) el.driveUndoButton.addEventListener('click', () => { void undoDriveAction(); });
 
   // Move dialog
   if (el.moveCancelButton) el.moveCancelButton.addEventListener('click', () => {
@@ -423,7 +417,7 @@ function bindEvents() {
     state.authRetryContext = null;
     beginAuthorization();
   });
-  [el.settingsDialog, el.fileNameDialog, el.deleteDialog, el.moveDialog, el.permissionDialog, el.subfolderDialog].forEach((dialog) => bindDialogLightDismiss(dialog));
+  [el.settingsDialog, el.fileNameDialog, el.moveDialog, el.permissionDialog, el.subfolderDialog].forEach((dialog) => bindDialogLightDismiss(dialog));
   window.addEventListener('online', () => {
     refreshForegroundCredential();
     updateConnectionBadge();

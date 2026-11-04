@@ -5,7 +5,7 @@ import { AuthError, fail } from '../auth/session-owner.mjs';
 // One file is the same contract as the browser path: read before, one PATCH,
 // independent read after. An interrupted send is only ever re-read, never re-sent.
 export const DRIVE_API = 'https://www.googleapis.com/drive/v3';
-const DRIVE_FIELDS = 'id,parents,trashed,version,driveId,mimeType,resourceKey,capabilities(canTrash,canMoveItemWithinDrive,canMoveItemOutOfDrive,canAddChildren)';
+const DRIVE_FIELDS = 'id,parents,trashed,version,driveId,mimeType,resourceKey,capabilities(canTrash,canUntrash,canMoveItemWithinDrive,canMoveItemOutOfDrive,canAddChildren)';
 const FOLDER_MIME = 'application/vnd.google-apps.folder';
 const ID_PATTERN = /^[A-Za-z0-9_-]{4,200}$/u;
 const JOB_ID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/u;
@@ -31,6 +31,8 @@ const STORAGE_FAILURE_DELAY_MS = 3_600_000;
 const RETAIN_FINISHED_MS = DAY;
 const RATE_LIMIT_REASONS = new Set(['rateLimitExceeded', 'userRateLimitExceeded']);
 const RESULT_COLUMN = { confirmed: 'confirmed', skipped: 'skipped' };
+const PATCH_BODY = { trash: '{"trashed":true}', untrash: '{"trashed":false}', move: '{}' };
+const TRASH_CAPABILITY = { trash: 'canTrash', untrash: 'canUntrash' };
 
 class DriveReadFailure extends Error {
   constructor(kind, status) { super(kind); this.kind = kind; this.status = status; }
@@ -58,6 +60,7 @@ function metadata(value, id) {
 
 function matches(job, after) {
   if (job.action === 'trash') return after.trashed === true;
+  if (job.action === 'untrash') return after.trashed === false;
   return !after.trashed && after.parents.length === 1 && after.parents[0] === job.resolved_target_id;
 }
 
@@ -98,7 +101,7 @@ export class DriveJobOwner {
   nextRunAt() { return this.hasWork() ? Math.max(this.clock(), this.retryAt) : null; }
 
   enqueue({ jobId, action, chunk, target, files } = {}) {
-    if (!JOB_ID_PATTERN.test(jobId || '') || !['trash', 'move'].includes(action) || !Number.isSafeInteger(chunk) || chunk < 0
+    if (!JOB_ID_PATTERN.test(jobId || '') || !['trash', 'move', 'untrash'].includes(action) || !Number.isSafeInteger(chunk) || chunk < 0
       || !Array.isArray(files) || !files.length || files.length > MAX_CHUNK_FILES) fail('bad_request');
     if (action === 'move' ? (!target || !validId(target.id) || !optionalKey(target.name) || !optionalKey(target.resourceKey)) : target != null) fail('bad_request');
     const normalized = files.map(normalizeFile);
@@ -238,7 +241,7 @@ export class DriveJobOwner {
       job.target_resource_key ? `${job.resolved_target_id}/${job.target_resource_key}` : ''].filter(Boolean).join(',');
     try {
       const response = await this.request(`${encodeURIComponent(item.file_id)}?${params}`, token,
-        { method: 'PATCH', body: job.action === 'trash' ? '{"trashed":true}' : '{}', resourceKeys: keys });
+        { method: 'PATCH', body: PATCH_BODY[job.action], resourceKeys: keys });
       if (response.ok) return { status: 0, rateLimited: false };
       return { status: response.status, rateLimited: await rateLimited(response) };
     } catch { return { status: 0, rateLimited: false }; }
@@ -303,7 +306,7 @@ export class DriveJobOwner {
       if (before.capabilities[capability] !== true) { this.finish(item, 'failed', 403); return; }
     } else {
       if (matches(job, before)) { this.finish(item, 'skipped'); return; }
-      if (before.capabilities.canTrash !== true) { this.finish(item, 'failed', 403); return; }
+      if (before.capabilities[TRASH_CAPABILITY[job.action]] !== true) { this.finish(item, 'failed', 403); return; }
     }
     // Written before the send, so a dead instance can only ever verify it.
     const claimed = this.transaction(() => {

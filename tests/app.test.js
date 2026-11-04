@@ -1722,6 +1722,41 @@ test('render scheduler repairs uncovered viewport rows and keeps covered scrolli
     'the last viewport rows must be included when returning near the end');
   assert.ok(bottom.start <= 497 * 6 && bottom.end === 3000);
   assert.equal(bottom.mounted, 240);
+
+  const upward = probe({ start: 1200, scrollY: 410 + 180 * 236.287, innerHeight: 900 });
+  assert.equal(upward.renderCount, upward.initialRenderCount + 1, 'rows above the window must be rendered');
+  assert.ok(upward.start <= (180 - 10) * 6, 'scrolling further up must not rebuild the window for the next row');
+  assert.ok(upward.end >= (180 + 10) * 6, 'the viewport stays inside the window');
+
+  const downward = probe({ start: 1200, scrollY: 410 + 260 * 236.287, innerHeight: 900 });
+  assert.equal(downward.renderCount, downward.initialRenderCount + 1, 'rows below the window must be rendered');
+  assert.ok(downward.end >= (260 + 10) * 6, 'scrolling further down must not rebuild the window for the next row');
+  assert.ok(downward.start <= 260 * 6, 'the viewport stays inside the window');
+});
+
+test('skipped cards hold the measured card height so the page length stays exact', () => {
+  const context = loadAppContext();
+  installMiniDom(context);
+  const grid = context.document.createElement('div');
+  grid.clientWidth = 1030;
+  const styles = new Map();
+  grid.style.setProperty = (name, value) => styles.set(name, value);
+  context.testGrid = grid;
+  run(context, `(() => {
+    el.fileGrid = testGrid;
+    state.files = Array.from({length:60}, (_, index) => ({ id: String(index), name: 'file-' + index, mimeType: 'image/jpeg' }));
+    state.filter = 'all'; state.query = ''; state.sort = 'name'; state.renderWindowStart = 0;
+    createFileCard = () => {
+      const card = document.createElement('div');
+      card.className = 'file-card';
+      card.getBoundingClientRect = () => ({ height: 283.8 });
+      return card;
+    };
+    renderMediaGrid(filteredAndSortedFiles());
+  })()`);
+  assert.equal(styles.get('--file-card-height'), '283.8px');
+  assert.match(fs.readFileSync(path.join(__dirname, '..', 'styles.css'), 'utf8'),
+    /\.file-card\.defer-render \{[^}]*contain-intrinsic-size: 180px var\(--file-card-height, 240px\)/);
 });
 
 test('move rows include roots, descendants, orphans, and cycles exactly once', () => {

@@ -30,6 +30,10 @@ A folder `drive-original-qa-20261104` with text files was created for this and n
 - `lastFailure` and `alarmAt` in the status reply were added to diagnose this and stay.
 - The QA folder was moved to the Drive trash afterwards. Drive removes it after 30 days.
 
+## 1.24.1 undo (D144)
+
+Demo Chrome 390×844: trash button sends with no dialog, the bar appears inside the viewport above the player buttons, undo restores the file and returns the player to it, the bar hides after 5 s. Selection move sends to the default folder with no dialog. Production result is below when recorded.
+
 ## Run it again
 
 ```bash

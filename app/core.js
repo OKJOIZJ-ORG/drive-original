@@ -3,7 +3,7 @@
 // Shared constants and pure helpers (account-state merge, playback deck, render window, buffer policy).
 // One of the ordered classic scripts listed in scripts/app-scripts.cjs; all share one global scope.
 
-const APP_VERSION = '1.24.0';
+const APP_VERSION = '1.24.1';
 const DRIVE_MUTATIONS_ENABLED = globalThis.__DRIVE_ORIGINAL_RUNTIME__?.driveMutationsEnabled === true;
 const ACCOUNT_STATE_WRITES_ENABLED = DRIVE_MUTATIONS_ENABLED
   || globalThis.__DRIVE_ORIGINAL_RUNTIME__?.accountStateWritesEnabled === true;
@@ -56,6 +56,7 @@ const MOVE_INCLUDE_SUBFOLDERS_KEY = 'drive-original.move-include-subfolders';
 const QUICK_MOVE_ENABLED_KEY = 'drive-original.quick-move-enabled';
 const QUICK_MOVE_TARGET_PREFIX = 'drive-original.quick-move-target.';
 const QUICK_MOVE_DEFAULT_FOLDER = '추억';
+const DRIVE_UNDO_MS = 5_000;
 const MOVE_SEARCH_DEBOUNCE_MS = 250;
 const FOLDER_RENDER_MAX = 200;
 const SEARCH_RENDER_DELAY_MS = 90;

@@ -67,13 +67,15 @@ async function submitServerDriveJob(job) {
   try {
     for (let chunk = 0; sent < job.files.length; chunk += 1) {
       const files = job.files.slice(sent, sent + DRIVE_JOB_CHUNK_FILES).map((file) => ({
-        id: file.id, parents: Array.isArray(file.parents) && file.parents.length ? file.parents : null,
-        version: file.version || null, resourceKey: file.resourceKey || null
+        // An undo cannot expect the state the first job may already have changed.
+        id: file.id, parents: !job.reverse && Array.isArray(file.parents) && file.parents.length ? file.parents : null,
+        version: job.reverse ? null : file.version || null, resourceKey: file.resourceKey || null
       }));
       await submitDriveJobChunk({ jobId: job.id, action: job.action, chunk, target, files }, job.owner.options?.signal);
       sent += files.length;
     }
   } catch (error) {
+    hideDriveUndo(job);
     if (error?.name === 'AbortError') return finishDriveActionJob(job);
     job.localFailures = job.files.slice(sent).map((item) => ({ status: 'rejected', item, reason: error }));
     if (!sent) return completeServerDriveJob(job);
@@ -222,6 +224,7 @@ async function cancelDriveJobs() {
 
 function driveJobLabel(action, targetName) {
   if (action === 'trash') return '휴지통으로 이동';
+  if (action === 'untrash') return '휴지통에서 되돌리기';
   if (action === 'rename') return '이름 바꾸기';
   return `'${targetName || '폴더'}'(으)로 이동`;
 }

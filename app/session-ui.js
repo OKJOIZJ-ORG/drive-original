@@ -100,7 +100,7 @@ function clearToken(notifyWorker, { preserveAccount = true } = {}) {
   const clearedRevision = state.tokenRevision;
   const clearedAccountGeneration = state.driveSessionGeneration;
   stopAccountStateRefresh();
-  if (!preserveAccount) resetServerDriveJobs();
+  if (!preserveAccount) { hideDriveUndo(); resetServerDriveJobs(); }
   state.authGeneration += 1;
   state.accountStateAbortController?.abort();
   state.accountStateAbortController = null;

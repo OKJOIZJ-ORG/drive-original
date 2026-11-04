@@ -1,14 +1,14 @@
 # CHECKPOINT — Drive Original
 
-Updated 2026-11-04. D139~D142 server trash/move queue, player buttons, random, duration sort; D143 authorized merge/push and deployment.
+Updated 2026-11-04. D144 direct trash with undo and D138 scroll stability on top of the D139~D142 server queue; D145 authorized merge/push and deployment.
 
 ## Current identity
 
 - Canonical repo: `C:\Projects\Drive-Original\source`; branch `main`.
-- Production **1.24.0**, Worker `2e05bec1-b077-4c1d-86db-51a9c8401e67`. Dry run and deployment used the clean committed detached worktree. Prior 1.23.26 runtime 45d4bdd/Worker f3db1e52 is history.
+- Production **1.24.1**. Dry run and deployment use the clean committed detached worktree; the release record in `qa/server-drive-jobs-20261104/README.md` owns the Worker version. Prior 1.24.0 Worker 2e05bec1 and 1.23.26 runtime 45d4bdd are history.
 - Trash and move run on the server (`worker/drive-jobs.mjs`) and keep going after the app closes. Production run with 72 disposable files, tab closed: 72 confirmed, 0 failed, about 4 files per second. See `qa/server-drive-jobs-20261104/README.md`.
 - A deployment does not replace the account Durable Object's code while its queue alarm keeps firing. Check `lastFailure` and `alarmAt` in `/api/drive-jobs/status` after a Worker change, and expect the old code until the queue is idle.
-- D138 scroll-stability work is not in production. It was committed unchanged to the local branch `claude/scroll-stability-20261104` so the release could land on `main`; `qa/scroll-stability-20261104/README.md` owns its state.
+- D138 scroll stability shipped in 1.24.1. Its exact user symptom was never reproduced, so "fixed" stays assumed until the user confirms it on a device.
 
 ## Completed
 

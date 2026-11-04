@@ -1884,15 +1884,6 @@ dialog::backdrop {
   color: var(--label-tertiary);
 }
 
-.delete-file-name {
-  padding: 10px 12px;
-  border-radius: var(--radius-sm);
-  background: var(--system-bg-tertiary);
-  font-size: var(--text-small);
-  color: var(--label-primary);
-  word-break: break-all;
-}
-
 /* Updates use the same primary action grammar as connection and confirmation. */
 .update-apply-btn {
   width: 100%;
@@ -2204,6 +2195,50 @@ dialog::backdrop {
   color: var(--label-primary);
 }
 
+.drive-undo-bar {
+  position: fixed;
+  bottom: calc(96px + var(--safe-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 210;
+  max-width: calc(100vw - 32px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 8px 6px 16px;
+  border-radius: var(--radius-pill);
+  background: rgba(30, 30, 32, 0.95);
+  border: var(--hairline-border);
+  box-shadow: var(--shadow-popover);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--label-primary);
+  white-space: nowrap;
+}
+
+.drive-undo-bar[hidden] {
+  display: none;
+}
+
+.drive-undo-bar span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.drive-undo-bar button {
+  flex: none;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: #6cb1ff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 @keyframes appleToastPop {
   from { opacity: 0; transform: translate(-50%, 12px) scale(0.94); }
   to { opacity: 1; transform: translate(-50%, 0) scale(1); }
@@ -2318,7 +2353,7 @@ dialog::backdrop {
 
 .file-card.defer-render {
   content-visibility: auto;
-  contain-intrinsic-size: 180px 240px;
+  contain-intrinsic-size: 180px var(--file-card-height, 240px);
 }
 
 .file-card-select-check {
@@ -2542,11 +2577,6 @@ dialog {
 .move-folder-row {
   min-height: 42px;
   text-align: left;
-}
-
-.delete-file-name {
-  overflow-wrap: anywhere;
-  word-break: normal;
 }
 
 /* Full filename: the name is the content; the heading stays a quiet label. */
