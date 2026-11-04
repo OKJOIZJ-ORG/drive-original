@@ -18,7 +18,17 @@ Release 1.24.0, approved by D143.
 | `tests/background-drive-actions.test.js` | Page side with a fake server: submit, settle, adopt after reload, chunks, quick move, position uniformity over 60,000 shuffles, no repeat while unseen files remain | Simulated |
 | Demo Chrome 1440×900 and 390×844 | Move button sends without a dialog and advances, settings toggle, folder pick, buttons inside the viewport, no horizontal overflow | Demo mode has no server queue |
 
-Production results are added below after deployment.
+## Production (1.24.0, Worker 2e05bec1, user's signed-in Chrome, disposable files only)
+
+A folder `drive-original-qa-20261104` with text files was created for this and nothing else. No user file was touched.
+
+- First run failed (observed): the queue accepted 24 files, every Drive read failed and no file changed. Cause (assumed, not logged): `fetchImpl = fetch` called as `this.fetchImpl(...)` is `Illegal invocation` on Workers, and the fake Drive in the local checks hid it. A plain call plus a regression test fixed it; the third run below is the evidence.
+- Second run stayed on the old code: the account Durable Object kept running the previous version while its alarm fired every 15 s. After the queue was cancelled and the object went idle, the new code loaded. **A deployment does not replace a busy queue's code until the object goes idle.**
+- Third run: 72 files queued in 1.3 s and my tab closed at once. 48 trash confirmed by 12.7 s, 24 moves by 17.5 s, 0 failures, `lastFailure` null. Independent Drive listing right after showed 48 trashed. The tab used to check opened only after the queue had already been running. Rate: about 4 files per second. The user's own app tab stayed open and untouched; a page can only read status, so it did not drive the work.
+- After the run the alarm went back to the credential retention deadline (about 30 days), so an empty queue costs no alarms.
+- Settings panel on production listed the jobs with counts; no files stayed hidden.
+- `lastFailure` and `alarmAt` in the status reply were added to diagnose this and stay.
+- The QA folder was moved to the Drive trash afterwards. Drive removes it after 30 days.
 
 ## Run it again
 
