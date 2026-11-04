@@ -1108,6 +1108,10 @@ The user asked "webp 썸네일 지원해줘". Read-only production measurement s
 
 The user asked for year-month dividers under date sorts and left the details to the agent. `buildGridLayout` in app/core.js now owns card rows, month breaks and row offsets; `renderMediaGrid` and `scheduleRenderWindowUpdate` work on those rows. The old early return for lists of up to 240 files could leave rows unmounted once dividers add rows, so it now compares rows against the window and also rerenders on a column change. Nothing was committed, pushed or deployed. The D135 WebP work landed in the same uncommitted checkout from a separate session.
 
+## 2026-11-04 — D138 scroll stability after trash (local, not deployed)
+
+The user asked to fix scroll shaking after a delete completes. Fixed intrinsic card height 240px replaced by the measured height; repaired render windows now keep spare rows on both sides. End-of-list `scrollY` bounce (44px at 700px, 5.6px at 390px) is gone and upward scrolling rebuilds the grid 1–3 times per 100 steps instead of 28–59. The completion moment itself moved nothing even before the change, in demo and in the signed-in production list with writes stubbed; no Drive file changed. Full suite 1,137/1,137. Not tested on a physical device. See qa/scroll-stability-20261104/README.md.
+
 ## 2026-11-04 — D137 release 1.23.26 (D135, D136 deployed)
 
 The user answered "배포해". D135 and D136 went out as 1.23.26: runtime `45d4bdd`, Worker `f3db1e52-47f9-4f91-b8d1-485a50501045`, 1,136/1,136 tests, 91/91 public files equal to Git. The D135 and D136 entries above say "not deployed" and describe the state before this release. Node `fetch` hung on the large `licenses/` parts, so `served-check.cjs` now uses curl. Read-only date queries on the Drive account showed that `createdTime` is the upload date and `modifiedTime` keeps the older date; the user had read these the wrong way round, then decided to keep the current sorts and declined filename-date grouping. See qa/release-1.23.26/README.md.

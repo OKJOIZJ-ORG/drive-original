@@ -2317,7 +2317,7 @@ dialog::backdrop {
 
 .file-card.defer-render {
   content-visibility: auto;
-  contain-intrinsic-size: 180px 240px;
+  contain-intrinsic-size: 180px var(--file-card-height, 240px);
 }
 
 .file-card-select-check {

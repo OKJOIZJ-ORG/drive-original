@@ -64,11 +64,14 @@ function scheduleRenderWindowUpdate() {
     const currentEndRow = gridRowOfIndex(layout, currentWindow.end);
     const viewportOutsideWindow = viewportIntersectsGrid
       && (viewportStartRow < currentStartRow || viewportEndRow > currentEndRow);
+    // A repaired window leaves spare rows on both sides of the viewport; a window
+    // that starts at the viewport edge would be rebuilt for every next row.
+    const overscanRows = Math.floor(Math.max(0, windowRows - (viewportEndRow - viewportStartRow)) / 2);
     let requestedStart = layout.rowStarts[Math.max(0, focusRow - 4)] || 0;
     if (viewportIntersectsGrid && viewportStartRow < currentStartRow) {
-      requestedStart = layout.rowStarts[viewportStartRow];
+      requestedStart = layout.rowStarts[Math.max(0, viewportStartRow - overscanRows)];
     } else if (viewportIntersectsGrid && viewportEndRow > currentEndRow) {
-      requestedStart = layout.rowStarts[Math.max(0, viewportEndRow - windowRows)];
+      requestedStart = layout.rowStarts[Math.max(0, Math.min(totalRows, viewportEndRow + overscanRows) - windowRows)];
     }
     const nextWindow = computeGridWindow(layout, requestedStart);
     if (columns !== state.renderColumnCount || viewportOutsideWindow
@@ -178,6 +181,9 @@ function renderMediaGrid(files) {
   const measuredDivider = firstDivider?.getBoundingClientRect?.().height || firstDivider?.offsetHeight || 0;
   const rowChanged = measuredHeight && Math.abs((measuredHeight + gap) - state.renderRowHeight) >= .1;
   const dividerChanged = measuredDivider && Math.abs((measuredDivider + gap) - state.renderDividerHeight) >= .1;
+  // Skipped cards hold the measured height, so page length and scroll position
+  // do not change when a card starts or stops being rendered.
+  if (measuredHeight) el.fileGrid.style.setProperty?.('--file-card-height', `${measuredHeight}px`);
   if (rowChanged) state.renderRowHeight = measuredHeight + gap;
   if (dividerChanged) state.renderDividerHeight = measuredDivider + gap;
   if (rowChanged || dividerChanged) applyGridPadding();

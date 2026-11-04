@@ -227,6 +227,10 @@ D132 authorized and delivered1.23.23, then1.23.24. Separately confirmed early TS
 
 A focused1.23.24 normal-profile frame counter found47 startup drops byabout2.3s, then none through30.2s. Visibility, buffering and readyState remained normal; no main-thread long task was recorded. This narrows the interval but does not identify a browser/decoder/compositor cause. No unproved product workaround was added. See qa/release-1.23.24/presentation.json.
 
+## 2026-11-04 — Scroll shake after trash: user confirmation pending (D138)
+
+D138 removed the measured scroll bounce at the moment a file disappears. The reported moment, "delete completed", showed no movement in any measurement, so the user's exact symptom is assumed fixed, not confirmed. Close this after the user checks a deployed build. If the shake remains, the next candidates are the unmeasured real account-state write path and physical-device or iOS Safari behavior (no scroll anchoring).
+
 ## 2026-11-04 — Drive dates on this account: D132 renames probably overwrote modifiedTime
 
 Observed, account yundda3, read-only queries: the earliest `createdTime` is 2026-09-25 and more than 12,000 files were created in 2026-10, so `createdTime` is the upload date. `modifiedTime` goes back to 2023-01, with about 8,300 files before 2026-10. In a sample of 10,978 files modified in October, 317 have `modifiedTime` on 2026-10-30. Assumed, not checked per file: those are the 335 D132 filename corrections, and each rename replaced the file's older `modifiedTime`, as observed for renames in D123. `H:\내 드라이브\CODEX BACKUP\Drive-Original\2026-10-30-format-repair` was not checked for the original values. EXIF time exists in 4 of 7,537 images and 3,180 names carry a date. The user kept the current date sorts and declined filename-date grouping on 2026-11-04. Restoring those `modifiedTime` values was not requested and is not planned.
