@@ -1,15 +1,18 @@
 # CHECKPOINT — Drive Original
 
-Updated 2026-11-04. D133 top-level move folders, D134 authorized merge/push and deployment.
+Updated 2026-11-04. D135 WebP cards, D136 month dividers, D137 authorized merge/push and deployment.
 
 ## Current identity
 
-- Canonical repo: `C:\Projects\Drive-Original\source`; branch `main`, runtime pushed through `70a144e`.
-- Production **1.23.25**, committed runtime `70a144e`, Worker `1bef4f37-eb58-4839-aa2b-a7ee39dcaa23`. Dry run and deployment both used the clean committed detached worktree. Prior 1.23.24 runtime de96ca2/Worker 0f771f2d is history.
-- Complete suite **1,131/1,131 passed**. Production **91/91 public assets equal runtime Git bytes**; seven private paths return 404. See `qa/release-1.23.25/README.md`.
+- Canonical repo: `C:\Projects\Drive-Original\source`; branch `main`, runtime pushed through `45d4bdd`.
+- Production **1.23.26**, committed runtime `45d4bdd`, Worker `f3db1e52-47f9-4f91-b8d1-485a50501045`. Dry run and deployment both used the clean committed detached worktree. Prior 1.23.25 runtime 70a144e/Worker 1bef4f37 is history.
+- Complete suite **1,136/1,136 passed**. Production **91/91 public assets equal runtime Git bytes**; seven private paths return 404. See `qa/release-1.23.26/README.md`.
+- The checkout may hold uncommitted D138 scroll-stability work from a separate session. It is not in production and was not part of this release; `qa/scroll-stability-20261104/README.md` owns its state.
 
 ## Completed
 
+- D135: WebP cards with a `thumbnailLink` use the native image path. Production: 12 visible WebP thumbnails loaded by 1,654 ms, 0 canvases.
+- D136: the four date sorts show year-month dividers. Production: 3 dividers in a 5,255-file folder, no console errors. Dividers follow Drive dates; `createdTime` on this account is the upload date, and the user kept this and declined filename-date grouping. Phones and WebKit not verified.
 - D133: move dialog lists and searches only top-level folders by default; settings checkbox restores the full listing. Production signed-in read-only index: 1,006 ms for 7 rows (D114 full index: about 150 s for 43,860 folders). Dialog UI with a real file on production, shared drives and phones not verified.
 - Everything below in this section is the D132 1.23.24 work.
 

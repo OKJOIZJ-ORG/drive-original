@@ -32,6 +32,8 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- [1.23.26 WebP cards and month dividers](../qa/release-1.23.26/README.md): D135/D136 release, D137 approval; runtime `45d4bdd`, Worker f3db1e52, 1,136 tests, 91/91 public bytes equal Git. Signed-in production dividers and WebP thumbnails checked read-only; phones and WebKit not verified.
+
 - [1.23.25 top-level move folders](../qa/release-1.23.25/README.md): D133/D134 release; runtime `70a144e`, Worker 1bef4f37, 1,131 tests, 91/91 public bytes equal Git. Signed-in production folder index 1,006 ms for 7 rows, read-only; no file moved.
 
 - [1.23.24 buffering, actual-format repair and release](../qa/release-1.23.24/README.md): D132 authorized release; runtime `de96ca2`,1,128 tests,91/91 public bytes equal Git.335 filenames corrected; current12,287-file inventory has zero extension mismatches. [Sustained buffering/format evidence](../qa/buffering-20261030/README.md) and [startup-only controlled evidence](../qa/ts-startup-20261030/README.md). Intermittent normal-profile decoder errors remain open; CHECKPOINT.md owns current state.
