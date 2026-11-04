@@ -52,6 +52,7 @@ const RENDER_WINDOW_STEP_RATIO = 0.5;
 const MOVE_RESULT_BATCH = 200;
 const MOVE_RECENT_PREFIX = 'drive-original.move-recent.';
 const MOVE_RECENT_LIMIT = 6;
+const MOVE_INCLUDE_SUBFOLDERS_KEY = 'drive-original.move-include-subfolders';
 const MOVE_SEARCH_DEBOUNCE_MS = 250;
 const FOLDER_RENDER_MAX = 200;
 const SEARCH_RENDER_DELAY_MS = 90;

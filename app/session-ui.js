@@ -12,6 +12,7 @@ function isMobileDevice() {
 function openSettings(scrollToHelp) {
   const content = el.settingsDialog.querySelector('.dialog-content');
   if (scrollToHelp && el.settingsAdvanced) el.settingsAdvanced.open = true;
+  if (el.moveIncludeSubfoldersCheckbox) el.moveIncludeSubfoldersCheckbox.checked = moveIncludesSubfolders();
   if (!el.settingsDialog.open) el.settingsDialog.showModal();
   if (content) content.scrollTop = 0;
   if (scrollToHelp) requestAnimationFrame(() => el.setupHelpSection.scrollIntoView({ behavior: 'instant', block: 'start' }));

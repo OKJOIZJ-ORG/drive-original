@@ -3,7 +3,8 @@
 // Move dialog: destination list, recent folders, server search and the folder index.
 // One of the ordered classic scripts listed in scripts/app-scripts.cjs; all share one global scope.
 
-/* 폴더 이동 — 최근 이동 폴더와 서버 검색은 바로 보이고, 전체 폴더 목록은 뒤에서 1회 수집한다 */
+/* 폴더 이동 — 최근 이동 폴더는 바로 보이고, 기본은 최상위 폴더만 조회한다.
+   설정에서 하위 폴더 포함을 켜면 전체 폴더를 뒤에서 1회 수집하고 그동안 서버 검색을 쓴다. */
 async function requestMoveFile() {
   const files = getActionFiles();
   if (!files.length) return;
@@ -80,6 +81,25 @@ function cancelMoveFolderLoading() {
   resetMoveFolderSearch();
 }
 
+/* 이동 창 폴더 범위 — 이 기기에 기억한다. 전체 수집은 폴더가 많으면 몇 분 걸려서 기본은 꺼져 있다. */
+function moveIncludesSubfolders() {
+  try { return localStorage.getItem(MOVE_INCLUDE_SUBFOLDERS_KEY) === '1'; } catch (_) { return false; }
+}
+
+function setMoveIncludesSubfolders(enabled) {
+  try {
+    if (enabled) localStorage.setItem(MOVE_INCLUDE_SUBFOLDERS_KEY, '1');
+    else localStorage.removeItem(MOVE_INCLUDE_SUBFOLDERS_KEY);
+  } catch (_) {}
+  // The cached index belongs to the previous scope.
+  state.folderIndexAbortController?.abort();
+  state.folderIndexAbortController = null;
+  state.folderIndexPromise = null;
+  state.loadingFolderIndex = false;
+  state.folderIndex = null;
+  state.moveFolderRows = [];
+}
+
 /* 최근 이동 폴더 — 계정별로 마지막 대상 몇 개를 기억해 전체 목록을 받기 전에도 바로 고르게 한다.
    권한은 저장하지 않는다: 실제 이동은 대상 폴더 메타데이터를 다시 읽어 확인한다. */
 function moveRecentStorageKey() {
@@ -124,12 +144,15 @@ function rememberRecentMoveFolder(row) {
 }
 
 // Once the full index exists its rows carry fresh capabilities, and a
-// remembered folder that is no longer in Drive drops out of the list.
+// remembered folder that is no longer in Drive drops out of the list. The
+// top-level index cannot prove a remembered subfolder is gone, so it stays.
 function recentMoveRows() {
   const recent = readRecentMoveFolders();
   if (!state.folderIndex) return recent.map((item) => ({ ...item, depth: 0 }));
   const byId = new Map(state.moveFolderRows.map((row) => [row.id, row]));
-  return recent.map((item) => byId.get(item.id)).filter(Boolean).map((row) => ({ ...row, depth: 0 }));
+  const keepUnlisted = !moveIncludesSubfolders();
+  return recent.map((item) => byId.get(item.id) || (keepUnlisted ? item : null))
+    .filter(Boolean).map((row) => ({ ...row, depth: 0 }));
 }
 
 function findMoveTargetRow(id) {
@@ -186,7 +209,7 @@ function handleMoveSearchInput(value) {
   const filter = normalizeMoveFilter(query);
   if (state.moveSearch?.filter !== filter) {
     resetMoveFolderSearch();
-    if (filter && !state.folderIndex) {
+    if (filter && !state.folderIndex && moveIncludesSubfolders()) {
       const search = { filter, status: 'pending', rows: [], controller: new AbortController(), timer: null };
       state.moveSearch = search;
       search.timer = setTimeout(() => { void runMoveFolderSearch(search, query); }, MOVE_SEARCH_DEBOUNCE_MS);
@@ -222,19 +245,41 @@ async function ensureFolderIndex() {
   state.folderIndexAbortController = controller;
   const promise = (async () => {
    try {
+    const includeSubfolders = moveIncludesSubfolders();
     const rootId = await resolveRootFolderId();
     if (state.demo) {
       await ensureTreeCache();
-      const folders = [...(state.treeCache?.foldersById?.values() || [])];
+      const known = [...(state.treeCache?.foldersById?.values() || [])];
+      const folders = includeSubfolders ? known : known.filter((folder) => folder.parents?.includes(rootId));
       const roots = [{ id: rootId, name: '내 드라이브', driveId: null, capabilities: { canAddChildren: true } }];
       state.folderIndex = { roots, folders };
       state.moveFolderRows = buildMoveFolderRows(state.folderIndex);
       return state.folderIndex;
     }
 
-    const [rootResponse, sharedDrives] = await Promise.all([
+    const foldersQuery = moveFoldersQuery(includeSubfolders ? null : rootId);
+    const [rootResponse, sharedDrives, collected] = await Promise.all([
       driveFetch(`${DRIVE_API}/files/root?fields=id,name,driveId,resourceKey,capabilities(canAddChildren)&supportsAllDrives=true`, { signal: controller.signal }),
-      collectSharedDriveRoots(controller.signal)
+      collectSharedDriveRoots(controller.signal),
+      collectAllPages(async (pageToken) => {
+        const params = new URLSearchParams({
+          pageSize: String(DRIVE_PAGE_SIZE),
+          q: foldersQuery,
+          spaces: 'drive',
+          corpora: 'user',
+          supportsAllDrives: 'true',
+          includeItemsFromAllDrives: 'true',
+          fields: 'nextPageToken,incompleteSearch,files(id,name,parents,driveId,resourceKey,capabilities(canAddChildren))'
+        });
+        if (pageToken) params.set('pageToken', pageToken);
+        const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, { signal: controller.signal });
+        return response.json();
+      }, {
+        signal: controller.signal,
+        onPage: ({ count }) => {
+          setMoveFolderLoadingText(`폴더 목록을 불러오는 중… ${count.toLocaleString('ko-KR')}개`);
+        }
+      })
     ]);
     const rootData = await rootResponse.json();
     const root = {
@@ -244,29 +289,10 @@ async function ensureFolderIndex() {
       resourceKey: rootData.resourceKey || null,
       capabilities: rootData.capabilities || { canAddChildren: true }
     };
-    const collected = await collectAllPages(async (pageToken) => {
-      const params = new URLSearchParams({
-        pageSize: String(DRIVE_PAGE_SIZE),
-        q: `trashed = false and mimeType = '${FOLDER_MIME}'`,
-        spaces: 'drive',
-        corpora: 'user',
-        supportsAllDrives: 'true',
-        includeItemsFromAllDrives: 'true',
-        fields: 'nextPageToken,incompleteSearch,files(id,name,parents,driveId,resourceKey,capabilities(canAddChildren))'
-      });
-      if (pageToken) params.set('pageToken', pageToken);
-      const response = await driveFetch(`${DRIVE_API}/files?${params.toString()}`, { signal: controller.signal });
-      return response.json();
-    }, {
-      signal: controller.signal,
-      onPage: ({ count }) => {
-        setMoveFolderLoadingText(`폴더 목록을 불러오는 중… ${count.toLocaleString('ko-KR')}개`);
-      }
-    });
     if (collected.incompleteSearch) {
       throw new Error('Google Drive가 폴더 검색 결과를 완전하게 반환하지 않았습니다. 잠시 후 다시 시도해 주세요.');
     }
-    const sharedDriveFolders = await collectSharedDriveFolders(sharedDrives, controller.signal);
+    const sharedDriveFolders = await collectSharedDriveFolders(sharedDrives, controller.signal, includeSubfolders);
     const roots = [root, ...sharedDrives];
     state.folderIndex = { roots, folders: dedupeFiles([...collected.items, ...sharedDriveFolders]) };
     state.moveFolderRows = buildMoveFolderRows(state.folderIndex);
@@ -284,6 +310,12 @@ async function ensureFolderIndex() {
   } finally {
     if (state.folderIndexPromise === promise) state.folderIndexPromise = null;
   }
+}
+
+// parentId limits the listing to that folder's direct children.
+function moveFoldersQuery(parentId) {
+  const folders = `trashed = false and mimeType = '${FOLDER_MIME}'`;
+  return parentId ? `'${escapeDriveQueryLiteral(parentId)}' in parents and ${folders}` : folders;
 }
 
 async function collectSharedDriveRoots(signal) {
@@ -306,7 +338,7 @@ async function collectSharedDriveRoots(signal) {
   }));
 }
 
-async function collectSharedDriveFolders(sharedDrives, signal) {
+async function collectSharedDriveFolders(sharedDrives, signal, includeSubfolders = true) {
   const drives = (Array.isArray(sharedDrives) ? sharedDrives : [])
     .filter((drive) => drive?.id && drive.capabilities?.canListChildren !== false);
   if (!drives.length) return [];
@@ -320,7 +352,7 @@ async function collectSharedDriveFolders(sharedDrives, signal) {
       const collected = await collectAllPages(async (pageToken) => {
         const params = new URLSearchParams({
           pageSize: String(DRIVE_PAGE_SIZE),
-          q: `trashed = false and mimeType = '${FOLDER_MIME}'`,
+          q: moveFoldersQuery(includeSubfolders ? null : drive.id),
           spaces: 'drive',
           corpora: 'drive',
           driveId: drive.id,
@@ -389,6 +421,7 @@ function renderMoveFolderList(filterRaw) {
   };
   const appendRows = (rows) => rows.forEach((row) => fragment.appendChild(createMoveFolderRow(row, files)));
   const loadingText = state.moveLoadingText || '폴더 목록을 불러오는 중…';
+  const includeSubfolders = moveIncludesSubfolders();
 
   if (!state.folderIndex) {
     const recent = recentMoveRows();
@@ -401,8 +434,8 @@ function renderMoveFolderList(filterRaw) {
     } else {
       const search = state.moveSearch?.filter === filter ? state.moveSearch : null;
       const seen = new Set();
-      const rows = [...recent.filter((row) => moveRowMatches(row, filter)), ...(search?.rows || [])]
-        .filter((row) => !seen.has(row.id) && seen.add(row.id));
+      const matches = includeSubfolders ? [...recent.filter((row) => moveRowMatches(row, filter)), ...(search?.rows || [])] : [];
+      const rows = matches.filter((row) => !seen.has(row.id) && seen.add(row.id));
       appendRows(rows);
       if (!search || search.status === 'pending') appendNote('검색 중…', { compact: rows.length > 0 });
       else if (search.status === 'error') appendNote(`검색하지 못했습니다. ${loadingText}`, { loading: true, compact: rows.length > 0 });
@@ -417,7 +450,7 @@ function renderMoveFolderList(filterRaw) {
     ? state.moveFolderRows.filter((row) => moveRowMatches(row, filter))
     : state.moveFolderRows;
   if (!filtered.length) {
-    appendNote('일치하는 폴더가 없습니다.');
+    appendNote(includeSubfolders ? '일치하는 폴더가 없습니다.' : '일치하는 최상위 폴더가 없습니다. 하위 폴더까지 찾으려면 설정에서 켜세요.');
     el.moveFolderList.appendChild(fragment);
     return;
   }
@@ -425,7 +458,7 @@ function renderMoveFolderList(filterRaw) {
   if (recent.length) {
     appendHeading('최근 이동한 폴더');
     appendRows(recent);
-    appendHeading('모든 폴더');
+    appendHeading(includeSubfolders ? '모든 폴더' : '최상위 폴더');
   }
   appendRows(filtered.slice(0, state.moveResultLimit));
   el.moveFolderList.appendChild(fragment);

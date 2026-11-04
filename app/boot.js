@@ -111,7 +111,7 @@ function bindElements() {
     'qualityBadge', 'mediaResolution',
     'mediaFileSizeType', 'codecNote', 'settingsDialog', 'settingsAppVersion',
     'updateStatusText', 'checkUpdateButton', 'applyUpdateButton', 'forceReloadButton',
-    'logoutButton', 'disconnectButton', 'setupHelpSection', 'settingsAdvanced',
+    'logoutButton', 'disconnectButton', 'setupHelpSection', 'settingsAdvanced', 'moveIncludeSubfoldersCheckbox',
     'fileNameDialog', 'fileNameDialogTitle', 'fileNameView', 'fileNameText', 'fileNameCopyButton', 'fileNameRenameButton',
     'fileNameEdit', 'fileNameInput', 'fileNameHint', 'fileNameEditCancelButton', 'fileNameSaveButton',
     'subfolderDialog', 'subfolderDialogText', 'subfolderAllCheckbox', 'subfolderTree', 'subfolderOffButton', 'subfolderApplyButton',
@@ -409,6 +409,7 @@ function bindEvents() {
   if (el.moveDialog) el.moveDialog.addEventListener('cancel', cancelMoveFolderLoading);
   if (el.moveDialog) el.moveDialog.addEventListener('close', cancelMoveFolderLoading);
   if (el.moveSearchInput) el.moveSearchInput.addEventListener('input', (event) => handleMoveSearchInput(event.target.value));
+  if (el.moveIncludeSubfoldersCheckbox) el.moveIncludeSubfoldersCheckbox.addEventListener('change', (event) => setMoveIncludesSubfolders(event.target.checked));
 
   // Permission guide dialog
   if (el.permissionCloseButton) el.permissionCloseButton.addEventListener('click', () => el.permissionDialog.close());

@@ -40,7 +40,8 @@ class Node {
   }
 }
 
-function client({ storage = new Map(), fetchImpl } = {}) {
+function client({ storage = new Map(), fetchImpl, subfolders = false } = {}) {
+  if (subfolders) storage.set('drive-original.move-include-subfolders', '1');
   const c = { AbortController, Blob, DOMException, Headers, Map, Math, Promise, Response, Set, URL, URLSearchParams,
     console, performance, setTimeout, clearTimeout, setInterval, clearInterval,
     __DRIVE_ORIGINAL_RUNTIME__: { driveMutationsEnabled: true },
@@ -117,7 +118,7 @@ test('recent folders are selectable at once while the full folder index is still
 });
 
 test('typing searches Drive directly while the index loads, debounced and filtered to real matches', async () => {
-  const c = client({ fetchImpl: async () => Response.json({ files: [
+  const c = client({ subfolders: true, fetchImpl: async () => Response.json({ files: [
     { id: 'm2', name: '추억 2024', parents: ['root-id'], capabilities: { canAddChildren: true } },
     { id: 'm1', name: '추억', parents: ['root-id'], capabilities: { canAddChildren: true } },
     { id: 'm1', name: '추억', parents: ['root-id'], capabilities: { canAddChildren: true } },
@@ -147,7 +148,7 @@ test('typing searches Drive directly while the index loads, debounced and filter
 
 test('a superseded or failed search never paints stale rows', async () => {
   const pending = [];
-  const c = client({ fetchImpl: (url, options) => new Promise((resolve, reject) => {
+  const c = client({ subfolders: true, fetchImpl: (url, options) => new Promise((resolve, reject) => {
     pending.push({ url, resolve });
     options.signal?.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')));
   }) });
@@ -166,7 +167,7 @@ test('a superseded or failed search never paints stale rows', async () => {
 });
 
 test('with the full index, search stays local and recent rows follow the index', () => {
-  const c = client();
+  const c = client({ subfolders: true });
   c.run(`rememberRecentMoveFolder({id:'gone',name:'지운 폴더'});rememberRecentMoveFolder({id:'memories',name:'옛 이름'})`);
   c.run(`state.folderIndex={roots:[{id:'root-id',name:'내 드라이브',capabilities:{canAddChildren:true}}],
     folders:[{id:'memories',name:'추억',parents:['root-id'],capabilities:{canAddChildren:true}},
@@ -194,4 +195,82 @@ test('a completed move remembers its target folder', async () => {
   await c.run('performMoveFile()');
   assert.deepEqual(JSON.parse(c.run('JSON.stringify(readRecentMoveFolders().map(i=>i.id))')), ['memories']);
   assert.equal(c.run('state.pendingActionFiles[0].parents[0]'), 'memories');
+});
+
+function driveFixture() {
+  return async (url) => {
+    if (url.pathname.endsWith('/drives')) {
+      return Response.json({ drives: [{ id: 'shared-1', name: '팀 드라이브', capabilities: { canAddChildren: true, canListChildren: true } }] });
+    }
+    if (url.pathname.endsWith('/files/root')) return Response.json({ id: 'root-id', capabilities: { canAddChildren: true } });
+    const q = url.searchParams.get('q');
+    if (q.startsWith("'root-id' in parents")) {
+      return Response.json({ files: [{ id: 'memories', name: '추억', parents: ['root-id'], capabilities: { canAddChildren: true } }] });
+    }
+    if (q.startsWith("'shared-1' in parents")) {
+      return Response.json({ files: [{ id: 'team', name: '팀 자료', parents: ['shared-1'], driveId: 'shared-1', capabilities: { canAddChildren: true } }] });
+    }
+    return Response.json({ files: [
+      { id: 'memories', name: '추억', parents: ['root-id'], capabilities: { canAddChildren: true } },
+      { id: 'deep', name: '옛 추억', parents: ['memories'], capabilities: { canAddChildren: true } }
+    ] });
+  };
+}
+
+const folderQueries = (c) => c.fetchCalls.filter((url) => url.searchParams.has('q')).map((url) => url.searchParams.get('q'));
+
+test('by default the index asks Drive only for direct children of My Drive and each shared drive', async () => {
+  const c = client({ fetchImpl: driveFixture() });
+  await c.run('ensureFolderIndex()');
+  const queries = folderQueries(c);
+  assert.equal(queries.length, 2);
+  assert.ok(queries.every((q) => /^'(root-id|shared-1)' in parents and trashed = false and mimeType = /.test(q)));
+  assert.equal(c.fetchCalls.find((url) => url.searchParams.get('q')?.startsWith("'shared-1'")).searchParams.get('driveId'), 'shared-1');
+  c.run(`renderMoveFolderList('')`);
+  assert.deepEqual(c.rows().map((row) => row.id), ['root-id', 'memories', 'shared-1', 'team']);
+});
+
+test('the top-level scope never searches deep folders, and remembered subfolders stay listed', async () => {
+  const c = client({ fetchImpl: driveFixture() });
+  c.run(`rememberRecentMoveFolder({id:'deep',name:'옛 추억'})`);
+  c.run(`handleMoveSearchInput('옛')`);
+  await wait(300);
+  assert.equal(c.fetchCalls.length, 0, 'typing does not start a Drive search');
+  assert.equal(c.rows().length, 0);
+  assert.ok(c.text().includes('검색 중…'));
+
+  await c.run('ensureFolderIndex()');
+  c.run(`handleMoveSearchInput('')`);
+  assert.equal(c.text()[0], '최근 이동한 폴더');
+  assert.ok(c.text().includes('최상위 폴더'));
+  assert.equal(c.rows()[0].id, 'deep', 'the top-level index cannot prove a remembered subfolder is gone');
+  assert.equal(c.run(`findMoveTargetRow('deep').name`), '옛 추억');
+
+  c.run(`handleMoveSearchInput('옛')`);
+  assert.equal(c.rows().length, 0);
+  assert.ok(c.text().some((text) => text.startsWith('일치하는 최상위 폴더가 없습니다.')));
+  c.run(`handleMoveSearchInput('억')`);
+  assert.deepEqual(c.rows().map((row) => row.id), ['memories'], 'local search still matches the middle of a name');
+});
+
+test('the setting is remembered on this device and changing it discards the cached index', async () => {
+  const c = client({ fetchImpl: driveFixture() });
+  assert.equal(c.run('moveIncludesSubfolders()'), false);
+  await c.run('ensureFolderIndex()');
+  assert.ok(c.run('state.folderIndex'));
+
+  c.run('setMoveIncludesSubfolders(true)');
+  assert.equal(c.storage.get('drive-original.move-include-subfolders'), '1');
+  assert.equal(c.run('state.folderIndex'), null);
+  assert.equal(c.run('state.moveFolderRows.length'), 0);
+
+  c.fetchCalls.length = 0;
+  await c.run('ensureFolderIndex()');
+  assert.ok(folderQueries(c).every((q) => !q.includes(' in parents')), 'the full listing has no parent limit');
+  c.run(`renderMoveFolderList('옛')`);
+  assert.deepEqual(c.rows().map((row) => row.id), ['deep']);
+
+  c.run('setMoveIncludesSubfolders(false)');
+  assert.equal(c.storage.has('drive-original.move-include-subfolders'), false);
+  assert.equal(c.run('state.folderIndex'), null);
 });
