@@ -78,6 +78,7 @@ const state = {
   populationComplete: false,
   renderWindowStart: 0,
   renderRowHeight: 250,
+  renderDividerHeight: 44,
   renderColumnCount: 1,
   retryAfterAuth: false,
   authRetryContext: null,

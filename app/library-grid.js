@@ -42,32 +42,35 @@ function scheduleRenderWindowUpdate() {
   renderWindowRaf = requestAnimationFrame(() => {
     renderWindowRaf = 0;
     const files = filteredAndSortedFiles();
-    if (files.length <= RENDER_WINDOW_MAX) return;
+    const columns = getGridColumnCount();
+    const layout = currentGridLayout(files, columns);
+    const totalRows = layout.rowStarts.length;
+    const windowRows = gridWindowRows(columns);
+    if (totalRows <= windowRows && columns === state.renderColumnCount) return;
     const gridTop = el.fileGrid.getBoundingClientRect().top + window.scrollY;
     const relativeY = Math.max(0, window.scrollY + window.innerHeight / 2 - gridTop);
-    const columns = getGridColumnCount();
-    const focusRow = Math.floor(relativeY / Math.max(1, state.renderRowHeight));
-    const currentWindow = computeRenderWindow(files.length, state.renderWindowStart, columns);
-    const threshold = Math.max(columns, Math.floor((currentWindow.end - currentWindow.start) * RENDER_WINDOW_STEP_RATIO / columns) * columns);
     const rowHeight = Math.max(1, state.renderRowHeight);
-    const totalRows = Math.ceil(files.length / columns);
+    const dividerHeight = state.renderDividerHeight;
+    const focusRow = gridRowAtOffset(layout, relativeY, rowHeight, dividerHeight);
+    const currentWindow = computeGridWindow(layout, state.renderWindowStart);
+    const threshold = Math.max(columns, Math.floor((currentWindow.end - currentWindow.start) * RENDER_WINDOW_STEP_RATIO / columns) * columns);
     const viewportTop = window.scrollY || 0;
     const viewportBottom = viewportTop + (window.innerHeight || 0);
-    const viewportIntersectsGrid = viewportBottom > gridTop && viewportTop < gridTop + totalRows * rowHeight;
-    const viewportStartRow = Math.max(0, Math.floor((viewportTop - gridTop) / rowHeight));
-    const viewportEndRow = Math.min(totalRows, Math.ceil((viewportBottom - gridTop) / rowHeight));
-    const currentStartRow = Math.floor(currentWindow.start / columns);
-    const currentEndRow = Math.ceil(currentWindow.end / columns);
+    const gridHeight = gridRowOffset(layout, totalRows, rowHeight, dividerHeight);
+    const viewportIntersectsGrid = viewportBottom > gridTop && viewportTop < gridTop + gridHeight;
+    const viewportStartRow = gridRowAtOffset(layout, viewportTop - gridTop, rowHeight, dividerHeight);
+    const viewportEndRow = Math.min(totalRows, gridRowAtOffset(layout, viewportBottom - gridTop, rowHeight, dividerHeight) + 1);
+    const currentStartRow = gridRowOfIndex(layout, currentWindow.start);
+    const currentEndRow = gridRowOfIndex(layout, currentWindow.end);
     const viewportOutsideWindow = viewportIntersectsGrid
       && (viewportStartRow < currentStartRow || viewportEndRow > currentEndRow);
-    let requestedStart = Math.max(0, (focusRow - 4) * columns);
+    let requestedStart = layout.rowStarts[Math.max(0, focusRow - 4)] || 0;
     if (viewportIntersectsGrid && viewportStartRow < currentStartRow) {
-      requestedStart = viewportStartRow * columns;
+      requestedStart = layout.rowStarts[viewportStartRow];
     } else if (viewportIntersectsGrid && viewportEndRow > currentEndRow) {
-      const windowRows = Math.floor(RENDER_WINDOW_MAX / columns);
-      requestedStart = Math.max(0, (viewportEndRow - windowRows) * columns);
+      requestedStart = layout.rowStarts[Math.max(0, viewportEndRow - windowRows)];
     }
-    const nextWindow = computeRenderWindow(files.length, requestedStart, columns);
+    const nextWindow = computeGridWindow(layout, requestedStart);
     if (columns !== state.renderColumnCount || viewportOutsideWindow
       || Math.abs(nextWindow.start - state.renderWindowStart) >= threshold) {
       state.renderWindowStart = nextWindow.start;
@@ -87,14 +90,37 @@ function fileCardSignature(file) {
     file.name, file.size, file.__origin, file.thumbnailLink, file.capabilities?.canDownload].join('\u0000');
 }
 
+let renderedMonthDividers = new Map();
+
+function createMonthDivider(key) {
+  const divider = document.createElement('h3');
+  divider.className = 'file-month-divider';
+  divider.textContent = fileMonthLabel(key);
+  return divider;
+}
+
+let gridLayoutCache = null;
+
+// Date sorts group the grid by the month of the date they sort on.
+function currentGridLayout(files, columns) {
+  const field = DATE_SORT_FIELDS[state.sort] || null;
+  if (gridLayoutCache?.files === files && gridLayoutCache.length === files.length
+    && gridLayoutCache.columns === columns && gridLayoutCache.field === field) return gridLayoutCache.layout;
+  const sectionKeys = field ? files.map((file) => fileMonthKey(file[field])) : null;
+  const layout = buildGridLayout(files.length, columns, sectionKeys);
+  gridLayoutCache = { files, length: files.length, columns, field, layout };
+  return layout;
+}
+
 function renderMediaGrid(files) {
   if (!el.fileGrid) return;
   const columns = getGridColumnCount();
   state.renderColumnCount = columns;
-  const windowRange = computeRenderWindow(files.length, state.renderWindowStart, columns);
+  const layout = currentGridLayout(files, columns);
+  const windowRange = computeGridWindow(layout, state.renderWindowStart);
   state.renderWindowStart = windowRange.start;
-  const topRows = Math.floor(windowRange.start / columns);
-  const bottomRows = Math.ceil(Math.max(0, files.length - windowRange.end) / columns);
+  const startRow = gridRowOfIndex(layout, windowRange.start);
+  const endRow = gridRowOfIndex(layout, windowRange.end);
   const deferLimit = isMobileDevice() ? 16 : 24;
   const previousCards = renderedFileCards;
   const nextCards = new Map();
@@ -111,13 +137,36 @@ function renderMediaGrid(files) {
     return card;
   });
   renderedFileCards = nextCards;
-  el.fileGrid.style.paddingTop = `${topRows * state.renderRowHeight}px`;
-  el.fileGrid.style.paddingBottom = `${bottomRows * state.renderRowHeight}px`;
+  const previousDividers = renderedMonthDividers;
+  const nextDividers = new Map();
+  const items = [];
+  let row = startRow;
+  cards.forEach((card, index) => {
+    if (layout.rowStarts[row] === windowRange.start + index) {
+      const key = layout.rowDividers[row];
+      if (key !== null) {
+        const divider = previousDividers.get(key) || createMonthDivider(key);
+        nextDividers.set(key, divider);
+        items.push(divider);
+      }
+      row += 1;
+    }
+    items.push(card);
+  });
+  renderedMonthDividers = nextDividers;
+  const applyGridPadding = () => {
+    const { renderRowHeight, renderDividerHeight } = state;
+    const bottom = gridRowOffset(layout, layout.rowStarts.length, renderRowHeight, renderDividerHeight)
+      - gridRowOffset(layout, endRow, renderRowHeight, renderDividerHeight);
+    el.fileGrid.style.paddingTop = `${gridRowOffset(layout, startRow, renderRowHeight, renderDividerHeight)}px`;
+    el.fileGrid.style.paddingBottom = `${bottom}px`;
+  };
+  applyGridPadding();
   const mounted = el.fileGrid.children;
-  const unchanged = mounted?.length === cards.length && cards.every((card, index) => mounted[index] === card);
+  const unchanged = mounted?.length === items.length && items.every((item, index) => mounted[index] === item);
   if (!unchanged) {
     const fragment = document.createDocumentFragment();
-    cards.forEach((card) => fragment.appendChild(card));
+    items.forEach((item) => fragment.appendChild(item));
     el.fileGrid.replaceChildren(fragment);
   }
   pruneStaticGifThumbnailEntries();
@@ -125,11 +174,13 @@ function renderMediaGrid(files) {
   const firstCard = el.fileGrid.querySelector('.file-card');
   const gap = typeof getComputedStyle === 'function' ? parseFloat(getComputedStyle(el.fileGrid).rowGap) || 0 : 12;
   const measuredHeight = firstCard?.getBoundingClientRect?.().height || firstCard?.offsetHeight || 0;
-  if (measuredHeight && Math.abs((measuredHeight + gap) - state.renderRowHeight) >= .1) {
-    state.renderRowHeight = measuredHeight + gap;
-    el.fileGrid.style.paddingTop = `${topRows * state.renderRowHeight}px`;
-    el.fileGrid.style.paddingBottom = `${bottomRows * state.renderRowHeight}px`;
-  }
+  const firstDivider = nextDividers.values().next().value;
+  const measuredDivider = firstDivider?.getBoundingClientRect?.().height || firstDivider?.offsetHeight || 0;
+  const rowChanged = measuredHeight && Math.abs((measuredHeight + gap) - state.renderRowHeight) >= .1;
+  const dividerChanged = measuredDivider && Math.abs((measuredDivider + gap) - state.renderDividerHeight) >= .1;
+  if (rowChanged) state.renderRowHeight = measuredHeight + gap;
+  if (dividerChanged) state.renderDividerHeight = measuredDivider + gap;
+  if (rowChanged || dividerChanged) applyGridPadding();
 }
 
 function renderFiles({ resetWindow = false } = {}) {
@@ -353,6 +404,10 @@ function sortedPopulationFiles() {
   }));
 }
 
+const DATE_SORT_FIELDS = Object.freeze({
+  modifiedTime: 'modifiedTime', modifiedTimeAsc: 'modifiedTime',
+  createdTime: 'createdTime', createdTimeAsc: 'createdTime'
+});
 const fileTimeSortKey = (field) => (file) => (file[field] ? new Date(file[field]).getTime() : NaN);
 const LIBRARY_SORT_KEYS = Object.freeze({
   modifiedTime: [fileTimeSortKey('modifiedTime'), false],
@@ -529,7 +584,9 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
   const isGif = isGifFile(file);
   const isWebp = String(file.mimeType || '').toLowerCase() === 'image/webp'
     || /\.webp$/i.test(String(file.name || ''));
-  const useStaticImageThumbnail = isGif || isWebp;
+  // Drive serves a WebP thumbnailLink as a still JPEG, animated originals included,
+  // so only GIF needs the frozen canvas (D135).
+  const useStaticImageThumbnail = isGif || (isWebp && !file.thumbnailLink);
   const canDownload = file.capabilities?.canDownload !== false;
   const card = document.createElement('article');
   card.className = 'file-card';
@@ -549,12 +606,17 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
   const visual = document.createElement('div');
   visual.className = `file-card-visual ${isVideo ? 'video' : 'image'}`;
   
-  if (useStaticImageThumbnail) {
+  const appendFormatPlaceholder = () => {
     const placeholder = document.createElement('div');
     placeholder.className = 'file-card-gif-placeholder';
     placeholder.setAttribute('aria-hidden', 'true');
     placeholder.innerHTML = `<svg viewBox="0 0 64 64" fill="none"><rect x="12" y="14" width="40" height="36" rx="8" stroke="currentColor" stroke-width="2"/><path d="m18 43 10-10 7 7 6-6 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="41" cy="25" r="4" fill="currentColor"/></svg><span>${isGif ? 'GIF' : 'WEBP'}</span>`;
     visual.appendChild(placeholder);
+    return placeholder;
+  };
+
+  if (useStaticImageThumbnail) {
+    const placeholder = appendFormatPlaceholder();
     if (file.thumbnailLink) {
       const canvas = document.createElement('canvas');
       canvas.className = 'file-card-thumb file-card-gif-canvas';
@@ -583,7 +645,10 @@ function createFileCard(file, index = 0, absoluteIndex = index) {
     if (file.thumbnailLink) {
       thumbnail.addEventListener('error', () => {
         if (isVideo) requestVideoFrameThumbnail(file, thumbnail, visual);
-        else thumbnail.remove();
+        else {
+          thumbnail.remove();
+          if (isWebp) appendFormatPlaceholder();
+        }
       }, { once: true });
       if (playerMediaPriorityActive) thumbnail.dataset.playerDeferredSrc = file.thumbnailLink;
       else thumbnail.src = file.thumbnailLink;

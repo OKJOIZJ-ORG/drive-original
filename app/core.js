@@ -367,18 +367,93 @@ async function collectAllPages(fetchPage, { signal, onPage } = {}) {
   return { items, incompleteSearch };
 }
 
-function computeRenderWindow(totalCount, requestedStart, columnCount) {
+function fileMonthKey(value) {
+  const date = value ? new Date(value) : null;
+  if (!date || Number.isNaN(date.getTime())) return 'none';
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+}
+
+function fileMonthLabel(key) {
+  if (key === 'none') return '날짜 없음';
+  const [year, month] = key.split('-');
+  return `${year}년 ${Number(month)}월`;
+}
+
+// Card rows of the grid. A section change (a new month under a date sort) ends
+// the row early and puts a full-width divider above the next one. Rows hold
+// file indexes; dividersBefore[row] counts dividers above that row's own one.
+function buildGridLayout(totalCount, columnCount, sectionKeys = null) {
   const total = Math.max(0, Number(totalCount) || 0);
   const columns = Math.max(1, Math.floor(Number(columnCount) || 1));
-  const windowSize = Math.max(columns, Math.floor(RENDER_WINDOW_MAX / columns) * columns);
+  const rowStarts = [];
+  const rowDividers = [];
+  const dividersBefore = [];
+  let dividerCount = 0;
+  let section;
+  let index = 0;
+  while (index < total) {
+    const key = sectionKeys ? sectionKeys[index] : null;
+    const opensSection = Boolean(sectionKeys) && key !== section;
+    section = key;
+    rowStarts.push(index);
+    rowDividers.push(opensSection ? key : null);
+    dividersBefore.push(dividerCount);
+    if (opensSection) dividerCount += 1;
+    let end = Math.min(total, index + columns);
+    if (sectionKeys) {
+      for (let next = index + 1; next < end; next += 1) {
+        if (sectionKeys[next] !== key) { end = next; break; }
+      }
+    }
+    index = end;
+  }
+  return { total, columns, rowStarts, rowDividers, dividersBefore, dividerCount };
+}
+
+function gridWindowRows(columns) {
+  return Math.max(1, Math.floor(RENDER_WINDOW_MAX / Math.max(1, columns)));
+}
+
+function gridRowOffset(layout, row, rowHeight, dividerHeight) {
+  const dividers = row < layout.rowStarts.length ? layout.dividersBefore[row] : layout.dividerCount;
+  return row * rowHeight + dividers * dividerHeight;
+}
+
+function gridRowAtOffset(layout, offset, rowHeight, dividerHeight) {
+  let low = 0;
+  let high = Math.max(0, layout.rowStarts.length - 1);
+  while (low < high) {
+    const middle = Math.ceil((low + high) / 2);
+    if (gridRowOffset(layout, middle, rowHeight, dividerHeight) <= offset) low = middle;
+    else high = middle - 1;
+  }
+  return low;
+}
+
+function gridRowOfIndex(layout, index) {
+  if (index >= layout.total) return layout.rowStarts.length;
+  let low = 0;
+  let high = Math.max(0, layout.rowStarts.length - 1);
+  while (low < high) {
+    const middle = Math.ceil((low + high) / 2);
+    if (layout.rowStarts[middle] <= index) low = middle;
+    else high = middle - 1;
+  }
+  return low;
+}
+
+function computeGridWindow(layout, requestedStart) {
+  const { total, rowStarts } = layout;
+  const windowRows = gridWindowRows(layout.columns);
   if (!total) return { start: 0, end: 0 };
   // A list that fits one window always starts at the top; a stale offset after
   // deletes or moves would otherwise leave unrecoverable blank leading rows.
-  if (total <= windowSize) return { start: 0, end: total };
+  if (rowStarts.length <= windowRows) return { start: 0, end: total };
 
   const clamped = Math.max(0, Math.min(Number(requestedStart) || 0, total - 1));
-  const start = Math.floor(clamped / columns) * columns;
-  return { start, end: Math.min(total, start + windowSize) };
+  const startRow = gridRowOfIndex(layout, clamped);
+  const endRow = startRow + windowRows;
+  return { start: rowStarts[startRow], end: endRow < rowStarts.length ? rowStarts[endRow] : total };
 }
 
 function buildMoveFolderRows(catalog) {

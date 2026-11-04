@@ -1574,19 +1574,83 @@ test('pagination exhausts tokens and rejects a repeated cursor', async () => {
 
 test('render window is row-aligned and never exceeds the hard DOM cap', () => {
   const context = loadAppContext();
-  const first = JSON.parse(run(context, 'JSON.stringify(computeRenderWindow(9788, 0, 5))'));
+  const first = JSON.parse(run(context, 'JSON.stringify(computeGridWindow(buildGridLayout(9788, 5), 0))'));
   assert.deepEqual(first, { start: 0, end: 240 });
 
-  const middle = JSON.parse(run(context, 'JSON.stringify(computeRenderWindow(9788, 377, 5))'));
+  const middle = JSON.parse(run(context, 'JSON.stringify(computeGridWindow(buildGridLayout(9788, 5), 377))'));
   assert.equal(middle.start % 5, 0);
   assert.ok(middle.end - middle.start <= 240);
 
-  const tail = JSON.parse(run(context, 'JSON.stringify(computeRenderWindow(9788, 9700, 5))'));
+  const tail = JSON.parse(run(context, 'JSON.stringify(computeGridWindow(buildGridLayout(9788, 5), 9700))'));
   assert.equal(tail.end, 9788);
   assert.ok(tail.end - tail.start <= 240);
 
-  const shrunk = JSON.parse(run(context, 'JSON.stringify(computeRenderWindow(230, 12, 4))'));
+  const shrunk = JSON.parse(run(context, 'JSON.stringify(computeGridWindow(buildGridLayout(230, 4), 12))'));
   assert.deepEqual(shrunk, { start: 0, end: 230 });
+});
+
+test('month sections end card rows early and offsets count their dividers', () => {
+  const context = loadAppContext();
+  context.gridKeys = ['2026-10', '2026-10', '2026-10', '2026-10', '2026-09', 'none'];
+  const layout = JSON.parse(run(context, 'JSON.stringify(buildGridLayout(6, 3, gridKeys))'));
+  assert.deepEqual(layout.rowStarts, [0, 3, 4, 5], 'a new month starts a new row');
+  assert.deepEqual(layout.rowDividers, ['2026-10', null, '2026-09', 'none']);
+  assert.deepEqual(layout.dividersBefore, [0, 1, 1, 2]);
+  assert.equal(layout.dividerCount, 3);
+  const math = JSON.parse(run(context, `(() => {
+    const layout = buildGridLayout(6, 3, gridKeys);
+    return JSON.stringify({
+      offsets: [0, 1, 2, 3, 4].map(row => gridRowOffset(layout, row, 100, 40)),
+      rows: [0, 139, 140, 240, 280, 9999, -5].map(y => gridRowAtOffset(layout, y, 100, 40)),
+      indexes: [0, 2, 3, 4, 5, 6].map(index => gridRowOfIndex(layout, index))
+    });
+  })()`));
+  assert.deepEqual(math.offsets, [0, 140, 240, 380, 520]);
+  assert.deepEqual(math.rows, [0, 0, 1, 2, 2, 3, 0]);
+  assert.deepEqual(math.indexes, [0, 0, 1, 2, 3, 4]);
+});
+
+test('one file per month still mounts a bounded row window', () => {
+  const context = loadAppContext();
+  context.gridKeys = Array.from({ length: 200 }, (_, index) => String(index));
+  const window = JSON.parse(run(context, 'JSON.stringify(computeGridWindow(buildGridLayout(200, 6, gridKeys), 150))'));
+  assert.deepEqual(window, { start: 150, end: 190 }, 'six columns keep 40 rows, each holding one file here');
+});
+
+test('month keys use local calendar months and missing dates stay labeled', () => {
+  const context = loadAppContext();
+  context.localDate = new Date(2026, 9, 1, 0, 30).toISOString();
+  assert.equal(run(context, 'fileMonthKey(localDate)'), '2026-10');
+  assert.equal(run(context, "fileMonthKey('')"), 'none');
+  assert.equal(run(context, "fileMonthKey('not a date')"), 'none');
+  assert.equal(run(context, "fileMonthLabel('2026-03')"), '2026년 3월');
+  assert.equal(run(context, "fileMonthLabel('none')"), '날짜 없음');
+});
+
+test('date sorts mount month dividers and other sorts mount none', () => {
+  const context = loadAppContext();
+  const { findNodes } = installMiniDom(context);
+  const grid = context.document.createElement('div');
+  grid.clientWidth = 1030;
+  grid.hidden = false;
+  context.testGrid = grid;
+  const render = (sort) => JSON.parse(run(context, `(() => {
+    el.fileGrid = testGrid;
+    state.files = [
+      { id: 'a', name: 'a', mimeType: 'image/jpeg', modifiedTime: '2026-10-15T12:00:00Z', createdTime: '2026-02-15T12:00:00Z' },
+      { id: 'b', name: 'b', mimeType: 'image/jpeg', modifiedTime: '2026-10-14T12:00:00Z', createdTime: '2026-02-14T12:00:00Z' },
+      { id: 'c', name: 'c', mimeType: 'image/jpeg', modifiedTime: '2026-08-15T12:00:00Z', createdTime: '2025-12-15T12:00:00Z' }
+    ];
+    state.filter = 'all'; state.query = ''; state.sort = '${sort}'; state.renderWindowStart = 0;
+    createFileCard = (file) => { const card = document.createElement('div'); card.className = 'file-card'; card.textContent = file.id; return card; };
+    renderMediaGrid(filteredAndSortedFiles());
+    return JSON.stringify([...el.fileGrid.children].map(node => node.textContent));
+  })()`));
+  assert.deepEqual(render('modifiedTime'), ['2026년 10월', 'a', 'b', '2026년 8월', 'c']);
+  assert.deepEqual(render('modifiedTimeAsc'), ['2026년 8월', 'c', '2026년 10월', 'b', 'a']);
+  assert.deepEqual(render('createdTime'), ['2026년 2월', 'a', 'b', '2025년 12월', 'c']);
+  assert.deepEqual(render('name'), ['a', 'b', 'c']);
+  assert.equal(findNodes(grid, '.file-month-divider').length, 0);
 });
 
 test('render scheduler repairs uncovered viewport rows and keeps covered scrolling inside hysteresis', () => {
@@ -1623,8 +1687,8 @@ test('render scheduler repairs uncovered viewport rows and keeps covered scrolli
     run(context, 'scheduleRenderWindowUpdate()');
     assert.equal(callbacks.length, 1, 'one scheduled frame should own the update');
     callbacks.shift()();
-    const range = JSON.parse(run(context, `JSON.stringify(computeRenderWindow(
-      state.files.length, state.renderWindowStart, state.renderColumnCount
+    const range = JSON.parse(run(context, `JSON.stringify(computeGridWindow(
+      buildGridLayout(state.files.length, state.renderColumnCount), state.renderWindowStart
     ))`));
     return {
       renderCount: grid.renderCount,
@@ -5187,7 +5251,7 @@ test('full filename opens independently of playback and respects card selection 
   assert.equal(run(context, "state.selectedFileIds.has('long-title')"), true);
 });
 
-test('WebP cards freeze thumbnails without widening GIF semantics or changing native still-image cards', () => {
+test('WebP cards with a Drive thumbnail use the native image while GIF stays on the frozen canvas', () => {
   const context = loadAppContext();
   const { findNodes } = installMiniDom(context);
   context.cardFiles = [
@@ -5201,20 +5265,58 @@ test('WebP cards freeze thumbnails without widening GIF semantics or changing na
   for (let index = 0; index < context.cardFiles.length; index++) {
     const file = context.cardFiles[index], card = context.cardResults[index];
     const canvases = findNodes(card, 'canvas'), images = findNodes(card, 'img');
-    const frozen = index < 3;
+    const frozen = file.id === 'gif-control';
     assert.equal(canvases.length, frozen ? 1 : 0, file.id + ' static thumbnail choice');
-    assert.equal(images.length, frozen ? 0 : 1, file.id + ' native animated image must not mount for frozen cards');
+    assert.equal(images.length, frozen ? 0 : 1, file.id + ' native image must not mount for frozen cards');
     if (frozen) {
       assert.equal(canvases[0].width, 1, 'idle canvas keeps bounded placeholder backing store');
       context.cardCanvas = canvases[0];
       assert.equal(run(context, 'gifThumbnailEntries.get(cardCanvas)?.file.id'), file.id, 'existing static loader owns the card');
       const label = findNodes(card, '.file-card-gif-placeholder')[0];
-      assert.match(label.innerHTML, new RegExp('<span>' + (index === 2 ? 'GIF' : 'WEBP') + '</span>'));
-    } else assert.equal(images[0].src, file.thumbnailLink);
+      assert.match(label.innerHTML, /<span>GIF<\/span>/);
+    } else {
+      assert.equal(images[0].src, file.thumbnailLink);
+      assert.equal(findNodes(card, '.file-card-gif-placeholder').length, 0, file.id + ' shows no placeholder while the image loads');
+    }
   }
+  assert.equal(run(context, 'gifThumbnailEntries.size'), 1, 'WebP does not occupy the two-slot GIF queue');
   assert.equal(run(context, 'isGifFile(cardFiles[0])'), false, 'WebP remains separate from global GIF behavior');
   assert.equal(run(context, 'isGifFile(cardFiles[1])'), false);
   assert.equal(run(context, 'isGifFile(cardFiles[2])'), true);
+});
+
+test('WebP cards show the WEBP placeholder when Drive has no thumbnail or the thumbnail fails', () => {
+  const context = loadAppContext();
+  const { findNodes } = installMiniDom(context);
+  const createElement = context.document.createElement;
+  const listeners = new Map();
+  context.document.createElement = (tagName) => {
+    const node = createElement(tagName);
+    node.addEventListener = (type, listener) => listeners.set(node, { ...listeners.get(node), [type]: listener });
+    return node;
+  };
+  const makeCard = (file) => {
+    context.cardFile = { size: '100', capabilities: { canDownload: true }, ...file };
+    return run(context, 'createFileCard(cardFile, 0)');
+  };
+  const placeholderLabel = (card) => findNodes(card, '.file-card-gif-placeholder')[0]?.innerHTML.match(/<span>(.*)<\/span>/)[1];
+
+  const missing = makeCard({ id: 'webp-missing', name: 'a.webp', mimeType: 'image/webp' });
+  assert.equal(placeholderLabel(missing), 'WEBP');
+  assert.equal(findNodes(missing, 'img').length, 0);
+  assert.equal(findNodes(missing, 'canvas').length, 0);
+
+  const webp = makeCard({ id: 'webp-broken', name: 'b.webp', mimeType: 'image/webp', thumbnailLink: 'https://example.test/b' });
+  const webpImage = findNodes(webp, 'img')[0];
+  assert.equal(placeholderLabel(webp), undefined);
+  listeners.get(webpImage).error();
+  assert.equal(findNodes(webp, 'img').length, 0, 'broken image is removed');
+  assert.equal(placeholderLabel(webp), 'WEBP', 'broken WebP thumbnail falls back to the placeholder');
+
+  const png = makeCard({ id: 'png-broken', name: 'c.png', mimeType: 'image/png', thumbnailLink: 'https://example.test/c' });
+  listeners.get(findNodes(png, 'img')[0]).error();
+  assert.equal(findNodes(png, 'img').length, 0);
+  assert.equal(placeholderLabel(png), undefined, 'other still images keep their existing error behavior');
 });
 
 test('connection badge appears only for states the user must act on', () => {
