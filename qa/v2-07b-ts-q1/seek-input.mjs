@@ -1,4 +1,4 @@
-import { videoSeekGroups } from './video-clock.mjs';
+import { AUDIO_CLOCK_TOLERANCE_TICKS, videoSeekGroups } from './video-clock.mjs';
 import { scanTsWindow } from './ts-window.mjs';
 import { createPsiStream } from './psi-stream.mjs';
 import { readPes } from './gop-boundaries.mjs';
@@ -108,8 +108,8 @@ function prepare({headBytes,bytes,offset,plan}={}) {
   let prior=null,total=0;const audioOrigin=scan.audio[0]?.pts;
   for(const row of scan.audio){
     demand(row.sampleRate===originalAudio.sampleRate && row.channels===originalAudio.channels, 'SEEK_INPUT_AUDIO_CONFIG');
-    demand((prior===null||row.pts>prior) && Math.abs(row.pts-audioOrigin-total*audioStep)<=1
-      && Math.abs(row.pts-originalAudio.pts-Math.round((row.pts-originalAudio.pts)/audioStep)*audioStep)<=1,
+    demand((prior===null||row.pts>prior) && Math.abs(row.pts-audioOrigin-total*audioStep)<=AUDIO_CLOCK_TOLERANCE_TICKS
+      && Math.abs(row.pts-originalAudio.pts-Math.round((row.pts-originalAudio.pts)/audioStep)*audioStep)<=AUDIO_CLOCK_TOLERANCE_TICKS,
     'SEEK_INPUT_AUDIO_CLOCK');
     prior=row.pts;total+=row.frames;
   }

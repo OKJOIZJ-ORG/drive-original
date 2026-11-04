@@ -1,4 +1,4 @@
-import { validateVideoClock, videoSeekGroups } from './video-clock.mjs';
+import { AUDIO_CLOCK_TOLERANCE_TICKS, validateVideoClock, videoSeekGroups } from './video-clock.mjs';
 import { scanTsWindow } from './ts-window.mjs';
 import { createPsiStream } from './psi-stream.mjs';
 import { BoundedProbeError } from '../v2-07a-bounded-probe/bounded-probe.mjs';
@@ -61,8 +61,8 @@ export async function probeTsSeek({ read,sourceSize,fraction,positionSeconds,win
     for (const row of result.audio) {
       demand(row.sampleRate===audioConfig.sampleRate && row.channels===audioConfig.channels, 'SEEK_AUDIO_CONFIG_CHANGED');
       const ticksPerFrame=1024*90000/row.sampleRate;
-      demand(Math.abs(row.pts-origin-samples*90000/row.sampleRate)<=1
-        && Math.abs((row.pts-firstAudioPts)-Math.round((row.pts-firstAudioPts)/ticksPerFrame)*ticksPerFrame)<=1,
+      demand(Math.abs(row.pts-origin-samples*90000/row.sampleRate)<=AUDIO_CLOCK_TOLERANCE_TICKS
+        && Math.abs((row.pts-firstAudioPts)-Math.round((row.pts-firstAudioPts)/ticksPerFrame)*ticksPerFrame)<=AUDIO_CLOCK_TOLERANCE_TICKS,
       'SEEK_AUDIO_CLOCK_UNPROVEN');
       samples+=row.frames*1024;
     }

@@ -3010,12 +3010,29 @@ dialog {
 /* Shared compact controls. One component definition, one responsive layout. */
 .toolbar {
   --control-size: var(--control-height);
+  position: sticky;
+  top: calc(60px + var(--safe-top));
+  z-index: 41;
   display: grid;
   grid-template-columns: minmax(180px, 1fr) auto auto auto;
   align-items: center;
   gap: 12px;
-  margin: 14px 0 18px;
+  margin: 8px 0 12px;
+  padding-block: 6px;
+  transition: transform 200ms var(--ease-spring);
 }
+/* The bar covers the cards passing under it, edge to edge. */
+.toolbar::before {
+  content: '';
+  position: absolute;
+  inset: 0 -100vmax;
+  z-index: -1;
+  background: rgba(0, 0, 0, 0.96);
+}
+.toolbar.toolbar-hidden { transform: translateY(calc(-100% - 8px)); pointer-events: none; }
+/* The selection bar takes this place while selecting. */
+.toolbar:has(~ .selection-toolbar:not([hidden])) { position: static; }
+@media (prefers-reduced-motion: reduce) { .toolbar { transition: none; } }
 .search-box { position: relative; min-width: 0; height: var(--control-size); }
 .search-box svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--label-tertiary); pointer-events: none; }
 .search-box input {
@@ -3165,7 +3182,7 @@ dialog {
   .segmented button:hover:not([aria-pressed="true"]), .library-options:not([open]) summary:hover, .selection-mode-button:hover:not([aria-pressed="true"]), .deep-scan-toggle:hover:not([aria-pressed="true"]), .deep-scan-stop:hover { color: var(--label-primary); background-color: var(--control-hover); }
 }
 @media (max-width: 800px) {
-  .toolbar { grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; margin-block: 12px; }
+  .toolbar { grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; margin-block: 6px 12px; }
   .segmented { grid-column: 1 / -1; grid-row: 2; gap: 4px; border-bottom: 1px solid #ffffff14; }
   .segmented button { min-width: 0; padding-inline: 8px; border-radius: 0; }
   .segmented button[aria-pressed="true"] { background: transparent; }

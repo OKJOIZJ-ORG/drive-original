@@ -1124,3 +1124,7 @@ Production checks with disposable files found two faults the local fakes hid: ev
 ## 2026-11-04 — D144 direct trash with undo, D138 and D144 release (1.24.1)
 
 The user resolved the D140 assumptions: trash goes without a dialog and offers undo, the selection move button uses the quick move folder, and everything ships. The server queue gained `untrash`; `app/drive-actions.js` owns the undo bar. D138 was merged from its local branch.
+
+## 2026-11-04 — D146 TS audio clock tolerance, D147 sticky toolbar (1.24.2)
+
+Production undo passed with disposable files: immediate undo, undo after the trash finished, undo after a move. x_006eb1bd53dd4c78.ts was refused by a ±1 tick audio clock check while the file itself is healthy; the tolerance is now 1 ms in all three checks. The library toolbar is sticky and hides on downward scroll on narrow screens.

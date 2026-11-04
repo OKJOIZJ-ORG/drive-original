@@ -422,6 +422,54 @@ const LIBRARY_SORT_KEYS = Object.freeze({
   durationAsc: [fileDurationSortKey, true]
 });
 
+/* 도구 막대 — 스크롤해도 따라온다. 좁은 화면에서는 내릴 때 숨겨 목록을 넓게 쓰고, 조금만 올리면 바로 나온다.
+   검색 중이거나 보기 패널이 열려 있으면 숨기지 않는다. */
+const TOOLBAR_HIDE_TRAVEL = 48;
+const TOOLBAR_SHOW_TRAVEL = 16;
+const toolbarCompactQuery = '(max-width: 800px), (max-height: 600px)';
+
+// The scroll position where the bar has just reached its stuck place.
+function libraryListStart() {
+  const bar = el.libraryToolbar;
+  return el.libraryToolbarEnd.getBoundingClientRect().top + window.scrollY
+    - (parseFloat(getComputedStyle(bar).top) || 0) - bar.offsetHeight;
+}
+
+// A new filter, sort or search must not leave the user deep inside the new list.
+function scrollLibraryToListStart() {
+  if (!el.libraryToolbar || !el.libraryToolbarEnd) return;
+  const start = Math.max(0, libraryListStart());
+  if (window.scrollY > start) window.scrollTo({ top: start, behavior: 'instant' });
+}
+
+function setLibraryToolbarHidden(hidden) {
+  el.libraryToolbar.classList.toggle('toolbar-hidden', hidden);
+}
+
+function bindLibraryToolbarScroll() {
+  if (!el.libraryToolbar || !el.libraryToolbarEnd) return;
+  let last = Math.max(0, window.scrollY);
+  let travel = 0;
+  let scheduled = false;
+  const update = () => {
+    scheduled = false;
+    const y = Math.max(0, window.scrollY);
+    const delta = y - last;
+    last = y;
+    if (!delta) return;
+    travel = Math.sign(delta) === Math.sign(travel) ? travel + delta : delta;
+    if (travel <= -TOOLBAR_SHOW_TRAVEL || y <= libraryListStart()) setLibraryToolbarHidden(false);
+    else if (travel >= TOOLBAR_HIDE_TRAVEL && matchMedia(toolbarCompactQuery).matches
+      && !el.libraryOptions?.open && !el.libraryToolbar.contains(document.activeElement)) setLibraryToolbarHidden(true);
+  };
+  window.addEventListener('scroll', () => {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(update);
+  }, { passive: true });
+  el.libraryToolbar.addEventListener('focusin', () => setLibraryToolbarHidden(false));
+}
+
 function getSelectedFiles() {
   return currentPopulationFiles().filter((file) => state.selectedFileIds.has(file.id));
 }

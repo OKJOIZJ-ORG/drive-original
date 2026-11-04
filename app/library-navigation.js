@@ -910,7 +910,10 @@ async function setLibraryFilter(filter) {
   if (next !== 'favorites') cancelFavoriteLoad();
   const changed = state.filter !== next;
   state.filter = next;
-  if (changed) commitLibraryNavigation();
+  if (changed) {
+    commitLibraryNavigation();
+    scrollLibraryToListStart();
+  }
   clearLibraryStatus();
   el.filterButtons.forEach((button) => {
     button.setAttribute('aria-pressed', String(button.dataset.filter === next));

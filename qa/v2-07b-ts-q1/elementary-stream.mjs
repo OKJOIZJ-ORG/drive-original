@@ -1,4 +1,4 @@
-import { validateVideoClock, videoGopTiming } from './video-clock.mjs';
+import { AUDIO_CLOCK_TOLERANCE_TICKS, validateVideoClock, videoGopTiming } from './video-clock.mjs';
 import { readPes, readAnnexBNals } from './gop-boundaries.mjs';
 import { parseH264Sps } from '../v2-07a-container-probe/mpeg-ts-probe.mjs';
 
@@ -72,7 +72,7 @@ export function createElementaryStream({ maxFramesPerGop = 4096 } = {}) {
       count++;offset+=size;
     }
     if(audioOrigin===null)audioOrigin=parsed.dts;
-    demand(count&&Math.abs(parsed.dts-audioOrigin-audioSamples*90000/rates[audioConfig[1]])<=1,'AAC_TIMING_DISCONTINUITY');
+    demand(count&&Math.abs(parsed.dts-audioOrigin-audioSamples*90000/rates[audioConfig[1]])<=AUDIO_CLOCK_TOLERANCE_TICKS,'AAC_TIMING_DISCONTINUITY');
     audioSamples+=count*1024;audioCount+=count;
     return {offset:record.offset,end:record.end,frames:count,dts:parsed.dts};
   }

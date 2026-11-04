@@ -722,7 +722,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
     showMediaError(code === 'Q1_SOURCE_ZERO_HEADER'
       ? '파일 시작 부분이 0으로 채워져 있어 영상 형식을 읽을 수 없습니다. Drive의 원본 파일을 확인해 주세요.'
       : '원본 재생 경로에서 안전하게 재생을 이어가지 못했습니다.',
-      { title: '원본 재생 확인 필요', showRetry: false });
+      { title: '원본 재생 확인 필요', showRetry: false, showDrive: true });
   };
   try {
     const retired = await previousRetirement;

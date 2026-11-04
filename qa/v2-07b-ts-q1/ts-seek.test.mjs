@@ -129,10 +129,15 @@ test('read rejection exposes only validated transport codes, never arbitrary cal
 
 test('sampled timestamp reversal and AAC drift do not become seek candidates',async()=>{
   const backwards=variant(records=>{const record=records.find(row=>row.videoIndex===200);shiftTimestamp(record.data,9,-300000);shiftTimestamp(record.data,14,-300000);});
-  const drift=variant((records,base)=>{const audio=records.filter(row=>row.pid===base.audioPid);shiftTimestamp(audio[2].data,9,10);});
+  const drift=variant((records,base)=>{const audio=records.filter(row=>row.pid===base.audioPid);shiftTimestamp(audio[2].data,9,200);});
   for(const bytes of [backwards.bytes,drift.bytes]){
     await assert.rejects(probe({read:reader(bytes).read,sourceSize:bytes.length}),/^Error: SEEK_(VIDEO_CLOCK_UNPROVEN|AUDIO_CLOCK_UNPROVEN|SAMPLED_CLOCK_ORDER)$/);
   }
+});
+
+test('AAC timestamps a few ticks off the frame grid stay playable',async()=>{
+  const jitter=variant((records,base)=>{const audio=records.filter(row=>row.pid===base.audioPid);shiftTimestamp(audio[2].data,9,-15);});
+  await assert.doesNotReject(probe({read:reader(jitter.bytes).read,sourceSize:jitter.bytes.length}));
 });
 
 test('sampled PSI identity/CRC changes fail closed while valid phase offsets preserve their clocks',async()=>{

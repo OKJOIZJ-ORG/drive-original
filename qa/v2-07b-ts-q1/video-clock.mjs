@@ -1,3 +1,8 @@
+// AAC PES timestamps may sit a few ticks off the 1024-sample grid: x_006eb1bd53dd4c78.ts
+// is 15-17 ticks off from its second PES on. 1 ms is far under any audible A/V offset
+// and far under half an AAC frame, so a frame can never be mistaken for its neighbour.
+export const AUDIO_CLOCK_TOLERANCE_TICKS = 90;
+
 const demand=(ok)=>{if(!ok)throw new Error('VIDEO_CLOCK_UNPROVEN');};
 const tick=n=>Number.isSafeInteger(n)&&n>=0&&n<2**33;
 export const MAX_VIDEO_INTERVAL=90000;

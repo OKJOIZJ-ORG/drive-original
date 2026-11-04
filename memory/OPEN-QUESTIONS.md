@@ -240,3 +240,4 @@ Observed, account yundda3, read-only queries: the earliest `createdTime` is 2026
 Closed by D144: trash has no confirm dialog, and the selection-mode move button uses quick move.
 Unknown: CPU limit that applies to Durable Object alarms on Workers Free. The Workers limits page gives 10 ms per HTTP request, the Durable Objects page gives 30 s by default without a plan split. A large real job is the only proof.
 Not verified: a job of thousands of real files, Drive sustained write limits on this account, and exhausting the daily row limit on production (unit and local workerd only).
+Not verified (D146): TS files beyond the first 1.5 MB of a 60-file sample. A larger offset in a later part of a file still ends at the failure screen, now with a Drive button. Assumed (D148): the toolbar and TS fixes were inside the user's deployment instruction.

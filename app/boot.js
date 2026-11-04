@@ -79,7 +79,7 @@ function bindElements() {
     'brandButton', 'connectionBadge', 'settingsButton', 'settingsUpdateDot',
     'updateBanner', 'updateBannerText', 'bannerUpdateButton', 'closeBannerButton',
     'setupView', 'libraryView', 'authHint',
-    'connectButton', 'openSetupHelp', 'librarySummary', 'refreshButton', 'searchInput',
+    'connectButton', 'openSetupHelp', 'librarySummary', 'refreshButton', 'searchInput', 'libraryToolbar', 'libraryToolbarEnd',
     'sortSelect', 'libraryOptions', 'libraryStatus', 'accountSyncStatus', 'fileGrid', 'emptyState', 'emptyStateTitle', 'emptyStateText', 'loadMoreButton',
     'selectionModeButton', 'selectionToolbar', 'selectionCountText', 'selectionSelectAllBtn',
     'selectionMoveBtn', 'selectionDeleteBtn', 'selectionCancelBtn',
@@ -165,6 +165,7 @@ function setupLibraryOptions() {
 }
 
 function bindEvents() {
+  bindLibraryToolbarScroll();
   setupLibraryOptions();
   document.getElementById?.('reconnectButton')?.addEventListener('click', beginAuthorization);
   el.connectButton.addEventListener('click', beginAuthorization);
@@ -192,11 +193,13 @@ function bindEvents() {
     clearTimeout(searchRenderTimer);
     searchRenderTimer = setTimeout(() => {
       searchRenderTimer = null;
+      scrollLibraryToListStart();
       renderFiles({ resetWindow: true });
     }, SEARCH_RENDER_DELAY_MS);
   });
   el.sortSelect.addEventListener('change', async (event) => {
     state.sort = event.target.value;
+    scrollLibraryToListStart();
     if (state.sort === 'random') {
       if (state.filter === 'favorites') {
         shuffleCurrentFiles();

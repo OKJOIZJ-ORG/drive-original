@@ -32,7 +32,7 @@ A folder `drive-original-qa-20261104` with text files was created for this and n
 
 ## 1.24.1 undo (D144)
 
-Demo Chrome 390×844: trash button sends with no dialog, the bar appears inside the viewport above the player buttons, undo restores the file and returns the player to it, the bar hides after 5 s. Selection move sends to the default folder with no dialog. Production result is below when recorded.
+Demo Chrome 390×844: trash button sends with no dialog, the bar appears inside the viewport above the player buttons, undo restores the file and returns the player to it, the bar hides after 5 s. Selection move sends to the default folder with no dialog. Production with disposable files: immediate undo left the file untrashed, undo after the trash finished restored it, undo after a move put it back in its folder, 0 failures, `lastFailure` null.
 
 ## Run it again
 

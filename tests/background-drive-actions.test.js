@@ -374,3 +374,17 @@ test('the selection bar sends selected files straight to the quick move folder',
   assert.equal(body.target.id, 'memories');
   assert.equal(c.run('el.driveUndoText.textContent'), "2개를 '추억'(으)로 보냈습니다.");
 });
+
+test('changing the list from deep in it returns to the start of the new list', () => {
+  const c = client();
+  const scrolls = [];
+  c.window.scrollY = 5000;
+  c.window.scrollTo = ({ top }) => scrolls.push(top);
+  c.getComputedStyle = () => ({ top: '60px' });
+  Object.assign(c.run('el'), { libraryToolbar: { offsetHeight: 52 }, libraryToolbarEnd: { getBoundingClientRect: () => ({ top: 400 - c.window.scrollY }) } });
+  c.run('scrollLibraryToListStart()');
+  assert.deepEqual(scrolls, [288], 'where the bar has just stuck: 400 from the page top, less bar and top offset');
+  c.window.scrollY = 100;
+  c.run('scrollLibraryToListStart()');
+  assert.equal(scrolls.length, 1, 'a list already at its start does not jump');
+});

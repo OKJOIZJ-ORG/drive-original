@@ -5,7 +5,7 @@ Updated 2026-11-04. D144 direct trash with undo and D138 scroll stability on top
 ## Current identity
 
 - Canonical repo: `C:\Projects\Drive-Original\source`; branch `main`.
-- Production **1.24.1**. Dry run and deployment use the clean committed detached worktree; the release record in `qa/server-drive-jobs-20261104/README.md` owns the Worker version. Prior 1.24.0 Worker 2e05bec1 and 1.23.26 runtime 45d4bdd are history.
+- Production **1.24.2** (D146 TS audio clock, D147 sticky toolbar on top of 1.24.1). Dry run and deployment use the clean committed detached worktree; the release record in `qa/server-drive-jobs-20261104/README.md` owns the Worker version. Prior 1.24.0 Worker 2e05bec1 and 1.23.26 runtime 45d4bdd are history.
 - Trash and move run on the server (`worker/drive-jobs.mjs`) and keep going after the app closes. Production run with 72 disposable files, tab closed: 72 confirmed, 0 failed, about 4 files per second. See `qa/server-drive-jobs-20261104/README.md`.
 - A deployment does not replace the account Durable Object's code while its queue alarm keeps firing. Check `lastFailure` and `alarmAt` in `/api/drive-jobs/status` after a Worker change, and expect the old code until the queue is idle.
 - D138 scroll stability shipped in 1.24.1. Its exact user symptom was never reproduced, so "fixed" stays assumed until the user confirms it on a device.
