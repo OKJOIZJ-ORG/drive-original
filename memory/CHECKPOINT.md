@@ -1,14 +1,17 @@
 # CHECKPOINT — Drive Original
 
-Updated 2026-10-30. D132 authorized file correction, linked fixes, merge/push and deployment.
+Updated 2026-11-04. D133 top-level move folders, D134 authorized merge/push and deployment.
 
 ## Current identity
 
-- Canonical repo: `C:\Projects\Drive-Original\source`; branch `main`, runtime pushed through `de96ca2`.
-- Production **1.23.24**, committed runtime `de96ca2`, Worker `0f771f2d-cbb0-4370-afc6-bd74c621c8b5`. Dry run and deployment both used the clean committed detached worktree. Prior1.23.23 runtime2237568/Worker1ccc5812 is history.
-- Complete suite **1,128/1,128 passed**. Production **91/91 public assets equal runtime Git bytes**; four private source paths return404.
+- Canonical repo: `C:\Projects\Drive-Original\source`; branch `main`, runtime pushed through `70a144e`.
+- Production **1.23.25**, committed runtime `70a144e`, Worker `1bef4f37-eb58-4839-aa2b-a7ee39dcaa23`. Dry run and deployment both used the clean committed detached worktree. Prior 1.23.24 runtime de96ca2/Worker 0f771f2d is history.
+- Complete suite **1,131/1,131 passed**. Production **91/91 public assets equal runtime Git bytes**; seven private paths return 404. See `qa/release-1.23.25/README.md`.
 
 ## Completed
+
+- D133: move dialog lists and searches only top-level folders by default; settings checkbox restores the full listing. Production signed-in read-only index: 1,006 ms for 7 rows (D114 full index: about 150 s for 43,860 folders). Dialog UI with a real file on production, shared drives and phones not verified.
+- Everything below in this section is the D132 1.23.24 work.
 
 - TS30/12-second lookahead and1MiB reads from the first stream batch, safe cache transition, silent-TS admission, HEIC primary-image display fallback, raster MIME retagging, preserved decoder diagnostics, coherent active-video rename restart. Earlier buffering trials and limits remain in `qa/buffering-20261030/README.md`.
 - Initial inventory **12,289 files /6 folders**, **336 extension mismatches**. **335 filenames corrected**, with independent receipt reads verifying unchanged IDs, parents, size, MD5/SHA when available and head revisions. One intended correction was blocked before PATCH because the file was already trashed.
