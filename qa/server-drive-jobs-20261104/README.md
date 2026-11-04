@@ -34,6 +34,12 @@ A folder `drive-original-qa-20261104` with text files was created for this and n
 
 Demo Chrome 390×844: trash button sends with no dialog, the bar appears inside the viewport above the player buttons, undo restores the file and returns the player to it, the bar hides after 5 s. Selection move sends to the default folder with no dialog. Production with disposable files: immediate undo left the file untrashed, undo after the trash finished restored it, undo after a move put it back in its folder, 0 failures, `lastFailure` null.
 
+## 1.24.2 TS audio clock (D146) and sticky toolbar (D147)
+
+Production, Worker `88ab2717-1610-4839-be91-3e84344259af`, x_006eb1bd53dd4c78.ts, read only: before the fix `q1-failed SEEK_AUDIO_CLOCK_UNPROVEN` about 5 s after opening. After it: `original-repackaged`, 360×640, duration 300 s, 6.24 s played, no error. A jump to 200 s by setting `currentTime` showed nothing yet after 12 s and was playing at 211.58 s some seconds later, no error. The exact wait was not measured, and the jump to 296 s made during that wait did not take effect. Audio output was not checked (muted, automated tab).
+Demo Chrome 390×844 with 400 cards: the bar sticks at 60 px, hides after scrolling down, returns after 16 px up, stays while the search input has focus, and yields to the selection bar. A filter change returns to the list start. 1440×900: one 52 px row stays visible and the view panel is not clipped.
+Served files: 12 key files equal Git at 66c241a (including `/` for `index.html`); 7 private paths return 404. The full public list was not compared in this session because two full runs did not finish.
+
 ## Run it again
 
 ```bash
