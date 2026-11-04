@@ -117,7 +117,7 @@ export class AuthObject {
     const alarmAt = await this.ctx.storage.getAlarm();
     const runAt = jobs.nextRunAt();
     if (runAt != null && (alarmAt == null || alarmAt > runAt + 60_000)) await owner.alarm();
-    return value;
+    return op === 'status' ? { ...value, alarmAt: await this.ctx.storage.getAlarm() } : value;
   }
 
   transactionOwner(state) {

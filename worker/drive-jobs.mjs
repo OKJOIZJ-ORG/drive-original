@@ -80,7 +80,7 @@ export class DriveJobOwner {
   // access(rejectedRevision) returns { accessToken, revision } or throws AuthError.
   // Workers rejects fetch called as a method (Illegal invocation), so the default stays a plain call.
   constructor({ sql, transaction, access, fetchImpl = (...args) => fetch(...args), clock = Date.now }) {
-    Object.assign(this, { sql, transaction, access, fetchImpl, clock, retryAt: 0, rejectedRevision: null });
+    Object.assign(this, { sql, transaction, access, fetchImpl, clock, retryAt: 0, rejectedRevision: null, lastFailure: null });
     sql.exec(`CREATE TABLE IF NOT EXISTS drive_jobs (id TEXT PRIMARY KEY, action TEXT NOT NULL, target_id TEXT,
       target_name TEXT, target_resource_key TEXT, chunks INTEGER NOT NULL, total INTEGER NOT NULL,
       confirmed INTEGER NOT NULL, skipped INTEGER NOT NULL, failed INTEGER NOT NULL,
@@ -136,7 +136,7 @@ export class DriveJobOwner {
       seq: row.seq, jobId: row.job_id, fileId: row.file_id, state: row.state, status: row.status,
       parents: row.parents ? JSON.parse(row.parents) : null,
     }));
-    const value = { jobs, results, moreResults: results.length === RESULT_PAGE };
+    const value = { jobs, results, moreResults: results.length === RESULT_PAGE, lastFailure: this.lastFailure };
     if (includePending) {
       value.pendingFiles = this.rows('SELECT job_id, file_id FROM drive_job_items ORDER BY seq')
         .map(row => ({ jobId: row.job_id, fileId: row.file_id }));
@@ -214,12 +214,16 @@ export class DriveJobOwner {
     try {
       response = await this.request(`${encodeURIComponent(id)}?${params}`, token,
         { resourceKeys: resourceKey ? `${id}/${resourceKey}` : '' });
-    } catch { throw new DriveReadFailure('transient', 0); }
+    } catch (error) {
+      this.lastFailure = `drive read: ${error?.name}: ${error?.message}`;
+      throw new DriveReadFailure('transient', 0);
+    }
     if (response.ok) {
       try { return metadata(await response.json(), id); } catch { throw new DriveReadFailure('transient', 0); }
     }
     if (response.status === 401) throw new DriveReadFailure('auth', 401);
     if (await rateLimited(response)) throw new DriveReadFailure('rate', response.status);
+    this.lastFailure = `drive read ${response.status}`;
     if (response.status >= 500) throw new DriveReadFailure('transient', response.status);
     throw new DriveReadFailure('rejected', response.status);
   }
@@ -323,6 +327,7 @@ export class DriveJobOwner {
         credential = await this.access(this.rejectedRevision);
         this.rejectedRevision = null;
       } catch (error) {
+        this.lastFailure = `access: ${error?.code || error?.message}`;
         if (error instanceof AuthError && ['reconnect_required', 'reauthorization_required'].includes(error.code)) this.failAll(401);
         else this.retryAt = this.clock() + AUTH_DELAY_MS;
         return;
@@ -356,7 +361,8 @@ export class DriveJobOwner {
       await Promise.all(Array.from({ length: CONCURRENCY }, worker));
       if (!this.hasWork()) this.prune();
       this.retryAt = this.clock() + Math.max(run.delay, NEXT_BATCH_MS);
-    } catch {
+    } catch (error) {
+      this.lastFailure = `batch: ${error?.name}: ${error?.message}`;
       this.retryAt = this.clock() + STORAGE_FAILURE_DELAY_MS;
     }
   }
