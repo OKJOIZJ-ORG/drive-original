@@ -135,6 +135,14 @@ html {
   font-size: 15px;
   line-height: 1.45;
   -webkit-text-size-adjust: 100%;
+  /* Nothing inside body may widen the page. A non-visible value here keeps
+     body's overflow from being handed to the viewport, so body clips its own
+     content and the clipped part is not scrollable width. A viewport-level
+     `overflow-x: hidden` (body's value handed up) did not stop iOS touch
+     panning (D-151). `clip`, unlike `hidden`, does not make body a scroll
+     container, so the sticky toolbar still sticks to the viewport. Without
+     `clip` support both lines fall back to the old viewport-level hidden. */
+  overflow-x: clip;
 }
 
 body {
@@ -145,6 +153,7 @@ body {
   background-color: var(--system-bg);
   color: var(--label-primary);
   overflow-x: hidden;
+  overflow-x: clip;
   overscroll-behavior-x: none;
   position: relative;
 }
@@ -3019,15 +3028,12 @@ dialog {
   gap: 12px;
   margin: 8px 0 12px;
   padding-block: 6px;
+  /* The bar covers the cards passing under it, edge to edge. The bleed past
+     the column is a border-image outset: it paints outside the box without
+     adding scrollable width. A pseudo-element with `inset: 0 -100vmax` widened
+     the page by 100vmax and let iOS pan it sideways (D-151). */
+  border-image: conic-gradient(rgba(0, 0, 0, 0.96) 0 0) fill 0 / 0 / 0 100vmax;
   transition: transform 200ms var(--ease-spring);
-}
-/* The bar covers the cards passing under it, edge to edge. */
-.toolbar::before {
-  content: '';
-  position: absolute;
-  inset: 0 -100vmax;
-  z-index: -1;
-  background: rgba(0, 0, 0, 0.96);
 }
 .toolbar.toolbar-hidden { transform: translateY(calc(-100% - 8px)); pointer-events: none; }
 /* The selection bar takes this place while selecting. */
