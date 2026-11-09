@@ -19,7 +19,8 @@ const PRIVATE = ['app.js', 'app/README.md', 'tests/app-loader.cjs', 'memory/DECI
   for (const name of files) {
     const committed = execFileSync('git', ['show', `HEAD:${name}`], { cwd: root, maxBuffer: 64 * 1024 * 1024 });
     // Large files arrive at about 125 KB/s and Node fetch bodies stalled on them; curl finished the same files.
-    const status = Number(execFileSync('curl', ['-sSL', '--retry', '3', '--max-time', '900', '-o', temp, '-w', '%{http_code}',
+    // --retry alone skips connection errors; a reset (curl 35) on one small file stopped the 1.24.3 pass.
+    const status = Number(execFileSync('curl', ['-sSL', '--retry', '3', '--retry-all-errors', '--max-time', '900', '-o', temp, '-w', '%{http_code}',
       '-H', 'Cache-Control: no-store', `${origin}/${name}`]).toString());
     const served = fs.readFileSync(temp);
     const response = { status, ok: status === 200 };

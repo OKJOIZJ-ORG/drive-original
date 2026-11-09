@@ -1,17 +1,19 @@
 # CHECKPOINT — Drive Original
 
-Updated 2026-11-04. D144 direct trash with undo and D138 scroll stability on top of the D139~D142 server queue; D145 authorized merge/push and deployment.
+Updated 2026-11-09. D151 fix for the library page panning sideways on iPhone, released as 1.24.3 under D152.
 
 ## Current identity
 
 - Canonical repo: `C:\Projects\Drive-Original\source`; branch `main`.
-- Production **1.24.2**, Worker `88ab2717-1610-4839-be91-3e84344259af`, runtime `66c241a` (D146 TS audio clock, D147 sticky toolbar on top of 1.24.1). Dry run and deployment use the clean committed detached worktree; the release record in `qa/server-drive-jobs-20261104/README.md` owns the Worker version. Prior 1.24.0 Worker 2e05bec1 and 1.23.26 runtime 45d4bdd are history.
+- Production **1.24.3**, Worker `eb5ff808-c245-4228-a820-63f010f66337`, runtime `2d24226` (D151 toolbar bleed and root `overflow-x: clip` on top of 1.24.2). Release record: `qa/release-1.24.3/README.md`. Dry run and deployment use the clean committed detached worktree. Prior 1.24.2 Worker 88ab2717 / runtime 66c241a and 1.24.0 Worker 2e05bec1 are history.
+- The working tree holds uncommitted D149 login-consent code in `auth/`, `worker/` and `tests/`, on hold by D150. `npm run deploy:release` refuses while `worker/` is dirty: park exactly those five files with `git stash push -- <files>` for the deploy and pop them right after (done for 1.24.3; diff hash unchanged). Never commit or deploy them without the user's word.
 - Trash and move run on the server (`worker/drive-jobs.mjs`) and keep going after the app closes. Production run with 72 disposable files, tab closed: 72 confirmed, 0 failed, about 4 files per second. See `qa/server-drive-jobs-20261104/README.md`.
 - A deployment does not replace the account Durable Object's code while its queue alarm keeps firing. Check `lastFailure` and `alarmAt` in `/api/drive-jobs/status` after a Worker change, and expect the old code until the queue is idle.
 - D138 scroll stability shipped in 1.24.1. Its exact user symptom was never reproduced, so "fixed" stays assumed until the user confirms it on a device.
 
 ## Completed
 
+- D151: the library page no longer pans sideways. Production `?demo=1` at 393px: document 394px wide (1234px with the 1.24.2 CSS on the local demo), programmatic horizontal scroll stays at 0. Physical iPhone not verified (A-015).
 - D135: WebP cards with a `thumbnailLink` use the native image path. Production: 12 visible WebP thumbnails loaded by 1,654 ms, 0 canvases.
 - D136: the four date sorts show year-month dividers. Production: 3 dividers in a 5,255-file folder, no console errors. Dividers follow Drive dates; `createdTime` on this account is the upload date, and the user kept this and declined filename-date grouping. Phones and WebKit not verified.
 - D133: move dialog lists and searches only top-level folders by default; settings checkbox restores the full listing. Production signed-in read-only index: 1,006 ms for 7 rows (D114 full index: about 150 s for 43,860 folders). Dialog UI with a real file on production, shared drives and phones not verified.

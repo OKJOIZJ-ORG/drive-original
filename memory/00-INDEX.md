@@ -32,6 +32,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- [1.24.3 sideways pan fix](../qa/release-1.24.3/README.md): D151/D152: toolbar bleed as `border-image` outset and root `overflow-x: clip`; runtime `2d24226`, Worker eb5ff808, 1,180 tests; production demo document 394px at 393px. iPhone and WebKit not verified.
 - [Server trash/move queue, 1.24.0](../qa/server-drive-jobs-20261104/README.md): D139~D143: page-closed production run with disposable files, unit tests on real SQLite, local workerd run; large real jobs, phones and WebKit not verified.
 - [Scroll stability after trash](../qa/scroll-stability-20261104/README.md): D138 local fix of the fixed 240px deferred card height and edge-aligned render window repair; 1,137 tests, demo and write-stubbed production measurements; exact user symptom not reproduced, not deployed.
 
