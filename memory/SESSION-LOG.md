@@ -1136,3 +1136,7 @@ User sent an iPhone PWA screenshot: the library was scrolled about 114px to the 
 ## 2026-11-09 — D152 release 1.24.3 (D151)
 
 The user answered "배포까지해". Commit 2d24226 (fix plus version bump and the D151/D152 records only) went to main and origin; Worker eb5ff808-c245-4228-a820-63f010f66337. The deploy script refuses while `worker/` has uncommitted changes, and the held D149 code is exactly such a change: its five files were parked with `git stash push -- <files>` for the test run and both deploys, then popped; the diff hash before and after is identical. The memory files keep the D149/D150 hunks uncommitted; only the D151/D152 parts were staged. Production `?demo=1` at 393px measured a 394px document. The first served-bytes pass stopped on a curl connection reset (exit 35, which `--retry` does not cover); `qa/release-1.23.26/served-check.cjs` now passes `--retry-all-errors`. Record: `qa/release-1.24.3/README.md`.
+
+## 2026-11-09 — A-015 closed: 1.24.3 confirmed on iPhone
+
+Asked whether the iPhone app still pans sideways after the 1.24.3 update, the user answered "안 밀림". A-015 is closed; the device check is the user's report, with no measurement on the device.

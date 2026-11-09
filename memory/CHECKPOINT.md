@@ -13,7 +13,7 @@ Updated 2026-11-09. D151 fix for the library page panning sideways on iPhone, re
 
 ## Completed
 
-- D151: the library page no longer pans sideways. Production `?demo=1` at 393px: document 394px wide (1234px with the 1.24.2 CSS on the local demo), programmatic horizontal scroll stays at 0. Physical iPhone not verified (A-015).
+- D151: the library page no longer pans sideways. Production `?demo=1` at 393px: document 394px wide (1234px with the 1.24.2 CSS on the local demo), programmatic horizontal scroll stays at 0. User-confirmed on the iPhone app after the update ("안 밀림", A-015 closed).
 - D135: WebP cards with a `thumbnailLink` use the native image path. Production: 12 visible WebP thumbnails loaded by 1,654 ms, 0 canvases.
 - D136: the four date sorts show year-month dividers. Production: 3 dividers in a 5,255-file folder, no console errors. Dividers follow Drive dates; `createdTime` on this account is the upload date, and the user kept this and declined filename-date grouping. Phones and WebKit not verified.
 - D133: move dialog lists and searches only top-level folders by default; settings checkbox restores the full listing. Production signed-in read-only index: 1,006 ms for 7 rows (D114 full index: about 150 s for 43,860 folders). Dialog UI with a real file on production, shared drives and phones not verified.

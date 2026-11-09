@@ -28,7 +28,7 @@ The user's iPhone PWA screenshot showed the library scrolled about 114px to the 
 
 ## Not verified
 
-- WebKit and a physical iPhone. The mobile checks are Chromium device emulation; A-015 stays open until the user checks on the device.
+- WebKit measurements. The mobile checks are Chromium device emulation. The user checked the iPhone app after the update and answered "안 밀림" (A-015 closed); no measurement was taken on the device.
 - Signed-in production library: the AI Chrome profile is not signed in to production. The demo route serves the same `styles.css` and library markup.
 
 ## Known limits
