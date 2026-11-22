@@ -1251,10 +1251,14 @@ function beginVideoFrameSampling() {
     if (
       state.mediaSession !== session || state.selected?.id !== fileId
       || state.mediaAttempt !== sourceAttempt
-      || mediaSourceGeneration !== sourceGeneration
-      || mediaSeekGeneration !== seekGeneration
       || !isCurrentMediaEvent(video)
     ) return;
+    // A seek or source restart began a new generation while this callback was
+    // pending; keep sampling under the new one (viewing time accumulates, D-156).
+    if (mediaSourceGeneration !== sourceGeneration || mediaSeekGeneration !== seekGeneration) {
+      if (!video.hidden) beginVideoFrameSampling();
+      return;
+    }
     const mediaTime = Number(metadata?.mediaTime);
     const previous = state.lastPresentedMediaTime;
     if (Number.isFinite(mediaTime) && Number.isFinite(previous)) {

@@ -248,4 +248,4 @@ Not verified (D146): TS files beyond the first 1.5 MB of a 60-file sample. A lar
 
 Not verified (D-153): the fix on the user's iPhone. The iPhone path was reproduced in a Node fixture with `ManagedMediaSource` only, not on a device. Whether the Google preview iframe plays a private file in the iPhone PWA (third-party cookies in Safari) is unknown; "Drive에서 열기" opens the file at the top level. Open option: repackage VP9-in-MP4 into WebM for native iPhone playback, only with a device to verify it.
 Observed (D-153): 50 of 1,193 videos with an Instagram-style name `(@id)` were read: 48 AVC, 2 HEVC, 0 VP9. The whole library was not surveyed for VP9/AV1.
-Assumed (D-154): "덜 본" means fewer views counted by the app (an observed presentation of the file), not watch time. Views before 2026-11-22 count as one.
+Assumed (D-154): "덜 본" means fewer views counted by the app (an observed presentation of the file), not watch time. Views before 2026-11-22 count as one. Closed by D-156: a view now needs min(30 s, 70 %) of playback or 2 s for a photo; earlier views still count as one.

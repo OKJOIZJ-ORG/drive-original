@@ -137,10 +137,10 @@ function validateRawAccountMediaState(value, legacy = false) {
   if (Object.entries(value.viewed).some(([id, time]) => !id || !timestamp(time) || time === 0)
     || Object.entries(value.favorites).some(([id, entry]) => !id || (typeof entry !== 'boolean'
       && (!record(entry) || typeof entry.liked !== 'boolean' || !timestamp(entry.updatedAt))))) throw accountStateError('malformed_account_state');
-  // Optional: older writers omit view counts, and older readers ignore them.
-  if (Object.prototype.hasOwnProperty.call(value, 'viewCounts') && (!record(value.viewCounts)
-    || Object.entries(value.viewCounts).some(([id, slots]) => !id || !record(slots)
-      || Object.entries(slots).some(([writer, count]) => !writer || !Number.isSafeInteger(count) || count <= 0)))) throw accountStateError('malformed_account_state');
+  // Optional: older writers omit the counters, and older readers ignore them.
+  if (ACCOUNT_COUNTER_KEYS.some((key) => Object.prototype.hasOwnProperty.call(value, key) && (!record(value[key])
+    || Object.entries(value[key]).some(([id, slots]) => !id || !record(slots)
+      || Object.entries(slots).some(([writer, count]) => !writer || !Number.isSafeInteger(count) || count <= 0))))) throw accountStateError('malformed_account_state');
   return value;
 }
 
@@ -216,8 +216,8 @@ function captureAccountStateRequest() {
 function accountMediaStatesEqual(first, second) {
   const a = normalizeAccountMediaState(first);
   const b = normalizeAccountMediaState(second);
-  const slots = (state) => Object.entries(state.viewCounts)
-    .flatMap(([id, writers]) => Object.entries(writers).map(([writer, count]) => JSON.stringify([id, writer, count])));
+  const slots = (state) => ACCOUNT_COUNTER_KEYS.flatMap((key) => Object.entries(state[key])
+    .flatMap(([id, writers]) => Object.entries(writers).map(([writer, count]) => JSON.stringify([key, id, writer, count]))));
   const aSlots = slots(a), bSlots = new Set(slots(b));
   return a.updatedAt === b.updatedAt
     && aSlots.length === bSlots.size && aSlots.every((slot) => bSlots.has(slot))
@@ -643,21 +643,37 @@ function updateAccountSyncStatus() {
 
 let mediaViewObservation = null;
 
+// One observation per opened file (D-156). A source restart of the same file
+// (retry, rename refresh) continues it; anything else ends it, and a file that
+// was shown but not viewed by then counts as passed.
 function beginMediaViewObservation({ previousSession = null } = {}) {
   const prior = mediaViewObservation;
-  const recorded = previousSession != null && prior?.session === previousSession
+  const continued = previousSession != null && prior?.session === previousSession
     && prior?.fileId === state.selected?.id && prior?.account === state.accountId
-    && prior?.accountGeneration === state.driveSessionGeneration && prior.recorded;
+    && prior?.accountGeneration === state.driveSessionGeneration;
+  if (!continued) finishMediaViewObservation(prior);
+  clearTimeout(prior?.photoTimer);
   mediaViewObservation = state.selected ? {
     fileId: state.selected.id, session: state.mediaSession,
     account: state.accountId, accountGeneration: state.driveSessionGeneration,
     sourceGeneration: mediaSourceGeneration, seekGeneration: mediaSeekGeneration,
-    firstMediaTime: null, recorded: Boolean(recorded)
+    lastMediaTime: null, photoTimer: null,
+    watchedSeconds: continued ? prior.watchedSeconds : 0,
+    presented: Boolean(continued && prior.presented),
+    recorded: Boolean(continued && prior.recorded), finished: false
   } : null;
 }
 
+function finishMediaViewObservation(owner = mediaViewObservation) {
+  if (!owner || owner.finished) return;
+  owner.finished = true;
+  clearTimeout(owner.photoTimer);
+  if (owner.presented && !owner.recorded && owner.account === state.accountId
+    && owner.accountGeneration === state.driveSessionGeneration) markFilePassed(owner.fileId);
+}
+
 function isCurrentMediaViewObservation(owner, element) {
-  return Boolean(owner && owner === mediaViewObservation && !owner.recorded
+  return Boolean(owner && owner === mediaViewObservation && !owner.recorded && !owner.finished
     && owner.fileId === state.selected?.id && owner.session === state.mediaSession
     && owner.account === state.accountId && owner.accountGeneration === state.driveSessionGeneration
     && (!state.accountIdentityPending || state.demo)
@@ -667,26 +683,43 @@ function isCurrentMediaViewObservation(owner, element) {
 
 function commitMediaViewObservation(owner) {
   owner.recorded = true;
+  clearTimeout(owner.photoTimer);
   markFileViewed(owner.fileId);
 }
 
+function mediaViewDurationSeconds(video) {
+  const duration = Number(playerTimeline(video)?.duration);
+  if (Number.isFinite(duration) && duration > 0) return duration;
+  const listed = Number(state.selected?.videoMediaMetadata?.durationMillis) / 1000;
+  return Number.isFinite(listed) && listed > 0 ? listed : NaN;
+}
+
+// Accumulates the media time actually played while the file is on screen.
+// Pauses, seeks, loop restarts and time spent hidden add nothing.
 function noteViewedVideoPresentation(video, mediaTime, confidence) {
   const owner = mediaViewObservation;
-  if (!isCurrentMediaViewObservation(owner, video)) return;
+  if (!isCurrentMediaViewObservation(owner, video)) {
+    if (owner && owner === mediaViewObservation) owner.lastMediaTime = null;
+    return;
+  }
   if (video.paused || video.seeking || state.isSeeking || video.readyState < 2) {
-    owner.firstMediaTime = null;
+    owner.lastMediaTime = null;
     return;
   }
   if (!['decoded-frame', 'playback-clock'].includes(confidence) || !Number.isFinite(mediaTime)) return;
   if (owner.sourceGeneration !== mediaSourceGeneration || owner.seekGeneration !== mediaSeekGeneration) {
     owner.sourceGeneration = mediaSourceGeneration;
     owner.seekGeneration = mediaSeekGeneration;
-    owner.firstMediaTime = null;
+    owner.lastMediaTime = null;
   }
-  // Viewed means displayed and started, not completed. A paused/seeked first
-  // frame alone must not consume the unseen-first random population.
-  if (owner.firstMediaTime == null || mediaTime < owner.firstMediaTime) owner.firstMediaTime = mediaTime;
-  else if (mediaTime > owner.firstMediaTime + 0.0001) commitMediaViewObservation(owner);
+  const last = owner.lastMediaTime;
+  owner.lastMediaTime = mediaTime;
+  if (last == null) return;
+  const step = mediaTime - last;
+  // A frame that advanced while playing proves the file was shown.
+  if (step > 0) owner.presented = true;
+  if (step > 0 && step <= VIEW_MAX_STEP_SECONDS) owner.watchedSeconds += step;
+  if (owner.watchedSeconds >= viewThresholdSeconds(mediaViewDurationSeconds(video))) commitMediaViewObservation(owner);
 }
 
 function scheduleImageViewedPresentation(image) {
@@ -695,11 +728,17 @@ function scheduleImageViewedPresentation(image) {
   const source = image.src;
   const sourceGeneration = mediaSourceGeneration;
   const decoded = typeof image.decode === 'function' ? image.decode() : Promise.resolve();
+  const shown = () => isCurrentMediaViewObservation(owner, image)
+    && mediaSourceGeneration === sourceGeneration && image.src === source
+    && image.complete && image.naturalWidth > 0 && image.naturalHeight > 0;
   Promise.resolve(decoded).then(() => {
     requestAnimationFrame(() => requestAnimationFrame(() => {
-      if (isCurrentMediaViewObservation(owner, image)
-        && mediaSourceGeneration === sourceGeneration && image.src === source
-        && image.complete && image.naturalWidth > 0 && image.naturalHeight > 0) commitMediaViewObservation(owner);
+      if (!shown()) return;
+      // Painted: shown. Viewed once it stays on screen VIEW_PHOTO_SECONDS; a
+      // hidden page or another file in between restarts or ends the wait.
+      owner.presented = true;
+      clearTimeout(owner.photoTimer);
+      owner.photoTimer = setTimeout(() => { if (shown()) commitMediaViewObservation(owner); }, VIEW_PHOTO_SECONDS * 1000);
     }));
   }).catch(() => {}); // The owned load/error path reports decoding failures.
 }
@@ -708,20 +747,20 @@ function resumeMediaViewObservation() {
   if (el.imageViewer?.complete) scheduleImageViewedPresentation(el.imageViewer);
 }
 
-function getViewCounts() {
-  return accountViewCounts(state.accountMediaState);
+function getViewHistory() {
+  return accountViewHistory(state.accountMediaState);
 }
 
 function buildAccountPlaybackDeck(files, selectedId, random = secureRandom, depth = VERTICAL_DECK_DEPTH) {
-  return buildVerticalPlaybackDeck(files, selectedId, random, depth, getViewCounts(), state.playbackShownIds);
+  return buildVerticalPlaybackDeck(files, selectedId, random, depth, getViewHistory(), state.playbackShownIds);
 }
 
 function advanceAccountPlaybackDeck(deck, direction, targetId, files, random = secureRandom) {
-  return advanceVerticalPlaybackDeck(deck, direction, targetId, files, random, getViewCounts(), state.playbackShownIds);
+  return advanceVerticalPlaybackDeck(deck, direction, targetId, files, random, getViewHistory(), state.playbackShownIds);
 }
 
 function retargetAccountPlaybackDeck(deck, targetId, files, random = secureRandom) {
-  return retargetVerticalPlaybackDeck(deck, targetId, files, random, getViewCounts(), state.playbackShownIds);
+  return retargetVerticalPlaybackDeck(deck, targetId, files, random, getViewHistory(), state.playbackShownIds);
 }
 
 function isFavoriteFileId(fileId) {
@@ -734,12 +773,22 @@ function markFileViewed(fileId) {
   const current = Number(state.accountMediaState.viewed?.[fileId]) || 0;
   if (current >= now) return;
   state.accountMediaState.viewed[fileId] = now;
-  // Only this writer's own slot grows (see normalizeViewCountSlots).
-  const counts = state.accountMediaState.viewCounts ||= Object.create(null);
-  const slots = counts[fileId] ||= Object.create(null);
+  raiseOwnCounter('viewCounts', fileId, now);
+}
+
+// Shown, then left before the D-156 threshold: ranks ahead of viewed files.
+function markFilePassed(fileId) {
+  if (!fileId || (state.accountIdentityPending && !state.demo)) return;
+  raiseOwnCounter('passCounts', fileId, Date.now());
+}
+
+// Only this writer's own slot grows (see normalizeCounterSlots in core.js).
+function raiseOwnCounter(key, fileId, now) {
+  const counter = state.accountMediaState[key] ||= Object.create(null);
+  const slots = counter[fileId] ||= Object.create(null);
   const writer = getAccountStateWriterId();
   slots[writer] = (slots[writer] || 0) + 1;
-  state.accountMediaState.updatedAt = now;
+  state.accountMediaState.updatedAt = Math.max(state.accountMediaState.updatedAt || 0, now);
   state.accountStateRevision += 1;
   queueAccountStateSync();
 }

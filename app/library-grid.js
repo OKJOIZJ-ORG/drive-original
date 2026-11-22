@@ -267,10 +267,10 @@ function createFolderRow(folder, index = 0) {
   return button;
 }
 
-// Random order puts never-watched media first, then the less-watched, each
-// group in uniform random order (the same rank as random shorts).
+// Random order uses the random-shorts rank (createDeckRank, D-156): never
+// shown, then passed, then viewed, each group in uniform random order.
 function shuffleCurrentFiles() {
-  const rank = createDeckRank(getViewCounts());
+  const rank = createDeckRank(getViewHistory());
   shuffledOrderMap = new Map();
   shuffleByRank([...currentPopulationFiles()], (file) => rank(file.id)).forEach((file, index) => {
     shuffledOrderMap.set(file.id, index);
@@ -290,7 +290,7 @@ function syncShuffledOrder(population) {
   const known = new Set(ids);
   const missing = population.filter((file) => !known.has(file.id));
   if (!missing.length && ids.length === shuffledOrderMap.size) return;
-  const rank = createDeckRank(getViewCounts());
+  const rank = createDeckRank(getViewHistory());
   // end[r] = one past the last kept file whose rank is r or lower.
   const lastByRank = new Map();
   ids.forEach((id, index) => lastByRank.set(rank(id), index));

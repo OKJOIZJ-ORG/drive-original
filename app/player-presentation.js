@@ -435,6 +435,7 @@ function resetMediaElements() {
   void retirePlayerTracks();
   q0PinnedSource = null;
   verifiedOriginalImage = null;
+  finishMediaViewObservation();
   mediaViewObservation = null;
   state.mediaSession += 1;
   state.pendingPlay = false;

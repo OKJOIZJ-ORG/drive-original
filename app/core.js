@@ -78,6 +78,14 @@ const ACCOUNT_STATE_READ_CACHE_PREFIX = 'drive-original.account-state-reads.';
 const ACCOUNT_STATE_READ_CONCURRENCY = 16;
 const ACCOUNT_STATE_SCHEMA_VERSION = 1;
 const ACCOUNT_STATE_SYNC_DELAY_MS = 650;
+// D-156: a video counts as viewed after VIEW_PLAYBACK_SECONDS of playback, or
+// after VIEW_SHORT_VIDEO_SHARE of a shorter video (video seconds, so 2x speed
+// counts double); a photo after VIEW_PHOTO_SECONDS on screen. A forward step
+// longer than VIEW_MAX_STEP_SECONDS between two observed frames is a jump.
+const VIEW_PLAYBACK_SECONDS = 30;
+const VIEW_SHORT_VIDEO_SHARE = 0.7;
+const VIEW_PHOTO_SECONDS = 2;
+const VIEW_MAX_STEP_SECONDS = 1.5;
 const ACCOUNT_STATE_REFRESH_INTERVAL_MS = 15_000;
 const ACCOUNT_STATE_READ_TIMEOUT_MS = 30_000;
 const MEDIA_FILE_FIELDS = 'id,name,mimeType,size,modifiedTime,createdTime,headRevisionId,resourceKey,thumbnailLink,hasThumbnail,webViewLink,driveId,capabilities(canDownload,canDelete,canMoveItemOutOfDrive,canMoveItemWithinDrive),parents,videoMediaMetadata(width,height,durationMillis),imageMediaMetadata(width,height,rotation)';
@@ -245,20 +253,57 @@ function createEmptyAccountMediaState() {
     updatedAt: 0,
     viewed: Object.create(null),
     viewCounts: Object.create(null),
+    passCounts: Object.create(null),
     favorites: Object.create(null)
   };
 }
 
-// viewCounts[fileId][writerId] = views that one writer (browser) counted. A
-// writer raises only its own slot and merges keep each slot's maximum, so the
-// sum over writers counts every device's views once (a grow-only counter).
-function normalizeViewCountSlots(slots) {
+// Per-file counters kept by every writer (browser): viewCounts counts views
+// (D-156 threshold), passCounts counts files shown and left before it.
+// counter[fileId][writerId] = what that writer counted. A writer raises only
+// its own slot and merges keep each slot's maximum, so the sum over writers
+// counts every device once (a grow-only counter).
+const ACCOUNT_COUNTER_KEYS = Object.freeze(['viewCounts', 'passCounts']);
+
+function normalizeCounterSlots(slots) {
   const clean = Object.create(null);
   Object.entries(slots && typeof slots === 'object' && !Array.isArray(slots) ? slots : {}).forEach(([writer, count]) => {
     const value = Number(count);
     if (writer && Number.isSafeInteger(value) && value > 0) clean[writer] = value;
   });
   return clean;
+}
+
+function normalizeCounter(counter) {
+  const clean = Object.create(null);
+  Object.entries(counter && typeof counter === 'object' ? counter : {}).forEach(([id, slots]) => {
+    const normalized = normalizeCounterSlots(slots);
+    if (id && Object.keys(normalized).length) clean[id] = normalized;
+  });
+  return clean;
+}
+
+function mergeCounters(left, right) {
+  const merged = Object.create(null);
+  new Set([...Object.keys(left), ...Object.keys(right)]).forEach((id) => {
+    const slots = Object.create(null);
+    [left[id], right[id]].forEach((side) => Object.entries(side || {}).forEach(([writer, count]) => {
+      slots[writer] = Math.max(slots[writer] || 0, count);
+    }));
+    merged[id] = slots;
+  });
+  return merged;
+}
+
+// fileId -> sum over writers.
+function counterTotals(counter) {
+  const totals = new Map();
+  Object.entries(counter && typeof counter === 'object' ? counter : {}).forEach(([id, slots]) => {
+    let total = 0;
+    Object.values(normalizeCounterSlots(slots)).forEach((count) => { total += count; });
+    if (id && total) totals.set(id, total);
+  });
+  return totals;
 }
 
 function normalizeStateTimestamp(value) {
@@ -269,15 +314,10 @@ function normalizeStateTimestamp(value) {
 function normalizeAccountMediaState(value) {
   const source = value && typeof value === 'object' ? value : {};
   const viewed = Object.create(null);
-  const viewCounts = Object.create(null);
   const favorites = Object.create(null);
   Object.entries(source.viewed && typeof source.viewed === 'object' ? source.viewed : {}).forEach(([id, timestamp]) => {
     const normalized = normalizeStateTimestamp(timestamp);
     if (id && normalized) viewed[id] = normalized;
-  });
-  Object.entries(source.viewCounts && typeof source.viewCounts === 'object' ? source.viewCounts : {}).forEach(([id, slots]) => {
-    const clean = normalizeViewCountSlots(slots);
-    if (id && Object.keys(clean).length) viewCounts[id] = clean;
   });
   Object.entries(source.favorites && typeof source.favorites === 'object' ? source.favorites : {}).forEach(([id, entry]) => {
     if (!id) return;
@@ -290,7 +330,8 @@ function normalizeAccountMediaState(value) {
     schemaVersion: ACCOUNT_STATE_SCHEMA_VERSION,
     updatedAt: normalizeStateTimestamp(source.updatedAt),
     viewed,
-    viewCounts,
+    viewCounts: normalizeCounter(source.viewCounts),
+    passCounts: normalizeCounter(source.passCounts),
     favorites
   };
 }
@@ -303,13 +344,7 @@ function mergeAccountMediaStates(first, second) {
   viewedIds.forEach((id) => {
     merged.viewed[id] = Math.max(left.viewed[id] || 0, right.viewed[id] || 0);
   });
-  new Set([...Object.keys(left.viewCounts), ...Object.keys(right.viewCounts)]).forEach((id) => {
-    const slots = Object.create(null);
-    [left.viewCounts[id], right.viewCounts[id]].forEach((side) => Object.entries(side || {}).forEach(([writer, count]) => {
-      slots[writer] = Math.max(slots[writer] || 0, count);
-    }));
-    merged.viewCounts[id] = slots;
-  });
+  ACCOUNT_COUNTER_KEYS.forEach((key) => { merged[key] = mergeCounters(left[key], right[key]); });
   const favoriteIds = new Set([...Object.keys(left.favorites), ...Object.keys(right.favorites)]);
   favoriteIds.forEach((id) => {
     const a = left.favorites[id];
@@ -346,29 +381,12 @@ function accountViewedIds(accountState) {
   return ids;
 }
 
-// fileId -> number of views across devices. A file viewed before counts were
-// kept has a timestamp and no slots; it counts as one view.
-function accountViewCounts(accountState) {
-  const counts = new Map();
-  accountViewedIds(accountState).forEach((id) => counts.set(id, 1));
-  const viewCounts = accountState?.viewCounts;
-  Object.entries(viewCounts && typeof viewCounts === 'object' ? viewCounts : {}).forEach(([id, slots]) => {
-    if (!id) return;
-    let total = 0;
-    Object.values(normalizeViewCountSlots(slots)).forEach((count) => { total += count; });
-    if (total) counts.set(id, Math.max(counts.get(id) || 0, total));
-  });
-  return counts;
-}
-
-function prioritizeUnseenFiles(files, viewedIds, selectedId = null) {
-  const viewed = viewedIds instanceof Set ? viewedIds : new Set(viewedIds || []);
-  const candidates = (Array.isArray(files) ? files : [])
-    .filter((file) => file?.id && file.id !== selectedId);
-  return [
-    ...candidates.filter((file) => !viewed.has(file.id)),
-    ...candidates.filter((file) => viewed.has(file.id))
-  ];
+// { views, passes }: fileId -> count across devices. A file viewed before
+// counts were kept has a timestamp and no slots; it counts as one view.
+function accountViewHistory(accountState) {
+  const views = counterTotals(accountState?.viewCounts);
+  accountViewedIds(accountState).forEach((id) => { if (!views.has(id)) views.set(id, 1); });
+  return { views, passes: counterTotals(accountState?.passCounts) };
 }
 
 async function collectAllPages(fetchPage, { signal, onPage } = {}) {
@@ -558,16 +576,31 @@ function pickRandomFile(files, selectedId, random = secureRandom) {
   return candidates[index];
 }
 
-// Rank = number of views (0 = never watched); files already shown in this
-// player session come after every count. `views` is a Map of counts or a Set
-// of watched ids (one view each). Viewed history alone misses files that were
-// swiped past before they started playing, hence the session set.
+function viewThresholdSeconds(durationSeconds) {
+  const duration = Number(durationSeconds);
+  return Number.isFinite(duration) && duration > 0
+    ? Math.min(VIEW_PLAYBACK_SECONDS, duration * VIEW_SHORT_VIDEO_SHARE) : VIEW_PLAYBACK_SECONDS;
+}
+
+// D-156 order: never shown (0), then shown and left before counting as
+// viewed (by passes, fewer first), then viewed (by views, fewer first), then
+// files already shown in this player session. `history` is
+// accountViewHistory()'s { views, passes }, a Map of view counts, or a Set or
+// array of viewed ids (one view each).
+const WATCHED_RANK_BASE = 2 ** 31;
 const SHOWN_THIS_SESSION_RANK = Number.MAX_SAFE_INTEGER;
-function createDeckRank(views, shownIds) {
-  const counts = views instanceof Map ? views
-    : new Map([...(views instanceof Set ? views : new Set(views || []))].map((id) => [id, 1]));
+function createDeckRank(history, shownIds) {
+  const asCounts = (value) => (value instanceof Map ? value
+    : new Map([...(value instanceof Set ? value : new Set(Array.isArray(value) ? value : []))].map((id) => [id, 1])));
+  const plain = history instanceof Map || history instanceof Set || Array.isArray(history) || !history;
+  const views = asCounts(plain ? history : history.views);
+  const passes = plain ? new Map() : asCounts(history.passes);
   const shown = shownIds instanceof Set ? shownIds : new Set(shownIds || []);
-  return (id) => (shown.has(id) ? SHOWN_THIS_SESSION_RANK : counts.get(id) || 0);
+  return (id) => {
+    if (shown.has(id)) return SHOWN_THIS_SESSION_RANK;
+    const viewed = views.get(id) || 0;
+    return viewed ? WATCHED_RANK_BASE + viewed : passes.get(id) || 0;
+  };
 }
 
 // Groups by rank, lowest first; each group is shuffled uniformly and no item
@@ -582,8 +615,8 @@ function shuffleByRank(items, rankOf, random = secureRandom) {
   return [...groups.keys()].sort((a, b) => a - b).flatMap((rank) => shuffleInPlace(groups.get(rank), random));
 }
 
-function rankedDeckIds(files, selectedId, random, viewedIds, shownIds) {
-  const rank = createDeckRank(viewedIds, shownIds);
+function rankedDeckIds(files, selectedId, random, history, shownIds) {
+  const rank = createDeckRank(history, shownIds);
   const uniqueFiles = [];
   const uniqueIds = new Set(selectedId ? [selectedId] : []);
   (Array.isArray(files) ? files : []).forEach((file) => {
@@ -591,13 +624,12 @@ function rankedDeckIds(files, selectedId, random, viewedIds, shownIds) {
     uniqueIds.add(file.id);
     uniqueFiles.push(file);
   });
-  // Unseen media stays ahead of watched media, and less-watched ahead of
-  // more-watched, until the account has exhausted each group.
+  // Each rank group (see createDeckRank) is used up before the next one.
   return shuffleByRank(uniqueFiles.map((file) => file.id), rank, random);
 }
 
-function buildVerticalPlaybackDeck(files, selectedId, random = secureRandom, depth = VERTICAL_DECK_DEPTH, viewedIds = null, shownIds = null) {
-  const unique = rankedDeckIds(files, selectedId, random, viewedIds, shownIds);
+function buildVerticalPlaybackDeck(files, selectedId, random = secureRandom, depth = VERTICAL_DECK_DEPTH, history = null, shownIds = null) {
+  const unique = rankedDeckIds(files, selectedId, random, history, shownIds);
   const targetDepth = Math.max(0, Math.floor(Number(depth) || 0));
   const above = [];
   const below = [];
@@ -614,7 +646,7 @@ function buildVerticalPlaybackDeck(files, selectedId, random = secureRandom, dep
   return { anchorId: selectedId || null, above, below };
 }
 
-function advanceVerticalPlaybackDeck(deck, direction, targetId, files, random = secureRandom, viewedIds = null, shownIds = null) {
+function advanceVerticalPlaybackDeck(deck, direction, targetId, files, random = secureRandom, history = null, shownIds = null) {
   const current = deck?.anchorId || null;
   const next = {
     anchorId: targetId || current,
@@ -631,19 +663,19 @@ function advanceVerticalPlaybackDeck(deck, direction, targetId, files, random = 
     next.below = [current, ...next.below.filter((id) => id !== current && id !== targetId)]
       .slice(0, VERTICAL_DECK_DEPTH);
   }
-  return fillVerticalPlaybackDeck(next, direction, files, random, viewedIds, shownIds);
+  return fillVerticalPlaybackDeck(next, direction, files, random, history, shownIds);
 }
 
 // The current item left the population (trash/move): the deck moves to the
 // replacement and keeps both sides, so swiping back still returns to the
 // items seen before the removal.
-function retargetVerticalPlaybackDeck(deck, targetId, files, random = secureRandom, viewedIds = null, shownIds = null) {
+function retargetVerticalPlaybackDeck(deck, targetId, files, random = secureRandom, history = null, shownIds = null) {
   const keep = (ids) => (Array.isArray(ids) ? ids : []).filter((id) => id !== targetId);
   return fillVerticalPlaybackDeck({ anchorId: targetId, above: keep(deck?.above), below: keep(deck?.below) },
-    'up', files, random, viewedIds, shownIds);
+    'up', files, random, history, shownIds);
 }
 
-function fillVerticalPlaybackDeck(next, direction, files, random = secureRandom, viewedIds = null, shownIds = null) {
+function fillVerticalPlaybackDeck(next, direction, files, random = secureRandom, history = null, shownIds = null) {
   const population = Array.isArray(files) ? files : [];
   const validIds = new Set(population.filter((file) => file?.id).map((file) => file.id));
   next.above = next.above.filter((id) => validIds.has(id) && id !== next.anchorId);
@@ -651,14 +683,16 @@ function fillVerticalPlaybackDeck(next, direction, files, random = secureRandom,
   const excluded = new Set([next.anchorId, ...next.above, ...next.below]);
   // The side being swiped toward takes the best candidates, or the last few
   // unseen files would land behind the user while watched ones come next.
-  const fill = rankedDeckIds(population.filter((file) => !excluded.has(file.id)), next.anchorId, random, viewedIds, shownIds);
+  const fill = rankedDeckIds(population.filter((file) => !excluded.has(file.id)), next.anchorId, random, history, shownIds);
   const [ahead, behind] = direction === 'up' ? [next.below, next.above] : [next.above, next.below];
   while (ahead.length < VERTICAL_DECK_DEPTH && fill.length) ahead.push(fill.shift());
   while (behind.length < VERTICAL_DECK_DEPTH && fill.length) behind.push(fill.shift());
   // Small libraries cannot keep four distinct neighbours, but the spatial
   // window must still stay fully assigned after every move. Reuse only after
   // all distinct candidates have already been consumed.
-  const reusable = prioritizeUnseenFiles(population, viewedIds, next.anchorId).map((file) => file.id);
+  const reuseRank = createDeckRank(history);
+  const reusable = population.filter((file) => file?.id && file.id !== next.anchorId).map((file) => file.id)
+    .sort((a, b) => reuseRank(a) - reuseRank(b));
   let reuseCursor = 0;
   while (reusable.length && next.above.length < VERTICAL_DECK_DEPTH) {
     next.above.push(reusable[reuseCursor++ % reusable.length]);
@@ -668,7 +702,7 @@ function fillVerticalPlaybackDeck(next, direction, files, random = secureRandom,
   }
   // Reorder only the continuing side. The reverse side must retain the exact
   // previous item while newly available unseen neighbors precede watched ones.
-  const rank = createDeckRank(viewedIds, shownIds);
+  const rank = createDeckRank(history, shownIds);
   const continuation = direction === 'up' ? next.below : next.above;
   continuation.sort((a, b) => rank(a) - rank(b));
   return next;

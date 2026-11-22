@@ -312,7 +312,7 @@ test('account-synced favorites and viewed history are wired into the existing li
   assert.match(app, /spaces: 'appDataFolder'/);
   assert.match(app, /parents: \['appDataFolder'\]/);
   assert.match(app, /function mergeAccountMediaStates\(/);
-  assert.match(app, /function prioritizeUnseenFiles\(/);
+  assert.match(app, /function createDeckRank\(/);
   assert.match(app, /function setupLibraryEdgeBackGesture\(/);
   assert.match(app, /resetMediaElements\(\)[\s\S]*?clearDirectMediaSources\(\);[\s\S]*?updatePlayPauseUI\(\)/);
   for (const id of ['topbarFavoriteBtn', 'ctrlFavorite', 'shortsFavoriteBtn', 'favoriteFeedback', 'edgeBackIndicator']) {
