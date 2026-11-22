@@ -1,12 +1,12 @@
 # CHECKPOINT — Drive Original
 
-Updated 2026-11-23. D153-D156 released as 1.24.4 under D157 (every finished task that changes the app is released without a separate approval).
+Updated 2026-11-23. D158 (Drive first on Safari and iOS when the app cannot play a file) released as 1.24.5 under D157 (every finished task that changes the app is released without a separate approval).
 
 ## Current identity
 
 - Canonical repo: `C:\Projects\Drive-Original\source`; branch `main`.
-- Production **1.24.4**, Worker `e70300d9-97e3-4967-a27e-49f3089a66b4`, runtime `82110a2` (D153 Drive offer for files the device cannot play, D154 view counts, D155 UI finish, D156 viewing threshold and passes). Release record: `qa/release-1.24.4/README.md`. Dry run and deployment use the clean committed detached worktree. Prior 1.24.3 Worker eb5ff808 / runtime 2d24226 is history.
-- The working tree holds uncommitted D149 login-consent code in `auth/`, `worker/` and `tests/`, on hold by D150. `npm run deploy:release` refuses while `worker/` is dirty: park exactly those five files with `git stash push -- <files>` for the deploy and pop them right after (done for 1.24.3 and 1.24.4; diff hash unchanged). Never commit or deploy them without the user's word (D150 still holds under D157).
+- Production **1.24.5**, Worker `404fb4f0-de77-43e8-89ca-e115a7d6ac24`, runtime `af32736` (D158 on top of 1.24.4: D153 Drive offer for files the device cannot play, D154 view counts, D155 UI finish, D156 viewing threshold and passes). Release record: `qa/release-1.24.5/README.md`. Dry run and deployment use the clean committed detached worktree. Prior 1.24.4 Worker e70300d9 / runtime 82110a2 and 1.24.3 Worker eb5ff808 are history.
+- The working tree holds uncommitted D149 login-consent code in `auth/`, `worker/` and `tests/`, on hold by D150. `npm run deploy:release` refuses while `worker/` is dirty: park exactly those five files with `git stash push -- <files>` for the deploy and pop them right after (done for 1.24.3 to 1.24.5; diff hash unchanged). Never commit or deploy them without the user's word (D150 still holds under D157).
 - Trash and move run on the server (`worker/drive-jobs.mjs`) and keep going after the app closes. Production run with 72 disposable files, tab closed: 72 confirmed, 0 failed, about 4 files per second. See `qa/server-drive-jobs-20261104/README.md`.
 - A deployment does not replace the account Durable Object's code while its queue alarm keeps firing. Check `lastFailure` and `alarmAt` in `/api/drive-jobs/status` after a Worker change, and expect the old code until the queue is idle.
 - D138 scroll stability shipped in 1.24.1. Its exact user symptom was never reproduced, so "fixed" stays assumed until the user confirms it on a device.

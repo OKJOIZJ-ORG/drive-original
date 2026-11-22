@@ -32,6 +32,7 @@ Purpose: this folder is the durable memory for Drive Original. Conversations for
 
 ## Current audit and release records
 
+- [1.24.5 Drive first on Safari and iOS](../qa/release-1.24.5/README.md): D158 under D157; runtime `af32736`, Worker 404fb4f0, 1,195 tests, 92/92 public bytes equal Git. The iPhone itself not verified.
 - [1.24.4 iPhone fallback, view threshold and passes](../qa/release-1.24.4/README.md): D153-D156 under D157 (release after every finished task); runtime `82110a2`, Worker e70300d9, 1,194 tests, 92/92 public bytes equal Git. The user's iPhone and signed-in multi-device sync not verified.
 - [1.24.3 sideways pan fix](../qa/release-1.24.3/README.md): D151/D152: toolbar bleed as `border-image` outset and root `overflow-x: clip`; runtime `2d24226`, Worker eb5ff808, 1,180 tests; production demo document 394px at 393px. iPhone and WebKit not verified.
 - [Server trash/move queue, 1.24.0](../qa/server-drive-jobs-20261104/README.md): D139~D143: page-closed production run with disposable files, unit tests on real SQLite, local workerd run; large real jobs, phones and WebKit not verified.
