@@ -295,6 +295,14 @@ function updateNativeLoadingProgress() {
   setMediaLoadingProgress((ahead / target) * 100);
 }
 
+// A control's label is its span (trimmed for centring, see styles.css); writing
+// textContent on the button itself would drop the span and its icon.
+function setControlLabel(button, text) {
+  if (!button) return;
+  const label = button.querySelector?.(':scope > span');
+  (label || button).textContent = text;
+}
+
 function showMediaError(message, { title = '이 파일을 재생할 수 없습니다', showDrive = false, showRetry = true } = {}) {
   cancelActiveTouchGesture();
   q3Choice=null;
@@ -308,10 +316,10 @@ function showMediaError(message, { title = '이 파일을 재생할 수 없습�
   el.mediaErrorMessage.textContent = message;
   el.openDriveButton.hidden = !showDrive;
   el.retryMediaButton.hidden = !showRetry;
-  el.retryMediaButton.textContent = state.mediaAttempt === 'worker-update-required'
-    || q1RetirementResult?.settled === false ? '앱 다시 열기' : '다시 시도';
+  setControlLabel(el.retryMediaButton, state.mediaAttempt === 'worker-update-required'
+    || q1RetirementResult?.settled === false ? '앱 다시 열기' : '다시 시도');
   el.bufferOriginalButton.hidden = true;
-  el.bufferOriginalButton.textContent = '원본 전체 임시 저장';
+  setControlLabel(el.bufferOriginalButton, '원본 전체 임시 저장');
   el.compatPlayerButton.hidden = true;
   hideSwipeNeighbor({ immediate: false });
   requestAnimationFrame(() => el.mediaErrorTitle?.focus({ preventScroll: true }));

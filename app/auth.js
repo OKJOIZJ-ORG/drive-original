@@ -169,7 +169,7 @@ async function recoverFromMediaProxyError(data) {
       'Google Drive가 이 파일을 악성코드·바이러스 또는 악용 가능성이 있는 파일로 표시했습니다. 위험을 이해하고 직접 선택한 경우에만 원본 다운로드를 다시 시도합니다.',
       { title: '보안 경고가 있는 원본 파일', showRetry: false }
     );
-    el.bufferOriginalButton.textContent = '위험을 이해하고 원본 재시도';
+    setControlLabel(el.bufferOriginalButton, '위험을 이해하고 원본 재시도');
     el.bufferOriginalButton.hidden = false;
     return;
   }

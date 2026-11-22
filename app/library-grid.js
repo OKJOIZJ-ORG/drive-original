@@ -211,9 +211,9 @@ function renderFiles({ resetWindow = false } = {}) {
   if (el.folderMoreButton) {
     const remaining = Math.max(0, visibleFolders.length - state.folderRenderLimit);
     el.folderMoreButton.hidden = remaining === 0;
-    el.folderMoreButton.textContent = remaining
+    setControlLabel(el.folderMoreButton, remaining
       ? `폴더 ${Math.min(FOLDER_RENDER_MAX, remaining).toLocaleString('ko-KR')}개 더 보기`
-      : '폴더 더 보기';
+      : '폴더 더 보기');
   }
   renderMediaGrid(files);
   const collecting = state.filter !== 'favorites' && !state.deepScan && !state.listLoadError
@@ -267,17 +267,21 @@ function createFolderRow(folder, index = 0) {
   return button;
 }
 
+// Random order puts never-watched media first, then the less-watched, each
+// group in uniform random order (the same rank as random shorts).
 function shuffleCurrentFiles() {
+  const rank = createDeckRank(getViewCounts());
   shuffledOrderMap = new Map();
-  shuffleInPlace([...currentPopulationFiles()]).forEach((file, index) => {
+  shuffleByRank([...currentPopulationFiles()], (file) => rank(file.id)).forEach((file, index) => {
     shuffledOrderMap.set(file.id, index);
   });
 }
 
 // Removing or adding a few files keeps the random order of everything else:
-// files that left drop out and new files take random places. Only an empty
-// order (a new folder, filter or subfolder selection) or an explicit shuffle
-// starts over.
+// files that left drop out and a new file takes a random place among the files
+// of its rank or lower (a new unseen file lands among the unseen). Only an
+// empty order (a new folder, filter or subfolder selection) or an explicit
+// shuffle starts over. Views since the shuffle do not move anything.
 function syncShuffledOrder(population) {
   if (!shuffledOrderMap.size) { shuffleCurrentFiles(); return; }
   const present = new Set(population.map((file) => file.id));
@@ -286,8 +290,28 @@ function syncShuffledOrder(population) {
   const known = new Set(ids);
   const missing = population.filter((file) => !known.has(file.id));
   if (!missing.length && ids.length === shuffledOrderMap.size) return;
-  missing.forEach((file) => ids.splice(Math.floor(secureRandom() * (ids.length + 1)), 0, file.id));
-  shuffledOrderMap = new Map(ids.map((id, index) => [id, index]));
+  const rank = createDeckRank(getViewCounts());
+  // end[r] = one past the last kept file whose rank is r or lower.
+  const lastByRank = new Map();
+  ids.forEach((id, index) => lastByRank.set(rank(id), index));
+  let reach = 0;
+  const ends = [...lastByRank.keys()].sort((a, b) => a - b)
+    .map((value) => [value, reach = Math.max(reach, lastByRank.get(value) + 1)]);
+  const endFor = (value) => {
+    let end = 0;
+    for (const [limit, at] of ends) { if (limit > value) break; end = at; }
+    return end;
+  };
+  const inserts = missing.map((file) => ({ id: file.id,
+    at: Math.floor(secureRandom() * (endFor(rank(file.id)) + 1)), tie: secureRandom() }))
+    .sort((a, b) => a.at - b.at || a.tie - b.tie);
+  const merged = [];
+  let next = 0;
+  for (let index = 0; index <= ids.length; index += 1) {
+    while (next < inserts.length && inserts[next].at === index) merged.push(inserts[next++].id);
+    if (index < ids.length) merged.push(ids[index]);
+  }
+  shuffledOrderMap = new Map(merged.map((id, index) => [id, index]));
 }
 
 /* 순차 수집 중인 목록의 남은 페이지를 같은 요청 체인으로 기다린다.

@@ -283,9 +283,9 @@ function copyFileNameText() {
 function reportFileNameCopy(copied) {
   const button = el.fileNameCopyButton;
   if (!button) return;
-  button.textContent = copied ? '복사됨' : '선택됨 · 직접 복사하세요';
+  setControlLabel(button, copied ? '복사됨' : '선택됨 · 직접 복사하세요');
   clearTimeout(button.resetTimer);
-  button.resetTimer = setTimeout(() => { button.textContent = '복사'; }, 1600);
+  button.resetTimer = setTimeout(() => { setControlLabel(button, '복사'); }, 1600);
 }
 
 // Custom dropdown (D119) over a native <select>. The hidden select stays the

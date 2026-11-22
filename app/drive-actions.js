@@ -42,7 +42,9 @@ function showDrivePreview(file, reason, { userInitiated = false } = {}) {
     setNativeVideoActionsAvailable(false);
     updatePlayPauseUI();
     emitMediaDiagnosticStage('original-playback-unavailable', { reason, terminal: true });
-    showMediaError('이 파일을 앱에서 재생하지 못했습니다.', { showDrive: true });
+    // `reason` is a clause ending in -아/-어/-해 ("…지원하지 않아").
+    showMediaError(reason ? `${reason} 앱에서 재생하지 못했습니다. Google 미리보기나 Drive에서 열어 보세요.`
+      : '이 파일을 앱에서 재생하지 못했습니다.', { showDrive: true });
     el.codecNote.textContent = reason;
     el.compatPlayerButton.hidden = false;
     updateQualityDisplay();
@@ -152,13 +154,13 @@ function flashPressed(node) {
 function setButtonLoading(button, loading, label) {
   if (!button) return;
   if (loading) {
-    if (!button.dataset.originalLabel) button.dataset.originalLabel = button.textContent;
-    button.textContent = label;
+    if (!button.dataset.originalLabel) button.dataset.originalLabel = (button.querySelector?.(':scope > span') || button).textContent.trim();
+    setControlLabel(button, label);
     button.classList.add('is-loading');
   } else {
     button.classList.remove('is-loading');
     if (button.dataset.originalLabel) {
-      button.textContent = button.dataset.originalLabel;
+      setControlLabel(button, button.dataset.originalLabel);
       delete button.dataset.originalLabel;
     }
   }

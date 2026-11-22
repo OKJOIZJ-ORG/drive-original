@@ -91,7 +91,7 @@ let quickMoveTargetLookup = null;
 function setQuickMoveTargetPicking(picking) {
   quickMoveTargetPicking = picking;
   if (el.moveDialogTitle) el.moveDialogTitle.textContent = picking ? '빠른 이동 폴더 선택' : '폴더로 이동';
-  if (el.moveConfirmButton) el.moveConfirmButton.textContent = picking ? '선택' : '이동';
+  setControlLabel(el.moveConfirmButton, picking ? '선택' : '이동');
 }
 
 function quickMoveEnabled() {

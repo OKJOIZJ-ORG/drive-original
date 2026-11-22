@@ -357,10 +357,11 @@ test('the brand button returns to My Drive root with every file type and no sear
   assert.equal(c.run(`entered===null && renders===1 && state.query===''`),true);
 });
 
-test('pinned audio probe failures are classified by what they say about the original', () => {
+test('general route failures are classified by what they say about the original', () => {
   const c=app();
-  const cls=(code)=>c.run(`classifyPinnedAudioProbeFailure(${JSON.stringify(code)})`);
-  for (const code of ['GENERAL_AUDIO_DESCRIPTION_UNQUALIFIED','GENERAL_CODEC_UNQUALIFIED','GENERAL_MOOV_LIMIT','GENERAL_TRACK_LIMIT']) assert.equal(cls(code),'keep-native',code);
+  const cls=(code)=>c.run(`classifyGeneralRouteFailure(${JSON.stringify(code)})`);
+  for (const code of ['GENERAL_AUDIO_DESCRIPTION_UNQUALIFIED','GENERAL_CODEC_UNQUALIFIED','GENERAL_MOOV_LIMIT','GENERAL_TRACK_LIMIT',
+    'GENERAL_MSE_UNAVAILABLE','GENERAL_CODEC_UNAVAILABLE','GENERAL_CONTAINER_UNQUALIFIED']) assert.equal(cls(code),'outside-subset',code);
   for (const code of ['GENERAL_READ_TIMEOUT','Q1_SOURCE_READ_FAILED','Q1_SOURCE_HTTP_UNAVAILABLE']) assert.equal(cls(code),'transient',code);
   for (const code of ['GENERAL_BOX_HEADER','GENERAL_IMAGE_HEADER_UNQUALIFIED','Q1_SOURCE_CONTENT_DRIFT','AUDIO_NATIVE_GATE_UNAVAILABLE',undefined]) assert.equal(cls(code),'terminal',String(code));
   const say=(code,failure,settled)=>c.run(`JSON.stringify(describePinnedAudioProbeFailure(${JSON.stringify(code)},${JSON.stringify(failure)},${settled}))`);

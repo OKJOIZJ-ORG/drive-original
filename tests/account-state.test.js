@@ -8,7 +8,7 @@ const vm = require('node:vm');
 const source = appSource;
 const NAME = 'drive-original-account-state-v2-';
 const empty = () => ({ schemaVersion: 1, updatedAt: 0, viewed: {}, favorites: {} });
-const local = () => ({ schemaVersion: 1, updatedAt: 20, viewed: { watched: 20 }, favorites: { removed: { liked: false, updatedAt: 20 }, liked: { liked: true, updatedAt: 20 } } });
+const local = () => ({ schemaVersion: 1, updatedAt: 20, viewed: { watched: 20 }, viewCounts: {}, favorites: { removed: { liked: false, updatedAt: 20 }, liked: { liked: true, updatedAt: 20 } } });
 const clone = value => JSON.parse(JSON.stringify(value));
 const json = (value, status = 200) => new Response(JSON.stringify(value), { status });
 

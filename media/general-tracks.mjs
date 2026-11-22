@@ -3,6 +3,7 @@ import {createGeneralSource} from './general-source.mjs';
 import {inspectGeneralMoov, GENERAL_LIMITS} from './general-admission.mjs';
 import {createAvcPacketGuard} from './general-codec.mjs';
 import {audioProfile, observeAudioCompatibility, observeNativeFileSupport} from './audio-runtime.mjs';
+import {isGeneralPlayerSupported} from './general-player.mjs';
 
 export const GENERAL_AUDIO_CODECS = Object.freeze(['mp4a','ac-3','ec-3']);
 export function validateGeneralAudioSelection(trackId) {
@@ -119,7 +120,10 @@ export async function probePinnedGeneralTracks(source, {signal, isCurrent = () =
       const primary=await input.getPrimaryAudioTrack();rpc.check();
       const video=videos.length===1&&videos[0].codec==='avc'?videos[0]:null;
       const videoConfig=video&&await video.getDecoderConfig();rpc.check();
-      let videoQualified=!!video;
+      // Switching a track restarts playback in the packet-copy player; where it
+      // cannot run (iPhone Safari) no track is switchable.
+      const playerSupported=isGeneralPlayerSupported(scope);
+      let videoQualified=!!video&&playerSupported;
       if(video)try{createAvcPacketGuard(videoConfig,true);}catch{videoQualified=false;}
       const container=(await input.getFormat())===QTFF?'video/quicktime':'video/mp4';
       const audioTracks=[];
@@ -127,7 +131,7 @@ export async function probePinnedGeneralTracks(source, {signal, isCurrent = () =
         rpc.check();
         if (!Number.isSafeInteger(audio.id)||audio.id<=0||!admission.trackInfo.some(t=>t.trackId===audio.id&&t.handler==='soun')) throw new Error('GENERAL_TRACK_ID');
         const language=await audio.getLanguageCode(),name=await audio.getName(),config=await audio.getDecoderConfig();rpc.check();
-        let route='unqualified',reason='video-unqualified',capability,nativeFile;
+        let route='unqualified',reason=playerSupported?'video-unqualified':'general-player-unavailable',capability,nativeFile;
         if (videoQualified && audio.codec==='aac') {
           route=qualifiedGeneralAac(config)?'q1':'unqualified';reason=route==='q1'?'qualified-aac-copy':'aac-configuration-unqualified';
         } else if (videoQualified && ['ac3','eac3'].includes(audio.codec)) {

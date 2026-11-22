@@ -22,12 +22,20 @@ test('only CRC-valid complete single-program AVC-only topology gets the general 
 });
 test('app chooses general only for positive video-only hint while preserving TS-container fallback guards',async()=>{
  const source=fs.readFileSync(new URL('../app/playback-source.js',import.meta.url),'utf8');
- const branch=source.slice(source.indexOf('    const createPlayer = ts'),source.indexOf('    if (!current()) return true;',source.indexOf('    const createPlayer = ts')))
-  .replace("(await import('../media/ts-player.mjs')).createTsPlayer",'strictPlayer').replace("(await import('../media/general-player.mjs')).createGeneralPlayer",'generalPlayer');
- for(const [videoOnlyTs,expected] of [[false,'ts'],[true,'general']]){
-  const context=vm.createContext({ts:true,videoOnlyTs,owner:{},strictPlayer:()=>{},generalPlayer:()=>{}});
+ const start=source.indexOf('    const generalModule = ts');
+ const branch=source.slice(start,source.indexOf('    if (!current()) return true;',start))
+  .replace("(await import('../media/ts-player.mjs')).createTsPlayer",'strictPlayer').replace("await import('../media/general-player.mjs')",'generalModuleFixture');
+ // The packet-copy player needs MediaSource; without it (iPhone Safari) the
+ // file goes back to the caller and no player is built.
+ for(const [videoOnlyTs,supported,expected,resumed] of [[false,true,'ts',0],[true,true,'general',0],[false,false,'ts',0],[true,false,undefined,1]]){
+  const context=vm.createContext({ts:true,videoOnlyTs,owner:{},strictPlayer:()=>{},resumed:0,
+   resumeNative:()=>{context.resumed++;return false;},generalModuleFixture:{isGeneralPlayerSupported:()=>supported,createGeneralPlayer:()=>{}}});
   await vm.runInContext(`(async()=>{${branch}})()`,context);assert.equal(context.owner.kind,expected);assert.equal(context.ts,true);
+  assert.equal(context.resumed,resumed);
  }
+ const iso=vm.createContext({ts:false,videoOnlyTs:false,owner:{},strictPlayer:()=>{},resumed:0,
+  resumeNative:()=>{iso.resumed++;return false;},generalModuleFixture:{isGeneralPlayerSupported:()=>false,createGeneralPlayer:()=>{}}});
+ assert.equal(await vm.runInContext(`(async()=>{${branch}})()`,iso),false);assert.equal(iso.resumed,1);assert.equal(iso.owner.kind,undefined);
  assert.match(source,/selectedAudioTrackId === undefined && !ts && general/);
 });
 test('existing general Q1 copies a real AVC-only TS through end and seek without creating audio',async()=>{

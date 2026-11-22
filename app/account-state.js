@@ -137,6 +137,10 @@ function validateRawAccountMediaState(value, legacy = false) {
   if (Object.entries(value.viewed).some(([id, time]) => !id || !timestamp(time) || time === 0)
     || Object.entries(value.favorites).some(([id, entry]) => !id || (typeof entry !== 'boolean'
       && (!record(entry) || typeof entry.liked !== 'boolean' || !timestamp(entry.updatedAt))))) throw accountStateError('malformed_account_state');
+  // Optional: older writers omit view counts, and older readers ignore them.
+  if (Object.prototype.hasOwnProperty.call(value, 'viewCounts') && (!record(value.viewCounts)
+    || Object.entries(value.viewCounts).some(([id, slots]) => !id || !record(slots)
+      || Object.entries(slots).some(([writer, count]) => !writer || !Number.isSafeInteger(count) || count <= 0)))) throw accountStateError('malformed_account_state');
   return value;
 }
 
@@ -212,7 +216,11 @@ function captureAccountStateRequest() {
 function accountMediaStatesEqual(first, second) {
   const a = normalizeAccountMediaState(first);
   const b = normalizeAccountMediaState(second);
+  const slots = (state) => Object.entries(state.viewCounts)
+    .flatMap(([id, writers]) => Object.entries(writers).map(([writer, count]) => JSON.stringify([id, writer, count])));
+  const aSlots = slots(a), bSlots = new Set(slots(b));
   return a.updatedAt === b.updatedAt
+    && aSlots.length === bSlots.size && aSlots.every((slot) => bSlots.has(slot))
     && Object.keys(a.viewed).length === Object.keys(b.viewed).length
     && Object.keys(a.favorites).length === Object.keys(b.favorites).length
     && Object.keys(a.viewed).every((id) => a.viewed[id] === b.viewed[id])
@@ -700,20 +708,20 @@ function resumeMediaViewObservation() {
   if (el.imageViewer?.complete) scheduleImageViewedPresentation(el.imageViewer);
 }
 
-function getViewedIdSet() {
-  return accountViewedIds(state.accountMediaState);
+function getViewCounts() {
+  return accountViewCounts(state.accountMediaState);
 }
 
 function buildAccountPlaybackDeck(files, selectedId, random = secureRandom, depth = VERTICAL_DECK_DEPTH) {
-  return buildVerticalPlaybackDeck(files, selectedId, random, depth, getViewedIdSet(), state.playbackShownIds);
+  return buildVerticalPlaybackDeck(files, selectedId, random, depth, getViewCounts(), state.playbackShownIds);
 }
 
 function advanceAccountPlaybackDeck(deck, direction, targetId, files, random = secureRandom) {
-  return advanceVerticalPlaybackDeck(deck, direction, targetId, files, random, getViewedIdSet(), state.playbackShownIds);
+  return advanceVerticalPlaybackDeck(deck, direction, targetId, files, random, getViewCounts(), state.playbackShownIds);
 }
 
 function retargetAccountPlaybackDeck(deck, targetId, files, random = secureRandom) {
-  return retargetVerticalPlaybackDeck(deck, targetId, files, random, getViewedIdSet(), state.playbackShownIds);
+  return retargetVerticalPlaybackDeck(deck, targetId, files, random, getViewCounts(), state.playbackShownIds);
 }
 
 function isFavoriteFileId(fileId) {
@@ -726,6 +734,11 @@ function markFileViewed(fileId) {
   const current = Number(state.accountMediaState.viewed?.[fileId]) || 0;
   if (current >= now) return;
   state.accountMediaState.viewed[fileId] = now;
+  // Only this writer's own slot grows (see normalizeViewCountSlots).
+  const counts = state.accountMediaState.viewCounts ||= Object.create(null);
+  const slots = counts[fileId] ||= Object.create(null);
+  const writer = getAccountStateWriterId();
+  slots[writer] = (slots[writer] || 0) + 1;
   state.accountMediaState.updatedAt = now;
   state.accountStateRevision += 1;
   queueAccountStateSync();

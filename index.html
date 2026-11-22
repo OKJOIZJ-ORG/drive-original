@@ -83,7 +83,7 @@
         <p id="updateBannerText">새로운 앱 버전을 즉시 적용할 수 있습니다.</p>
       </div>
       <div class="update-banner-actions">
-        <button class="primary-button compact" id="bannerUpdateButton" type="button">지금 업데이트</button>
+        <button class="primary-button compact" id="bannerUpdateButton" type="button"><span>지금 업데이트</span></button>
         <button class="icon-button compact" id="closeBannerButton" type="button" aria-label="알림 닫기">
           <svg width="14" height="14" style="width:14px;height:14px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
@@ -173,7 +173,7 @@
           <div class="library-summary-row">
             <p class="library-summary" id="librarySummary">파일 목록을 불러오는 중…</p>
             <span class="library-loading-indicator" id="infiniteScrollSpinner" aria-hidden="true" hidden><span class="small-spinner"></span></span>
-            <button class="text-button library-retry-button" id="loadMoreButton" type="button" hidden>다시 불러오기</button>
+            <button class="text-button library-retry-button" id="loadMoreButton" type="button" hidden><span>다시 불러오기</span></button>
           </div>
         </div>
         <button class="secondary-button" id="refreshButton" type="button" aria-label="새로고침">
@@ -253,9 +253,9 @@
       <div class="selection-toolbar" id="selectionToolbar" role="toolbar" aria-label="선택한 파일 작업" hidden>
         <div class="selection-summary" aria-live="polite"><strong id="selectionCountText">0개</strong><span> 선택</span></div>
         <div class="selection-actions">
-          <button class="secondary-button compact" id="selectionSelectAllBtn" type="button" aria-label="표시 항목 전체 선택">전체 선택</button>
-          <button class="secondary-button compact" id="selectionMoveBtn" type="button" disabled>이동</button>
-          <button class="danger-text-button compact" id="selectionDeleteBtn" type="button" disabled>휴지통</button>
+          <button class="secondary-button compact" id="selectionSelectAllBtn" type="button" aria-label="표시 항목 전체 선택"><span>전체 선택</span></button>
+          <button class="secondary-button compact" id="selectionMoveBtn" type="button" disabled><span>이동</span></button>
+          <button class="danger-text-button compact" id="selectionDeleteBtn" type="button" disabled><span>휴지통</span></button>
         </div>
         <button class="icon-button compact" id="selectionCancelBtn" type="button" aria-label="선택 취소" title="선택 취소">
           <svg width="15" height="15" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -264,11 +264,11 @@
 
       <div class="library-status" id="libraryStatus" role="status" aria-live="polite"></div>
       <p class="account-sync-status" id="accountSyncStatus" role="status" aria-live="polite" hidden></p>
-      <button class="secondary-button compact" id="reconnectButton" type="button" hidden>Google 연결 갱신</button>
+      <button class="secondary-button compact" id="reconnectButton" type="button" hidden><span>Google 연결 갱신</span></button>
 
       <!-- Folder Strip (compact navigation rows, separated from media grid) -->
       <div class="folder-strip" id="folderStrip" hidden aria-label="하위 폴더"></div>
-      <button class="secondary-button folder-more" id="folderMoreButton" type="button" hidden>폴더 더 보기</button>
+      <button class="secondary-button folder-more" id="folderMoreButton" type="button" hidden><span>폴더 더 보기</span></button>
 
       <!-- File Grid Cards -->
       <div class="file-grid" id="fileGrid"></div>
@@ -572,12 +572,12 @@
           <h3 id="mediaErrorTitle" tabindex="-1">이 파일을 재생할 수 없습니다</h3>
           <p id="mediaErrorMessage">원본 스트림을 준비하지 못했습니다.</p>
           <div class="error-actions">
-            <button class="secondary-button" id="retryMediaButton" type="button">다시 시도</button>
-            <button class="secondary-button" id="bufferOriginalButton" type="button" hidden>원본 전체 임시 저장</button>
-            <button class="secondary-button" id="videoCompatButton" type="button" hidden>영상 호환 변환 시작</button>
-            <button class="secondary-button" id="compatPlayerButton" type="button" hidden>Google 미리보기</button>
-            <button class="secondary-button" id="openDriveButton" type="button">Drive에서 열기</button>
-            <button class="secondary-button" id="closeMediaErrorButton" type="button">닫기</button>
+            <button class="primary-button" id="bufferOriginalButton" type="button" hidden><span>원본 전체 임시 저장</span></button>
+            <button class="primary-button" id="videoCompatButton" type="button" hidden><span>영상 호환 변환 시작</span></button>
+            <button class="primary-button" id="compatPlayerButton" type="button" hidden><span>Google 미리보기</span></button>
+            <button class="secondary-button" id="retryMediaButton" type="button"><span>다시 시도</span></button>
+            <button class="secondary-button" id="openDriveButton" type="button"><span>Drive에서 열기</span></button>
+            <button class="secondary-button" id="closeMediaErrorButton" type="button"><span>닫기</span></button>
           </div>
         </div>
       </div>
@@ -597,16 +597,16 @@
         <div class="file-name-view" id="fileNameView">
           <p class="file-name-text" id="fileNameText"></p>
           <div class="button-row">
-            <button class="secondary-button" id="fileNameRenameButton" type="button">이름 바꾸기</button>
-            <button class="secondary-button" id="fileNameCopyButton" type="button">복사</button>
+            <button class="secondary-button" id="fileNameRenameButton" type="button"><span>이름 바꾸기</span></button>
+            <button class="secondary-button" id="fileNameCopyButton" type="button"><span>복사</span></button>
           </div>
         </div>
         <div class="file-name-edit" id="fileNameEdit" hidden>
           <input class="plain-input file-name-input" id="fileNameInput" type="text" aria-label="새 파일명" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" maxlength="255">
           <p class="file-name-hint" id="fileNameHint" role="status" aria-live="polite"></p>
           <div class="button-row">
-            <button class="secondary-button" id="fileNameEditCancelButton" type="button">취소</button>
-            <button class="primary-button" id="fileNameSaveButton" type="button">저장</button>
+            <button class="secondary-button" id="fileNameEditCancelButton" type="button"><span>취소</span></button>
+            <button class="primary-button" id="fileNameSaveButton" type="button"><span>저장</span></button>
           </div>
         </div>
       </div>
@@ -626,8 +626,8 @@
         <label class="subfolder-all"><input type="checkbox" class="custom-checkbox" id="subfolderAllCheckbox"><span>모든 하위 폴더</span></label>
         <div class="subfolder-tree" id="subfolderTree" role="tree" aria-label="하위 폴더" aria-multiselectable="true"></div>
         <div class="button-row">
-          <button class="secondary-button" id="subfolderOffButton" type="button" hidden>포함 끄기</button>
-          <button class="primary-button" id="subfolderApplyButton" type="button">적용</button>
+          <button class="secondary-button" id="subfolderOffButton" type="button" hidden><span>포함 끄기</span></button>
+          <button class="primary-button" id="subfolderApplyButton" type="button"><span>적용</span></button>
         </div>
       </div>
     </form>
@@ -659,9 +659,7 @@
               <svg width="14" height="14" style="width:14px;height:14px;flex-shrink:0;" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.6-6.4L21 8M21 3v5h-5"/></svg>
               <span>업데이트 확인</span>
             </button>
-            <button class="danger-text-button" id="forceReloadButton" type="button">
-              강제 캐시 새로고침
-            </button>
+            <button class="danger-text-button" id="forceReloadButton" type="button"><span>강제 캐시 새로고침</span></button>
           </div>
         </section>
 
@@ -673,7 +671,7 @@
           <p class="dialog-text">켜면 플레이어와 목록 선택의 이동 버튼이 폴더 선택 창 없이 파일을 기본 폴더로 바로 보냅니다. 끄면 폴더 선택 창을 엽니다. ⋯ 메뉴의 "다른 폴더로 이동"은 항상 폴더 선택 창을 엽니다.</p>
           <div class="quick-move-target">
             <span>기본 폴더: <strong id="quickMoveTargetName">추억</strong></span>
-            <button class="secondary-button compact" id="quickMoveTargetButton" type="button">변경</button>
+            <button class="secondary-button compact" id="quickMoveTargetButton" type="button"><span>변경</span></button>
           </div>
         </section>
 
@@ -681,15 +679,15 @@
           <h3>파일 작업</h3>
           <p class="dialog-text">휴지통과 폴더 이동은 서버에서 처리합니다. 앱이나 브라우저를 닫아도 계속됩니다. 끝난 작업은 하루 동안 여기에 남습니다.</p>
           <ul class="drive-job-list" id="driveJobList"></ul>
-          <button class="danger-text-button" id="driveJobCancelButton" type="button" hidden>남은 작업 취소</button>
+          <button class="danger-text-button" id="driveJobCancelButton" type="button" hidden><span>남은 작업 취소</span></button>
         </section>
 
         <section class="settings-group">
           <h3>계정 및 인증</h3>
           <p class="dialog-text">로그아웃은 이 브라우저 세션만 끝냅니다. 연결 해제는 모든 로그인 세션과 서버에 보관된 갱신 인증 정보를 삭제합니다. 어느 경우에도 Drive 원본 파일은 수정하거나 삭제하지 않습니다.</p>
           <div class="button-row">
-            <button class="secondary-button" id="logoutButton" type="button">이 브라우저에서 로그아웃</button>
-            <button class="danger-text-button" id="disconnectButton" type="button">모든 세션 연결 해제</button>
+            <button class="secondary-button" id="logoutButton" type="button"><span>이 브라우저에서 로그아웃</span></button>
+            <button class="danger-text-button" id="disconnectButton" type="button"><span>모든 세션 연결 해제</span></button>
           </div>
         </section>
 
@@ -709,7 +707,7 @@
               <span class="origin-lbl">승인할 현재 사이트 원본</span>
               <code id="currentOrigin">—</code>
             </div>
-            <button class="secondary-button compact" id="copyOriginButton" type="button">복사</button>
+            <button class="secondary-button compact" id="copyOriginButton" type="button"><span>복사</span></button>
           </div>
         </section>
 
@@ -722,7 +720,7 @@
 
         <section class="settings-group">
           <h3>오픈소스</h3>
-          <a class="secondary-button" href="./licenses/index.html" target="_blank" rel="noopener">라이선스 및 소스 코드 보기</a>
+          <a class="secondary-button" href="./licenses/index.html" target="_blank" rel="noopener"><span>라이선스 및 소스 코드 보기</span></a>
         </section>
 
         <div class="version-footer">
@@ -738,7 +736,7 @@
     <div class="dialog-box">
       <div class="dialog-top">
         <h2 id="playerTracksTitle">음성·자막</h2>
-        <button class="secondary-button" id="playerTracksClose" type="button">닫기</button>
+        <button class="secondary-button" id="playerTracksClose" type="button"><span>닫기</span></button>
       </div>
       <div class="dialog-content">
         <label for="playerAudioTrack">음성</label>
@@ -746,7 +744,7 @@
         <label for="playerSubtitleTrack">자막</label>
         <select id="playerSubtitleTrack" aria-describedby="playerTracksStatus" disabled><option value="">끔</option></select>
         <p class="dialog-text subtle" id="playerTracksStatus" role="status">음성·자막 목록을 확인합니다.</p>
-        <button class="secondary-button" id="playerTracksRetry" type="button" hidden>다시 확인</button>
+        <button class="secondary-button" id="playerTracksRetry" type="button" hidden><span>다시 확인</span></button>
       </div>
     </div>
   </dialog>
@@ -766,8 +764,8 @@
         <input class="plain-input move-search" id="moveSearchInput" type="search" aria-label="이동할 폴더 검색" placeholder="폴더 이름으로 검색…" autocomplete="off">
         <div class="move-folder-list" id="moveFolderList" role="group" aria-label="이동할 폴더 선택" tabindex="0"></div>
         <div class="button-row">
-          <button class="secondary-button" id="moveCancelButton" type="button">취소</button>
-          <button class="primary-button" id="moveConfirmButton" type="button" disabled>이동</button>
+          <button class="secondary-button" id="moveCancelButton" type="button"><span>취소</span></button>
+          <button class="primary-button" id="moveConfirmButton" type="button" disabled><span>이동</span></button>
         </div>
       </div>
     </form>
@@ -792,8 +790,8 @@
           <li><span>5</span><p>아래 <strong>다시 연결</strong>을 눌러 새 동의 화면에서 수정 권한을 승인합니다.</p></li>
         </ol>
         <div class="button-row">
-          <button class="secondary-button" id="permissionCloseButton" type="button">나중에 하기</button>
-          <button class="primary-button" id="permissionReconnectButton" type="button">다시 연결</button>
+          <button class="secondary-button" id="permissionCloseButton" type="button"><span>나중에 하기</span></button>
+          <button class="primary-button" id="permissionReconnectButton" type="button"><span>다시 연결</span></button>
         </div>
       </div>
     </form>

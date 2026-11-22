@@ -255,8 +255,21 @@ function createEmptyAccountMediaState() {
     schemaVersion: ACCOUNT_STATE_SCHEMA_VERSION,
     updatedAt: 0,
     viewed: Object.create(null),
+    viewCounts: Object.create(null),
     favorites: Object.create(null)
   };
+}
+
+// viewCounts[fileId][writerId] = views that one writer (browser) counted. A
+// writer raises only its own slot and merges keep each slot's maximum, so the
+// sum over writers counts every device's views once (a grow-only counter).
+function normalizeViewCountSlots(slots) {
+  const clean = Object.create(null);
+  Object.entries(slots && typeof slots === 'object' && !Array.isArray(slots) ? slots : {}).forEach(([writer, count]) => {
+    const value = Number(count);
+    if (writer && Number.isSafeInteger(value) && value > 0) clean[writer] = value;
+  });
+  return clean;
 }
 
 function normalizeStateTimestamp(value) {
@@ -267,10 +280,15 @@ function normalizeStateTimestamp(value) {
 function normalizeAccountMediaState(value) {
   const source = value && typeof value === 'object' ? value : {};
   const viewed = Object.create(null);
+  const viewCounts = Object.create(null);
   const favorites = Object.create(null);
   Object.entries(source.viewed && typeof source.viewed === 'object' ? source.viewed : {}).forEach(([id, timestamp]) => {
     const normalized = normalizeStateTimestamp(timestamp);
     if (id && normalized) viewed[id] = normalized;
+  });
+  Object.entries(source.viewCounts && typeof source.viewCounts === 'object' ? source.viewCounts : {}).forEach(([id, slots]) => {
+    const clean = normalizeViewCountSlots(slots);
+    if (id && Object.keys(clean).length) viewCounts[id] = clean;
   });
   Object.entries(source.favorites && typeof source.favorites === 'object' ? source.favorites : {}).forEach(([id, entry]) => {
     if (!id) return;
@@ -283,6 +301,7 @@ function normalizeAccountMediaState(value) {
     schemaVersion: ACCOUNT_STATE_SCHEMA_VERSION,
     updatedAt: normalizeStateTimestamp(source.updatedAt),
     viewed,
+    viewCounts,
     favorites
   };
 }
@@ -294,6 +313,13 @@ function mergeAccountMediaStates(first, second) {
   const viewedIds = new Set([...Object.keys(left.viewed), ...Object.keys(right.viewed)]);
   viewedIds.forEach((id) => {
     merged.viewed[id] = Math.max(left.viewed[id] || 0, right.viewed[id] || 0);
+  });
+  new Set([...Object.keys(left.viewCounts), ...Object.keys(right.viewCounts)]).forEach((id) => {
+    const slots = Object.create(null);
+    [left.viewCounts[id], right.viewCounts[id]].forEach((side) => Object.entries(side || {}).forEach(([writer, count]) => {
+      slots[writer] = Math.max(slots[writer] || 0, count);
+    }));
+    merged.viewCounts[id] = slots;
   });
   const favoriteIds = new Set([...Object.keys(left.favorites), ...Object.keys(right.favorites)]);
   favoriteIds.forEach((id) => {
@@ -329,6 +355,21 @@ function accountViewedIds(accountState) {
     if (id && normalizeStateTimestamp(timestamp)) ids.add(id);
   });
   return ids;
+}
+
+// fileId -> number of views across devices. A file viewed before counts were
+// kept has a timestamp and no slots; it counts as one view.
+function accountViewCounts(accountState) {
+  const counts = new Map();
+  accountViewedIds(accountState).forEach((id) => counts.set(id, 1));
+  const viewCounts = accountState?.viewCounts;
+  Object.entries(viewCounts && typeof viewCounts === 'object' ? viewCounts : {}).forEach(([id, slots]) => {
+    if (!id) return;
+    let total = 0;
+    Object.values(normalizeViewCountSlots(slots)).forEach((count) => { total += count; });
+    if (total) counts.set(id, Math.max(counts.get(id) || 0, total));
+  });
+  return counts;
 }
 
 function prioritizeUnseenFiles(files, viewedIds, selectedId = null) {
@@ -528,12 +569,28 @@ function pickRandomFile(files, selectedId, random = secureRandom) {
   return candidates[index];
 }
 
-// 0 unseen, 1 watched earlier, 2 already shown in this player session. Viewed
-// history alone misses files that were swiped past before they started playing.
-function createDeckRank(viewedIds, shownIds) {
-  const watched = viewedIds instanceof Set ? viewedIds : new Set(viewedIds || []);
+// Rank = number of views (0 = never watched); files already shown in this
+// player session come after every count. `views` is a Map of counts or a Set
+// of watched ids (one view each). Viewed history alone misses files that were
+// swiped past before they started playing, hence the session set.
+const SHOWN_THIS_SESSION_RANK = Number.MAX_SAFE_INTEGER;
+function createDeckRank(views, shownIds) {
+  const counts = views instanceof Map ? views
+    : new Map([...(views instanceof Set ? views : new Set(views || []))].map((id) => [id, 1]));
   const shown = shownIds instanceof Set ? shownIds : new Set(shownIds || []);
-  return (id) => (shown.has(id) ? 2 : watched.has(id) ? 1 : 0);
+  return (id) => (shown.has(id) ? SHOWN_THIS_SESSION_RANK : counts.get(id) || 0);
+}
+
+// Groups by rank, lowest first; each group is shuffled uniformly and no item
+// crosses a group boundary.
+function shuffleByRank(items, rankOf, random = secureRandom) {
+  const groups = new Map();
+  items.forEach((item) => {
+    const rank = rankOf(item);
+    if (!groups.has(rank)) groups.set(rank, []);
+    groups.get(rank).push(item);
+  });
+  return [...groups.keys()].sort((a, b) => a - b).flatMap((rank) => shuffleInPlace(groups.get(rank), random));
 }
 
 function rankedDeckIds(files, selectedId, random, viewedIds, shownIds) {
@@ -545,10 +602,9 @@ function rankedDeckIds(files, selectedId, random, viewedIds, shownIds) {
     uniqueIds.add(file.id);
     uniqueFiles.push(file);
   });
-  // Shuffle within each group, never across the boundary: unseen media stays
-  // ahead of watched media until the account has exhausted the population.
-  return [0, 1, 2].flatMap((tier) => shuffleInPlace(
-    uniqueFiles.filter((file) => rank(file.id) === tier).map((file) => file.id), random));
+  // Unseen media stays ahead of watched media, and less-watched ahead of
+  // more-watched, until the account has exhausted each group.
+  return shuffleByRank(uniqueFiles.map((file) => file.id), rank, random);
 }
 
 function buildVerticalPlaybackDeck(files, selectedId, random = secureRandom, depth = VERTICAL_DECK_DEPTH, viewedIds = null, shownIds = null) {

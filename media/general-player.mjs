@@ -67,11 +67,14 @@ export function resolveGeneralEndpointTarget(mapping,lastVideoFrame,buffered){
  return {requestedSource:targetSource,targetSource:frame.timestamp,targetElement:element,
   frame:{...frame},bufferedRange:[...range],reason:'terminal-original-frame'};
 }
+// This player runs only on the standard MediaSource. A browser with only
+// ManagedMediaSource (iPhone Safari) cannot run it; callers ask first.
+export function isGeneralPlayerSupported(scope=globalThis){return Boolean(scope?.MediaSource);}
 // All public seek values are original source-clock seconds. `mapping` provides
 // the common element/source/movie translation for the app's existing controls.
 export function createGeneralPlayer({video,openSource,isCurrent,onEvent=()=>{},initialTime=0,initialPresentationTime,autoplay=false,workerFactory,selectedAudioTrackId,nativeColorObservation}={}){
  validateInitialPresentationTime(initialPresentationTime,initialTime);
- demand(video&&typeof openSource==='function'&&typeof isCurrent==='function','OPTIONS');const MS=globalThis.MediaSource;demand(MS,'MSE_UNAVAILABLE');
+ demand(video&&typeof openSource==='function'&&typeof isCurrent==='function','OPTIONS');demand(isGeneralPlayerSupported(),'MSE_UNAVAILABLE');const MS=globalThis.MediaSource;
  let serial=0,latest,closed=false,blocked=false,baseline,checksum;const originalRemote=video.disableRemotePlayback;
  const bind=identity=>{if(baseline){demand(SAME.every(k=>baseline[k]===identity[k]),'CONTENT_CHANGED');if(checksum)demand(checksum===identity.sha256Checksum,'CONTENT_CHANGED');}else baseline={...identity};checksum||=identity.sha256Checksum;};
   function launch(target,play,presentationTime){demand(Number.isFinite(target)&&target>=0&&!closed&&isCurrent(),'CLOSED');const id=++serial,previous=latest?.dispose(),controller=new AbortController();let active=true,reader,opening,openCleanup,media,sb,url,job,retiring,positionTask,positioned=false,internalSeek=false,mapping,resolveReady,rejectReady,appendDrain=Promise.resolve(),held=0,throttled=false,batchBytes=0,endTimer=null,sourceEnded=false,operation='idle';const cancels=new Set(),credits=[],rapIndex=createGeneralRapIndex();

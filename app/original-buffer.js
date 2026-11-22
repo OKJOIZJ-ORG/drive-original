@@ -140,7 +140,7 @@ function confirmPendingMediaAction() {
     )) return;
     state.pendingSecurityConfirmation = null;
     state.mediaAbuseAcknowledged = true;
-    el.bufferOriginalButton.textContent = '원본 전체 임시 저장';
+    setControlLabel(el.bufferOriginalButton, '원본 전체 임시 저장');
     if (pendingSecurity.stage === 'full') {
       state.mediaAttempt = 'buffer-evaluating';
       startOriginalBlobFallback(state.selected, pendingSecurity.kind, pendingSecurity.session, {
@@ -497,7 +497,7 @@ async function startOriginalBlobFallback(
           `임시 디스크 저장을 완료하지 못했습니다. ${sizeLabel} 원본을 제한된 메모리에 저장해 다시 시도할 수 있습니다.`,
           { title: '메모리 원본 재생으로 전환할까요?', showRetry: false }
         );
-        el.bufferOriginalButton.textContent = '메모리에 원본 저장';
+        setControlLabel(el.bufferOriginalButton, '메모리에 원본 저장');
         el.bufferOriginalButton.hidden = false;
         el.compatPlayerButton.hidden = false;
         return;
@@ -539,7 +539,7 @@ async function startOriginalBlobFallback(
         'Google Drive가 이 파일을 악성코드·바이러스 또는 악용 가능성이 있는 파일로 표시했습니다. 위험을 이해하고 직접 선택한 경우에만 원본 다운로드를 다시 시도합니다.',
         { title: '보안 경고가 있는 원본 파일', showRetry: false }
       );
-      el.bufferOriginalButton.textContent = '위험을 이해하고 원본 재시도';
+      setControlLabel(el.bufferOriginalButton, '위험을 이해하고 원본 재시도');
       el.bufferOriginalButton.hidden = false;
     } else if (error.status === 401) {
       clearRejectedToken(error);

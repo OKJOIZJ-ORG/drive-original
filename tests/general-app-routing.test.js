@@ -177,3 +177,48 @@ for(const pendingApi of ['AudioDecoder','AudioEncoder'])test('actual audio capab
  assert.equal((await retirement).settled,true);assert.equal(run(f.c,'q1RetirementResult.settled'),true);
  assert.equal(f.c.probeFailures,0);assert.equal(outputCalls,0);
 });
+
+// iPhone Safari has ManagedMediaSource but no MediaSource. A file its native
+// player refuses (VP9 in MP4) must reach the Drive player offer; the
+// packet-copy player cannot be built there.
+function nativeRejectionFixture({mediaSource}) {
+ const c=fixtureModule.exports();c.window.setTimeout=fn=>setTimeout(fn,0);c.queueMicrotask=queueMicrotask;
+ const app=appSource.replace(/\r\n/g,'\n');
+ const route=app.slice(app.indexOf('async function tryOriginalTsPlayback('),app.indexOf('\nasync function handleMediaElementError('))
+  .replace("await import('../media/drive-source.mjs')",'fakeSourceModule')
+  .replace("await import('../media/general-player.mjs')",'fakePlayerModule');
+ const identity={accountKey:'a',accountGeneration:2,fileId:'f',headRevisionId:'A',size:'4000',mimeType:'video/mp4',modifiedTime:'A',sha256Checksum:null,canDownload:true,trashed:false};
+ const head=new Uint8Array(940);head.set([0,0,0,32,102,116,121,112,105,115,111,109]);
+ c.fakeSourceModule={openDriveQ1Source:async()=>({identity,read:async()=>head,abort:async()=>({settled:true})})};
+ c.fakePlayerModule={isGeneralPlayerSupported:()=>Boolean(mediaSource),createGeneralPlayer:options=>{c.generalBuilt=options;return {ready:Promise.resolve()};}};
+ c.MediaSource=mediaSource||undefined;c.ManagedMediaSource=function(){};c.Worker=function(){};
+ run(c,route);
+ run(c,`globalThis.offers=[];globalThis.errors=[];state.selected={id:'f',mimeType:'video/mp4',size:'4000'};state.mediaSession=3;
+  state.authAccountKey='a';state.driveSessionGeneration=2;state.mediaAttempt='range-retry';state.mediaRetryCount=1;
+  state.mediaTransportVerified=true;state.mediaPlaybackMode=PLAYBACK_MODE.RANGE;navigator.serviceWorker={controller:{}};
+  q0PinnedSource={descriptor:${JSON.stringify(identity)}};q1Retirement=Promise.resolve({settled:true});playerTracksRetirement=Promise.resolve({settled:true});
+  el.videoPlayer={getAttribute:()=>'/native',error:{code:4},classList:{add(){},remove(){}},dataset:{},addEventListener(){},removeAttribute(){},pause(){},load(){}};
+  confirmQ1WorkerRetirement=async()=>true;readSourceRevisionMetadata=async()=>({});buildMediaUrl=()=>'https://x/f';
+  clearMediaSeekWatchdog=clearMediaFrameWatchdog=emitMediaDiagnosticStage=clearDirectMediaSources=setNativeVideoActionsAvailable=showMediaLoading=updateQualityDisplay=()=>{};
+  hasUsableToken=()=>true;capturePlaybackSnapshot=()=>({time:0,paused:true});
+  showMediaError=(m,o)=>errors.push([o?.title,m]);showDrivePreview=(f,reason)=>offers.push(reason);`);
+ return c;
+}
+test('iPhone Safari: a natively rejected MP4 is offered the Drive player, not a setup failure',async()=>{
+ const c=nativeRejectionFixture({mediaSource:null});
+ await run(c,"handleMediaElementError('video')");
+ assert.equal(c.generalBuilt,undefined,'no packet-copy player without MediaSource');
+ assert.deepEqual(JSON.parse(run(c,'JSON.stringify(offers)')),['브라우저가 원본 코덱 또는 컨테이너를 지원하지 않아']);
+ assert.deepEqual(JSON.parse(run(c,'JSON.stringify(errors)')),[]);
+});
+for(const [code,offered] of [['GENERAL_CONTAINER_UNQUALIFIED',true],['GENERAL_CODEC_UNAVAILABLE',true],['GENERAL_BOX_BOUNDS',false],['Q1_SOURCE_CONTENT_DRIFT',false]])
+test('after native rejection the packet-copy route offers the Drive player only for files outside its subset: '+code,async()=>{
+ const c=nativeRejectionFixture({mediaSource:function(){}});
+ c.fakePlayerModule.createGeneralPlayer=options=>{c.generalBuilt=options;return {ready:Promise.resolve(),dispose:async()=>({settled:true})};};
+ await run(c,"handleMediaElementError('video')");
+ assert.ok(c.generalBuilt,'packet-copy player built');assert.equal(run(c,'offers.length'),0);
+ c.generalBuilt.onEvent({type:'error',code});
+ const offers=JSON.parse(run(c,'JSON.stringify(offers)')),errors=JSON.parse(run(c,'JSON.stringify(errors)'));
+ if(offered){assert.equal(offers.length,1);assert.match(offers[0],/앱 변환도/);assert.deepEqual(errors,[]);}
+ else{assert.deepEqual(offers,[]);assert.deepEqual(errors.map(e=>e[0]),['원본 재생 확인 필요']);}
+});

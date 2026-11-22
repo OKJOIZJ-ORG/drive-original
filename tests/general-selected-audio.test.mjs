@@ -26,13 +26,16 @@ function allocationTrack(id,samples=65536,entries=1) {
 const scope=(native='')=>({document:{createElement:()=>({canPlayType:()=>native})},AudioDecoder:{isConfigSupported:async()=>({supported:false})},AudioEncoder:{isConfigSupported:async()=>({supported:true})},MediaSource:{isTypeSupported:()=>true}});
 
 test('same-pinned metadata inventory reports exact ISO IDs and qualified AAC without decoding or body download',async()=>{
- const s=source(),api={document:{createElement(){assert.fail('AAC does not need native or decoder capability');}}};
+ const s=source(),api={MediaSource:{},document:{createElement(){assert.fail('AAC does not need native or decoder capability');}}};
  const inventory=await probePinnedGeneralTracks(s,{scope:api});
  assert.deepEqual(inventory.audioTracks.map(t=>[t.trackId,t.language,t.codec,t.route]),[[2,'eng','aac','q1'],[3,'kor','aac','q1']]);
  assert.equal(inventory.defaultAudioTrackId,2);assert.equal(inventory.identity.headRevisionId,'fixture-A');
  assert.equal(inventory.cleanup.settled,true);assert.equal(s.stats().aborts,1);
  assert.deepEqual(s.reads,[[0,65535]]);assert.equal(inventory.reads.inFlight,0);
- assert.equal((await probePinnedGeneralTracks(source(subtitle))).audioTracks[0].route,'q1');
+ assert.equal((await probePinnedGeneralTracks(source(subtitle),{scope:{MediaSource:{}}})).audioTracks[0].route,'q1');
+ // Switching restarts in the packet-copy player, which needs MediaSource.
+ const iphone=await probePinnedGeneralTracks(source(),{scope:{ManagedMediaSource:{}}});
+ assert.deepEqual(iphone.audioTracks.map(t=>[t.route,t.reason]),[['unqualified','general-player-unavailable'],['unqualified','general-player-unavailable']]);
 });
 test('AC3 and EAC3 inventories only qualify Q2 when required and supported; no audio codec instance',async()=>{
  for(const path of ['q2-audio-compatibility/synthetic-avc-ac3.mp4','q2-audio-compatibility/eac3-source-build/synthetic-avc-eac3-stereo.mp4']) {

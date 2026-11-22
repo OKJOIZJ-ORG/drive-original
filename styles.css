@@ -134,6 +134,9 @@ html {
   font-family: var(--font-system);
   font-size: 15px;
   line-height: 1.45;
+  /* Korean breaks between words; a long unbroken file name still wraps. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
   -webkit-text-size-adjust: 100%;
   /* Nothing inside body may widen the page. A non-visible value here keeps
      body's overflow from being handed to the viewport, so body clips its own
@@ -209,6 +212,25 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
 [hidden] {
   display: none !important;
 }
+
+/* A control on a raised surface (#1c1c1e) would vanish into it with the page's
+   control fill (the same #1c1c1e); these surfaces lift it to a translucent fill. */
+.dialog-box, .media-error, .library-options-panel, .update-banner-inner, .setup-console-card {
+  --control-bg: var(--system-fill-quaternary);
+  --control-hover: var(--system-fill-tertiary);
+}
+
+/* Labels are centred on their glyphs, not on the font's line box (A-016): the
+   label box is trimmed to the cap height and the alphabetic baseline. Bare text
+   in a flex control is an anonymous box that cannot be trimmed, so those labels
+   are spans. Symmetric block padding keeps room for Hangul and descenders, so an
+   ellipsis never clips glyph tops or bottoms. */
+.segmented button, .file-card-badge, .file-card-duration-badge, .brand-name, .version-badge, .subfolder-all > span,
+:is(.primary-button, .secondary-button, .danger-button, .danger-text-button, .text-button, .selection-mode-button, .deep-scan-toggle, .library-options summary) > span,
+.folder-name, .custom-select-value {
+  text-box: trim-both cap alphabetic;
+}
+.folder-name, .custom-select-value { padding-block: 0.25em; }
 
 .skip-link {
   position: fixed;
@@ -1183,10 +1205,10 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   position: absolute;
   top: 6px;
   left: 6px;
-  padding: 2px 6px;
+  padding: 6px;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.6);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   color: #ffffff;
@@ -1196,7 +1218,7 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   position: absolute;
   bottom: 6px;
   right: 6px;
-  padding: 2px 6px;
+  padding: 6px;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.6);
   font-size: 11px;
@@ -1838,9 +1860,6 @@ dialog::backdrop {
 }
 
 .dialog-box {
-  word-break: keep-all;
-  --control-bg: var(--system-fill-quaternary);
-  --control-hover: var(--system-fill-tertiary);
   border-radius: var(--radius-lg);
   background: var(--system-bg-secondary);
   border: var(--hairline-border-subtle);
@@ -1911,10 +1930,12 @@ dialog::backdrop {
   margin-top: 6px;
 }
 
+/* Buttons in a row share the width equally; a label longer than its share
+   keeps its own width, and the row wraps when the labels do not fit. */
 .button-row > * {
   white-space: nowrap;
-  flex: 1 1 auto;
-  min-width: 0;
+  flex: 1 1 0;
+  min-width: max-content;
 }
 
 .button-row .primary-button,
@@ -1929,7 +1950,7 @@ dialog::backdrop {
 
 /* Settings Group Inset Box */
 .settings-group {
-  padding: 14px 16px;
+  padding: 16px;
   border-radius: var(--radius-lg);
   background: var(--system-bg-tertiary);
   display: flex;
@@ -1983,7 +2004,7 @@ dialog::backdrop {
 #settingsDialog .dialog-content > * { flex-shrink: 0; }
 
 .version-badge {
-  padding: 2px 7px;
+  padding: 6px 8px;
   border-radius: var(--radius-pill);
   background: var(--system-fill-tertiary);
   font-size: 11px;
@@ -2027,7 +2048,8 @@ dialog::backdrop {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
+  /* The copy button keeps one 8px gap to the top, right and bottom edges. */
+  padding: 8px 8px 8px 12px;
   border-radius: var(--radius-sm);
   background: var(--system-bg);
 }
@@ -2530,7 +2552,6 @@ dialog::backdrop {
   background: var(--system-bg-secondary);
   box-shadow: var(--shadow-popover);
   text-align: center;
-  word-break: keep-all;
 }
 
 /* The title already says what happened; no decorative warning disc. */
@@ -2560,7 +2581,8 @@ dialog::backdrop {
 
 .error-actions > button {
   min-height: 38px;
-  flex: 1 1 0;
+  flex: 1 1 calc(50% - 4px);
+  white-space: nowrap;
 }
 
 dialog {
@@ -3371,7 +3393,7 @@ html:not([data-input="keyboard"]) .file-card:has(:focus-visible) {
 #subfolderDialog { width: min(440px, calc(100vw - 32px)); }
 @media (max-width: 768px), (pointer: coarse) and (max-height: 600px) { #subfolderDialog { width: 100vw; } }
 .subfolder-all {
-  display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 10px;
+  display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 12px;
   border-radius: var(--control-radius); background: var(--control-hover); font-size: var(--text-control); font-weight: 600; cursor: pointer;
 }
 .subfolder-tree {

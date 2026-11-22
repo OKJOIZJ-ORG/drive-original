@@ -1184,7 +1184,7 @@ function buildSubfolderRows(parentId, path, inherited, level) {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'text-button';
-      button.textContent = '다시 시도';
+      button.append(Object.assign(document.createElement('span'), { textContent: '다시 시도' }));
       button.addEventListener('click', () => { renderSubfolderPicker(); void loadSubfolderChildren(parentId); });
       row.append(button);
     }
@@ -1249,7 +1249,7 @@ function renderSubfolderPicker({ focusId = null, focusExpand = false } = {}) {
     el.subfolderAllCheckbox.checked = draft.all && !anyOff;
     el.subfolderAllCheckbox.indeterminate = draft.all ? anyOff : anyOn;
   }
-  if (el.subfolderApplyButton) el.subfolderApplyButton.textContent = draft.all || anyOn ? '적용' : '하위 폴더 없이 보기';
+  setControlLabel(el.subfolderApplyButton, draft.all || anyOn ? '적용' : '하위 폴더 없이 보기');
   if (focusId) {
     const box = [...(el.subfolderTree.querySelectorAll?.('input[data-folder-id]') || [])].find((node) => node.dataset.folderId === focusId);
     (focusExpand ? box?.closest('.subfolder-row')?.querySelector('.subfolder-expand') : box)?.focus();

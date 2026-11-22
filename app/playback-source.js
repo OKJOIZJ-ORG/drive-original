@@ -267,11 +267,11 @@ async function startInitialOriginalPlayback(file, kind, session) {
   }
   const chosenSnapshot = state.resumePosition?.fileId === file.id ? state.resumePosition.snapshot : null;
   if (kind === 'video' && chosenSnapshot && (chosenSnapshot.selectedAudioTrackId !== undefined || chosenSnapshot.generalPlayback)) {
-    await tryOriginalTsPlayback(file, session, {general: true, initial: true,
+    if (await tryOriginalTsPlayback(file, session, {general: true, initial: true,
       selectedAudioTrackId: chosenSnapshot.selectedAudioTrackId, audioCompatibility: chosenSnapshot.audioCompatibility === true,
       videoCompatibility: chosenSnapshot.videoCompatibility === true,
-      expectedIdentity: chosenSnapshot.audioIdentity, snapshotOverride: chosenSnapshot});
-    return;
+      expectedIdentity: chosenSnapshot.audioIdentity, snapshotOverride: chosenSnapshot})) return;
+    if (!current()) return;
   }
   if (shouldProbeOriginalTs(file, kind)) {
     emitMediaDiagnosticStage('route-selected', { route: 'probe', reason: 'bounded-ts-admission' }, session);
@@ -442,6 +442,15 @@ function describeVideoPlaybackFailure(code) {
   return '원본 영상을 이 브라우저에서 바로 재생하지 못해';
 }
 
+// Reason clause for the Drive player offer after the browser and the
+// packet-copy path both refused a file (showDrivePreview completes the sentence).
+function describeGeneralRouteRefusal(code) {
+  if (code === 'GENERAL_CODEC_UNQUALIFIED' || code === 'GENERAL_CODEC_UNAVAILABLE')
+    return '이 기기의 브라우저가 이 영상 코덱을 재생하지 못하고 앱 변환도 이 코덱을 지원하지 않아';
+  if (code === 'GENERAL_MSE_UNAVAILABLE') return describeVideoPlaybackFailure(4);
+  return '이 기기의 브라우저가 이 파일 형식을 재생하지 못하고 앱 변환도 이 파일 구조를 지원하지 않아';
+}
+
 function hasVerifiedOriginalTransport() {
   return state.mediaTransportVerified === true
     && [PLAYBACK_MODE.RANGE, PLAYBACK_MODE.SEQUENTIAL].includes(state.mediaPlaybackMode);
@@ -464,17 +473,23 @@ function decideUnsupportedFormatRecovery({
 // showing frames. Only a verdict about the original itself may stop it: a
 // layout the probe does not support leaves Q0 to its own decoder outcome, and
 // a dropped read gets one fresh source before it counts.
-const PINNED_AUDIO_PROBE_BUDGET_CODES = new Set(['GENERAL_MOOV_LIMIT','GENERAL_TRACK_LIMIT',
+const GENERAL_ROUTE_BUDGET_CODES = new Set(['GENERAL_MOOV_LIMIT','GENERAL_TRACK_LIMIT',
   'GENERAL_EXPANDED_INDEX_LIMIT','GENERAL_TABLE_ENTRIES_LIMIT','GENERAL_BOX_COUNT','GENERAL_DISCOVERY_LIMIT',
   'GENERAL_PACKET_LIMIT','GENERAL_METADATA_LIMIT','GENERAL_INPUT_SPAN_LIMIT']);
 const PINNED_AUDIO_PROBE_TRANSIENT_CODES = new Set(['GENERAL_READ_TIMEOUT','GENERAL_READ_BODY',
   'GENERAL_READ_QUEUE_LIMIT','Q1_SOURCE_READ_FAILED','Q1_SOURCE_HTTP_UNAVAILABLE']);
 const PINNED_AUDIO_PROBE_RETRY_DELAY_MS = 400;
+// media/general-player.mjs: no standard MediaSource, or MediaSource refuses the output codecs.
+const GENERAL_ROUTE_CAPABILITY_CODES = new Set(['GENERAL_MSE_UNAVAILABLE','GENERAL_CODEC_UNAVAILABLE']);
 
-function classifyPinnedAudioProbeFailure(code) {
-  if (PINNED_AUDIO_PROBE_BUDGET_CODES.has(code)) return 'keep-native';
+// 'outside-subset': the packet-copy path does not cover this file or this
+// browser (a budget, a *_UNQUALIFIED boundary, no MediaSource or no codec
+// support). It says nothing about damage: the pinned audio probe keeps native
+// playback, and a natively rejected file is offered the Drive player.
+function classifyGeneralRouteFailure(code) {
+  if (GENERAL_ROUTE_BUDGET_CODES.has(code) || GENERAL_ROUTE_CAPABILITY_CODES.has(code)) return 'outside-subset';
   // Every *_UNQUALIFIED verdict names a supported-subset boundary, not damage.
-  if (/^GENERAL_[A-Z0-9_]+_UNQUALIFIED$/.test(code) && code !== 'GENERAL_IMAGE_HEADER_UNQUALIFIED') return 'keep-native';
+  if (/^GENERAL_[A-Z0-9_]+_UNQUALIFIED$/.test(code) && code !== 'GENERAL_IMAGE_HEADER_UNQUALIFIED') return 'outside-subset';
   if (PINNED_AUDIO_PROBE_TRANSIENT_CODES.has(code)) return 'transient';
   return 'terminal';
 }
@@ -552,7 +567,9 @@ async function planPinnedOriginalAudio(owner, pin, attempt = 0) {
     const decision=await probePinnedGeneralAudio(source,{signal:owner.controller.signal,isCurrent:current});
     cleanup={settled:true}; source=null;
     if (!current() || decision.route==='native') return;
-    if (decision.route==='unsupported') throw new Error('AUDIO_NATIVE_GATE_UNAVAILABLE');
+    if (decision.route==='unsupported' || !(await import('../media/general-player.mjs')).isGeneralPlayerSupported())
+      throw new Error('AUDIO_NATIVE_GATE_UNAVAILABLE');
+    if (!current()) return;
     const snapshot=capturePlaybackSnapshot();
     emitMediaDiagnosticStage('route-selected',{route:'q2',reason:decision.reason},owner.session);
     void tryOriginalTsPlayback(file,owner.session,{general:true,audioCompatibility:true,snapshotOverride:snapshot});
@@ -561,8 +578,8 @@ async function planPinnedOriginalAudio(owner, pin, attempt = 0) {
     cleanup=source ? await closeSource() : error?.cleanup;
     if (!current()) return;
     // Content drift, malformed input and uncertain cleanup remain terminal.
-    const failure = cleanup?.settled===true ? classifyPinnedAudioProbeFailure(error?.message) : 'terminal';
-    if (failure==='keep-native') return;
+    const failure = cleanup?.settled===true ? classifyGeneralRouteFailure(error?.message) : 'terminal';
+    if (failure==='outside-subset') return;
     if (failure==='transient' && attempt===0) {
       emitMediaDiagnosticStage('q1-retry',{reason:error.message},owner.session);
       await new Promise(resolve => {
@@ -718,6 +735,13 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
     if (!current()) return;
     emitMediaDiagnosticStage('q1-failed', { reason: code, terminal: true }, session);
     retireQ1Playback(owner);
+    // The browser already refused this file natively; when the packet-copy path
+    // does not cover it either, nothing in the app can play it. Offer the Drive
+    // player rather than reporting a fault in the original.
+    if (nativeVideoRejected && classifyGeneralRouteFailure(code) === 'outside-subset') {
+      showDrivePreview(file, describeGeneralRouteRefusal(code));
+      return;
+    }
     state.mediaAttempt = 'failed';
     showMediaError(code === 'Q1_SOURCE_ZERO_HEADER'
       ? '파일 시작 부분이 0으로 채워져 있어 영상 형식을 읽을 수 없습니다. Drive의 원본 파일을 확인해 주세요.'
@@ -793,9 +817,12 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
       throw new Error('Q1_SOURCE_ZERO_HEADER');
     routeIdentity = sniff.identity;
     owner.routeIdentity = routeIdentity;
-    const createPlayer = ts && !videoOnlyTs
-      ? (await import('../media/ts-player.mjs')).createTsPlayer
-      : (await import('../media/general-player.mjs')).createGeneralPlayer;
+    const generalModule = ts && !videoOnlyTs ? null : await import('../media/general-player.mjs');
+    // The TS player also runs on ManagedMediaSource; the packet-copy player
+    // needs MediaSource. Hand the file back to the caller's own fallback.
+    if (generalModule && !generalModule.isGeneralPlayerSupported()) return resumeNative();
+    const createPlayer = generalModule ? generalModule.createGeneralPlayer
+      : (await import('../media/ts-player.mjs')).createTsPlayer;
     owner.kind = ts && !videoOnlyTs ? 'ts' : 'general';
     if (!current()) return true;
     const resume = initial && state.resumePosition?.fileId === file.id ? state.resumePosition : null;
@@ -904,7 +931,7 @@ async function tryOriginalTsPlayback(file, session, { initial = false, general =
               if(failure&&!/^Q3_[A-Z0-9_]*(?:UNQUALIFIED|REQUIRED)$/.test(failure.message)) {
                 showMediaError('원본 연결과 입력 정보 확인을 안전하게 완료하지 못했습니다. 연결을 확인한 뒤 다시 시도하세요.',{title:'원본 확인 실패',showRetry:true});return;
               }
-              if(failure||decision?.route!=='q3') {showMediaError('이 영상의 코덱·트랙·색 정보 조합에 대해 안전한 브라우저 변환 경로를 확보하지 못했습니다.',{title:'영상 호환 범위 확인 필요',showRetry:false});return;}
+              if(failure||decision?.route!=='q3') {showDrivePreview(file,describeGeneralRouteRefusal('GENERAL_CODEC_UNQUALIFIED'));return;}
               showMediaError('이 기기에서 원본 영상 코덱을 지원하지 않습니다. 원본 크기와 프레임 순서를 유지해 VP9로 변환할 수 있지만 영상은 무손실이 아닙니다. 변환에는 기기 자원이 필요하며 장시간 품질·성능은 아직 확인되지 않았습니다.',{title:'영상 호환 변환',showRetry:false});
               q3Choice={file,session,snapshot,current:choiceCurrent};el.videoCompatButton.hidden=false;
             }).catch(()=>{if(current())stopFailure('Q3_PROBE_FAILED');});
