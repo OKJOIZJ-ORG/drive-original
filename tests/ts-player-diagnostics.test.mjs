@@ -8,6 +8,7 @@ const source=(await fs.readFile(new URL('../media/ts-player.mjs',import.meta.url
   .replace(/^import .*\r?\n/gm,'');
 const stubs=`
 import {sanitizeBrowserMediaError} from '${new URL('../media/q1-core.mjs',import.meta.url).href}';
+import {SOURCE_CONTENT_KEYS as SAME_CONTENT} from '${new URL('../media/drive-source.mjs',import.meta.url).href}';
 const probeTsSeek=async({read})=>{await read({start:0,end:15});return {targetTicks:0,timeline:{originTicks:0,durationSeconds:8,kind:'test'},rap:{sps:[0,100,0,31]},local:{windowStart:0,windowEndExclusive:16}};};
 const createSeekBootstrap=()=>({readStart:0,outputSize:16,push:x=>x,abort(){},stats(){return{};}});
 const createBufferWindow=()=>({plan:()=>({wait:false,ahead:0,span:0,start:null,end:null,removeEnd:null})});

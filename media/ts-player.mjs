@@ -1,9 +1,8 @@
 import {probeTsSeek,createSeekBootstrap,createBufferWindow,createWorkerClient,sanitizeBrowserMediaError} from './q1-core.mjs';
-import {createDriveQ1ProbeRetention} from './drive-source.mjs';
+import {createDriveQ1ProbeRetention,SOURCE_CONTENT_KEYS as SAME_CONTENT} from './drive-source.mjs';
 
 const demand=(condition,code)=>{if(!condition)throw new Error(`Q1_${code}`);};
 const fixed=error=>/^(?:Q1|SEEK|BOOTSTRAP|WORKER|BUFFER_WINDOW)_[A-Z_]+$/.test(error?.message)?error.message:'Q1_PLAYBACK_FAILED';
-const SAME_CONTENT=['accountKey','accountGeneration','fileId','headRevisionId','size','mimeType','modifiedTime'];
 // The page owns metadata/authenticated bytes. This adapter sends only bounded
 // byte buffers to the worker and never receives a credential or a remote URL.
 // Each source replacement waits for previous parser/MSE cleanup. Full-format

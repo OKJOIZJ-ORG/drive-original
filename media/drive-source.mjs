@@ -32,6 +32,8 @@ const text=(value,max)=>typeof value==='string'&&value.length>0&&value.length<=m
 const signalLike=value=>value==null||(typeof value.aborted==='boolean'
   &&typeof value.addEventListener==='function'&&typeof value.removeEventListener==='function');
 const probeRetentions=new WeakMap();
+// Fields a player compares across seeks: a change means different content.
+export const SOURCE_CONTENT_KEYS=Object.freeze(['accountKey','accountGeneration','fileId','headRevisionId','size','mimeType','modifiedTime']);
 const RETAINED_IDENTITY=['accountKey','accountGeneration','fileId','headRevisionId','size','mimeType',
   'modifiedTime','version','sha256Checksum','canDownload','trashed'];
 const sameRetainedIdentity=(a,b)=>a?.sha256Checksum!=null&&b?.sha256Checksum!=null

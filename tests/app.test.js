@@ -2125,24 +2125,6 @@ test('account initialization merges a newer offline cache and schedules it back 
   });
 });
 
-test('favorite catalog view spans folders and excludes folders and non-media records', () => {
-  const context = loadAppContext();
-  const ids = JSON.parse(run(context, `(() => {
-    const catalog = buildTreeIndexes([
-      { id: 'folder-a', name: 'A', mimeType: FOLDER_MIME, parents: ['root'] },
-      { id: 'video-a', name: 'A.mp4', mimeType: 'video/mp4', parents: ['folder-a'] },
-      { id: 'image-root', name: 'root.jpg', mimeType: 'image/jpeg', parents: ['root'] },
-      { id: 'doc', name: 'doc.pdf', mimeType: 'application/pdf', parents: ['root'] }
-    ]);
-    return JSON.stringify(collectFavoriteMediaFromCatalog(catalog, new Set(['folder-a', 'video-a', 'image-root', 'doc']))
-      .map((file) => ({ id: file.id, origin: file.__origin })));
-  })()`));
-  assert.deepEqual(ids, [
-    { id: 'video-a', origin: 'A' },
-    { id: 'image-root', origin: '내 드라이브' }
-  ]);
-});
-
 test('favorite resolution reuses known media and identifies only unresolved file IDs', () => {
   const context = loadAppContext();
   const result = JSON.parse(run(context, `(() => {
@@ -2980,11 +2962,12 @@ test('GIF thumbnail loader draws one static cover frame and then releases the de
     };
     const visual = { classList: { add(name) { classes.add(name); } } };
     const placeholder = { hidden: false };
-    queueStaticGifThumbnail(
+    registerStaticGifThumbnail(
       { id: 'gif-1', thumbnailLink: 'https://example.test/static-gif-thumb' },
       canvas,
       visual,
-      placeholder
+      placeholder,
+      true
     );
     for (let attempt = 0; attempt < 40 && !(drawCalls === 1 && activeGifThumbnailLoads === 0); attempt += 1) {
       await new Promise((resolve) => setTimeout(resolve, 5));
@@ -3099,11 +3082,12 @@ test('GIF draw failures immediately release the expanded canvas backing store', 
       getContext() { return { drawImage() { throw new Error('context lost'); } }; }
     };
     const placeholder = { hidden: false };
-    queueStaticGifThumbnail(
+    registerStaticGifThumbnail(
       { id: 'gif-failure', thumbnailLink: 'https://example.test/gif-failure' },
       canvas,
       { classList: { add() {} } },
-      placeholder
+      placeholder,
+      true
     );
     await new Promise((resolve) => setTimeout(resolve, 20));
     return JSON.stringify({
@@ -3119,21 +3103,6 @@ test('GIF draw failures immediately release the expanded canvas backing store', 
     active: 0,
     warnings: 1
   });
-});
-
-test('swipe commits require a dominant deliberate movement or a qualifying flick', () => {
-  const context = loadAppContext();
-  const check = (primary, cross, elapsed, axis) => run(
-    context,
-    `shouldCommitSwipe(${primary}, ${cross}, ${elapsed}, ${axis})`
-  );
-
-  assert.equal(check(44, 2, 100, 400), false, 'short drag must not commit');
-  assert.equal(check(160, 130, 100, 400), false, 'diagonal drag must not commit');
-  assert.equal(check(70, 0, 500, 400), false, 'slow short drag must not commit');
-  assert.equal(check(100, 10, 500, 400), true, 'deliberate dominant drag must commit');
-  assert.equal(check(35, 2, 50, 400), false, 'sub-threshold flick must not commit');
-  assert.equal(check(48, 2, 70, 400), true, 'qualifying dominant flick must commit');
 });
 
 test('an axis-locked swipe commits from signed distance and velocity without a second dominance test', () => {

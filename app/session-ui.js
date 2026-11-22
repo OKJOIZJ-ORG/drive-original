@@ -597,29 +597,6 @@ function registerStaticGifThumbnail(file, canvas, visualContainer, placeholder, 
   }
 }
 
-function queueStaticGifThumbnail(file, canvas, visualContainer, placeholder) {
-  if (!file?.thumbnailLink || !canvas) return;
-  let entry = gifThumbnailEntries.get(canvas);
-  if (!entry) {
-    entry = {
-      file,
-      canvas,
-      visualContainer,
-      placeholder,
-      generation: thumbnailGeneration,
-      nearby: true,
-      queued: false,
-      loading: false,
-      loaded: false,
-      disposed: false
-    };
-    gifThumbnailEntries.set(canvas, entry);
-  } else {
-    entry.nearby = true;
-  }
-  queueStaticGifThumbnailEntry(entry);
-}
-
 function queueStaticGifThumbnailEntry(entry) {
   if (
     typeof Image !== 'function' || !entry || entry.disposed || entry.loaded

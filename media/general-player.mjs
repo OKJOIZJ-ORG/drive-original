@@ -1,12 +1,12 @@
 import {startGeneralWorker} from './general-owner.mjs';
 import {sanitizeBrowserMediaError} from './q1-core.mjs';
 import {validateInitialPresentationTime,isAllowedErrorCode} from './general-timeline.mjs';
+import {SOURCE_CONTENT_KEYS as SAME} from './drive-source.mjs';
 const demand=(x,c)=>{if(!x)throw new Error(`GENERAL_${c}`);};
 const safe=e=>isAllowedErrorCode(e?.message,['GENERAL','WORKER','TIMING','Q1_EXACT','Q1_SOURCE','AUDIO','Q3'])?e.message:'GENERAL_PLAYBACK_FAILED';
 const safeDiagnostic=value=>['tracks','packets','configuration','native-capability','timeline','decoder-open','audio-decode','output-open','video-mux','audio-encode','finalize'].includes(value?.phase)
  && ['Error','TypeError','RangeError','AbortError','NotSupportedError','EncodingError','DataError','InvalidStateError','QuotaExceededError','OperationError','RuntimeError','CompileError','LinkError','OtherError'].includes(value?.errorKind)
  ? {phase:value.phase,errorKind:value.errorKind,...(['allocated','unavailable'].includes(value.wasmMemory)?{wasmMemory:value.wasmMemory}:{})}:null;
-const SAME=['accountKey','accountGeneration','fileId','headRevisionId','size','mimeType','modifiedTime'];
 // Observe only bounded MP4 metadata. A requested MSE removal endpoint is rounded
 // forward to the next RAP, so wall-clock subtraction is not a safe endpoint.
 // Keep the requested end below that RAP across track ticks, native microsecond

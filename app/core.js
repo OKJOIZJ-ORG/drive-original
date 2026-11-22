@@ -197,17 +197,6 @@ function decideMediaRecovery({
   return 'buffer-original';
 }
 
-function shouldCommitSwipe(primaryDelta, crossDelta, elapsedMs, axisSize = 400) {
-  const primary = Math.abs(Number(primaryDelta) || 0);
-  const cross = Math.abs(Number(crossDelta) || 0);
-  const elapsed = Math.max(1, Number(elapsedMs) || 1);
-  const distanceThreshold = Math.min(132, Math.max(72, (Number(axisSize) || 400) * 0.18));
-  const dominant = primary >= Math.max(1, cross) * 1.35;
-  if (!dominant) return false;
-  if (primary >= distanceThreshold) return true;
-  return primary >= 48 && primary / elapsed >= 0.55;
-}
-
 function shouldCommitLockedSwipe(directionalDelta, elapsedMs, axisSize = 400) {
   const primary = Math.max(0, Number(directionalDelta) || 0);
   const elapsed = Math.max(1, Number(elapsedMs) || 1);

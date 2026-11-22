@@ -834,13 +834,6 @@ function decorateFavoriteMediaFile(file, catalog, rootFolderId = null) {
   return file;
 }
 
-function collectFavoriteMediaFromCatalog(catalog, favoriteIds, rootFolderId = null) {
-  const favorites = favoriteIds instanceof Set ? favoriteIds : new Set(favoriteIds || []);
-  const items = Array.isArray(catalog?.items) ? catalog.items : [];
-  return dedupeFiles(items.filter((file) => isSupportedMediaFile(file) && favorites.has(file.id)))
-    .map((file) => decorateFavoriteMediaFile(file, catalog, rootFolderId));
-}
-
 function collectKnownFavoriteMedia(sources, favoriteIds, catalog = null, rootFolderId = null) {
   const favorites = favoriteIds instanceof Set ? favoriteIds : new Set(favoriteIds || []);
   const knownById = new Map();
@@ -859,11 +852,6 @@ function collectKnownFavoriteMedia(sources, favoriteIds, catalog = null, rootFol
     else missingIds.push(fileId);
   });
   return { files, missingIds };
-}
-
-function effectiveRootId() {
-  if (state.currentFolderId !== 'root') return state.currentFolderId;
-  return state.rootFolderId || 'root';
 }
 
 // keepOrder: the same selection after a trash/move keeps its random order and scroll window.
