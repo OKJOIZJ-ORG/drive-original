@@ -1158,3 +1158,7 @@ The user asked for autonomous cleanup ("파일, 폴더 기타 등등 정리 능�
 ## 2026-11-23 — D157 standing deploy rule, release 1.24.4
 
 The user asked for a deploy at the end of every task ("배포도 항상 작업 끝날때마다 하게 해줘."), recorded as D157. Version 1.24.4 committed as 82110a2, `main` fast-forwarded and pushed, `npm run deploy:release` dry run then deploy: Worker e70300d9-97e3-4967-a27e-49f3089a66b4, 20 assets uploaded. The held D149 files were parked with `git stash push --keep-index` for the test run and the deploy and popped after; patch hash identical. Served bytes 92/92 equal, private 404, anonymous credential 403 no-store, production demo without console errors. Record: `qa/release-1.24.4/README.md`.
+
+## 2026-11-23 — D158 Drive first on WebKit, release 1.24.5
+
+After "확인해봤는데 안되네", the signed-in desktop app showed the file is private (owner only) and that the embedded Google preview plays it in desktop Chrome. The three account-state writer files were last written before the 1.24.4 deploy, so whether the iPhone ran 1.24.4 is unknown. `embeddedDrivePreviewBlocked()` in `app/drive-actions.js` detects WebKit (iPhone, iPad, desktop Safari); there the Drive offer leads with "Drive에서 열기" as the primary button. `showMediaError` restores the default order and weight. Checked on the local demo with an iPhone user agent at 390px: Drive first and primary, ui-audit 0 findings. Tests 63/63 in `tests/general-app-routing.test.js`.

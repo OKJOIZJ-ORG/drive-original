@@ -43,10 +43,19 @@ function showDrivePreview(file, reason, { userInitiated = false } = {}) {
     updatePlayPauseUI();
     emitMediaDiagnosticStage('original-playback-unavailable', { reason, terminal: true });
     // `reason` is a clause ending in -아/-어/-해 ("…지원하지 않아").
-    showMediaError(reason ? `${reason} 앱에서 재생하지 못했습니다. Google 미리보기나 Drive에서 열어 보세요.`
+    const driveFirst = embeddedDrivePreviewBlocked();
+    const next = driveFirst ? 'Drive에서 열어 보세요.' : 'Google 미리보기나 Drive에서 열어 보세요.';
+    showMediaError(reason ? `${reason} 앱에서 재생하지 못했습니다. ${next}`
       : '이 파일을 앱에서 재생하지 못했습니다.', { showDrive: true });
     el.codecNote.textContent = reason;
     el.compatPlayerButton.hidden = false;
+    if (driveFirst) {
+      // Drive opened at the top level keeps the Google session; make it the
+      // first, primary action and the embedded preview a secondary one.
+      el.compatPlayerButton.before?.(el.openDriveButton);
+      el.openDriveButton.className = 'primary-button';
+      el.compatPlayerButton.className = 'secondary-button';
+    }
     updateQualityDisplay();
     return;
   }
@@ -117,6 +126,17 @@ function handleDrivePreviewFailure(event) {
     showDrive: true,
     showRetry: true
   });
+}
+
+// Safari and every iOS browser (all WebKit) block Google's cookies inside a
+// frame on another site, so the embedded preview of a private file shows a
+// sign-in or no-access page there (D-158). Drive opened at the top level keeps
+// the user's Google session.
+function embeddedDrivePreviewBlocked(nav = globalThis.navigator) {
+  const ua = String(nav?.userAgent || '');
+  const appleTouch = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && Number(nav?.maxTouchPoints) > 1);
+  const desktopSafari = /Safari\//.test(ua) && /Version\//.test(ua) && !/Chrome|Chromium|Edg|OPR|Firefox/.test(ua);
+  return appleTouch || desktopSafari;
 }
 
 function buildDrivePreviewUrl(file) {

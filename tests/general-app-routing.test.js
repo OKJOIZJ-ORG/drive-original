@@ -222,3 +222,28 @@ test('after native rejection the packet-copy route offers the Drive player only 
  if(offered){assert.equal(offers.length,1);assert.match(offers[0],/앱 변환도/);assert.deepEqual(errors,[]);}
  else{assert.deepEqual(offers,[]);assert.deepEqual(errors.map(e=>e[0]),['원본 재생 확인 필요']);}
 });
+
+// D-158: WebKit blocks Google's cookies inside our frame, so the embedded
+// preview of a private file cannot play there; Drive opens at the top level.
+test('Safari and iOS browsers get Drive as the primary offer, others keep the embedded preview', () => {
+ const c=fixtureModule.exports();
+ const blocked=(ua,touch=0)=>run(c,`embeddedDrivePreviewBlocked({userAgent:${JSON.stringify(ua)},maxTouchPoints:${touch}})`);
+ assert.equal(blocked('Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1'),true);
+ assert.equal(blocked('Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/131.0 Mobile/15E148 Safari/604.1'),true);
+ assert.equal(blocked('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15',5),true,'iPadOS desktop mode');
+ assert.equal(blocked('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15'),true,'desktop Safari');
+ assert.equal(blocked('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0 Safari/537.36'),false);
+ assert.equal(blocked('Mozilla/5.0 (Linux; Android 15) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0 Mobile Safari/537.36'),false);
+ for (const [ua,driveFirst] of [['Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 Version/18.5 Mobile/15E148 Safari/604.1',true],['Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 Chrome/157.0 Safari/537.36',false]]) {
+  const d=fixtureModule.exports();
+  run(d,`globalThis.order=['compat','retry','drive'];const node=n=>({name:n,className:'',hidden:true,before(o){order.splice(order.indexOf(o.name),1);order.splice(order.indexOf(n),0,o.name);}});
+   el.compatPlayerButton=node('compat');el.openDriveButton=node('drive');el.codecNote={};globalThis.messages=[];
+   embeddedDrivePreviewBlocked=()=>${driveFirst};state.selected={id:'f'};
+   clearDirectMediaSources=clearDrivePreview=setNativeVideoActionsAvailable=updatePlayPauseUI=emitMediaDiagnosticStage=updateQualityDisplay=()=>{};
+   showMediaError=m=>{messages.push(m);el.openDriveButton.className='secondary-button';el.compatPlayerButton.className='primary-button';};
+   showDrivePreview(state.selected,'브라우저가 원본 코덱 또는 컨테이너를 지원하지 않아');`);
+  const result=JSON.parse(run(d,`JSON.stringify({order,drive:el.openDriveButton.className,compat:el.compatPlayerButton.className,message:messages[0]})`));
+  if(driveFirst){assert.deepEqual(result.order,['drive','compat','retry']);assert.equal(result.drive,'primary-button');assert.equal(result.compat,'secondary-button');assert.match(result.message,/Drive에서 열어 보세요\.$/);assert.doesNotMatch(result.message,/Google 미리보기/);}
+  else{assert.deepEqual(result.order,['compat','retry','drive']);assert.equal(result.compat,'primary-button');assert.match(result.message,/Google 미리보기나 Drive/);}
+ }
+});

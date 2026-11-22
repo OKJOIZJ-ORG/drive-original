@@ -315,6 +315,10 @@ function showMediaError(message, { title = '이 파일을 재생할 수 없습�
   if (el.mediaErrorTitle) el.mediaErrorTitle.textContent = title;
   el.mediaErrorMessage.textContent = message;
   el.openDriveButton.hidden = !showDrive;
+  // The default order and weight; showDrivePreview may promote Drive (D-158).
+  el.retryMediaButton.after?.(el.openDriveButton);
+  el.openDriveButton.className = 'secondary-button';
+  el.compatPlayerButton.className = 'primary-button';
   el.retryMediaButton.hidden = !showRetry;
   setControlLabel(el.retryMediaButton, state.mediaAttempt === 'worker-update-required'
     || q1RetirementResult?.settled === false ? '앱 다시 열기' : '다시 시도');
